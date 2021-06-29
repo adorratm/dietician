@@ -18,7 +18,7 @@
         </v-breadcrumbs>
       </v-card-text>
     </v-card>
-    <v-card tile>
+    <v-card>
       <v-card-title class="d-flex justify-content-between">
 					<span class="justify-content-center flex-grow-1">
 						<v-text-field
