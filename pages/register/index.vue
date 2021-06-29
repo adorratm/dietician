@@ -140,7 +140,7 @@
                         </v-col>
                         <v-col cols='12' sm='6' md='6' lg='6' xl='6'>
                           <v-btn
-                            to='/dietician-login'
+                            to='/dietician-register'
                             color='warning'
                             block
                           >Diyetisyen Kaydı
