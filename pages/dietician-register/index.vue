@@ -74,6 +74,7 @@
                                 hide-details='auto'
                                 name='name'
                                 v-model='name'
+                                clearable
                               ></v-text-field>
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
@@ -90,6 +91,7 @@
                                 hide-details='auto'
                                 name='tc'
                                 v-model='tc'
+                                clearable
                               ></v-text-field>
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
@@ -106,6 +108,7 @@
                                 hide-details='auto'
                                 name='email'
                                 v-model='email'
+                                clearable
                               ></v-text-field>
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
@@ -122,6 +125,7 @@
                                 hide-details='auto'
                                 name='phone'
                                 v-model='phone'
+                                clearable
                               ></v-text-field>
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
@@ -138,6 +142,7 @@
                                 name='password'
                                 type='password'
                                 v-model='password'
+                                clearable
                               ></v-text-field>
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
@@ -154,6 +159,7 @@
                                 name='password_confirmation'
                                 type='password'
                                 v-model='password_confirmation'
+                                clearable
                               ></v-text-field>
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
@@ -186,6 +192,7 @@
                                   hide-details='auto'
                                   name='hospitalName'
                                   v-model='hospitalName'
+                                  clearable
                                 ></v-text-field>
                                 <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                   {{ errors[0] }}
@@ -203,6 +210,7 @@
                                   hide-details='auto'
                                   name='department'
                                   v-model='department'
+                                  clearable
                                 ></v-text-field>
                                 <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                   {{ errors[0] }}
@@ -220,6 +228,7 @@
                                   hide-details='auto'
                                   name='work_phone'
                                   v-model='work_phone'
+                                  clearable
                                 ></v-text-field>
                                 <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                   {{ errors[0] }}
@@ -237,6 +246,7 @@
                                   hide-details='auto'
                                   name='work_phone_2'
                                   v-model='work_phone_2'
+                                  clearable
                                 ></v-text-field>
                                 <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                   {{ errors[0] }}
