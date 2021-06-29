@@ -328,96 +328,113 @@
                                   item-text='name'
                                   label='İşyerinizin Bulunduğu İl'
                                   return-object
+                                  clearable
                                 />
                                 <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                   {{ errors[0] }}
                                 </v-alert>
                               </ValidationProvider>
                             </div>
-                              <ValidationProvider
-                                name='İşyerinizin Bulunduğu İlçe'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                <v-autocomplete
-                                  v-on:change='getDistricts'
-                                  name='company_town'
-                                  id='company_town'
-                                  v-model='company_town'
-                                  :items='country.towns'
-                                  item-value='name'
-                                  item-text='name'
-                                  label='İşyerinizin Bulunduğu İlçe'
-                                  return-object
-                                />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                              <ValidationProvider
-                                name='İşyerinizin Bulunduğu Semt'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                <v-autocomplete
-                                  v-on:change='getNeighborhoods'
-                                  name='company_district'
-                                  id='company_district'
-                                  v-model='company_district'
-                                  :items='country.districts'
-                                  item-value='name'
-                                  item-text='name'
-                                  label='İşyerinizin Bulunduğu Semt'
-                                  return-object
-                                />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                              <ValidationProvider
-                                name='İşyerinizin Bulunduğu Mahalle'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                <v-autocomplete
-                                  name='company_neighborhood'
-                                  id='company_neighborhood'
-                                  v-model='company_neighborhood'
-                                  :items='country.neighborhoods'
-                                  item-value='name'
-                                  item-text='name'
-                                  label='İşyerinizin Bulunduğu Mahalle'
-                                  return-object
-                                />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                              <ValidationProvider
-                                name='İşyerinizin Adresi'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                <v-textarea
-                                  name='company_address'
-                                  label='İşyerinizin Adresi'
-                                  value=''
-                                  clearable
-                                  clear-icon='fa fa-times-circle'
-                                  v-model='company_address'
-                                ></v-textarea>
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
+                            <ValidationProvider
+                              name='İşyerinizin Bulunduğu İlçe'
+                              rules='required'
+                              v-slot='{ errors }'
+                            >
+                              <v-autocomplete
+                                v-on:change='getDistricts'
+                                name='company_town'
+                                id='company_town'
+                                v-model='company_town'
+                                :items='country.towns'
+                                item-value='name'
+                                item-text='name'
+                                label='İşyerinizin Bulunduğu İlçe'
+                                return-object
+                                clearable
+                              />
+                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                            <ValidationProvider
+                              name='İşyerinizin Bulunduğu Semt'
+                              rules='required'
+                              v-slot='{ errors }'
+                            >
+                              <v-autocomplete
+                                v-on:change='getNeighborhoods'
+                                name='company_district'
+                                id='company_district'
+                                v-model='company_district'
+                                :items='country.districts'
+                                item-value='name'
+                                item-text='name'
+                                label='İşyerinizin Bulunduğu Semt'
+                                return-object
+                                clearable
+                              />
+                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                            <ValidationProvider
+                              name='İşyerinizin Bulunduğu Mahalle'
+                              rules='required'
+                              v-slot='{ errors }'
+                            >
+                              <v-autocomplete
+                                name='company_neighborhood'
+                                id='company_neighborhood'
+                                v-model='company_neighborhood'
+                                :items='country.neighborhoods'
+                                item-value='name'
+                                item-text='name'
+                                label='İşyerinizin Bulunduğu Mahalle'
+                                return-object
+                                clearable
+                              />
+                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                            <ValidationProvider
+                              name='İşyerinizin Adresi'
+                              rules='required'
+                              v-slot='{ errors }'
+                            >
+                              <v-textarea
+                                name='company_address'
+                                label='İşyerinizin Adresi'
+                                value=''
+                                clearable
+                                v-model='company_address'
+                              ></v-textarea>
+                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                            <ValidationProvider
+                              name='Diploma Örneği (PDF veya Görsel)'
+                              rules='required'
+                              v-slot='{ errors }'
+                            >
                               <v-file-input
                                 type='file'
                                 name='certificate_file'
                                 class='form-control rounded-0'
                                 placeholder='Diploma Örneği (PDF veya Görsel)'
                                 accept='image/*,.pdf'
-                                required
+                                clearable
                               />
+                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                            <ValidationProvider
+                              name='Kimlik İle Çekilmiş Fotoğraf Örneği'
+                              rules='required'
+                              v-slot='{ errors }'
+                            >
                               <v-file-input
                                 type='file'
                                 show-size
@@ -425,8 +442,12 @@
                                 class='form-control rounded-0'
                                 placeholder='Kimlik İle Çekilmiş Fotoğraf Örneği'
                                 accept='image/*'
-                                required
+                                clearable
                               />
+                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
                             <v-row class='mt-3'>
                               <v-col>
                                 <v-btn color='info' block @click='e1 = 1'>Geri Dön</v-btn>
@@ -537,44 +558,44 @@ export default {
         })
     },
     getTowns: function(item) {
-        this.$axios
-          .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
-          .then(response => {
-            this.country.towns =
-              response.data.towns.length > 0 ? response.data.towns : []
-            this.country.districts = []
-            this.country.neighborhoods = []
-            this.company_district = null
-            this.company_neighborhood = null
-          })
+      this.$axios
+        .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
+        .then(response => {
+          this.country.towns =
+            response.data.towns.length > 0 ? response.data.towns : []
+          this.country.districts = []
+          this.country.neighborhoods = []
+          this.company_district = null
+          this.company_neighborhood = null
+        })
     },
     getDistricts: function(item) {
 
-        this.$axios
-          .get(
-            process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
-          )
-          .then(response => {
-            this.country.districts =
-              response.data.districts.length > 0 ? response.data.districts : []
-            this.country.neighborhoods = []
-            this.company_neighborhood = null
-          })
+      this.$axios
+        .get(
+          process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
+        )
+        .then(response => {
+          this.country.districts =
+            response.data.districts.length > 0 ? response.data.districts : []
+          this.country.neighborhoods = []
+          this.company_neighborhood = null
+        })
     },
     getNeighborhoods: function(item) {
 
-        this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            'informations/neighborhoods?id=' +
-            item.neighborhoods
-          )
-          .then(response => {
-            this.country.neighborhoods =
-              response.data.neighborhoods.length > 0
-                ? response.data.neighborhoods
-                : []
-          })
+      this.$axios
+        .get(
+          process.env.apiBaseUrl +
+          'informations/neighborhoods?id=' +
+          item.neighborhoods
+        )
+        .then(response => {
+          this.country.neighborhoods =
+            response.data.neighborhoods.length > 0
+              ? response.data.neighborhoods
+              : []
+        })
     },
     /**
      * User Login Method

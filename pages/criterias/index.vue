@@ -86,7 +86,7 @@
             color="success"
             v-model="pagination.current"
             :length="pagination.total"
-            total-visible='10'
+            total-visible='11'
             @input="onPageChange"
           ></v-pagination>
         </v-container>
