@@ -421,12 +421,13 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='size'
                         id='size'
-                        class='form-control'
                         v-model='data.size'
+                        clearable
+                        label='Boy (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -444,12 +445,13 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='weight'
                         id='weight'
-                        class='form-control'
                         v-model='data.weight'
+                        clearable
+                        label='Ağırlık (kg)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -467,12 +469,13 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='waist'
                         id='waist'
-                        class='form-control'
                         v-model='data.waist'
+                        clearable
+                        label='Bel (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -490,12 +493,13 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='hip'
                         id='hip'
-                        class='form-control'
                         v-model='data.hip'
+                        clearable
+                        label='Kalça (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -513,12 +517,13 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='chest'
                         id='chest'
-                        class='form-control'
                         v-model='data.chest'
+                        clearable
+                        label='Göğüs (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -536,12 +541,13 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='neck'
                         id='neck'
-                        class='form-control'
                         v-model='data.neck'
+                        clearable
+                        label='Boyun (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -559,12 +565,14 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='upperArm'
                         id='upperArm'
                         class='form-control'
                         v-model='data.upperArm'
+                        clearable
+                        label='Üst Kol (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -582,12 +590,14 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='lowerArm'
                         id='lowerArm'
                         class='form-control'
                         v-model='data.lowerArm'
+                        clearable
+                        label='Alt Kol (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -605,12 +615,14 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='wrist'
                         id='wrist'
                         class='form-control'
                         v-model='data.wrist'
+                        clearable
+                        label='Kol Bileği (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -628,12 +640,14 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='upperLeg'
                         id='upperLeg'
                         class='form-control'
                         v-model='data.upperLeg'
+                        clearable
+                        label='Üst Bacak (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -651,12 +665,14 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='lowerLeg'
                         id='lowerLeg'
                         class='form-control'
                         v-model='data.lowerLeg'
+                        clearable
+                        label='Alt Bacak (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -674,12 +690,14 @@
                       rules='required'
                       v-slot='{ errors }'
                     >
-                      <input
+                      <v-text-field
                         type='number'
                         name='skinfoldThickness'
                         id='skinfoldThickness'
                         class='form-control'
                         v-model='data.skinfoldThickness'
+                        clearable
+                        label='Deri Kıvrım Kalınlığı (cm)'
                       />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
@@ -731,12 +749,13 @@
                     <b>Profil Resminiz :</b>
                   </td>
                   <td colspan='2' class='align-middle'>
-                    <input
+                    <v-file-input
                       type='file'
-                      class='form-control'
                       accept='image/*'
                       placeholder='Profil Resminiz'
                       name='img_url'
+                      label='Profil Resminiz'
+                      clearable
                     />
                   </td>
                 </tr>
@@ -747,7 +766,7 @@
                     <v-btn
                       type='submit'
                       color='primary'
-                      class='float-right'
+                      class='ml-auto justify-end'
                     >
                       Danışan Bilgilerini Kaydet
                     </v-btn>
