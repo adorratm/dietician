@@ -255,7 +255,7 @@ export default {
         },
         {
           text: 'Danışan Girişi',
-          disabled: false,
+          disabled: true,
           href: 'javascript:void(0)'
         }
       ],

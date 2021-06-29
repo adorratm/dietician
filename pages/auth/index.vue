@@ -134,7 +134,7 @@ export default {
         },
         {
           text: 'Admin Girişi',
-          disabled: false,
+          disabled: true,
           href: 'javascript:void(0)'
         }
       ],

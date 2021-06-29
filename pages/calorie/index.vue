@@ -190,7 +190,7 @@ export default {
         },
         {
           text: 'Kaç Kalori?',
-          disabled: false,
+          disabled: true,
           href: 'javascript:void(0)',
         },
       ],

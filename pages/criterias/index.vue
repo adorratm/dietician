@@ -173,7 +173,7 @@ export default {
         },
         {
           text: 'Ölçütler',
-          disabled: false,
+          disabled: true,
           href: 'javascript:void(0)',
         },
       ],

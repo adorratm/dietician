@@ -257,7 +257,7 @@ export default {
         },
         {
           text: 'Danışan Kaydı',
-          disabled: false,
+          disabled: true,
           href: 'javascript:void(0)'
         }
       ],

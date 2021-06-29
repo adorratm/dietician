@@ -519,7 +519,7 @@ export default {
         },
         {
           text: 'Diyetisyen Kaydı',
-          disabled: false,
+          disabled: true,
           href: 'javascript:void(0)'
         }
       ],
