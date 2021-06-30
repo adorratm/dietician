@@ -9,7 +9,7 @@
       fixed
       app
     >
-      <v-list>
+      <v-list dense>
         <v-list-item
           v-for='(item, i) in items'
           :key='i'
@@ -36,7 +36,7 @@
       fixed
       app
     >
-      <v-list v-if="isEmpty(userData)">
+      <v-list dense v-if="isEmpty(userData)">
         <v-list-item
           to='/login'
           router
@@ -62,7 +62,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-list v-else>
+      <v-list dense v-else>
         <v-list-item
           to='/profile'
           router
@@ -133,7 +133,7 @@
             <v-icon>mdi-cog</v-icon>
           </v-btn>
         </template>
-        <v-list>
+        <v-list dense>
           <v-list-item @click='setClipped'>
             <v-list-item-icon><v-icon>mdi-application</v-icon></v-list-item-icon>
             <v-list-item-title>{{clipped ? "Üst Menüyü Daralt" : "Üst Menüyü Genişlet"}}</v-list-item-title>
