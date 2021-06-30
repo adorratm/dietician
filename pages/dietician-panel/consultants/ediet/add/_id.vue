@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: '_id',
+  name: 'ediet',
   layout: "dietician",
   middleware: ["dietician"]
 }

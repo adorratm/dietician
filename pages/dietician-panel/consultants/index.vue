@@ -59,7 +59,7 @@
                   @click="createEdiet(item.id)"
                   v-bind="attrs"
                   v-on="on"
-                >fas fa-file-signature</v-icon
+                >mdi mdi-clipboard-edit</v-icon
                 >
               </template>
               <span>Yeni E-Diyet Oluştur</span>

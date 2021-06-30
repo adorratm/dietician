@@ -10,22 +10,27 @@
         fixed
         app
       >
-        <v-list>
-          <v-list-item
-            v-for='(item, i) in items'
-            :key='i'
-            :to='item.to'
-            router
-            exact
-          >
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title v-text='item.title' />
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        <v-layout fill-height column justify-space-between>
+
+          <Nested :nodes='items' />
+          <v-list dense class='my-0 py-0'>
+            <v-divider/>
+            <v-list-item
+              to='/'
+              router
+              exact
+              class='my-0 py-0'
+            >
+              <v-list-item-action>
+                <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Websitesini Görüntüle</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-layout>
+
       </v-navigation-drawer>
       <v-navigation-drawer
         v-model='rightDrawer'
@@ -37,7 +42,8 @@
         fixed
         app
       >
-        <v-list v-if="isEmpty(userData)">
+        <v-layout fill-height column justify-space-between>
+        <v-list dense v-if="isEmpty(userData)">
           <v-list-item
             to='/login'
             router
@@ -63,7 +69,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        <v-list v-else>
+        <v-list dense v-else>
           <v-list-item
             to='/profile'
             router
@@ -88,20 +94,8 @@
               <v-list-item-title>Çıkış Yap</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-divider/>
-          <v-list-item
-            to='/dietician-panel'
-            router
-            exact
-          >
-            <v-list-item-action>
-              <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Diyetisyen Paneli</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
         </v-list>
+        </v-layout>
       </v-navigation-drawer>
       <v-app-bar
         :clipped-left='clipped'
@@ -118,7 +112,7 @@
         </v-tooltip>
 
         <v-toolbar-title>
-          <nuxt-link to="/"
+          <nuxt-link to="/dietician-panel"
           ><img
             v-if="!isEmpty(settings)"
             v-bind:src="img_url + settings.settings.logo"
@@ -184,9 +178,13 @@
 <script>
 import {mapMutations,mapState} from 'vuex'
 import Cookie from 'js-cookie'
+import nested from '@/components/dietician/nested'
 export default {
   name: 'Header',
   props: ['items','settings','userData'],
+  components:{
+    Nested:nested
+  },
   computed:{
     drawer: {
       get() {
@@ -246,5 +244,11 @@ export default {
 </script>
 
 <style scoped>
-
+.item-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 </style>

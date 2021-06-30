@@ -10,22 +10,40 @@
         fixed
         app
       >
-        <v-list>
-          <v-list-item
-            v-for='(item, i) in items'
-            :key='i'
-            :to='item.to'
-            router
-            exact
-          >
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title v-text='item.title' />
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+        <v-layout fill-height column justify-space-between>
+          <v-list>
+            <v-list-item
+              v-for='(item, i) in items'
+              :key='i'
+              :to='item.to'
+              router
+              exact
+            >
+              <v-list-item-action>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title v-text='item.title' />
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+          <v-list class='my-0 py-0'>
+            <v-divider/>
+            <v-list-item v-if='!isEmpty(userData) && userData.isDietician'
+              to='/dietician-panel'
+              router
+              exact
+              class='my-0 py-0'
+            >
+              <v-list-item-action>
+                <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Diyetisyen Paneli</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-layout>
       </v-navigation-drawer>
       <v-navigation-drawer
         v-model='rightDrawer'

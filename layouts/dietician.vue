@@ -55,7 +55,29 @@ export default {
         {
           icon: 'mdi-home',
           title: 'Anasayfa',
-          to: '/'
+          to: '/dietician-panel'
+        },
+        {
+          icon: 'mdi-account-group',
+          title: 'Danışanlarım',
+          to: '/dietician-panel/consultants',
+          children:[
+            {
+              icon: 'mdi-account-plus',
+              to:'/dietician-panel/consultants/add',
+              title: 'Danışan Ekle'
+            },
+            {
+              icon: 'mdi-account-plus',
+              to:'/dietician-panel/consultants/new-consultant',
+              title: 'Danışan Kaydet'
+            }
+          ]
+        },
+        {
+          icon: 'mdi-food-fork-drink',
+          title: 'Yemek Tarifleri',
+          to: '/dietician-panel/recipes'
         },
       ],
       userData: !this.isEmpty(this.$auth.$storage.getUniversal("user"))
