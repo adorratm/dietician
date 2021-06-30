@@ -88,7 +88,19 @@
               <v-list-item-title>Çıkış Yap</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
+          <v-divider/>
+          <v-list-item
+            to='/dietician-panel'
+            router
+            exact
+          >
+            <v-list-item-action>
+              <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Diyetisyen Paneli</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-app-bar

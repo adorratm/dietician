@@ -907,99 +907,40 @@ export default {
             response.data.data.cities.length > 0
               ? response.data.data.cities
               : []
-          setTimeout(() => {
-            this.getTowns()
-          }, 100)
         })
     },
-    getTowns: function(event) {
-      let townIds = null
-      if (event !== undefined && event.target.options.selectedIndex > -1) {
-        const theTarget =
-          event.target.options[event.target.options.selectedIndex].dataset
-        townIds = theTarget.id
-      }
-      if (
-        this.isEmpty(townIds) &&
-        this.$refs.city.options !== undefined &&
-        this.$refs.city.options.length > 0
-      ) {
-        for (let element in this.$refs.city.options) {
-          if (this.$refs.city.options[element].selected) {
-            townIds = this.$refs.city.options[element].dataset.id
-          }
-        }
-      }
+    getTowns: function(item) {
       this.$axios
-        .get(process.env.apiBaseUrl + 'informations/towns?id=' + townIds)
+        .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
         .then(response => {
           this.country.towns =
             response.data.towns.length > 0 ? response.data.towns : []
           this.country.districts = []
           this.country.neighborhoods = []
-          if (event === undefined) {
-            setTimeout(() => {
-              this.getDistricts()
-            }, 100)
-          }
+          this.company_district = null
+          this.company_neighborhood = null
         })
     },
-    getDistricts: function(event) {
-      let districtIds = null
-      if (event !== undefined && event.target.options.selectedIndex > -1) {
-        const theTarget =
-          event.target.options[event.target.options.selectedIndex].dataset
-        districtIds = theTarget.id
-      }
-      if (
-        this.isEmpty(districtIds) &&
-        this.$refs.town.options !== undefined &&
-        this.$refs.town.options.length > 0
-      ) {
-        for (let element in this.$refs.town.options) {
-          if (this.$refs.town.options[element].selected) {
-            districtIds = this.$refs.town.options[element].dataset.id
-          }
-        }
-      }
+    getDistricts: function(item) {
+
       this.$axios
         .get(
-          process.env.apiBaseUrl + 'informations/districts?id=' + districtIds
+          process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
         )
         .then(response => {
           this.country.districts =
             response.data.districts.length > 0 ? response.data.districts : []
           this.country.neighborhoods = []
-          if (event === undefined) {
-            setTimeout(() => {
-              this.getNeighborhoods()
-            }, 100)
-          }
+          this.company_neighborhood = null
         })
     },
-    getNeighborhoods: function(event) {
-      let neighborhoodIds = null
-      if (event !== undefined && event.target.options.selectedIndex > -1) {
-        const theTarget =
-          event.target.options[event.target.options.selectedIndex].dataset
-        neighborhoodIds = theTarget.id
-      }
-      if (
-        this.isEmpty(neighborhoodIds) &&
-        this.$refs.district.options !== undefined &&
-        this.$refs.district.options.length > 0
-      ) {
-        for (let element in this.$refs.district.options) {
-          if (this.$refs.district.options[element].selected) {
-            neighborhoodIds = this.$refs.district.options[element].dataset.id
-          }
-        }
-      }
+    getNeighborhoods: function(item) {
+
       this.$axios
         .get(
           process.env.apiBaseUrl +
           'informations/neighborhoods?id=' +
-          neighborhoodIds
+          item.neighborhoods
         )
         .then(response => {
           this.country.neighborhoods =
