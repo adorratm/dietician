@@ -23,27 +23,28 @@
           Yeni Danışan Kaydet
         </v-card-title>
         <v-card-text>
-          <ValidationObserver v-slot='{ handleSubmit }'>
-            <form
-              @submit.prevent='handleSubmit(saveInformation)'
-              ref='informationForm'
-              enctype='multipart/form-data'
-            >
-              <v-stepper v-model="e1">
-                <v-stepper-header>
-                  <v-stepper-step :complete="e1 > 1" step="1">
-                    Danışan Bilgileri
-                  </v-stepper-step>
 
-                  <v-divider></v-divider>
+          <v-stepper v-model='e1'>
+            <v-stepper-header>
+              <v-stepper-step :complete='e1 > 1' step='1'>
+                Danışan Bilgileri
+              </v-stepper-step>
 
-                  <v-stepper-step :complete="e1 > 2" step="2">
-                    Hastalık Bilgileri
-                  </v-stepper-step>
-                </v-stepper-header>
+              <v-divider></v-divider>
 
-                <v-stepper-items>
-                  <v-stepper-content step="1">
+              <v-stepper-step :complete='e1 > 2' step='2'>
+                Hastalık Bilgileri
+              </v-stepper-step>
+            </v-stepper-header>
+
+            <v-stepper-items>
+              <v-stepper-content step='1'>
+                <ValidationObserver v-slot='{ handleSubmit }'>
+                  <form
+                    @submit.prevent='handleSubmit(saveInformation)'
+                    ref='informationForm'
+                    enctype='multipart/form-data'
+                  >
                     <v-simple-table>
                       <tbody>
                       <tr>
@@ -393,31 +394,31 @@
                             v-slot='{ errors }'
                           >
                             <v-menu
-                              ref="menu"
-                              v-model="menu"
-                              :close-on-content-click="false"
-                              transition="scale-transition"
+                              ref='menu'
+                              v-model='menu'
+                              :close-on-content-click='false'
+                              transition='scale-transition'
                               offset-y
-                              min-width="auto"
+                              min-width='auto'
                             >
-                              <template v-slot:activator="{ on, attrs }">
+                              <template v-slot:activator='{ on, attrs }'>
                                 <v-text-field
                                   type='date'
                                   name='birthDate'
-                                  v-model="data.birthDate"
-                                  label="Doğum Tarihi"
-                                  prepend-icon="mdi-calendar"
+                                  v-model='data.birthDate'
+                                  label='Doğum Tarihi'
+                                  prepend-icon='mdi-calendar'
                                   readonly
-                                  v-bind="attrs"
-                                  v-on="on"
+                                  v-bind='attrs'
+                                  v-on='on'
                                 ></v-text-field>
                               </template>
                               <v-date-picker
-                                v-model="data.birthDate"
-                                :active-picker.sync="activePicker"
-                                :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                                min="1950-01-01"
-                                @change="save"
+                                v-model='data.birthDate'
+                                :active-picker.sync='activePicker'
+                                :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
+                                min='1950-01-01'
+                                @change='save'
                               ></v-date-picker>
                             </v-menu>
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
@@ -789,83 +790,83 @@
                       </tr>
                       </tfoot>
                     </v-simple-table>
-                  </v-stepper-content>
+                  </form>
+                </ValidationObserver>
+              </v-stepper-content>
 
-                  <v-stepper-content step="2">
-                    <ValidationProvider
-                      name="Hastalık"
-                      rules="required"
-                      v-slot="{ errors }"
+              <v-stepper-content step='2'>
+                <ValidationProvider
+                  name='Hastalık'
+                  rules='required'
+                  v-slot='{ errors }'
+                >
+                  <div class='form-group'>
+                    <v-autocomplete
+                      name='selectedDiseases[]'
+                      v-model='selectedDiseases'
+                      :items='diseases'
+                      chips
+                      label='Hastalık Seçin'
+                      item-text='name'
+                      item-value='_id.$oid'
+                      multiple
                     >
-                      <div class="form-group">
-                        <v-autocomplete
-                          name="selectedDiseases[]"
-                          v-model="selectedDiseases"
-                          :items="diseases"
-                          chips
-                          label="Hastalık Seçin"
-                          item-text="name"
-                          item-value="_id.$oid"
-                          multiple
-                        >
-                          <template v-slot:prepend-item>
-                            <v-list-item ripple @click="toggleDisease">
-                              <v-list-item-action>
-                                <v-icon
-                                  :color="
+                      <template v-slot:prepend-item>
+                        <v-list-item ripple @click='toggleDisease'>
+                          <v-list-item-action>
+                            <v-icon
+                              :color="
 																	!isEmpty(selectedDiseases) &&
 																	selectedDiseases.length > 0
 																		? 'indigo darken-4'
 																		: ''
 																"
-                                >
-                                  {{ diseaseIcon }}
-                                </v-icon>
-                              </v-list-item-action>
-                              <v-list-item-content>
-                                <v-list-item-title>
-                                  Tümünü Seç
-                                </v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                            <v-divider class="mt-2"></v-divider>
-                          </template>
-                          <template v-slot:selection="data">
-                            <v-chip
-                              v-bind="data.attrs"
-                              :input-value="data.selected"
-                              close
-                              @click="data.select"
-                              @click:close="remove(data.item)"
                             >
-                              {{ data.item.name }}
-                            </v-chip>
-                          </template>
-                          <template v-slot:item="data">
-                            <template>
-                              <v-list-item-content>
-                                <v-list-item-title
-                                  v-html="data.item.name"
-                                ></v-list-item-title>
-                              </v-list-item-content>
-                            </template>
-                          </template>
-                        </v-autocomplete>
-                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                          {{ errors[0] }}
-                        </v-alert>
-                      </div>
-                    </ValidationProvider>
+                              {{ diseaseIcon }}
+                            </v-icon>
+                          </v-list-item-action>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              Tümünü Seç
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class='mt-2'></v-divider>
+                      </template>
+                      <template v-slot:selection='data'>
+                        <v-chip
+                          v-bind='data.attrs'
+                          :input-value='data.selected'
+                          close
+                          @click='data.select'
+                          @click:close='remove(data.item)'
+                        >
+                          {{ data.item.name }}
+                        </v-chip>
+                      </template>
+                      <template v-slot:item='data'>
+                        <template>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              v-html='data.item.name'
+                            ></v-list-item-title>
+                          </v-list-item-content>
+                        </template>
+                      </template>
+                    </v-autocomplete>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
+                  </div>
+                </ValidationProvider>
 
-                    <v-btn color="primary" type="button" @click.prevent="e1 = 2">
-                      İlerle
-                    </v-btn>
-                  </v-stepper-content>
-                </v-stepper-items>
-              </v-stepper>
+                <v-btn color='primary' type='button' @click.prevent='e1 = 2'>
+                  İlerle
+                </v-btn>
+              </v-stepper-content>
+            </v-stepper-items>
+          </v-stepper>
 
-            </form>
-          </ValidationObserver>
         </v-card-text>
       </v-card>
     </client-only>
@@ -982,19 +983,19 @@ export default {
         !this.isEmpty(this.selectedDiseases) &&
         !this.isEmpty(this.diseases) &&
         this.selectedDiseases.length === this.diseases.length
-      );
+      )
     },
     selectSomeDisease() {
       return (
         !this.isEmpty(this.selectedDiseases) &&
         this.selectedDiseases.length > 0 &&
         !this.selectAllDisease
-      );
+      )
     },
     diseaseIcon() {
-      if (this.selectAllDisease) return "mdi-close-box";
-      if (this.selectSomeDisease) return "mdi-minus-box";
-      return "mdi-checkbox-blank-outline";
+      if (this.selectAllDisease) return 'mdi-close-box'
+      if (this.selectSomeDisease) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
     }
   },
   mounted() {
@@ -1005,33 +1006,33 @@ export default {
     toggleDisease() {
       this.$nextTick(() => {
         if (this.selectAllDisease) {
-          this.selectedDiseases = [];
+          this.selectedDiseases = []
         } else {
-          this.selectedDiseases = [];
+          this.selectedDiseases = []
           this.diseases.forEach((el, index) => {
-            this.selectedDiseases.push(el._id.$oid);
-          });
+            this.selectedDiseases.push(el._id.$oid)
+          })
         }
-      });
+      })
     },
     getDiseases() {
       this.$axios
         .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`, {
           headers: {
-            Authorization: "Bearer " + this.userData.api_token
-          },
+            Authorization: 'Bearer ' + this.userData.api_token
+          }
         })
         .then(response => {
-          this.diseases = response.data.data.diseases;
+          this.diseases = response.data.data.diseases
           console.log(this.diseases)
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     },
     remove(item) {
-      const index = this.selectedDiseases.indexOf(item._id.$oid);
-      if (index >= 0) this.selectedDiseases.splice(index, 1);
+      const index = this.selectedDiseases.indexOf(item._id.$oid)
+      if (index >= 0) this.selectedDiseases.splice(index, 1)
     },
-    save (date) {
+    save(date) {
       this.$refs.menu.save(date)
     },
     isEmpty(obj) {
@@ -1111,7 +1112,7 @@ export default {
               message: response.data.msg,
               position: 'topCenter'
             })
-            this.e1 = 2;
+            this.e1 = 2
             this.createdConsultant = response.data.data.id
             /*
             setTimeout(() => {
