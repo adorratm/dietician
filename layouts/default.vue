@@ -17,8 +17,6 @@
 <script>
 import Header from "@/components/includes/Header"
 import Footer from "@/components/includes/Footer"
-import Cookie from "js-cookie"
-import {Base64} from "js-base64"
 import { mapState } from "vuex";
 
 export default {
@@ -41,9 +39,7 @@ export default {
     // This Function Changing Default Theme
     const theme = localStorage.getItem("useDarkTheme");
     if (theme) {
-      if (theme === "true") {
-        this.$vuetify.theme.dark = true;
-      } else this.$vuetify.theme.dark = false;
+      this.$vuetify.theme.dark = theme === "true";
     }else{
       // This Function Gets Default Windows || Mac Os || Linux Application Layout
       this.initDarkMode();
@@ -92,7 +88,7 @@ export default {
     initDarkMode() {
       const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-      darkMediaQuery.addEventListener('change', (e) => {
+      darkMediaQuery.addEventListener('change', () => {
         this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
       });
 

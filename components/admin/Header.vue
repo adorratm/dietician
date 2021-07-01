@@ -96,6 +96,7 @@
       fixed
       app
       :dense='miniVariant'
+      height='100'
     >
       <v-tooltip bottom attach>
         <template v-slot:activator='{on}'>
@@ -106,10 +107,14 @@
 
       <v-toolbar-title>
         <nuxt-link to="/"
-        ><img
+        ><v-img
           v-if="!isEmpty(settings)"
           v-bind:src="img_url + settings.settings.logo"
+          v-bind:lazy-src="img_url + settings.settings.logo"
           v-bind:alt="settings.settings.company_name"
+          aspect-ratio='16/9'
+          max-height='70'
+          max-width='210'
         />
         </nuxt-link>
       </v-toolbar-title>
