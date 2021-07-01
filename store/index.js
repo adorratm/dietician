@@ -28,7 +28,7 @@ export const state = () => ({
   criterias: [],
   dieticians: [],
   searchs: [],
-  fixed: (!isEmpty(Cookie.get('fixed')) ? (Cookie.get('fixed') === 'true') : false),
+  fixed: (!isEmpty(Cookie.get('fixed')) ? !(Cookie.get('fixed') === 'false') : true),
   clipped: (!isEmpty(Cookie.get('clipped')) ? (Cookie.get('clipped') === 'true') : false),
   drawer: (!isEmpty(Cookie.get('drawer')) ? (Cookie.get('drawer') === 'true') : false),
   miniVariant: (!isEmpty(Cookie.get('miniVariant')) ? (Cookie.get('miniVariant') === 'true') : false),

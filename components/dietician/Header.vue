@@ -153,7 +153,7 @@
 
             <v-list-item @click='setFixed'>
               <v-list-item-icon><v-icon>mdi-page-layout-footer</v-icon></v-list-item-icon>
-              <v-list-item-title>{{!fixed ? "Footer'ı Sabitle" : "Footer'ı Sabitlemeyi Bırak"}}</v-list-item-title>
+              <v-list-item-title>{{!fixed ? "Footer'ı Sabitle" :"Footer'ı Sabitlemeyi Bırak"  }}</v-list-item-title>
             </v-list-item>
 
             <v-list-item @click.stop='toggleTheme'
