@@ -116,9 +116,9 @@
           <nuxt-link to="/dietician-panel"
           ><v-img
             v-if="!isEmpty(settings)"
-            v-bind:src="img_url + settings.settings.logo"
-            v-bind:lazy-src="img_url + settings.settings.logo"
-            v-bind:alt="settings.settings.company_name"
+            :src="img_url + settings.settings.logo"
+            :lazy-src="img_url + settings.settings.logo"
+            :alt="settings.settings.company_name"
             aspect-ratio='16/9'
             max-height='70'
             max-width='210'
