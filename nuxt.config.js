@@ -87,7 +87,7 @@ export default {
         },
         refreshToken: {
           property: "user.api_token",
-          data: "user",
+          data: "user.api_token",
           global:true,
           type: "Bearer",
           maxAge: 7200
@@ -124,7 +124,7 @@ export default {
         },
         refreshToken: {
           property: "user.api_token",
-          data: "user",
+          data: "user.api_token",
           global:true,
           type: "Bearer",
           maxAge: 7200
@@ -161,7 +161,7 @@ export default {
         },
         refreshToken: {
           property: "user.api_token",
-          data: "user",
+          data: "user.api_token",
           type: "Bearer",
           global:true,
           maxAge: 7200
