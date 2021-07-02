@@ -103,6 +103,9 @@
 				return process.env.apiPublicUrl;
 			}
 		},
+    beforeCreate() {
+      this.$store.dispatch('getSettings')
+    },
 		data() {
 			return {
 				data: [],

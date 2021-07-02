@@ -1099,6 +1099,9 @@ export default {
       return 'mdi-checkbox-blank-outline'
     }
   },
+  beforeCreate() {
+    this.$store.dispatch('getSettings')
+  },
   mounted() {
     this.getCities()
     this.getDiseases()

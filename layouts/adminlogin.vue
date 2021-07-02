@@ -36,8 +36,10 @@ export default {
   computed: {
     ...mapState(["settings"])
   },
+  beforeCreate() {
+    this.$store.dispatch('getSettings')
+  },
   mounted() {
-    this.$store.dispatch("getSettings")
     // This Function Changing Default Theme
     const theme = localStorage.getItem("useDarkTheme");
     if (theme) {

@@ -36,14 +36,14 @@ export default {
   computed: {
     ...mapState(["settings"])
   },
+  beforeCreate() {
+    this.$store.dispatch('getSettings')
+  },
   mounted() {
-    this.$store.dispatch("getSettings")
     // This Function Changing Default Theme
     const theme = localStorage.getItem("useDarkTheme");
     if (theme) {
-      if (theme === "true") {
-        this.$vuetify.theme.dark = true;
-      } else this.$vuetify.theme.dark = false;
+      this.$vuetify.theme.dark = theme === "true";
     }else{
       // This Function Gets Default Windows || Mac Os || Linux Application Layout
       this.initDarkMode();

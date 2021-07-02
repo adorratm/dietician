@@ -1836,6 +1836,9 @@
 				return process.env.apiPublicUrl;
 			}
 		},
+    beforeCreate() {
+      this.$store.dispatch('getSettings')
+    },
 		mounted() {
 			this.getCities();
 			if (!this.isEmpty(this.userData) && this.userData.status === "dietician") {

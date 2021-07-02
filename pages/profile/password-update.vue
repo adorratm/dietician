@@ -162,6 +162,9 @@
 				input.remove();
 			});
 		},
+    beforeCreate() {
+      this.$store.dispatch('getSettings')
+    },
 		data() {
 			return {
 				password: null,

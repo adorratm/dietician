@@ -518,6 +518,9 @@
 			ValidationProvider,
 			editor: Editor
 		},
+    beforeCreate() {
+      this.$store.dispatch('getSettings')
+    },
 		data() {
 			return {
 				tab: null,

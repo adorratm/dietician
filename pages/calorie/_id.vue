@@ -1,20 +1,20 @@
 <template>
   <v-container>
     <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
       <v-row>
         <v-col cols='12' sm='12' md='7' lg='8' xl='9'>
           <v-card>
-            <div class='d-flex flex-wrap justify-between'>
-              <div class='shrink'>
                 <v-img v-if='!isEmpty(data)'
+                       width='100%'
                        height='300'
                        :key='index'
                        v-for='(image, index) in images'
                        :src='img_url + image.img_url'
                        :alt='data.name'
+                       contain
                 />
-              </div>
-              <div>
+
                 <v-card-title>
                   "{{ data.name }}" Besini Hakkında Detaylı Bilgiler
                 </v-card-title>
@@ -42,11 +42,7 @@
                     >
                     </v-autocomplete>
                   </div>
-
                 </v-card-text>
-              </div>
-
-            </div>
           </v-card>
           <v-card>
             <v-card-text>
@@ -194,13 +190,17 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-
+import Breadcrumb from '@/components/includes/Breadcrumb'
 export default {
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    Breadcrumb
   },
   name: 'index',
+  beforeCreate() {
+    this.$store.dispatch('getSettings')
+  },
   mounted() {
     this.HundredData = this.values
     this.criteriaLimit(this.data)
@@ -323,7 +323,25 @@ export default {
       hideName: [],
       hideValue: [],
       hideType: [],
-      component: null
+      component: null,
+      item : null,
+      items: [
+        {
+          text: 'Anasayfa',
+          disabled: false,
+          href: '/'
+        },
+        {
+          text: 'Kaç Kalori?',
+          disabled: false,
+          href: '/calorie'
+        },
+        {
+          text: this.item,
+          disabled: true,
+          href: 'javascript:void(0)'
+        }
+      ],
     }
   },
   validate({ params }) {
@@ -334,7 +352,6 @@ export default {
       const { data } = await $axios.get(
         process.env.apiBaseUrl + 'nutrients/' + params.id
       )
-
       return data
     } catch (e) {
       error({ message: 'Besin Bilgisi Bulunamadı.', statusCode: 404 })

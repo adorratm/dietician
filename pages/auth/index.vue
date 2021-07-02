@@ -1,23 +1,7 @@
 <template>
   <v-container>
     <client-only>
-      <v-card  class='mb-3 pb-0' color='#15558d'>
-        <v-card-text class='pa-0'>
-          <v-breadcrumbs
-            large
-            divider='/'
-            :items='items'
-          >
-            <template v-slot:divider>
-              <v-icon class='white--text'>mdi-forward</v-icon>
-            </template>
-            <template v-slot:item='{item}'>
-              <v-breadcrumbs-item :href='item.href' :disabled='item.disabled'><a class='white--text'>{{ item.text }}</a>
-              </v-breadcrumbs-item>
-            </template>
-          </v-breadcrumbs>
-        </v-card-text>
-      </v-card>
+      <Breadcrumb :items='items'></Breadcrumb>
       <v-row align='center' no-gutters>
         <v-col cols='12' sm='12' md='6' lg='6' xl='6' offset-md='3' align-content='center' align-self='center'>
           <figure class='image is-3by2'>
@@ -105,24 +89,24 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Cookie from 'js-cookie'
 import { Base64 } from 'js-base64'
-
+import Breadcrumb from '@/components/includes/Breadcrumb'
 export default {
   layout: 'adminlogin',
   middleware: ['notadmin'],
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    Breadcrumb
   },
   computed: {
     settings() {
       return !this.isEmpty(Cookie.get('settings')) ? JSON.parse(Base64.decode(Cookie.get('settings'))) : {}
     }
   },
+  beforeCreate() {
+    this.$store.dispatch('getSettings')
+  },
   mounted() {
-    this.$nextTick(() => {
-      this.$nuxt.$loading.start()
-      setTimeout(() => this.$nuxt.$loading.finish(), 1000)
-    })
   },
   data() {
     return {
@@ -149,10 +133,10 @@ export default {
   methods: {
     isEmpty(obj) {
       if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length == 0
-      else if (Array.isArray(obj)) return obj.length == 0
+      else if (typeof obj == 'string') return obj.length === 0
+      else if (Array.isArray(obj)) return obj.length === 0
       else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length == 0
+        return obj == null || Object.keys(obj).length === 0
       else if (typeof obj == 'boolean') return false
       else return !obj
     },

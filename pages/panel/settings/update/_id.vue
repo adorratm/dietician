@@ -524,6 +524,9 @@
 				return process.env.apiPublicUrl;
 			}
 		},
+    beforeCreate() {
+      this.$store.dispatch('getSettings')
+    },
 		mounted() {},
 		data() {
 			return {

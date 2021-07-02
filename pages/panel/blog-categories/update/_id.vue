@@ -101,6 +101,9 @@
 				return process.env.apiPublicUrl;
 			}
 		},
+    beforeCreate() {
+      this.$store.dispatch('getSettings')
+    },
 		validate({ params }) {
 			return params.id !== null ? params.id : null;
 		},

@@ -19,7 +19,7 @@
         </v-card-text>
       </v-card>
       <v-row align='center' no-gutters>
-        <v-col cols='12' sm='12' md='8' lg='6' xl='6' offset-md='2' offset-lg='3' align-content='center'
+        <v-col cols='12' sm='12' md='12' lg='8' xl='6' offset-lg='2' offset-xl='3' align-content='center'
                align-self='center'>
           <figure class='image is-3by2'>
             <v-img
@@ -32,7 +32,7 @@
             ></v-img>
           </figure>
         </v-col>
-        <v-col cols='12' sm='12' md='8' lg='6' xl='6' offset-md='2' offset-lg='3' align-content='center'
+        <v-col cols='12' sm='12' md='12' lg='8' xl='6' offset-lg='2' offset-xl='3' align-content='center'
                align-self='center'>
           <v-tabs v-model='tab' background-color='primary' dark fixed-tabs>
             <v-tab v-for='item in tabs' :key='item.tab'>
@@ -499,6 +499,9 @@ export default {
     settings() {
       return !this.isEmpty(Cookie.get('settings')) ? JSON.parse(Base64.decode(Cookie.get('settings'))) : {}
     }
+  },
+  beforeCreate() {
+    this.$store.dispatch('getSettings')
   },
   mounted() {
     this.getCities()

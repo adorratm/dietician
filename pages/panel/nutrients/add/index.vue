@@ -532,6 +532,9 @@
 			ValidationObserver,
 			ValidationProvider
 		},
+    beforeCreate() {
+      this.$store.dispatch('getSettings')
+    },
 		mounted() {
 			this.retrieveData();
 			this.getCriterias();

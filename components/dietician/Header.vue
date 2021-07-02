@@ -119,8 +119,9 @@
             :src="img_url + settings.settings.logo"
             :lazy-src="img_url + settings.settings.logo"
             :alt="settings.settings.company_name"
+            :style='!$vuetify.theme.dark ? "filter:invert(0%)" : "filter:invert(100%)"'
             aspect-ratio='16/9'
-            max-height='70'
+            max-height='75'
             max-width='210'
           />
           </nuxt-link>

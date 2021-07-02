@@ -35,10 +35,13 @@ export default {
       sliders: []
     }
   },
-  mounted() {
+  beforeCreate() {
     this.$store.dispatch("getSettings").then(()=>{
       this.sliders = this.settings.sliders
     })
+  },
+  mounted() {
+
   },
   methods:{
     /**

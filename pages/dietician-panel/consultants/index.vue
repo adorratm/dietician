@@ -285,6 +285,9 @@ export default {
       };
     }
   },
+  beforeCreate() {
+    this.$store.dispatch('getSettings')
+  },
   mounted() {
     this.retrieveData();
   }
