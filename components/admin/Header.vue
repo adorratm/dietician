@@ -9,22 +9,26 @@
       fixed
       app
     >
-      <v-list dense>
-        <v-list-item
-          v-for='(item, i) in items'
-          :key='i'
-          :to='item.to'
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text='item.title' />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <v-layout fill-height column justify-space-between>
+
+        <Nested :nodes='items' />
+        <v-list dense class='my-0 py-0'>
+          <v-divider/>
+          <v-list-item
+            to='/'
+            router
+            exact
+            class='my-0 py-0'
+          >
+            <v-list-item-action>
+              <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Websitesini Görüntüle</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-layout>
     </v-navigation-drawer>
     <v-navigation-drawer
       v-model='rightDrawer'
@@ -175,9 +179,13 @@
 <script>
 import {mapMutations,mapState} from 'vuex'
 import Cookie from 'js-cookie'
+import Nested from '@/components/admin/nested'
 export default {
   name: 'Header',
   props: ['items','settings','userData'],
+  components:{
+    Nested
+  },
   computed:{
     drawer: {
       get() {
@@ -229,7 +237,7 @@ export default {
         position: "topCenter"
       });
       setTimeout(() => {
-        this.$router.go("/login");
+        this.$router.go("/auth");
       }, 2000);
     }
   }

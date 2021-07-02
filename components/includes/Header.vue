@@ -27,7 +27,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <v-list dense class='my-0 py-0'>
+          <v-list dense class='my-0 py-0' >
             <v-divider/>
             <v-list-item v-if='!isEmpty(userData) && userData.isDietician'
               to='/dietician-panel'
@@ -40,6 +40,19 @@
               </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title>Diyetisyen Paneli</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item v-if='!isEmpty(userData) && userData.status === "admin"'
+                         to='/panel'
+                         router
+                         exact
+                         class='my-0 py-0'
+            >
+              <v-list-item-action>
+                <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Admin Paneli</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>

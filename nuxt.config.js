@@ -81,8 +81,16 @@ export default {
         token: {
           property: 'user.api_token',
           required: true,
+          global:true,
           type: "Bearer",
-          maxAge: 1800
+          maxAge: 7200
+        },
+        refreshToken: {
+          property: "user.api_token",
+          data: "user",
+          global:true,
+          type: "Bearer",
+          maxAge: 7200
         },
         endpoints:{
           login: {
@@ -108,16 +116,18 @@ export default {
       dietician: {
         scheme: "refresh",
         token: {
-          property: "user.api_token",
+          property: 'user.api_token',
           required: true,
+          global:true,
           type: "Bearer",
-          maxAge: 1800
+          maxAge: 7200
         },
         refreshToken: {
           property: "user.api_token",
-          data: "user.api_token",
+          data: "user",
+          global:true,
           type: "Bearer",
-          maxAge: 1800
+          maxAge: 7200
         },
         endpoints: {
           login: {
@@ -143,16 +153,18 @@ export default {
       admin: {
         scheme: "refresh",
         token: {
-          property: "user.api_token",
+          property: 'user.api_token',
           required: true,
+          global:true,
           type: "Bearer",
-          maxAge: 1800
+          maxAge: 7200
         },
         refreshToken: {
           property: "user.api_token",
           data: "user",
           type: "Bearer",
-          maxAge: 1800
+          global:true,
+          maxAge: 7200
         },
         endpoints: {
           login: {

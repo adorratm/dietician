@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <client-only>
@@ -22,12 +21,12 @@
       <v-card>
         <v-toolbar
           flat
-          color="primary"
+          color='primary'
           dark
         >
           <v-toolbar-title>Danışan İşlemleri</v-toolbar-title>
         </v-toolbar>
-        <v-tabs vertical>
+        <v-tabs show-arrows>
           <v-tab>
             <v-icon left>
               mdi-account
@@ -54,93 +53,95 @@
                   <tbody>
                   <tr>
                     <td><b>Profil Fotoğrafı :</b></td>
-                    <td colspan='2'><v-img
-                      v-bind:src="img_url + data.img_url"
-                      v-bind:lazy-src="img_url + data.img_url"
-                      v-bind:alt="data.name"
-                      width='100'
-                      height='100'
-                    /></td>
+                    <td colspan='2'>
+                      <v-img
+                        v-bind:src='img_url + data.img_url'
+                        v-bind:lazy-src='img_url + data.img_url'
+                        v-bind:alt='data.name'
+                        width='100'
+                        height='100'
+                      />
+                    </td>
                   </tr>
                   <tr>
                     <td><b>Ad Soyad :</b></td>
-                    <td colspan="2">{{ data.name }}</td>
+                    <td colspan='2'>{{ data.name }}</td>
                   </tr>
                   <tr>
                     <td><b>Cinsiyet :</b></td>
-                    <td colspan="2">{{ data.gender }}</td>
+                    <td colspan='2'>{{ data.gender }}</td>
                   </tr>
                   <tr>
                     <td><b>İkamet Ettiğiniz İl :</b></td>
-                    <td colspan="2">{{ data.city }}</td>
+                    <td colspan='2'>{{ data.city }}</td>
                   </tr>
                   <tr>
                     <td><b>İkamet Ettiğiniz İlçe :</b></td>
-                    <td colspan="2">{{ data.town }}</td>
+                    <td colspan='2'>{{ data.town }}</td>
                   </tr>
                   <tr>
                     <td><b>İkamet Ettiğiniz Semt :</b></td>
-                    <td colspan="2">{{ data.district }}</td>
+                    <td colspan='2'>{{ data.district }}</td>
                   </tr>
                   <tr>
                     <td><b>İkamet Ettiğiniz Mahalle :</b></td>
-                    <td colspan="2">{{ data.neighborhood }}</td>
+                    <td colspan='2'>{{ data.neighborhood }}</td>
                   </tr>
                   <tr>
                     <td><b>İkamet Ettiğiniz Adres :</b></td>
-                    <td colspan="2">{{ data.address }}</td>
+                    <td colspan='2'>{{ data.address }}</td>
                   </tr>
                   <tr>
                     <td><b>Doğum Tarihi :</b></td>
-                    <td colspan="2">{{ data.birthDate }}</td>
+                    <td colspan='2'>{{ data.birthDate }}</td>
                   </tr>
                   <tr>
                     <td><b>Boy (cm) :</b></td>
-                    <td colspan="2">{{ data.size }}</td>
+                    <td colspan='2'>{{ data.size }}</td>
                   </tr>
                   <tr>
                     <td><b>Ağırlık (kg) :</b></td>
-                    <td colspan="2">{{ data.weight }}</td>
+                    <td colspan='2'>{{ data.weight }}</td>
                   </tr>
                   <tr>
                     <td><b>Bel (cm) :</b></td>
-                    <td colspan="2">{{ data.waist }}</td>
+                    <td colspan='2'>{{ data.waist }}</td>
                   </tr>
                   <tr>
                     <td><b>Kalça (cm) :</b></td>
-                    <td colspan="2">{{ data.hip }}</td>
+                    <td colspan='2'>{{ data.hip }}</td>
                   </tr>
                   <tr>
                     <td><b>Göğüs (cm) :</b></td>
-                    <td colspan="2">{{ data.chest }}</td>
+                    <td colspan='2'>{{ data.chest }}</td>
                   </tr>
                   <tr>
                     <td><b>Boyun (cm) : </b></td>
-                    <td colspan="2">{{ data.neck }}</td>
+                    <td colspan='2'>{{ data.neck }}</td>
                   </tr>
                   <tr>
                     <td><b>Üst Kol (cm) :</b></td>
-                    <td colspan="2">{{ data.upperArm }}</td>
+                    <td colspan='2'>{{ data.upperArm }}</td>
                   </tr>
                   <tr>
                     <td><b>Alt Kol (cm) :</b></td>
-                    <td colspan="2">{{ data.lowerArm }}</td>
+                    <td colspan='2'>{{ data.lowerArm }}</td>
                   </tr>
                   <tr>
                     <td><b>Kol Bileği (cm) :</b></td>
-                    <td colspan="2">{{ data.wrist }}</td>
+                    <td colspan='2'>{{ data.wrist }}</td>
                   </tr>
                   <tr>
                     <td><b>Üst Bacak (cm) :</b></td>
-                    <td colspan="2">{{ data.upperLeg }}</td>
+                    <td colspan='2'>{{ data.upperLeg }}</td>
                   </tr>
                   <tr>
                     <td><b>Alt Bacak (cm) :</b></td>
-                    <td colspan="2">{{ data.lowerLeg }}</td>
+                    <td colspan='2'>{{ data.lowerLeg }}</td>
                   </tr>
                   <tr>
                     <td><b>Deri Kıvrım Kalınlığı (cm) :</b></td>
-                    <td colspan="2">
+                    <td colspan='2'>
                       {{ data.skinfoldThickness }}
                     </td>
                   </tr>
@@ -167,713 +168,821 @@
           <v-tab-item eager>
             <v-card flat>
               <v-card-text>
-                <form
-                  @submit.prevent='handleSubmit(saveInformation)'
-                  ref='informationForm'
-                  enctype='multipart/form-data'
-                >
-                  <v-simple-table>
-                    <tbody>
-                    <tr>
-                      <td>
-                        <b>Adınız ve Soyadınız :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Adınız ve Soyadınız'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            id='name'
-                            type='text'
-                            name='name'
-                            v-model='data.name'
-                            clearable
-                            label='Adınız ve Soyadınız'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Email Adresiniz :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Email Adresiniz'
-                          rules='required|email'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            id='email'
-                            type='text'
-                            name='email'
-                            v-model='data.email'
-                            clearable
-                            label='Email Adresiniz'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Telefon Numaranız :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Telefon Numaranız'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            id='phone'
-                            type='text'
-                            name='phone'
-                            v-model='data.phone'
-                            clearable
-                            label='Telefon Numaranız'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>T.C. Kimlik Numaranız :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='T.C. Kimlik Numaranız'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            id='tc'
-                            type='text'
-                            class='form-control'
-                            name='tc'
-                            v-model='data.tc'
-                            clearable
-                            label='T.C. Kimlik Numaranız'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Cinsiyet :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Cinsiyetiniz'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-radio-group
-                            v-model='data.gender'
-                            name='gender'
-                            row
-                          >
-                            <v-radio value='Erkek'>
-                              <template v-slot:label> Erkek</template>
-                            </v-radio>
-                            <v-radio value='Kadın'>
-                              <template v-slot:label> Kadın</template>
-                            </v-radio>
-                          </v-radio-group>
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><b>Özel Durum :</b></td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Özel Durum'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-autocomplete
-                            name='special_case'
-                            id='special_case'
-                            class='form-control'
-                            :items='specialCases'
-                            v-model='data.special_case'
-                            item-text='value'
-                            item-value='value'
-                            clearable
-                            label='Özel Durum'
+                <v-stepper v-model='e1'>
+                  <v-stepper-header>
+                    <v-stepper-step :complete='e1 > 1' step='1'>
+                      Danışan Bilgileri
+                    </v-stepper-step>
 
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>İkamet Ettiğiniz İl :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='İkamet Ettiğiniz İl'
-                          rules='required'
-                          v-slot='{ errors }'
+                    <v-divider></v-divider>
+
+                    <v-stepper-step :complete='e1 > 2' step='2'>
+                      Hastalık Bilgileri
+                    </v-stepper-step>
+                  </v-stepper-header>
+
+                  <v-stepper-items>
+                    <v-stepper-content step='1'>
+                      <ValidationObserver v-slot='{ handleSubmit }'>
+                        <form
+                          @submit.prevent='handleSubmit(updateInformation)'
+                          ref='informationForm'
+                          enctype='multipart/form-data'
                         >
+                          <v-simple-table>
+                            <tbody>
+                            <tr>
+                              <td>
+                                <b>Adınız ve Soyadınız :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Adınız ve Soyadınız'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    id='name'
+                                    type='text'
+                                    name='name'
+                                    v-model='data.name'
+                                    clearable
+                                    label='Adınız ve Soyadınız'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Email Adresiniz :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Email Adresiniz'
+                                  rules='required|email'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    id='email'
+                                    type='text'
+                                    name='email'
+                                    v-model='data.email'
+                                    clearable
+                                    label='Email Adresiniz'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Telefon Numaranız :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Telefon Numaranız'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    id='phone'
+                                    type='text'
+                                    name='phone'
+                                    v-model='data.phone'
+                                    clearable
+                                    label='Telefon Numaranız'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>T.C. Kimlik Numaranız :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='T.C. Kimlik Numaranız'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    id='tc'
+                                    type='text'
+                                    class='form-control'
+                                    name='tc'
+                                    v-model='data.tc'
+                                    clearable
+                                    label='T.C. Kimlik Numaranız'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Cinsiyet :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Cinsiyetiniz'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-radio-group
+                                    v-model='data.gender'
+                                    name='gender'
+                                    row
+                                  >
+                                    <v-radio value='Erkek'>
+                                      <template v-slot:label> Erkek</template>
+                                    </v-radio>
+                                    <v-radio value='Kadın'>
+                                      <template v-slot:label> Kadın</template>
+                                    </v-radio>
+                                  </v-radio-group>
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><b>Özel Durum :</b></td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Özel Durum'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-autocomplete
+                                    name='special_case'
+                                    id='special_case'
+                                    class='form-control'
+                                    :items='specialCases'
+                                    v-model='data.special_case'
+                                    item-text='value'
+                                    item-value='value'
+                                    clearable
+                                    label='Özel Durum'
+
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>İkamet Ettiğiniz İl :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='İkamet Ettiğiniz İl'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-autocomplete
+                                    v-on:change='getTowns'
+                                    name='city'
+                                    id='city'
+                                    :items='country.cities'
+                                    item-value='name'
+                                    item-text='name'
+                                    v-model='data.city'
+                                    ref='city'
+                                    clearable
+                                    return-object
+                                    label='İkamet Ettiğiniz İl'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>İkamet Ettiğiniz İlçe :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='İkamet Ettiğiniz İlçe'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-autocomplete
+                                    v-on:change='getDistricts'
+                                    name='town'
+                                    id='town'
+                                    ref='town'
+                                    v-model='data.town'
+                                    :items='country.towns'
+                                    item-value='name'
+                                    item-text='name'
+                                    label='İkamet Ettiğiniz İlçe'
+                                    return-object
+                                    clearable
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>İkamet Ettiğiniz Semt :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='İkamet Ettiğiniz Semt'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-autocomplete
+                                    v-on:change='getNeighborhoods'
+                                    name='district'
+                                    id='district'
+                                    ref='district'
+                                    v-model='data.district'
+                                    :items='country.districts'
+                                    item-text='name'
+                                    item-value='name'
+                                    label='İkamet Ettiğiniz Semt'
+                                    return-object
+                                    clearable
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>İkamet Ettiğiniz Mahalle :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='İkamet Ettiğiniz Mahalle'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-autocomplete
+                                    name='neighborhood'
+                                    id='neighborhood'
+                                    ref='neighborhood'
+                                    v-model='data.neighborhood'
+                                    :items='country.neighborhoods'
+                                    item-value='name'
+                                    item-text='name'
+                                    clearable
+                                    return-object
+                                    label='İkamet Ettiğiniz Mahalle'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>İkamet Ettiğiniz Adres :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='İkamet Ettiğiniz Adres'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-textarea
+                                    name='address'
+                                    id='address'
+                                    class='form-control'
+                                    cols='30'
+                                    rows='5'
+                                    v-model='data.address'
+                                    clearable
+                                    label='İkamet Ettiğiniz Adres'
+                                  ></v-textarea>
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Doğum Tarihi :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Doğum Tarihi'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-menu
+                                    ref='menu'
+                                    v-model='menu'
+                                    :close-on-content-click='false'
+                                    transition='scale-transition'
+                                    offset-y
+                                    min-width='auto'
+                                  >
+                                    <template v-slot:activator='{ on, attrs }'>
+                                      <v-text-field
+                                        type='date'
+                                        name='birthDate'
+                                        v-model='data.birthDate'
+                                        label='Doğum Tarihi'
+                                        prepend-icon='mdi-calendar'
+                                        readonly
+                                        v-bind='attrs'
+                                        v-on='on'
+                                      ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                      v-model='data.birthDate'
+                                      :active-picker.sync='activePicker'
+                                      :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
+                                      min='1950-01-01'
+                                      @change='save'
+                                    ></v-date-picker>
+                                  </v-menu>
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Boy (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Boy (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='size'
+                                    id='size'
+                                    v-model='data.size'
+                                    clearable
+                                    label='Boy (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Ağırlık (kg) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Ağırlık (kg)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='weight'
+                                    id='weight'
+                                    v-model='data.weight'
+                                    clearable
+                                    label='Ağırlık (kg)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Bel (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Bel (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='waist'
+                                    id='waist'
+                                    v-model='data.waist'
+                                    clearable
+                                    label='Bel (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Kalça (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Kalça (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='hip'
+                                    id='hip'
+                                    v-model='data.hip'
+                                    clearable
+                                    label='Kalça (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Göğüs (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Göğüs (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='chest'
+                                    id='chest'
+                                    v-model='data.chest'
+                                    clearable
+                                    label='Göğüs (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Boyun (cm) : </b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Boyun (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='neck'
+                                    id='neck'
+                                    v-model='data.neck'
+                                    clearable
+                                    label='Boyun (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Üst Kol (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Üst Kol (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='upperArm'
+                                    id='upperArm'
+                                    class='form-control'
+                                    v-model='data.upperArm'
+                                    clearable
+                                    label='Üst Kol (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Alt Kol (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Alt Kol (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='lowerArm'
+                                    id='lowerArm'
+                                    class='form-control'
+                                    v-model='data.lowerArm'
+                                    clearable
+                                    label='Alt Kol (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Kol Bileği (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Kol Bileği (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='wrist'
+                                    id='wrist'
+                                    class='form-control'
+                                    v-model='data.wrist'
+                                    clearable
+                                    label='Kol Bileği (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Üst Bacak (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Üst Bacak (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='upperLeg'
+                                    id='upperLeg'
+                                    class='form-control'
+                                    v-model='data.upperLeg'
+                                    clearable
+                                    label='Üst Bacak (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Alt Bacak (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Alt Bacak (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='lowerLeg'
+                                    id='lowerLeg'
+                                    class='form-control'
+                                    v-model='data.lowerLeg'
+                                    clearable
+                                    label='Alt Bacak (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Deri Kıvrım Kalınlığı (cm) :</b>
+                              </td>
+                              <td colspan='2'>
+                                <ValidationProvider
+                                  name='Deri Kıvrım Kalınlığı (cm)'
+                                  rules='required'
+                                  v-slot='{ errors }'
+                                >
+                                  <v-text-field
+                                    type='number'
+                                    name='skinfoldThickness'
+                                    id='skinfoldThickness'
+                                    class='form-control'
+                                    v-model='data.skinfoldThickness'
+                                    clearable
+                                    label='Deri Kıvrım Kalınlığı (cm)'
+                                  />
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
+                                </ValidationProvider>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Yağ :</b>
+                              </td>
+                              <td>
+                                %
+                                {{ data.fatRatio }}
+                              </td>
+                              <td>
+                                {{ data.fat }}
+                                KG
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Kas :</b>
+                              </td>
+                              <td>
+                                %
+                                {{ data.muscleRatio }}
+                              </td>
+                              <td>
+                                {{ data.muscle }}
+                                KG
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Su :</b>
+                              </td>
+                              <td>
+                                %
+                                {{ data.waterRatio }}
+                              </td>
+                              <td>
+                                {{ data.water }}
+                                KG
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <b>Profil Resminiz :</b>
+                              </td>
+                              <td colspan='2' class='align-middle'>
+                                <v-file-input
+                                  type='file'
+                                  accept='image/*'
+                                  placeholder='Profil Resminiz'
+                                  name='img_url'
+                                  label='Profil Resminiz'
+                                  clearable
+                                />
+                              </td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                              <td colspan='3' style='text-align: end'>
+                                <v-btn
+                                  @click='e1=2'
+                                  color='error'
+                                  class='ml-auto justify-end'
+                                >
+                                  Danışan Bilgilerini Kaydetmeden İlerle
+                                </v-btn>
+                                <v-btn
+                                  type='submit'
+                                  color='primary'
+                                  class='ml-auto justify-end'
+                                >
+                                  Danışan Bilgilerini Kaydet ve İlerle
+                                </v-btn>
+                              </td>
+                            </tr>
+                            </tfoot>
+                          </v-simple-table>
+                        </form>
+                      </ValidationObserver>
+                    </v-stepper-content>
+                    <v-stepper-content step='2'>
+                      <ValidationObserver v-slot='{ handleSubmit }'>
+                        <form
+                          @submit.prevent='handleSubmit(updateDiseaseInformation)'
+                          ref='diseaseInformationForm'
+                          enctype='multipart/form-data'
+                        >
+                      <ValidationProvider
+                        name='Hastalık'
+                        rules='required'
+                        v-slot='{ errors }'
+                      >
+                        <div class='form-group'>
                           <v-autocomplete
-                            v-on:change='getTowns'
-                            name='city'
-                            id='city'
-                            :items='country.cities'
-                            item-value='name'
+                            name='selectedDiseases[]'
+                            v-model='selectedDiseases'
+                            :items='diseases'
+                            chips
+                            label='Hastalık Seçin'
                             item-text='name'
-                            v-model='data.city'
-                            ref='city'
-                            clearable
-                            return-object
-                            label='İkamet Ettiğiniz İl'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>İkamet Ettiğiniz İlçe :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='İkamet Ettiğiniz İlçe'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-autocomplete
-                            v-on:change='getDistricts'
-                            name='town'
-                            id='town'
-                            ref='town'
-                            v-model='data.town'
-                            :items='country.towns'
-                            item-value='name'
-                            item-text='name'
-                            label='İkamet Ettiğiniz İlçe'
-                            return-object
-                            clearable
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>İkamet Ettiğiniz Semt :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='İkamet Ettiğiniz Semt'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-autocomplete
-                            v-on:change='getNeighborhoods'
-                            name='district'
-                            id='district'
-                            ref='district'
-                            v-model='data.district'
-                            :items='country.districts'
-                            item-text='name'
-                            item-value='name'
-                            label='İkamet Ettiğiniz Semt'
-                            return-object
-                            clearable
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>İkamet Ettiğiniz Mahalle :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='İkamet Ettiğiniz Mahalle'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-autocomplete
-                            name='neighborhood'
-                            id='neighborhood'
-                            ref='neighborhood'
-                            v-model='data.neighborhood'
-                            :items='country.neighborhoods'
-                            item-value='name'
-                            item-text='name'
-                            clearable
-                            return-object
-                            label='İkamet Ettiğiniz Mahalle'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>İkamet Ettiğiniz Adres :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='İkamet Ettiğiniz Adres'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-textarea
-                            name='address'
-                            id='address'
-                            class='form-control'
-                            cols='30'
-                            rows='5'
-                            v-model='data.address'
-                            clearable
-                            label='İkamet Ettiğiniz Adres'
-                          ></v-textarea>
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Doğum Tarihi :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Doğum Tarihi'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-menu
-                            ref='menu'
-                            v-model='menu'
-                            :close-on-content-click='false'
-                            transition='scale-transition'
-                            offset-y
-                            min-width='auto'
+                            item-value='_id.$oid'
+                            multiple
                           >
-                            <template v-slot:activator='{ on, attrs }'>
-                              <v-text-field
-                                type='date'
-                                name='birthDate'
-                                v-model='data.birthDate'
-                                label='Doğum Tarihi'
-                                prepend-icon='mdi-calendar'
-                                readonly
-                                v-bind='attrs'
-                                v-on='on'
-                              ></v-text-field>
+                            <template v-slot:prepend-item>
+                              <v-list-item ripple @click='toggleDisease'>
+                                <v-list-item-action>
+                                  <v-icon
+                                    :color="
+																	!isEmpty(selectedDiseases) &&
+																	selectedDiseases.length > 0
+																		? 'indigo darken-4'
+																		: ''
+																"
+                                  >
+                                    {{ diseaseIcon }}
+                                  </v-icon>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                  <v-list-item-title>
+                                    Tümünü Seç
+                                  </v-list-item-title>
+                                </v-list-item-content>
+                              </v-list-item>
+                              <v-divider class='mt-2'></v-divider>
                             </template>
-                            <v-date-picker
-                              v-model='data.birthDate'
-                              :active-picker.sync='activePicker'
-                              :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
-                              min='1950-01-01'
-                              @change='save'
-                            ></v-date-picker>
-                          </v-menu>
+                            <template v-slot:selection='data'>
+                              <v-chip
+                                v-bind='data.attrs'
+                                :input-value='data.selected'
+                                close
+                                @click='data.select'
+                                @click:close='remove(data.item)'
+                              >
+                                {{ data.item.name }}
+                              </v-chip>
+                            </template>
+                            <template v-slot:item='data'>
+                              <template>
+                                <v-list-item-content>
+                                  <v-list-item-title
+                                    v-html='data.item.name'
+                                  ></v-list-item-title>
+                                </v-list-item-content>
+                              </template>
+                            </template>
+                          </v-autocomplete>
                           <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                             {{ errors[0] }}
                           </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Boy (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Boy (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='size'
-                            id='size'
-                            v-model='data.size'
-                            clearable
-                            label='Boy (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Ağırlık (kg) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Ağırlık (kg)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='weight'
-                            id='weight'
-                            v-model='data.weight'
-                            clearable
-                            label='Ağırlık (kg)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Bel (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Bel (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='waist'
-                            id='waist'
-                            v-model='data.waist'
-                            clearable
-                            label='Bel (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Kalça (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Kalça (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='hip'
-                            id='hip'
-                            v-model='data.hip'
-                            clearable
-                            label='Kalça (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Göğüs (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Göğüs (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='chest'
-                            id='chest'
-                            v-model='data.chest'
-                            clearable
-                            label='Göğüs (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Boyun (cm) : </b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Boyun (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='neck'
-                            id='neck'
-                            v-model='data.neck'
-                            clearable
-                            label='Boyun (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Üst Kol (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Üst Kol (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='upperArm'
-                            id='upperArm'
-                            class='form-control'
-                            v-model='data.upperArm'
-                            clearable
-                            label='Üst Kol (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Alt Kol (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Alt Kol (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='lowerArm'
-                            id='lowerArm'
-                            class='form-control'
-                            v-model='data.lowerArm'
-                            clearable
-                            label='Alt Kol (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Kol Bileği (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Kol Bileği (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='wrist'
-                            id='wrist'
-                            class='form-control'
-                            v-model='data.wrist'
-                            clearable
-                            label='Kol Bileği (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Üst Bacak (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Üst Bacak (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='upperLeg'
-                            id='upperLeg'
-                            class='form-control'
-                            v-model='data.upperLeg'
-                            clearable
-                            label='Üst Bacak (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Alt Bacak (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Alt Bacak (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='lowerLeg'
-                            id='lowerLeg'
-                            class='form-control'
-                            v-model='data.lowerLeg'
-                            clearable
-                            label='Alt Bacak (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Deri Kıvrım Kalınlığı (cm) :</b>
-                      </td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Deri Kıvrım Kalınlığı (cm)'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <v-text-field
-                            type='number'
-                            name='skinfoldThickness'
-                            id='skinfoldThickness'
-                            class='form-control'
-                            v-model='data.skinfoldThickness'
-                            clearable
-                            label='Deri Kıvrım Kalınlığı (cm)'
-                          />
-                          <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                            {{ errors[0] }}
-                          </v-alert>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Yağ :</b>
-                      </td>
-                      <td>
-                        %
-                        {{ data.fatRatio }}
-                      </td>
-                      <td>
-                        {{ data.fat }}
-                        KG
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Kas :</b>
-                      </td>
-                      <td>
-                        %
-                        {{ data.muscleRatio }}
-                      </td>
-                      <td>
-                        {{ data.muscle }}
-                        KG
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Su :</b>
-                      </td>
-                      <td>
-                        %
-                        {{ data.waterRatio }}
-                      </td>
-                      <td>
-                        {{ data.water }}
-                        KG
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Profil Resminiz :</b>
-                      </td>
-                      <td colspan='2' class='align-middle'>
-                        <v-file-input
-                          type='file'
-                          accept='image/*'
-                          placeholder='Profil Resminiz'
-                          name='img_url'
-                          label='Profil Resminiz'
-                          clearable
-                        />
-                      </td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                      <td colspan='3' style='text-align: end'>
-                        <v-btn
-                          type='submit'
-                          color='primary'
-                          class='ml-auto justify-end'
-                        >
-                          Danışan Bilgilerini Kaydet ve İlerle
-                        </v-btn>
-                      </td>
-                    </tr>
-                    </tfoot>
-                  </v-simple-table>
-                </form>
+                        </div>
+                      </ValidationProvider>
+
+                      <v-btn color='primary' type='submit'>
+                        Hastalık Bilgisini Kaydet
+                      </v-btn>
+                      <v-btn color='info' type='button' @click.prevent='e1 = 1'>
+                        Geri Dön
+                      </v-btn>
+                        </form>
+                      </ValidationObserver>
+                    </v-stepper-content>
+                  </v-stepper-items>
+                </v-stepper>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -881,11 +990,15 @@
             <v-card flat>
               <v-card-text>
                 <p>
-                  Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
+                  Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula
+                  sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna,
+                  posuere eget, vestibulum et, tempor auctor, justo.
                 </p>
 
-                <p class="mb-0">
-                  Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at tortor in tellus interdum sagittis.
+                <p class='mb-0'>
+                  Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor
+                  quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at
+                  tortor in tellus interdum sagittis.
                 </p>
               </v-card-text>
             </v-card>
@@ -899,17 +1012,18 @@
 
 
 <script>
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 export default {
-  middleware: ["dietician"],
-  layout: "dietician",
+  middleware: ['dietician'],
+  layout: 'dietician',
   components: {
     ValidationObserver,
     ValidationProvider
   },
   data() {
     return {
+      e1:1,
       specialCases: [{ 'value': 'YOK' }, { 'value': 'EMZİKLİ' }, { 'value': 'HAMİLE' }],
       disease: null,
       diseases: [],
@@ -934,36 +1048,36 @@ export default {
         },
         {
           text: 'Danışan Düzenle',
-          disabled: true,
-        },
+          disabled: true
+        }
       ],
       data: { cities: [], towns: [], districts: [], neighborhoods: [] },
       country: { cities: [], towns: [], districts: [], neighborhoods: [] },
       months: [
-        "OCAK",
-        "ŞUBAT",
-        "MART",
-        "NİSAN",
-        "MAYIS",
-        "HAZİRAN",
-        "TEMMUZ",
-        "AĞUSTOS",
-        "EYLÜL",
-        "EKİM",
-        "KASIM",
-        "ARALIK"
+        'OCAK',
+        'ŞUBAT',
+        'MART',
+        'NİSAN',
+        'MAYIS',
+        'HAZİRAN',
+        'TEMMUZ',
+        'AĞUSTOS',
+        'EYLÜL',
+        'EKİM',
+        'KASIM',
+        'ARALIK'
       ],
-      userData: !this.isEmpty(this.$auth.$storage.getUniversal("user"))
-        ? this.$auth.$storage.getUniversal("user")
+      userData: !this.isEmpty(this.$auth.$storage.getUniversal('user'))
+        ? this.$auth.$storage.getUniversal('user')
         : null
-    };
+    }
   },
   validate({ params }) {
-    return params.id !== null ? params.id : null;
+    return params.id !== null ? params.id : null
   },
   computed: {
     img_url() {
-      return process.env.apiPublicUrl;
+      return process.env.apiPublicUrl
     },
     selectAllDisease() {
       return (
@@ -992,12 +1106,12 @@ export default {
   async asyncData({ params, error, $axios }) {
     try {
       const { data } = await $axios.get(
-        process.env.apiBaseUrl + "dietician/users/update/" + params.id
-      );
+        process.env.apiBaseUrl + 'dietician/users/update/' + params.id
+      )
 
-      return data;
+      return data
     } catch (e) {
-      error({ message: "Kullanıcı Bilgisi Bulunamadı.", statusCode: 404 });
+      error({ message: 'Kullanıcı Bilgisi Bulunamadı.', statusCode: 404 })
     }
   },
   methods: {
@@ -1034,13 +1148,13 @@ export default {
       this.$refs.menu.save(date)
     },
     isEmpty(obj) {
-      if (typeof obj == "number") return false;
-      else if (typeof obj == "string") return obj.length === 0;
-      else if (Array.isArray(obj)) return obj.length === 0;
-      else if (typeof obj == "object")
-        return obj == null || Object.keys(obj).length === 0;
-      else if (typeof obj == "boolean") return false;
-      else return !obj;
+      if (typeof obj == 'number') return false
+      else if (typeof obj == 'string') return obj.length === 0
+      else if (Array.isArray(obj)) return obj.length === 0
+      else if (typeof obj == 'object')
+        return obj == null || Object.keys(obj).length === 0
+      else if (typeof obj == 'boolean') return false
+      else return !obj
     },
     getCities() {
       this.$axios
@@ -1105,18 +1219,18 @@ export default {
         })
     },
     updateInformation() {
-      let formData = new FormData(this.$refs.informationForm);
+      let formData = new FormData(this.$refs.informationForm)
       this.$axios
         .post(
           process.env.apiBaseUrl +
-          "dietician/users/update/" +
+          'dietician/users/update/' +
           this.data._id.$oid,
           formData,
           {
             headers: {
-              "Content-Type":
-                "multipart/form-data; boundary=" + formData._boundary,
-              Authorization: "Bearer " + this.userData.api_token
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary,
+              Authorization: 'Bearer ' + this.userData.api_token
             }
           }
         )
@@ -1125,22 +1239,55 @@ export default {
             this.$izitoast.success({
               title: response.data.title,
               message: response.data.msg,
-              position: "topCenter"
-            });
-            setTimeout(() => {
-              this.$router.go("/profile");
-            }, 2000);
+              position: 'topCenter'
+            })
+            this.e1=2
           } else {
             this.$izitoast.error({
               title: response.data.title,
               message: response.data.msg,
-              position: "topCenter"
-            });
+              position: 'topCenter'
+            })
           }
-        });
+        })
+    },
+    updateDiseaseInformation() {
+      let formData = new FormData(this.$refs.diseaseInformationForm)
+      formData.append("dietician_id",this.userData._id.$oid)
+      formData.append("tc",this.data.tc)
+      formData.append("phone",this.data.phone)
+      this.$axios
+        .post(
+          process.env.apiBaseUrl +
+          'dietician/users/user-diseases/',
+          formData,
+          {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary,
+              Authorization: 'Bearer ' + this.userData.api_token
+            }
+          }
+        )
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+            this.e1=2
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+          }
+        })
     }
   }
-};
+}
 </script>
 
 
