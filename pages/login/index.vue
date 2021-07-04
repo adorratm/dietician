@@ -245,9 +245,6 @@ export default {
       return !this.isEmpty(Cookie.get('settings')) ? JSON.parse(Base64.decode(Cookie.get('settings'))) : {}
     }
   },
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
   data() {
     return {
       items: [

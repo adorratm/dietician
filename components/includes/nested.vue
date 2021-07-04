@@ -18,8 +18,9 @@
 </template>
 
 <script>
+
 export default {
   name: 'node-list',
-  props: ['nodes'],
+  props: ['nodes',"settings"],
 }
 </script>

@@ -1,16 +1,18 @@
 <template>
   <v-container>
     <client-only>
-      <v-responsive :aspect-ratio="16/9">
-      <v-carousel v-model="model" v-if='!isEmpty(sliders)' cycle continuous height='auto'>
-        <v-carousel-item
-          v-for="(slide, i) in sliders"
-          :key="i"
-        >
-          <v-img :src="img_url+slide.img_url" :aspect-ratio="16/9" max-height='500' contain></v-img>
-        </v-carousel-item>
-      </v-carousel>
-      </v-responsive>
+      <v-lazy>
+        <v-responsive :aspect-ratio="16/9">
+          <v-carousel v-model="model" v-if='!isEmpty(sliders)' cycle continuous height='auto'>
+            <v-carousel-item
+              v-for="(slide, i) in sliders"
+              :key="i"
+            >
+              <v-img :src="img_url+slide.img_url" :aspect-ratio="16/9" max-height='500' contain></v-img>
+            </v-carousel-item>
+          </v-carousel>
+        </v-responsive>
+      </v-lazy>
     </client-only>
 
   </v-container>
@@ -31,17 +33,9 @@ export default {
   data(){
     return {
       model: 0,
-      settings: !this.isEmpty(Cookie.get("settings")) ? JSON.parse(Base64.decode(Cookie.get("settings"))) : null,
+      settings: null,
       sliders: []
     }
-  },
-  beforeCreate() {
-    this.$store.dispatch("getSettings").then(()=>{
-      this.sliders = this.settings.sliders
-    })
-  },
-  mounted() {
-
   },
   methods:{
     /**

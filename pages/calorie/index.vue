@@ -132,7 +132,7 @@ export default {
               '&search=' +
               decodeURIComponent(this.search)
           })
-          .then(response => {
+          .then(() => {
             this.emptyUrl = this.$store.state.emptyUrl
             this.nutrients = this.$store.state.nutrients.data
             this.pagination.current = this.$store.state.nutrients.current_page
@@ -142,7 +142,7 @@ export default {
         if (param) {
           this.$store
             .dispatch('getNutrients', { nutrientsURL: param })
-            .then(response => {
+            .then(() => {
               this.emptyUrl = this.$store.state.emptyUrl
               this.nutrients = this.$store.state.nutrients.data
               this.pagination.current = this.$store.state.nutrients.current_page
@@ -153,7 +153,7 @@ export default {
             .dispatch('getNutrients', {
               nutrientsURL: 'nutrients?page=' + this.pagination.current
             })
-            .then(response => {
+            .then(() => {
               this.emptyUrl = this.$store.state.emptyUrl
               this.nutrients = this.$store.state.nutrients.data
               this.pagination.current = this.$store.state.nutrients.current_page
@@ -188,9 +188,6 @@ export default {
         total: 1
       }
     }
-  },
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
   },
   mounted() {
     this.getNutrients()

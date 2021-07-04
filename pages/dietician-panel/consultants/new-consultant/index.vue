@@ -998,9 +998,6 @@ export default {
       return 'mdi-checkbox-blank-outline'
     }
   },
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
   mounted() {
     this.getCities()
     this.getDiseases()
@@ -1012,7 +1009,7 @@ export default {
           this.selectedDiseases = []
         } else {
           this.selectedDiseases = []
-          this.diseases.forEach((el, index) => {
+          this.diseases.forEach((el) => {
             this.selectedDiseases.push(el._id.$oid)
           })
         }

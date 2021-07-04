@@ -10,9 +10,6 @@
 export default {
   name: 'index',
   layout: 'admin',
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
 }
 </script>
 

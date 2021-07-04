@@ -163,9 +163,6 @@
 				return process.env.apiPublicUrl;
 			}
 		},
-    beforeCreate() {
-      this.$store.dispatch('getSettings')
-    },
 		mounted() {
 			let inputs = document.querySelectorAll(".v-file-input input");
 			[...inputs].forEach(input => {

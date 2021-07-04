@@ -11,9 +11,6 @@ export default {
   name: 'index',
   layout: "dietician",
   middleware: ["dietician"],
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
 }
 </script>
 

@@ -1,136 +1,137 @@
 <template>
-	<div class="main-wrapper">
-		<div class="page-wrapper">
-			<v-container fluid class="content">
-				<div class="page-header">
-					<h3 class="page-title">Ayarlar</h3>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<nuxt-link to="/panel">Anasayfa</nuxt-link>
-						</li>
-						<li class="breadcrumb-item active">Ayarlar</li>
-					</ul>
-				</div>
-				<v-card tile>
-					<v-card-title class="d-flex justify-content-between">
+  <v-container>
+    <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
+      <v-card>
+        <v-card-title class="d-flex justify-content-between">
 						<span class="justify-content-center flex-grow-1">
 							<v-text-field
-								v-model="searchTitle"
-								label="Arama Yapın..."
-								class="my-auto py-auto"
-								v-on:keyup.prevent="
+                v-model="searchTitle"
+                label="Arama Yapın..."
+                class="my-auto py-auto"
+                v-on:keyup.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"
-							></v-text-field>
+              ></v-text-field>
 						</span>
-						<span class="justify-content-end flex-shrink-1">
+          <span class="justify-content-end flex-shrink-1">
 							<v-btn
-								to="/panel/settings/add"
-								color="primary"
-								class="float-right ml-3 my-auto py-auto"
-							>
+                to="/panel/settings/add"
+                color="primary"
+                class="float-right ml-3 my-auto py-auto"
+              >
 								<i class="fa fa-plus"></i> Ekle
 							</v-btn>
 						</span>
-					</v-card-title>
+        </v-card-title>
 
-					<v-data-table
-						:headers="headers"
-						:items="data"
-						disable-pagination
-						:hide-default-footer="true"
-					>
-						<template v-slot:[`item.logo`]="{ item }">
-							<img v-bind:src="item.logo" width="220" height="60" />
-						</template>
-						<template v-slot:[`item.isActive`]="{ item }">
-							<v-layout justify-center>
-								<v-switch
-									class="d-flex justify-content-center mx-auto px-auto text-center"
-									v-model="item.isActive"
-									color="success"
-									:key="item.id"
-									@click="isActiveSetter(item.id)"
-								></v-switch>
-							</v-layout>
-						</template>
-						<template v-slot:[`item.actions`]="{ item }">
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										small
-										class="mr-2"
-										@click="editData(item.id)"
-										v-bind="attrs"
-										v-on="on"
-									>
-										mdi-pencil
-									</v-icon>
-								</template>
-								<span>Ayarı Düzenle</span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										small
-										@click="deleteData(item.id)"
-										v-bind="attrs"
-										v-on="on"
-									>
-										mdi-delete
-									</v-icon>
-								</template>
-								<span>Ayarı Sil</span>
-							</v-tooltip>
-						</template>
-					</v-data-table>
-				</v-card>
-				<v-row>
-					<v-col cols="12" sm="12" md="3" lg="3" xl="3">
-						<v-select
-							v-model="pageSize"
-							:items="pageSizes"
-							label="Sayfada Görüntüleme Sayısı"
-							@change="handlePageSizeChange"
-						></v-select>
-					</v-col>
+        <v-data-table
+          :headers="headers"
+          :items="data"
+          disable-pagination
+          :hide-default-footer="true"
+        >
+          <template v-slot:[`item.logo`]="{ item }">
+            <img v-bind:src="item.logo" width="220" height="60" />
+          </template>
+          <template v-slot:[`item.isActive`]="{ item }">
+            <v-layout justify-center>
+              <v-switch
+                class="d-flex justify-content-center mx-auto px-auto text-center"
+                v-model="item.isActive"
+                color="success"
+                :key="item.id"
+                @click="isActiveSetter(item.id)"
+              ></v-switch>
+            </v-layout>
+          </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editData(item.id)"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  mdi-pencil
+                </v-icon>
+              </template>
+              <span>Ayarı Düzenle</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  small
+                  @click="deleteData(item.id)"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  mdi-delete
+                </v-icon>
+              </template>
+              <span>Ayarı Sil</span>
+            </v-tooltip>
+          </template>
+        </v-data-table>
+      </v-card>
+      <v-row>
+        <v-col cols="12" sm="12" md="3" lg="3" xl="3">
+          <v-select
+            v-model="pageSize"
+            :items="pageSizes"
+            label="Sayfada Görüntüleme Sayısı"
+            @change="handlePageSizeChange"
+          ></v-select>
+        </v-col>
 
-					<v-col cols="12" sm="12" md="9" lg="9" xl="9">
-						<v-pagination
-							v-model="page"
-							:length="totalPages"
-							total-visible="7"
-							next-icon="mdi-menu-right"
-							prev-icon="mdi-menu-left"
-							@input="handlePageChange"
-						></v-pagination>
-					</v-col>
-				</v-row>
-			</v-container>
-		</div>
-	</div>
+        <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+          <v-pagination
+            v-model="page"
+            :length="totalPages"
+            total-visible="7"
+            next-icon="mdi-menu-right"
+            prev-icon="mdi-menu-left"
+            @input="handlePageChange"
+          ></v-pagination>
+        </v-col>
+      </v-row>
+    </client-only>
+  </v-container>
+
 </template>
 <script>
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
-
+  import Breadcrumb from '@/components/includes/Breadcrumb'
 	export default {
 		middleware: ["admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,
-			ValidationProvider
+			ValidationProvider,
+      Breadcrumb
 		},
 		computed: {
 			img_url() {
 				return process.env.apiPublicUrl;
 			}
 		},
-    beforeCreate() {
-      this.$store.dispatch('getSettings')
-    },
 		data() {
 			return {
+        items: [
+          {
+            text: 'Admin Paneli',
+            disabled: false,
+            href: '/panel'
+          },
+          {
+            text: 'Ayarlar',
+            disabled: true,
+            href: 'javascript:void(0)'
+          }
+        ],
 				data: [],
 				searchTitle: null,
 				headers: [

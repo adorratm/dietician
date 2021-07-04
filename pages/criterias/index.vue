@@ -131,7 +131,7 @@ export default {
         }
         this.$store
           .dispatch('getCriterias', payload)
-          .then(response => {
+          .then(() => {
             this.criterias = this.$store.state.criterias.data
             this.pagination.current = this.$store.state.criterias.current_page
             this.pagination.total = this.$store.state.criterias.last_page
@@ -141,7 +141,7 @@ export default {
           payload = { criteriasURL: param }
           this.$store
             .dispatch('getCriterias', payload)
-            .then(response => {
+            .then(() => {
               this.criterias = this.$store.state.criterias
             })
         } else {
@@ -150,7 +150,7 @@ export default {
           }
           this.$store
             .dispatch('getCriterias', payload)
-            .then(response => {
+            .then(() => {
               this.criterias = this.$store.state.criterias.data
               this.pagination.current = this.$store.state.criterias.current_page
               this.pagination.total = this.$store.state.criterias.last_page
@@ -183,9 +183,6 @@ export default {
         total: 1
       }
     }
-  },
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
   },
   mounted() {
     this.getCriterias()

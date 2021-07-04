@@ -1,6 +1,4 @@
 import Cookie from 'js-cookie'
-import { Base64 } from 'js-base64'
-
 /**
  * isEmpty
  * @param obj
@@ -34,7 +32,8 @@ export const state = () => ({
   miniVariant: (!isEmpty(Cookie.get('miniVariant')) ? (Cookie.get('miniVariant') === 'true') : false),
   right: (!isEmpty(Cookie.get('right')) ? (Cookie.get('right') === 'false') : true),
   rightDrawer: (!isEmpty(Cookie.get('rightDrawer')) ? (Cookie.get('rightDrawer') === 'true') : false),
-  left: (!isEmpty(Cookie.get('left')) ? (Cookie.get('left') === 'false') : true)
+  left: (!isEmpty(Cookie.get('left')) ? (Cookie.get('left') === 'false') : true),
+  userData : null
 })
 
 /**
@@ -42,6 +41,12 @@ export const state = () => ({
  * @type {{setLeft(*): void, setRecipeCategories(*, *): void, setFixed(*): void, setDieticians(*, *): void, setRightDrawer(*, *=): void, setNutrients(*, *): void, setEmptyURL(*, *): void, setSettings(*, *): void, setCriterias(*, *): void, setClipped(*): void, setDrawer(*, *=): void, setRight(*): void, setSearchs(*, *): void, setMiniVariant(*): void}}
  */
 export const mutations = {
+  /**
+   * Set UserData
+   */
+  setUserData(state,userData){
+    state.userData = userData
+  },
   /**
    * setFixed
    * @param state
@@ -164,14 +169,10 @@ export const mutations = {
  * @type {{getCriterias(*, *): Promise<AxiosResponse<*>>, getNutrients(*, *): Promise<AxiosResponse<*>>, nuxtServerInit({commit: *}): *, getSearchs(*, *): Promise<AxiosResponse<*>>, getRecipeCategories(*, *): Promise<AxiosResponse<*>>, getDieticians(*, *): Promise<AxiosResponse<*>>, RegisterUser(*, *=): Promise<*>}}
  */
 export const actions = {
-  getSettings({ commit }) {
-    return this.$axios
-      .get(process.env.apiBaseUrl + 'home/')
-      .then(res => {
-        commit('setSettings', res.data.data)
-        Cookie.set('settings', Base64.encode(JSON.stringify(res.data.data)))
-        return res.data.data
-      })
+  async  nuxtServerInit ({ commit }) {
+    return await this.$axios.get(process.env.apiBaseUrl+'home/').then(res =>{
+      commit('setSettings',res.data.data)
+    })
   },
   /**
    * Register User Function

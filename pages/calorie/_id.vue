@@ -5,44 +5,44 @@
       <v-row>
         <v-col cols='12' sm='12' md='7' lg='8' xl='9'>
           <v-card>
-                <v-img v-if='!isEmpty(data)'
-                       width='100%'
-                       height='300'
-                       :key='index'
-                       v-for='(image, index) in images'
-                       :src='img_url + image.img_url'
-                       :alt='data.name'
-                       contain
-                />
+            <v-img v-if='!isEmpty(data)'
+                   width='100%'
+                   height='300'
+                   :key='index'
+                   v-for='(image, index) in images'
+                   :src='img_url + image.img_url'
+                   :alt='data.name'
+                   contain
+            />
 
-                <v-card-title>
-                  "{{ data.name }}" Besini Hakkında Detaylı Bilgiler
-                </v-card-title>
-                <v-card-text>
-                  <div class='d-flex flex-wrap'>
-                    <v-text-field
-                      type='number'
-                      @input='changeValue'
-                      min='1'
-                      step='1'
-                      id='unit'
-                      name='unit'
-                      v-model='unit'
-                      label='Birim'
-                    />
-                    <v-autocomplete
-                      class='ml-3'
-                      @change='changeValue'
-                      return-object
-                      id='criteriaValue'
-                      :items='criterias'
-                      item-text='title'
-                      item-value='value'
-                      label='Ölçüt'
-                    >
-                    </v-autocomplete>
-                  </div>
-                </v-card-text>
+            <v-card-title>
+              "{{ data.name }}" Besini Hakkında Detaylı Bilgiler
+            </v-card-title>
+            <v-card-text>
+              <div class='d-flex flex-wrap'>
+                <v-text-field
+                  type='number'
+                  @input='changeValue'
+                  min='1'
+                  step='1'
+                  id='unit'
+                  name='unit'
+                  v-model='unit'
+                  label='Birim'
+                />
+                <v-autocomplete
+                  class='ml-3'
+                  @change='changeValue'
+                  return-object
+                  id='criteriaValue'
+                  :items='criterias'
+                  item-text='title'
+                  item-value='value'
+                  label='Ölçüt'
+                >
+                </v-autocomplete>
+              </div>
+            </v-card-text>
           </v-card>
           <v-card>
             <v-card-text>
@@ -68,7 +68,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-if='!isEmpty(values)' v-for='(value, index) in fordata'>
+                    <tr v-if='!isEmpty(values)' v-for='(value) in fordata'>
                       <td>{{ value.title }} ({{ value.type }})</td>
                       <td>{{ value.value }}</td>
                     </tr>
@@ -191,6 +191,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Breadcrumb from '@/components/includes/Breadcrumb'
+
 export default {
   components: {
     ValidationObserver,
@@ -198,9 +199,6 @@ export default {
     Breadcrumb
   },
   name: 'index',
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
   mounted() {
     this.HundredData = this.values
     this.criteriaLimit(this.data)
@@ -226,6 +224,11 @@ export default {
     }
   },
   methods: {
+    remove(item) {
+      console.log(item)
+      const index = this.showName.indexOf(item.title)
+      if (index >= 0) this.showName.splice(index, 1)
+    },
     isEmpty(obj) {
       if (typeof obj == 'number') return false
       else if (typeof obj == 'string') return obj.length === 0
@@ -241,7 +244,7 @@ export default {
           this.showName = []
         } else {
           this.showName = []
-          this.fordata.forEach((el, index) => {
+          this.fordata.forEach((el) => {
             this.showName.push(el.title)
           })
         }
@@ -324,7 +327,10 @@ export default {
       hideValue: [],
       hideType: [],
       component: null,
-      item : null,
+      images: [],
+      criterias : [],
+      values:[],
+      item: null,
       items: [
         {
           text: 'Anasayfa',
@@ -341,7 +347,7 @@ export default {
           disabled: true,
           href: 'javascript:void(0)'
         }
-      ],
+      ]
     }
   },
   validate({ params }) {

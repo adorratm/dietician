@@ -162,9 +162,6 @@
 				input.remove();
 			});
 		},
-    beforeCreate() {
-      this.$store.dispatch('getSettings')
-    },
 		data() {
 			return {
 				password: null,
@@ -179,10 +176,10 @@
 		methods: {
 			isEmpty(obj) {
 				if (typeof obj == "number") return false;
-				else if (typeof obj == "string") return obj.length == 0;
-				else if (Array.isArray(obj)) return obj.length == 0;
+				else if (typeof obj == "string") return obj.length === 0;
+				else if (Array.isArray(obj)) return obj.length === 0;
 				else if (typeof obj == "object")
-					return obj == null || Object.keys(obj).length == 0;
+					return obj == null || Object.keys(obj).length === 0;
 				else if (typeof obj == "boolean") return false;
 				else return !obj;
 			},

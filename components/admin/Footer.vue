@@ -13,6 +13,7 @@
 import { mapState } from 'vuex'
 export default {
   name: 'Footer',
+  props:['settings'],
   computed:{
     ...mapState(["fixed"])
   },

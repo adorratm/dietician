@@ -103,11 +103,6 @@ export default {
       return !this.isEmpty(Cookie.get('settings')) ? JSON.parse(Base64.decode(Cookie.get('settings'))) : {}
     }
   },
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
-  mounted() {
-  },
   data() {
     return {
       items: [
@@ -156,7 +151,7 @@ export default {
           })
           this.$auth.setUser(response.data.user)
           this.$auth.$storage.setUniversal('user', response.data.user)
-          setTimeout(event => {
+          setTimeout(() => {
             if (!this.isEmpty(this.$route.query.url)) {
               window.location.href = decodeURIComponent(this.$route.query.url)
             } else {

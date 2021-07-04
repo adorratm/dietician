@@ -12,7 +12,7 @@
       >
         <v-layout fill-height column justify-space-between>
 
-          <Nested :nodes='items' />
+          <Nested :nodes='items' :settings='settings' />
           <v-list dense class='my-0 py-0'>
             <v-divider/>
             <v-list-item
@@ -208,7 +208,7 @@ export default {
         this.$store.commit('setRightDrawer',val)
       }
     },
-    ...mapState(["fixed","clipped","left","right","miniVariant",]),
+    ...mapState(["fixed","clipped","left","right","miniVariant"]),
     img_url() {
       return process.env.apiPublicUrl;
     }

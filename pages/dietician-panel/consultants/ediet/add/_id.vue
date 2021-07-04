@@ -210,9 +210,6 @@ export default {
       calorie: null,
     };
   },
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
   mounted() {
     this.calcCalorie()
   },

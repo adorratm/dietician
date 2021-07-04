@@ -368,9 +368,6 @@
 			ValidationObserver,
 			ValidationProvider
 		},
-    beforeCreate() {
-      this.$store.dispatch('getSettings')
-    },
 		data() {
 			return {
 				data: {

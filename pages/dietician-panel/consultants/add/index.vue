@@ -146,9 +146,6 @@ export default {
       return process.env.apiPublicUrl
     }
   },
-  beforeCreate() {
-    this.$store.dispatch('getSettings')
-  },
   methods: {
     isEmpty(obj) {
       if (typeof obj == 'number') return false

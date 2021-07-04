@@ -229,7 +229,7 @@ export default {
         this.$store.commit('setRightDrawer',val)
       }
     },
-    ...mapState(["fixed","clipped","left","right","miniVariant",]),
+    ...mapState(["fixed","clipped","left","right","miniVariant"]),
     img_url() {
       return process.env.apiPublicUrl;
     }
