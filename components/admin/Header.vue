@@ -40,7 +40,7 @@
       fixed
       app
     >
-      <v-list dense v-if="userData=== false">
+      <v-list dense v-if="!this.$auth.loggedIn">
         <v-list-item
           to='/login'
           router
