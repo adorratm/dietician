@@ -40,7 +40,7 @@
       fixed
       app
     >
-      <v-list dense v-if="isEmpty(userData)">
+      <v-list dense v-if="userData=== false">
         <v-list-item
           to='/login'
           router
@@ -182,7 +182,7 @@ import {mapMutations,mapState} from 'vuex'
 import Nested from '@/components/admin/nested'
 export default {
   name: 'Header',
-  props: ['items','settings','userData'],
+  props: ['items','settings'],
   components:{
     Nested
   },
@@ -210,6 +210,7 @@ export default {
   },
   data() {
     return {
+      userData : this.$auth.$storage.getUniversal("user")
     }
   },
   methods: {

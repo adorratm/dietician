@@ -43,7 +43,7 @@
         app
       >
         <v-layout fill-height column justify-space-between>
-        <v-list dense v-if="isEmpty(userData)">
+        <v-list dense v-if="userData === false">
           <v-list-item
             to='/login'
             router
@@ -187,7 +187,7 @@ import Cookie from 'js-cookie'
 import nested from '@/components/dietician/nested'
 export default {
   name: 'Header',
-  props: ['items','settings','userData'],
+  props: ['items','settings'],
   components:{
     Nested:nested
   },
@@ -215,6 +215,7 @@ export default {
   },
   data() {
     return {
+      userData: this.$auth.$storage.getUniversal('user')
     }
   },
   methods: {

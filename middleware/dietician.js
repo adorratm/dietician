@@ -8,7 +8,7 @@ function isEmpty( obj ) {
   else return !obj;
 };
 export default function ( context ) {
-  if ( ( isEmpty( context.store.$auth.$storage.syncUniversal( "user" ) ) || context.store.$auth.$storage.syncUniversal( "user" ).status !== "dietician" ) ) {
+  if ( ( isEmpty( context.store.$auth.$storage.syncUniversal( "user" ) ) || context.store.$auth.$storage.syncUniversal( "user" )  === false || context.store.$auth.$storage.syncUniversal( "user" ).status !== "dietician" ) ) {
     context.redirect( "/dietician-login" )
   }
 }

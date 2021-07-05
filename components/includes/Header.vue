@@ -68,7 +68,7 @@
         fixed
         app
       >
-        <v-list dense v-if="isEmpty(userData)">
+        <v-list dense v-if="userData === false">
           <v-list-item
             to='/login'
             router
@@ -209,9 +209,10 @@
 <script>
 import {mapMutations,mapState} from 'vuex'
 import Cookie from 'js-cookie'
+
 export default {
   name: 'Header',
-  props: ['items','settings','userData'],
+  props: ['items','settings'],
   computed:{
     drawer: {
       get() {
@@ -236,6 +237,7 @@ export default {
   },
   data() {
     return {
+      userData: this.$auth.$storage.getUniversal('user')
     }
   },
   methods: {

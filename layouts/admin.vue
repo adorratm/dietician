@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <client-only>
-      <Header :items='items' :settings='settings' :user-data='userData'></Header>
+      <Header :items='items' :settings='settings'></Header>
     </client-only>
     <v-main>
       <v-container>

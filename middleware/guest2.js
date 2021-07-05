@@ -8,7 +8,7 @@ function isEmpty( obj ) {
   else return !obj;
 };
 export default function ( context ) {
-  if ( isEmpty( context.store.$auth.$storage.syncUniversal( "user" ) ) ) {
+  if ( isEmpty( context.store.$auth.$storage.syncUniversal( "user" ) ) || context.store.$auth.$storage.syncUniversal( "user" )  === false ) {
     context.redirect( "/login?url=" + decodeURIComponent( context.route.fullPath ) )
   }
 }
