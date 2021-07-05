@@ -1,23 +1,7 @@
 <template>
   <v-container>
     <client-only>
-      <v-card class='mb-3 pb-0' color='#15558d'>
-        <v-card-text class='pa-0'>
-          <v-breadcrumbs
-            large
-            divider='/'
-            :items='items'
-          >
-            <template v-slot:divider>
-              <v-icon class='white--text'>mdi-forward</v-icon>
-            </template>
-            <template v-slot:item='{item}'>
-              <v-breadcrumbs-item :href='item.href' :disabled='item.disabled'><a class='white--text'>{{ item.text }}</a>
-              </v-breadcrumbs-item>
-            </template>
-          </v-breadcrumbs>
-        </v-card-text>
-      </v-card>
+      <Breadcrumb :items='items'></Breadcrumb>
       <v-row align='center' no-gutters>
         <v-col cols='12' sm='12' md='12' lg='8' xl='6' offset-lg='2' offset-xl='3' align-content='center'
                align-self='center'>
@@ -488,12 +472,14 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Cookie from 'js-cookie'
 import { Base64 } from 'js-base64'
+import Breadcrumb from '@/components/includes/Breadcrumb'
 
 export default {
   middleware: ['auth2'],
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    Breadcrumb
   },
   computed: {
     settings() {

@@ -29,7 +29,7 @@
           </v-list>
           <v-list dense class='my-0 py-0' >
             <v-divider/>
-            <v-list-item v-if='!isEmpty(userData) && userData.isDietician'
+            <v-list-item v-if='this.$auth.loggedIn && userData.isDietician'
               to='/dietician-panel'
               router
               exact
@@ -42,7 +42,7 @@
                 <v-list-item-title>Diyetisyen Paneli</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if='!isEmpty(userData) && userData.status === "admin"'
+            <v-list-item v-if='this.$auth.loggedIn && userData.status === "admin"'
                          to='/panel'
                          router
                          exact

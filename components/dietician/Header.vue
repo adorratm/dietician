@@ -146,7 +146,7 @@
               <v-icon>mdi-cog</v-icon>
             </v-btn>
           </template>
-          <v-list>
+          <v-list dense>
             <v-list-item @click='setClipped'>
               <v-list-item-icon><v-icon>mdi-application</v-icon></v-list-item-icon>
               <v-list-item-title>{{clipped ? "Üst Menüyü Daralt" : "Üst Menüyü Genişlet"}}</v-list-item-title>

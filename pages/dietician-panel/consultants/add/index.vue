@@ -1,23 +1,7 @@
 <template>
   <v-container>
     <client-only>
-      <v-card class='mb-3 pb-0' color='#15558d'>
-        <v-card-text class='pa-0'>
-          <v-breadcrumbs
-            large
-            divider='/'
-            :items='items'
-          >
-            <template v-slot:divider>
-              <v-icon class='white--text'>mdi-forward</v-icon>
-            </template>
-            <template v-slot:item='{item}'>
-              <v-breadcrumbs-item :href='item.href' :disabled='item.disabled'><a class='white--text'>{{ item.text }}</a>
-              </v-breadcrumbs-item>
-            </template>
-          </v-breadcrumbs>
-        </v-card-text>
-      </v-card>
+      <Breadcrumb :items='items'></Breadcrumb>
       <v-card>
         <v-card-title>
           Danışan Ekle
@@ -97,13 +81,15 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import Breadcrumb from '@/components/includes/Breadcrumb'
 
 export default {
   middleware: ['dietician'],
   layout: 'dietician',
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    Breadcrumb
   },
   data() {
     return {
