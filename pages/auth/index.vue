@@ -91,7 +91,6 @@ import Cookie from 'js-cookie'
 import { Base64 } from 'js-base64'
 import Breadcrumb from '@/components/includes/Breadcrumb'
 export default {
-  layout: 'adminlogin',
   middleware: ['notadmin'],
   components: {
     ValidationObserver,

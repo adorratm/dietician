@@ -36,8 +36,11 @@ export default {
   computed: {
     ...mapState(["settings"])
   },
-  mounted() {
+  middleware:["dietician"],
+  beforeCreate() {
     this.$store.dispatch("setSiteSettings")
+  },
+  mounted() {
     // This Function Changing Default Theme
     const theme = localStorage.getItem("useDarkTheme");
     if (theme) {
