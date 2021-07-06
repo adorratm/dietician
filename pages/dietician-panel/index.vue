@@ -10,7 +10,7 @@
 export default {
   name: 'index',
   layout: "dietician",
-  middleware: ["dietician"],
+  middleware: ["auth","dietician"],
 }
 </script>
 

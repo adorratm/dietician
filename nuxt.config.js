@@ -76,6 +76,9 @@ export default {
 
   // Auth module configuration
   auth:{
+    fullPathRedirect:true,
+    resetOnError:true,
+    rewriteRedirects:true,
     strategies:{
       user:{
         scheme: 'refresh',
@@ -112,7 +115,7 @@ export default {
             autoFetch: true
           }
         },
-        autoLogout: true
+        autoLogout: true,
       },
       dietician: {
         scheme: "refresh",
@@ -149,7 +152,7 @@ export default {
             autoFetch: true
           }
         },
-        autoLogout: true
+        autoLogout: true,
       },
       admin: {
         scheme: "refresh",
@@ -186,7 +189,7 @@ export default {
             autoFetch: true
           }
         },
-        autoLogout: true
+        autoLogout: true,
       }
     }
   },

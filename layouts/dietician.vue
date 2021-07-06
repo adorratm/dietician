@@ -36,7 +36,7 @@ export default {
   computed: {
     ...mapState(["settings"])
   },
-  middleware:["dietician"],
+  middleware:["auth","dietician"],
   beforeCreate() {
     this.$store.dispatch("setSiteSettings")
   },

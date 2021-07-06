@@ -36,7 +36,7 @@ export default {
   computed: {
     ...mapState(['settings'])
   },
-  middleware:["admin"],
+  middleware:["auth","admin"],
   beforeCreate() {
     this.$store.dispatch("setSiteSettings")
   },

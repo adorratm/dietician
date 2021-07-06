@@ -297,7 +297,7 @@
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
   import Breadcrumb from '@/components/includes/Breadcrumb'
 	export default {
-		middleware: ["guest2"],
+		middleware: ["auth"],
 		name: "profile",
 		components: {
 			ValidationObserver,

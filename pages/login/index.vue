@@ -235,7 +235,8 @@ import Cookie from 'js-cookie'
 
 export default {
   name: 'index.vue',
-  middleware: ['auth2'],
+  middleware: ['auth'],
+  auth: 'guest',
   components: {
     ValidationObserver,
     ValidationProvider

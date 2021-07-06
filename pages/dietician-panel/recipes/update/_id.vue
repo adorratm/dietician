@@ -605,7 +605,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 export default {
-  middleware: ["dietician"],
+  middleware: ["auth","dietician"],
   layout: "dietician",
   components: {
     ValidationObserver,

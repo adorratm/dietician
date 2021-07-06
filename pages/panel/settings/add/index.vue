@@ -498,7 +498,7 @@
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
 	import Editor from "@tinymce/tinymce-vue";
 	export default {
-		middleware: ["admin"],
+		middleware: ["auth","admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,

@@ -129,7 +129,7 @@
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 	export default {
-		middleware: ["guest2"],
+		middleware: ["auth"],
 		name: "profile",
 		components: {
 			ValidationObserver,

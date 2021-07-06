@@ -123,7 +123,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import Breadcrumb from '@/components/includes/Breadcrumb'
 export default {
-  middleware: ["dietician"],
+  middleware: ["auth","dietician"],
   layout: "dietician",
   components: {
     ValidationObserver,
