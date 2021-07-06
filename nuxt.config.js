@@ -218,5 +218,8 @@ export default {
         routePath
       };
     }
+  },
+  router: {
+    base: '/'
   }
 }
