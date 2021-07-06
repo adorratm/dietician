@@ -196,7 +196,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extractCSS: true,
+    extractCSS: {
+      ignoreOrder: true
+    },
     transpile: [ "vee-validate/dist/rules", "vee-validate/dist/locale" ],
     splitChunks: {
       layouts: true
