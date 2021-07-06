@@ -76,9 +76,6 @@ export default {
 
   // Auth module configuration
   auth:{
-    fullPathRedirect:true,
-    resetOnError:true,
-    rewriteRedirects:true,
     strategies:{
       user:{
         scheme: 'refresh',
@@ -152,7 +149,7 @@ export default {
             autoFetch: true
           }
         },
-        autoLogout: true,
+        autoLogout: true
       },
       admin: {
         scheme: "refresh",
@@ -189,16 +186,14 @@ export default {
             autoFetch: true
           }
         },
-        autoLogout: true,
+        autoLogout: true
       }
     }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extractCSS: {
-      ignoreOrder: true
-    },
+    extractCSS: true,
     transpile: [ "vee-validate/dist/rules", "vee-validate/dist/locale" ],
     splitChunks: {
       layouts: true
