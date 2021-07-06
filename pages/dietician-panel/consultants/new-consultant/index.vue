@@ -19,6 +19,18 @@
               <v-stepper-step :complete='e1 > 2' step='2'>
                 Hastalık Bilgileri
               </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step :complete='e1 > 3' step='3'>
+                Alerjenik Besinler
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step :complete='e1 > 4' step='4'>
+                Sevilmeyen Besinler
+              </v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
@@ -779,72 +791,248 @@
               </v-stepper-content>
 
               <v-stepper-content step='2'>
-                <ValidationProvider
-                  name='Hastalık'
-                  rules='required'
-                  v-slot='{ errors }'
-                >
-                    <v-autocomplete
-                      name='selectedDiseases[]'
-                      v-model='selectedDiseases'
-                      :items='diseases'
-                      chips
-                      label='Hastalık Seçin'
-                      item-text='name'
-                      item-value='_id.$oid'
-                      multiple
+                <ValidationObserver v-slot='{ handleSubmit }'>
+                  <form
+                    @submit.prevent='handleSubmit(saveDiseaseInformation)'
+                    ref='diseaseInformationForm'
+                    enctype='multipart/form-data'
+                  >
+                    <ValidationProvider
+                      name='Hastalık'
+                      rules=''
+                      v-slot='{ errors }'
                     >
-                      <template v-slot:prepend-item>
-                        <v-list-item ripple @click='toggleDisease'>
-                          <v-list-item-action>
-                            <v-icon
-                              :color="
+                      <v-autocomplete
+                        name='selectedDiseases[]'
+                        v-model='selectedDiseases'
+                        :items='diseases'
+                        chips
+                        label='Hastalık Seçin'
+                        item-text='name'
+                        item-value='_id.$oid'
+                        multiple
+                      >
+                        <template v-slot:prepend-item>
+                          <v-list-item ripple @click='toggleDisease'>
+                            <v-list-item-action>
+                              <v-icon
+                                :color="
 																	!isEmpty(selectedDiseases) &&
 																	selectedDiseases.length > 0
 																		? 'indigo darken-4'
 																		: ''
 																"
-                            >
-                              {{ diseaseIcon }}
-                            </v-icon>
-                          </v-list-item-action>
-                          <v-list-item-content>
-                            <v-list-item-title>
-                              Tümünü Seç
-                            </v-list-item-title>
-                          </v-list-item-content>
-                        </v-list-item>
-                        <v-divider class='mt-2'></v-divider>
-                      </template>
-                      <template v-slot:selection='data'>
-                        <v-chip
-                          v-bind='data.attrs'
-                          :input-value='data.selected'
-                          close
-                          @click='data.select'
-                          @click:close='remove(data.item)'
-                        >
-                          {{ data.item.name }}
-                        </v-chip>
-                      </template>
-                      <template v-slot:item='data'>
-                        <template>
-                          <v-list-item-content>
-                            <v-list-item-title
-                              v-html='data.item.name'
-                            ></v-list-item-title>
-                          </v-list-item-content>
+                              >
+                                {{ diseaseIcon }}
+                              </v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                              <v-list-item-title>
+                                Tümünü Seç
+                              </v-list-item-title>
+                            </v-list-item-content>
+                          </v-list-item>
+                          <v-divider class='mt-2'></v-divider>
                         </template>
-                      </template>
-                    </v-autocomplete>
-                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                      {{ errors[0] }}
-                    </v-alert>
-                </ValidationProvider>
+                        <template v-slot:selection='data'>
+                          <v-chip
+                            v-bind='data.attrs'
+                            :input-value='data.selected'
+                            close
+                            @click='data.select'
+                            @click:close='remove(data.item)'
+                          >
+                            {{ data.item.name }}
+                          </v-chip>
+                        </template>
+                        <template v-slot:item='data'>
+                          <template>
+                            <v-list-item-content>
+                              <v-list-item-title
+                                v-html='data.item.name'
+                              ></v-list-item-title>
+                            </v-list-item-content>
+                          </template>
+                        </template>
+                      </v-autocomplete>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </ValidationProvider>
 
-                <v-btn color='primary' type='button' @click.prevent='e1 = 2'>
-                  İlerle
-                </v-btn>
+                    <v-btn color='primary' type='submit' class='mb-2'>
+                      Hastalık Bilgisini Kaydet ve İlerle
+                    </v-btn>
+                    <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=3'>
+                      Hastalık Bilgisini Kaydetmeden İlerle
+                    </v-btn>
+                  </form>
+                </ValidationObserver>
+              </v-stepper-content>
+              <v-stepper-content step='3'>
+                <ValidationObserver v-slot='{ handleSubmit }'>
+                  <form
+                    @submit.prevent='handleSubmit(saveAllergenFoodsInformation)'
+                    ref='AllergenFoodsInformationForm'
+                    enctype='multipart/form-data'
+                  >
+                    <ValidationProvider
+                      name='Alerjen Besinler'
+                      rules=''
+                      v-slot='{ errors }'
+                    >
+                      <div class='form-group'>
+                        <v-autocomplete
+                          name='selectedAllergenFoods[]'
+                          v-model='selectedAllergenFoods'
+                          :items='allergenFoods'
+                          chips
+                          label='Alerjen Besin Seçin'
+                          item-text='name'
+                          item-value='_id.$oid'
+                          multiple
+                        >
+                          <template v-slot:prepend-item>
+                            <v-list-item ripple @click='toggleAllergenFoods'>
+                              <v-list-item-action>
+                                <v-icon
+                                  :color="
+																	!isEmpty(selectedAllergenFoods) &&
+																	selectedAllergenFoods.length > 0
+																		? 'indigo darken-4'
+																		: ''
+																"
+                                >
+                                  {{ allergenFoodsIcon }}
+                                </v-icon>
+                              </v-list-item-action>
+                              <v-list-item-content>
+                                <v-list-item-title>
+                                  Tümünü Seç
+                                </v-list-item-title>
+                              </v-list-item-content>
+                            </v-list-item>
+                            <v-divider class='mt-2'></v-divider>
+                          </template>
+                          <template v-slot:selection='data'>
+                            <v-chip
+                              v-bind='data.attrs'
+                              :input-value='data.selected'
+                              close
+                              @click='data.select'
+                              @click:close='removeAllergenFoods(data.item)'
+                            >
+                              {{ data.item.name }}
+                            </v-chip>
+                          </template>
+                          <template v-slot:item='data'>
+                            <template>
+                              <v-list-item-content>
+                                <v-list-item-title
+                                  v-html='data.item.name'
+                                ></v-list-item-title>
+                              </v-list-item-content>
+                            </template>
+                          </template>
+                        </v-autocomplete>
+                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                          {{ errors[0] }}
+                        </v-alert>
+                      </div>
+                    </ValidationProvider>
+
+                    <v-btn color='primary' type='submit' class='mb-2'>
+                      Alerjen Besin Bilgisini Kaydet ve İlerle
+                    </v-btn>
+                    <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=4'>
+                      Alerjen Besin Bilgisini Kaydetmeden İlerle
+                    </v-btn>
+                    <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 2'>
+                      Geri Dön
+                    </v-btn>
+                  </form>
+                </ValidationObserver>
+              </v-stepper-content>
+              <v-stepper-content step='4'>
+                <ValidationObserver v-slot='{ handleSubmit }'>
+                  <form
+                    @submit.prevent='handleSubmit(saveUnlikedFoodsInformation)'
+                    ref='UnlikedFoodsInformationForm'
+                    enctype='multipart/form-data'
+                  >
+                    <ValidationProvider
+                      name='Sevilmeyen Besinler'
+                      rules=''
+                      v-slot='{ errors }'
+                    >
+                      <div class='form-group'>
+                        <v-autocomplete
+                          name='selectedUnlikedFoods[]'
+                          v-model='selectedUnlikedFoods'
+                          :items='unlikedFoods'
+                          chips
+                          label='Sevilmeyen Besin Seçin'
+                          item-text='name'
+                          item-value='_id.$oid'
+                          multiple
+                        >
+                          <template v-slot:prepend-item>
+                            <v-list-item ripple @click='toggleUnlikedFoods'>
+                              <v-list-item-action>
+                                <v-icon
+                                  :color="
+																	!isEmpty(selectedUnlikedFoods) &&
+																	selectedUnlikedFoods.length > 0
+																		? 'indigo darken-4'
+																		: ''
+																"
+                                >
+                                  {{ unlikedFoodsIcon }}
+                                </v-icon>
+                              </v-list-item-action>
+                              <v-list-item-content>
+                                <v-list-item-title>
+                                  Tümünü Seç
+                                </v-list-item-title>
+                              </v-list-item-content>
+                            </v-list-item>
+                            <v-divider class='mt-2'></v-divider>
+                          </template>
+                          <template v-slot:selection='data'>
+                            <v-chip
+                              v-bind='data.attrs'
+                              :input-value='data.selected'
+                              close
+                              @click='data.select'
+                              @click:close='removeUnlikedFoods(data.item)'
+                            >
+                              {{ data.item.name }}
+                            </v-chip>
+                          </template>
+                          <template v-slot:item='data'>
+                            <template>
+                              <v-list-item-content>
+                                <v-list-item-title
+                                  v-html='data.item.name'
+                                ></v-list-item-title>
+                              </v-list-item-content>
+                            </template>
+                          </template>
+                        </v-autocomplete>
+                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                          {{ errors[0] }}
+                        </v-alert>
+                      </div>
+                    </ValidationProvider>
+
+                    <v-btn color='primary' type='submit' class='mb-2'>
+                      Sevilmeyen Besin Bilgisini Kaydet
+                    </v-btn>
+                    <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 3'>
+                      Geri Dön
+                    </v-btn>
+                  </form>
+                </ValidationObserver>
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -858,8 +1046,9 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Breadcrumb from '@/components/includes/Breadcrumb'
+
 export default {
-  middleware: ["auth",'dietician'],
+  middleware: ['auth', 'dietician'],
   layout: 'dietician',
   components: {
     ValidationObserver,
@@ -871,6 +1060,12 @@ export default {
       disease: null,
       diseases: [],
       selectedDiseases: [],
+      allergenFood: null,
+      allergenFoods: [],
+      selectedAllergenFoods: [],
+      unlikedFood: null,
+      unlikedFoods: [],
+      selectedUnlikedFoods: [],
       e1: 1,
       createdConsultant: null,
       items: [
@@ -977,6 +1172,44 @@ export default {
       if (this.selectAllDisease) return 'mdi-close-box'
       if (this.selectSomeDisease) return 'mdi-minus-box'
       return 'mdi-checkbox-blank-outline'
+    },
+    selectAllAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        !this.isEmpty(this.allergenFoods) &&
+        this.selectedAllergenFoods.length === this.allergenFoods.length
+      )
+    },
+    selectSomeAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        this.selectedAllergenFoods.length > 0 &&
+        !this.selectAllAllergenFoods
+      )
+    },
+    allergenFoodsIcon() {
+      if (this.selectAllAllergenFoods) return 'mdi-close-box'
+      if (this.selectSomeAllergenFoods) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
+    selectAllUnlikedFoods() {
+      return (
+        !this.isEmpty(this.selectedUnlikedFoods) &&
+        !this.isEmpty(this.unlikedFoods) &&
+        this.selectedUnlikedFoods.length === this.unlikedFoods.length
+      )
+    },
+    selectSomeUnlikedFoods() {
+      return (
+        !this.isEmpty(this.selectedUnlikedFoods) &&
+        this.selectedUnlikedFoods.length > 0 &&
+        !this.selectAllUnlikedFoods
+      )
+    },
+    unlikedFoodsIcon() {
+      if (this.selectAllUnlikedFoods) return 'mdi-close-box'
+      if (this.selectSomeUnlikedFoods) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
     }
   },
   mounted() {
@@ -990,8 +1223,32 @@ export default {
           this.selectedDiseases = []
         } else {
           this.selectedDiseases = []
-          this.diseases.forEach((el) => {
+          this.diseases.forEach((el, index) => {
             this.selectedDiseases.push(el._id.$oid)
+          })
+        }
+      })
+    },
+    toggleAllergenFoods() {
+      this.$nextTick(() => {
+        if (this.selectAllAllergenFoods) {
+          this.selectedAllergenFoods = []
+        } else {
+          this.selectedAllergenFoods = []
+          this.allergenFoods.forEach((el, index) => {
+            this.selectedAllergenFoods.push(el._id.$oid)
+          })
+        }
+      })
+    },
+    toggleUnlikedFoods() {
+      this.$nextTick(() => {
+        if (this.selectAllUnlikedFoods) {
+          this.selectedUnlikedFoods = []
+        } else {
+          this.selectedUnlikedFoods = []
+          this.unlikedFoods.forEach((el, index) => {
+            this.selectedUnlikedFoods.push(el._id.$oid)
           })
         }
       })
@@ -1012,6 +1269,14 @@ export default {
     remove(item) {
       const index = this.selectedDiseases.indexOf(item._id.$oid)
       if (index >= 0) this.selectedDiseases.splice(index, 1)
+    },
+    removeAllergenFoods(item) {
+      const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
+      if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
+    },
+    removeUnlikedFoods(item) {
+      const index = this.selectedUnlikedFoods.indexOf(item._id.$oid)
+      if (index >= 0) this.selectedUnlikedFoods.splice(index, 1)
     },
     save(date) {
       this.$refs.menu.save(date)
@@ -1102,6 +1367,114 @@ export default {
               )
             }, 2000)
              */
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+          }
+        })
+    },
+    saveDiseaseInformation() {
+      let formData = new FormData(this.$refs.diseaseInformationForm)
+      formData.append('dietician_id', this.userData._id)
+      formData.append('tc', this.data.tc)
+      formData.append('phone', this.data.phone)
+      formData.append('id', this.createdConsultant)
+      this.$axios
+        .post(
+          process.env.apiBaseUrl +
+          'dietician/users/user-diseases/',
+          formData,
+          {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary,
+              Authorization: 'Bearer ' + this.userData.api_token
+            }
+          }
+        )
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+            this.e1 = 2
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+          }
+        })
+    },
+    saveAllergenFoodsInformation() {
+      let formData = new FormData(this.$refs.diseaseInformationForm)
+      formData.append('dietician_id', this.userData._id)
+      formData.append('tc', this.data.tc)
+      formData.append('phone', this.data.phone)
+      formData.append('id', this.createdConsultant)
+      this.$axios
+        .post(
+          process.env.apiBaseUrl +
+          'dietician/users/user-diseases/',
+          formData,
+          {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary,
+              Authorization: 'Bearer ' + this.userData.api_token
+            }
+          }
+        )
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+            this.e1 = 2
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+          }
+        })
+    },
+    saveUnlikedFoodsInformation() {
+      let formData = new FormData(this.$refs.diseaseInformationForm)
+      formData.append('dietician_id', this.userData._id)
+      formData.append('tc', this.data.tc)
+      formData.append('phone', this.data.phone)
+      formData.append('id', this.createdConsultant)
+      this.$axios
+        .post(
+          process.env.apiBaseUrl +
+          'dietician/users/user-diseases/',
+          formData,
+          {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary,
+              Authorization: 'Bearer ' + this.userData.api_token
+            }
+          }
+        )
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+            this.e1 = 2
           } else {
             this.$izitoast.error({
               title: response.data.title,
