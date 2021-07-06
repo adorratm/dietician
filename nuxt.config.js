@@ -1,7 +1,7 @@
 export default {
   server: {
     port:5000,
-    host: "0.0.0.0",
+    host: "0.0.0.0"
   },
   target: "server",
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -218,8 +218,5 @@ export default {
         routePath
       };
     }
-  },
-  router: {
-    base: '/'
   }
 }
