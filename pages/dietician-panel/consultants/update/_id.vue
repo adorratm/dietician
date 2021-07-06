@@ -910,7 +910,7 @@
                           >
                             <div class='form-group'>
                               <v-autocomplete
-                                name='selectedDiseases[]'
+                                name='selectedDiseases'
                                 v-model='selectedDiseases'
                                 :items='diseases'
                                 chips
@@ -994,7 +994,7 @@
                           >
                             <div class='form-group'>
                               <v-autocomplete
-                                name='selectedAllergenFoods[]'
+                                name='selectedAllergenFoods'
                                 v-model='selectedAllergenFoods'
                                 :items='allergenFoods'
                                 chips
@@ -1078,7 +1078,7 @@
                           >
                             <div class='form-group'>
                               <v-autocomplete
-                                name='selectedUnlikedFoods[]'
+                                name='selectedUnlikedFoods'
                                 v-model='selectedUnlikedFoods'
                                 :items='unlikedFoods'
                                 chips
