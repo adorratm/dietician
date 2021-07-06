@@ -198,7 +198,6 @@ export default {
     ValidationProvider,
     Breadcrumb
   },
-  name: 'index',
   mounted() {
     this.HundredData = this.values
     this.criteriaLimit(this.data)

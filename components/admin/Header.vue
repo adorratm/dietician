@@ -181,7 +181,6 @@
 import {mapMutations,mapState} from 'vuex'
 import Nested from '@/components/admin/nested'
 export default {
-  name: 'Header',
   props: ['items','settings'],
   components:{
     Nested

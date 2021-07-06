@@ -87,7 +87,6 @@ export default {
     ValidationProvider,
     Breadcrumb
   },
-  name: 'index',
   computed: {
     img_url() {
       return process.env.apiPublicUrl

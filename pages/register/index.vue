@@ -234,7 +234,6 @@ import { Base64 } from 'js-base64'
 import Cookie from 'js-cookie'
 
 export default {
-  name: 'index.vue',
   middleware: ['auth'],
   auth: 'guest',
   components: {

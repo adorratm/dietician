@@ -298,7 +298,6 @@
   import Breadcrumb from '@/components/includes/Breadcrumb'
 	export default {
 		middleware: ["auth"],
-		name: "profile",
 		components: {
 			ValidationObserver,
 			ValidationProvider,

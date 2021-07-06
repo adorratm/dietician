@@ -211,7 +211,6 @@ import {mapMutations,mapState} from 'vuex'
 import Cookie from 'js-cookie'
 
 export default {
-  name: 'Header',
   props: ['items','settings'],
   computed:{
     drawer: {

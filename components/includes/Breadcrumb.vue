@@ -20,7 +20,6 @@
 
 <script>
 export default {
-  name: 'Breadcrumb',
   props: ['items','settings'],
 }
 </script>

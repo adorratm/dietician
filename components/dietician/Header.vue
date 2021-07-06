@@ -186,7 +186,6 @@ import {mapMutations,mapState} from 'vuex'
 import Cookie from 'js-cookie'
 import nested from '@/components/dietician/nested'
 export default {
-  name: 'Header',
   props: ['items','settings'],
   components:{
     Nested:nested

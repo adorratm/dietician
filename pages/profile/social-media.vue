@@ -154,7 +154,6 @@
 
 	export default {
 		middleware: ["auth"],
-		name: "profile",
 		components: {
 			ValidationObserver,
 			ValidationProvider,

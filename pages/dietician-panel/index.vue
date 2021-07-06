@@ -8,7 +8,6 @@
 
 <script>
 export default {
-  name: 'index',
   layout: "dietician",
   middleware: ["auth","dietician"],
 }
