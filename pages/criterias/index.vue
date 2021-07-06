@@ -2,77 +2,7 @@
   <v-container>
     <client-only>
       <Breadcrumb :items='items'></Breadcrumb>
-      <v-card class='mb-3 text-center'>
-        <v-card-title class='text-center justify-center'>
-          Ölçüt Ara
-        </v-card-title>
-        <v-card-subtitle>
-          En Sağlıklı Ölçütleri Keşfet
-        </v-card-subtitle>
-        <v-card-text>
-          <img src='/img/olcut.jpg' class='mb-3'
-               style='width: 100%;min-height: 225px;max-height:450px;object-fit: scale-down' alt=''>
-          <form onsubmit='return false'>
-            <v-text-field
-              type='text'
-              clearable
-              v-on:keyup.prevent='getCriterias()'
-              v-model='search'
-              placeholder='Ölçüt Aramak İçin Buraya Yazın...'
-            />
-          </form>
-        </v-card-text>
-      </v-card>
-      <v-card>
-        <v-card-title class='justify-center'>
-          {{ search ? '"' + search + '" Aramasıyla İle İlgili Ölçütler' : 'Tüm Ölçütler' }}
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <client-only v-if='!isEmpty(criterias)'>
-              <v-simple-table
-                class='mb-2 px-2 px-xl-16 px-lg-16 px-sm-10 px-md-10'
-                v-bind:key='index'
-                v-for='(criteria, index) in criterias'
-              >
-                <thead>
-                <tr>
-                  <th colspan='2' class='text-center text-h6 font-weight-bold'>
-                    <nuxt-link v-bind:to="'calorie/' + criteria.slug">
-                      {{ criteria.name }}
-                    </nuxt-link>
-                  </th>
-                </tr>
-                <tr>
-                  <th class='text-break text-h6 font-weight-bold' scope='col'>Ölçüt</th>
-                  <th class='text-break text-h6 font-weight-bold' scope='col'>Ölçüt Değeri</th>
-                </tr>
-                </thead>
-                <tbody>
-                <client-only>
-                  <tr
-                    v-bind:key='index'
-                    v-for='(value, index) in criteria.criteria_values'
-                  >
-                    <td class='text-break'>{{ value.title }}</td>
-                    <td class='text-break'>
-                      {{ value.value }} {{ value.type }}
-                    </td>
-                  </tr>
-                </client-only>
-                </tbody>
-              </v-simple-table>
-            </client-only>
-            <v-pagination
-              color='success'
-              v-model='pagination.current'
-              :length='pagination.total'
-              total-visible='11'
-              @input='onPageChange'
-            ></v-pagination>
-          </v-container>
-        </v-card-text>
-      </v-card>
+
     </client-only>
   </v-container>
 </template>
