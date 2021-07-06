@@ -1,9 +1,6 @@
 <template>
   <v-container>
-    <client-only>
-      <Breadcrumb :items='items'></Breadcrumb>
 
-    </client-only>
   </v-container>
 </template>
 
