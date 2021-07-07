@@ -1318,7 +1318,6 @@ export default {
       const { data } = await $axios.get(
         process.env.apiBaseUrl + 'dietician/users/update/' + params.id
       )
-      console.log(data)
       return data
     } catch (e) {
       error({ message: 'Kullanıcı Bilgisi Bulunamadı.', statusCode: 404 })
@@ -1369,9 +1368,7 @@ export default {
           }
         })
         .then(response => {
-          console.log(response)
           this.diseases = response.data.data.diseases
-          console.log(this.diseases)
         })
         .catch(err => console.log(err))
     },
@@ -1500,6 +1497,9 @@ export default {
       formData.append('tc', this.data.tc)
       formData.append('phone', this.data.phone)
       formData.append('id', this.data._id.$oid)
+      formData.delete("selectedDiseases")
+      formData.append("selectedDiseases",this.selectedDiseases)
+
       this.$axios
         .post(
           process.env.apiBaseUrl +
@@ -1507,10 +1507,10 @@ export default {
           formData,
           {
             headers: {
-              'Content-Type':
-                'multipart/form-data; boundary=' + formData._boundary,
-              Authorization: 'Bearer ' + this.userData.api_token
-            }
+              "Content-Type":
+                "multipart/form-data; boundary=" + formData._boundary,
+              Authorization: "Bearer " + this.userData.api_token
+            },
           }
         )
         .then(response => {
@@ -1536,6 +1536,8 @@ export default {
       formData.append('tc', this.data.tc)
       formData.append('phone', this.data.phone)
       formData.append('id', this.data._id.$oid)
+      formData.delete("selectedAllergenFoods")
+      formData.append("selectedAllergenFoods",this.selectedAllergenFoods)
       this.$axios
         .post(
           process.env.apiBaseUrl +
@@ -1572,6 +1574,8 @@ export default {
       formData.append('tc', this.data.tc)
       formData.append('phone', this.data.phone)
       formData.append('id', this.data._id.$oid)
+      formData.delete("selectedUnlikedFoods")
+      formData.append("selectedUnlikedFoods",this.selectedUnlikedFoods)
       this.$axios
         .post(
           process.env.apiBaseUrl +
