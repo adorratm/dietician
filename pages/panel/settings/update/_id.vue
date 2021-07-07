@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
       <v-card>
         <v-card-text>
           <ValidationObserver v-slot="{ handleSubmit }">
@@ -26,7 +27,6 @@
                     rules="required"
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
                         label="Firma Adı"
                         hide-details="auto"
@@ -34,22 +34,24 @@
                         type="text"
                         name="company_name"
                         v-model="data.company_name"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
                   </ValidationProvider>
                   <div class="form-group">
                     <v-row>
-                      <v-col cols="12" sm="12" md="3" lg="3" xl="3">
-                        <img
-                          v-bind:src="img_url + data.logo"
-                          v-bind:alt="data.company_name"
-                          class="img-fluid"
+                      <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
+                        <v-img height='100' :aspect-ratio='1.77'
+                          :src="img_url + data.logo"
+                          :lazy-src="img_url + data.logo"
+                          :alt="data.company_name"
+                          class="ma-3"
+                               contain
                         />
                       </v-col>
-                      <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+                      <v-col cols="9" sm="9" md="9" lg="9" xl="9" class='my-auto py-auto'>
                         <v-file-input
                           label="Website Logosu"
                           id="logo"
@@ -57,20 +59,22 @@
                           type="file"
                           counter
                           show-size
+                          clearable
                         ></v-file-input>
                       </v-col>
                     </v-row>
                   </div>
                   <v-row>
-                    <v-col cols="12" sm="12" md="3" lg="3" xl="3">
-                      <img
-                        v-bind:src="img_url + data.favicon"
-                        v-bind:alt="data.company_name"
-                        class="img-fluid"
+                    <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
+                      <v-img height='100' :aspect-ratio='1.77'
+                        :src="img_url + data.favicon"
+                        :lazy-src="img_url + data.favicon"
+                        :alt="data.company_name"
+                             class='ma-3'
+                             contain
                       />
                     </v-col>
-                    <v-col cols="12" sm="12" md="9" lg="9" xl="9">
-                      <div class="form-group mb-0">
+                    <v-col cols="9" sm="9" md="9" lg="9" xl="9" class='my-auto py-auto'>
                         <v-file-input
                           label="Favicon"
                           id="favicon"
@@ -78,8 +82,8 @@
                           type="file"
                           counter
                           show-size
+                          clearable
                         ></v-file-input>
-                      </div>
                     </v-col>
                   </v-row>
                 </v-tab-item>
@@ -89,15 +93,14 @@
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
-                      <label for="aboutUs">Hakkımızda</label>
-
+                    <div class='my-3'>
                       <editor
                         name="aboutUs"
                         id="aboutUs"
                         v-model="data.aboutUs"
                         api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
                         :init="{
+                          placeholder:'Hakkımızda',
 													height: 300,
 													plugins: [
 														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
@@ -123,9 +126,9 @@
 													convert_urls: false
 												}"
                       />
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -133,14 +136,14 @@
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
-                      <label for="mission">Misyonumuz</label>
+                    <div class="my-3">
                       <editor
                         name="mission"
                         id="mission"
                         v-model="data.mission"
                         api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
                         :init="{
+                          placeholder:'Misyonumuz',
 													height: 300,
 													plugins: [
 														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
@@ -166,9 +169,9 @@
 													convert_urls: false
 												}"
                       />
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
                     </div>
                   </ValidationProvider>
                   <ValidationProvider
@@ -176,14 +179,14 @@
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
-                      <label for="vision">Vizyonumuz</label>
+                    <div class="my-3">
                       <editor
                         name="vision"
                         id="vision"
                         v-model="data.vision"
                         api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
                         :init="{
+                          placeholder:'Vizyonumuz',
 													height: 300,
 													plugins: [
 														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
@@ -209,9 +212,9 @@
 													convert_urls: false
 												}"
                       />
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
                     </div>
                   </ValidationProvider>
                 </v-tab-item>
@@ -221,7 +224,6 @@
                     rules="required"
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
                         label="Telefon"
                         hide-details="auto"
@@ -229,18 +231,17 @@
                         type="text"
                         name="phone"
                         v-model="data.phone"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Email"
                     rules="required|email"
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
                         label="Email"
                         hide-details="auto"
@@ -248,25 +249,24 @@
                         type="email"
                         name="email"
                         v-model="data.email"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Adres"
                     rules="required"
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
-                      <label for="address">Adres</label>
                       <editor
                         id="address"
                         name="address"
                         v-model="data.address"
                         api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
                         :init="{
+                          placeholder:'Adres',
 													height: 300,
 													plugins: [
 														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
@@ -292,10 +292,9 @@
 													convert_urls: false
 												}"
                       />
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                 </v-tab-item>
                 <v-tab-item eager>
@@ -304,7 +303,6 @@
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
                         label="Facebook"
                         hide-details="auto"
@@ -312,18 +310,17 @@
                         type="text"
                         name="facebook"
                         v-model="data.facebook"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Twitter"
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
                         label="Twitter"
                         hide-details="auto"
@@ -331,18 +328,17 @@
                         type="text"
                         name="twitter"
                         v-model="data.twitter"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Instagram"
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
                         label="Instagram"
                         hide-details="auto"
@@ -350,18 +346,17 @@
                         type="text"
                         name="instagram"
                         v-model="data.instagram"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Linkedin"
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
                         label="Linkedin"
                         hide-details="auto"
@@ -369,30 +364,28 @@
                         type="text"
                         name="linkedin"
                         v-model="data.linkedin"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Youtube"
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-text-field
+                        class='mb-3'
                         label="Youtube"
                         hide-details="auto"
                         id="youtube"
                         type="text"
                         name="youtube"
                         v-model="data.youtube"
+                        clearable
                       ></v-text-field>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+
                   </ValidationProvider>
                 </v-tab-item>
                 <v-tab-item eager>
@@ -401,34 +394,32 @@
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-textarea
                         label="Meta Keywords"
                         name="metaKeywords"
                         id="metaKeywords"
                         v-model="data.metaKeywords"
+                        clearable
                       ></v-textarea>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Meta Description"
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-textarea
                         label="Meta Description"
                         name="metaDescription"
                         id="metaDescription"
                         v-model="data.metaDescription"
+                        clearable
                       ></v-textarea>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                 </v-tab-item>
                 <v-tab-item eager>
@@ -437,34 +428,32 @@
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-textarea
                         label="Google Analytics"
                         name="analytics"
                         id="analytics"
                         v-model="data.analytics"
+                        clearable
                       ></v-textarea>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name="Yandex Metrica"
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-textarea
                         label="Yandex Metrica"
                         name="metrica"
                         id="metrica"
                         v-model="data.metrica"
+                        clearable
                       ></v-textarea>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                 </v-tab-item>
                 <v-tab-item eager>
@@ -473,23 +462,20 @@
                     rules=""
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-textarea
                         label="Canlı Destek"
                         name="liveSupport"
                         id="liveSupport"
                         v-model="data.liveSupport"
+                        clearable
                       ></v-textarea>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                 </v-tab-item>
               </v-tabs-items>
-              <div class="form-group">
-                <v-btn color="#1b5a90" dark type="submit">Güncelle</v-btn>
-              </div>
+                <v-btn color="primary" dark type="submit" class='mt-3'>Güncelle</v-btn>
             </form>
           </ValidationObserver>
         </v-card-text>
@@ -500,13 +486,15 @@
 <script>
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
 	import Editor from "@tinymce/tinymce-vue";
+  import Breadcrumb from '@/components/includes/Breadcrumb'
 	export default {
 		middleware: ["auth","admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,
 			ValidationProvider,
-			editor: Editor
+			editor: Editor,
+      Breadcrumb
 		},
 		computed: {
 			img_url() {
@@ -516,6 +504,23 @@
 		mounted() {},
 		data() {
 			return {
+        items: [
+          {
+            text: 'Admin Paneli',
+            disabled: false,
+            href: '/panel'
+          },
+          {
+            text: 'Ayarlar',
+            disabled: false,
+            href: '/panel/settings/'
+          },
+          {
+            text: 'Ayar Düzenle',
+            disabled: true,
+            href: 'javascript:void(0)'
+          }
+        ],
 				tab: null,
 				tabs: [
 					{ tab: "Genel Ayarlar" },
@@ -572,10 +577,10 @@
 		methods: {
 			isEmpty(obj) {
 				if (typeof obj == "number") return false;
-				else if (typeof obj == "string") return obj.length == 0;
-				else if (Array.isArray(obj)) return obj.length == 0;
+				else if (typeof obj == "string") return obj.length === 0;
+				else if (Array.isArray(obj)) return obj.length === 0;
 				else if (typeof obj == "object")
-					return obj == null || Object.keys(obj).length == 0;
+					return obj == null || Object.keys(obj).length === 0;
 				else if (typeof obj == "boolean") return false;
 				else return !obj;
 			},
@@ -588,16 +593,7 @@
 							this.data._id.$oid,
 						formData,
 						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
 							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
 								"Content-Type":
 									"multipart/form-data; boundary=" + formData._boundary,
 								Authorization: "Bearer " + this.userData.api_token

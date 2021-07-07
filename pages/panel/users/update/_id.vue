@@ -1,229 +1,214 @@
 <template>
-	<div class="main-wrapper">
-		<div class="page-wrapper">
-			<v-container fluid class="content">
-				<div class="page-header">
-					<h3 class="page-title">Kullanıcı Düzenle</h3>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<nuxt-link to="/panel">Anasayfa</nuxt-link>
-						</li>
-						<li class="breadcrumb-item active">Kullanıcı Düzenle</li>
-					</ul>
-				</div>
-
-				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Kullanıcı Düzenle</h4>
-					</div>
-					<div class="card-body">
-						<ValidationObserver v-slot="{ handleSubmit }">
-							<form
-								@submit.prevent="handleSubmit(editUsers)"
-								ref="usersForm"
-								enctype="multipart/form-data"
-							>
-								<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-									<li class="nav-item">
-										<a
-											class="nav-link active"
-											href="#genel-bilgiler"
-											data-toggle="tab"
-											>Genel Bilgiler</a
-										>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#sosyal-medya" data-toggle="tab"
-											>Sosyal Medya</a
-										>
-									</li>
-								</ul>
-								<div class="tab-content mb-3">
-									<div class="tab-pane show active" id="genel-bilgiler">
-										<ValidationProvider
-											name="Adınız ve Soyadınız"
-											rules="required"
-											v-slot="{ errors }"
-										>
-											<div class="form-group">
-												<label for="title">Adınız ve Soyadınız</label>
-												<input
-													id="title"
-													type="text"
-													class="form-control"
-													name="name"
-													v-model="data.name"
-												/>
-												<small class="font-weight-bold text-danger">{{
-													errors[0]
-												}}</small>
-											</div>
-										</ValidationProvider>
-										<ValidationProvider
-											name="Email Adresiniz"
-											rules="required|email"
-											v-slot="{ errors }"
-										>
-											<div class="form-group">
-												<label for="company_name">Email Adresiniz</label>
-												<input
-													id="company_name"
-													type="text"
-													class="form-control"
-													name="email"
-													v-model="data.email"
-												/>
-												<small class="font-weight-bold text-danger">{{
-													errors[0]
-												}}</small>
-											</div>
-										</ValidationProvider>
-										<v-row>
-											<v-col cols="12" sm="12" md="3" lg="3" xl="3">
-												<img
-													v-bind:src="img_url + data.img_url"
-													v-bind:alt="data.name"
-													width="300"
-													height="300"
-												/>
-											</v-col>
-											<v-col cols="12" sm="12" md="9" lg="9" xl="9">
-												<div class="form-group">
-													<label>Kullanıcı Görseli</label>
-													<input
-														type="file"
-														id="img_url"
-														ref="img_url"
-														name="img_url"
-														class="form-control"
-													/>
-												</div>
-											</v-col>
-										</v-row>
-									</div>
-									<div class="tab-pane" id="sosyal-medya">
-										<ValidationProvider
-											name="Facebook"
-											rules=""
-											v-slot="{ errors }"
-										>
-											<div class="form-group">
-												<label for="facebook">Facebook</label>
-												<input
-													id="facebook"
-													type="text"
-													class="form-control"
-													name="facebook"
-													v-model="data.facebook"
-												/>
-												<small class="font-weight-bold text-danger">{{
-													errors[0]
-												}}</small>
-											</div>
-										</ValidationProvider>
-										<ValidationProvider
-											name="Facebook"
-											rules=""
-											v-slot="{ errors }"
-										>
-											<div class="form-group">
-												<label for="twitter">Twitter</label>
-												<input
-													id="twitter"
-													type="text"
-													class="form-control"
-													name="twitter"
-													v-model="data.twitter"
-												/>
-												<small class="font-weight-bold text-danger">{{
-													errors[0]
-												}}</small>
-											</div>
-										</ValidationProvider>
-										<ValidationProvider
-											name="Instagram"
-											rules=""
-											v-slot="{ errors }"
-										>
-											<div class="form-group">
-												<label for="instagram">Instagram</label>
-												<input
-													id="instagram"
-													type="text"
-													class="form-control"
-													name="instagram"
-													v-model="data.instagram"
-												/>
-												<small class="font-weight-bold text-danger">{{
-													errors[0]
-												}}</small>
-											</div>
-										</ValidationProvider>
-										<ValidationProvider
-											name="Linkedin"
-											rules=""
-											v-slot="{ errors }"
-										>
-											<div class="form-group">
-												<label for="linkedin">Linkedin</label>
-												<input
-													id="linkedin"
-													type="text"
-													class="form-control"
-													name="linkedin"
-													v-model="data.linkedin"
-												/>
-												<small class="font-weight-bold text-danger">{{
-													errors[0]
-												}}</small>
-											</div>
-										</ValidationProvider>
-										<ValidationProvider
-											name="Youtube"
-											rules=""
-											v-slot="{ errors }"
-										>
-											<div class="form-group">
-												<label for="youtube">Youtube</label>
-												<input
-													id="youtube"
-													type="text"
-													class="form-control"
-													name="youtube"
-													v-model="data.youtube"
-												/>
-												<small class="font-weight-bold text-danger">{{
-													errors[0]
-												}}</small>
-											</div>
-										</ValidationProvider>
-									</div>
-								</div>
-								<div class="form-group">
-									<button class="btn btn-primary login-btn" type="submit">
-										Gönder
-									</button>
-								</div>
-							</form>
-						</ValidationObserver>
-					</div>
-				</div>
-			</v-container>
-		</div>
-	</div>
+	<v-container>
+    <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
+      <v-card>
+        <v-card-text>
+          <ValidationObserver v-slot="{ handleSubmit }">
+            <form
+              @submit.prevent="handleSubmit(editUsers)"
+              ref="usersForm"
+              enctype="multipart/form-data"
+            >
+              <v-tabs show-arrows v-model='tab' background-color="primary"
+                      dark>
+                <v-tab>
+                  Genel Bilgiler
+                </v-tab>
+                <v-tab>
+                  Sosyal Medya
+                </v-tab>
+                <v-tabs-items v-model='tab'>
+                  <v-tab-item eager>
+                    <ValidationProvider
+                      name="Adınız ve Soyadınız"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                        <v-text-field
+                          label='Adınız ve Soyadınız'
+                          id="title"
+                          type="text"
+                          name="name"
+                          v-model="data.name"
+                          clearable
+                        />
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="Email Adresiniz"
+                      rules="required|email"
+                      v-slot="{ errors }"
+                    >
+                        <v-text-field
+                          label='Email Adresiniz'
+                          id="company_name"
+                          type="text"
+                          name="email"
+                          v-model="data.email"
+                          clearable
+                        />
+                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                          {{ errors[0] }}
+                        </v-alert>
+                    </ValidationProvider>
+                    <v-row>
+                      <v-col cols="3" sm="3" md="3" lg="3" xl="3">
+                        <v-img
+                          :src="img_url + data.img_url"
+                          :alt="data.name"
+                          contain
+                          max-width="150"
+                          max-height="150"
+                        />
+                      </v-col>
+                      <v-col cols="9" sm="9" md="9" lg="9" xl="9">
+                          <v-file-input
+                            label='Kullanıcı Görseli'
+                            type="file"
+                            id="img_url"
+                            ref="img_url"
+                            name="img_url"
+                            v-model='data.img_url'
+                            clearable
+                          />
+                      </v-col>
+                    </v-row>
+                  </v-tab-item>
+                  <v-tab-item eager>
+                    <ValidationProvider
+                      name="Facebook"
+                      rules=""
+                      v-slot="{ errors }"
+                    >
+                        <v-text-field
+                          label='Facebook'
+                          id="facebook"
+                          type="text"
+                          name="facebook"
+                          v-model="data.facebook"
+                          clearable
+                        />
+                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                          {{ errors[0] }}
+                        </v-alert>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="Twitter"
+                      rules=""
+                      v-slot="{ errors }"
+                    >
+                        <v-text-field
+                          label='Twitter'
+                          id="twitter"
+                          type="text"
+                          name="twitter"
+                          v-model="data.twitter"
+                          clearable
+                        />
+                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                          {{ errors[0] }}
+                        </v-alert>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="Instagram"
+                      rules=""
+                      v-slot="{ errors }"
+                    >
+                        <v-text-field
+                          label='Instagram'
+                          id="instagram"
+                          type="text"
+                          name="instagram"
+                          v-model="data.instagram"
+                          clearable
+                        />
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="Linkedin"
+                      rules=""
+                      v-slot="{ errors }"
+                    >
+                        <v-text-field
+                          label='Linkedin'
+                          id="linkedin"
+                          type="text"
+                          class="form-control"
+                          name="linkedin"
+                          v-model="data.linkedin"
+                          clearable
+                        />
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      name="Youtube"
+                      rules=""
+                      v-slot="{ errors }"
+                    >
+                        <v-text-field
+                          label='Youtube'
+                          id="youtube"
+                          type="text"
+                          name="youtube"
+                          v-model="data.youtube"
+                          clearable
+                        />
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </ValidationProvider>
+                  </v-tab-item>
+                </v-tabs-items>
+              </v-tabs>
+              <v-btn color='primary' class='mt-3' type="submit">
+                Gönder
+              </v-btn>
+            </form>
+          </ValidationObserver>
+        </v-card-text>
+      </v-card>
+    </client-only>
+  </v-container>
 </template>
 <script>
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
+  import Breadcrumb from '@/components/includes/Breadcrumb'
 
 	export default {
 		middleware: ["auth","admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,
-			ValidationProvider
+			ValidationProvider,
+      Breadcrumb
 		},
 		data() {
 			return {
+        items: [
+          {
+            text: 'Admin Paneli',
+            disabled: false,
+            href: '/panel'
+          },
+          {
+            text: 'Kullanıcılar',
+            disabled: false,
+            href: '/panel/users/'
+          },
+          {
+            text: 'Kullanıcı Düzenle',
+            disabled: true,
+            href: 'javascript:void(0)'
+          }
+        ],
+			  tab:null,
 				data: {
 					name: null,
 					phone: null,
@@ -257,10 +242,10 @@
 		methods: {
 			isEmpty(obj) {
 				if (typeof obj == "number") return false;
-				else if (typeof obj == "string") return obj.length == 0;
-				else if (Array.isArray(obj)) return obj.length == 0;
+				else if (typeof obj == "string") return obj.length === 0;
+				else if (Array.isArray(obj)) return obj.length === 0;
 				else if (typeof obj == "object")
-					return obj == null || Object.keys(obj).length == 0;
+					return obj == null || Object.keys(obj).length === 0;
 				else if (typeof obj == "boolean") return false;
 				else return !obj;
 			},
@@ -271,16 +256,7 @@
 						process.env.apiBaseUrl + "panel/users/update/" + this.data._id.$oid,
 						formData,
 						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
 							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
 								"Content-Type":
 									"multipart/form-data; boundary=" + formData._boundary,
 								Authorization: "Bearer " + this.userData.api_token

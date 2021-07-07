@@ -179,11 +179,11 @@
 
 <script>
 import {mapMutations,mapState} from 'vuex'
-import Nested from '@/components/admin/nested'
+import nested from '@/components/admin/nested'
 export default {
   props: ['items','settings'],
   components:{
-    Nested
+    Nested:nested
   },
   computed:{
     drawer: {

@@ -1,125 +1,119 @@
 <template>
-	<div class="main-wrapper">
-		<div class="page-wrapper">
-			<v-container fluid class="content">
-				<div class="page-header">
-					<h3 class="page-title">Slaytlar</h3>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<nuxt-link to="/panel">Anasayfa</nuxt-link>
-						</li>
-						<li class="breadcrumb-item active">Slaytlar</li>
-					</ul>
-				</div>
-
-				<v-card tile>
-					<v-card-title class="d-flex justify-content-between">
+  <v-container>
+    <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
+      <v-card>
+        <v-card-title class="d-flex justify-content-between">
 						<span class="justify-content-center flex-grow-1">
 							<v-text-field
-								v-model="searchTitle"
-								label="Arama Yapın..."
-								class="my-auto py-auto"
-								v-on:keyup.prevent="
+                v-model="searchTitle"
+                label="Arama Yapın..."
+                class="my-auto py-auto"
+                v-on:keyup.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"
-							></v-text-field>
+              ></v-text-field>
 						</span>
-						<span class="justify-content-end flex-shrink-1">
+          <span class="justify-content-end flex-shrink-1">
 							<v-btn
-								to="/panel/slides/add"
-								color="primary"
-								class="float-right ml-3 my-auto py-auto"
-							>
+                to="/panel/slides/add"
+                color="primary"
+                class="float-right ml-3 my-auto py-auto"
+              >
 								<i class="fa fa-plus"></i> Ekle
 							</v-btn>
 						</span>
-					</v-card-title>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="headers"
+            :items="data"
+            disable-pagination
+            :hide-default-footer="true"
+          >
+            <template v-slot:[`item.img_url`]="{ item }">
+              <v-img :src="item.img_url" :lazy-src='item.img_url' max-width='150' max-height="150" contain class='text-center justify-center mx-auto px-auto' />
+            </template>
+            <template v-slot:[`item.isActive`]="{ item }">
+              <v-layout justify-center>
+                <v-switch
+                  class="d-flex justify-content-center mx-auto px-auto text-center"
+                  v-model="item.isActive"
+                  color="success"
+                  :key="item.id"
+                  @click="isActiveSetter(item.id)"
+                ></v-switch>
+              </v-layout>
+            </template>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="editData(item.id)"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                </template>
+                <span>Slaytı Düzenle</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    @click="deleteData(item.id)"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </template>
+                <span>Slaytı Sil</span>
+              </v-tooltip>
+            </template>
+          </v-data-table>
+        </v-card-text>
+        <v-card-actions>
+          <v-row>
+            <v-col cols="12" sm="12" md="3" lg="3" xl="3">
+              <v-select
+                v-model="pageSize"
+                :items="pageSizes"
+                label="Sayfada Görüntüleme Sayısı"
+                @change="handlePageSizeChange"
+              ></v-select>
+            </v-col>
 
-					<v-data-table
-						:headers="headers"
-						:items="data"
-						disable-pagination
-						:hide-default-footer="true"
-					>
-						<template v-slot:[`item.img_url`]="{ item }">
-							<img v-bind:src="item.img_url" width="150" height="150" />
-						</template>
-						<template v-slot:[`item.isActive`]="{ item }">
-							<v-layout justify-center>
-								<v-switch
-									class="d-flex justify-content-center mx-auto px-auto text-center"
-									v-model="item.isActive"
-									color="success"
-									:key="item.id"
-									@click="isActiveSetter(item.id)"
-								></v-switch>
-							</v-layout>
-						</template>
-						<template v-slot:[`item.actions`]="{ item }">
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										small
-										class="mr-2"
-										@click="editData(item.id)"
-										v-bind="attrs"
-										v-on="on"
-									>
-										mdi-pencil
-									</v-icon>
-								</template>
-								<span>Slaytı Düzenle</span>
-							</v-tooltip>
-							<v-tooltip bottom>
-								<template v-slot:activator="{ on, attrs }">
-									<v-icon
-										small
-										@click="deleteData(item.id)"
-										v-bind="attrs"
-										v-on="on"
-									>
-										mdi-delete
-									</v-icon>
-								</template>
-								<span>Slaytı Sil</span>
-							</v-tooltip>
-						</template>
-					</v-data-table>
-				</v-card>
-				<v-row>
-					<v-col cols="12" sm="12" md="3" lg="3" xl="3">
-						<v-select
-							v-model="pageSize"
-							:items="pageSizes"
-							label="Sayfada Görüntüleme Sayısı"
-							@change="handlePageSizeChange"
-						></v-select>
-					</v-col>
-
-					<v-col cols="12" sm="12" md="9" lg="9" xl="9">
-						<v-pagination
-							v-model="page"
-							:length="totalPages"
-							total-visible="7"
-							next-icon="mdi-menu-right"
-							prev-icon="mdi-menu-left"
-							@input="handlePageChange"
-						></v-pagination>
-					</v-col>
-				</v-row>
-			</v-container>
-		</div>
-	</div>
+            <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+              <v-pagination
+                v-model="page"
+                :length="totalPages"
+                total-visible="7"
+                next-icon="mdi-menu-right"
+                prev-icon="mdi-menu-left"
+                @input="handlePageChange"
+              ></v-pagination>
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </client-only>
+  </v-container>
 </template>
 <script>
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
+  import Breadcrumb from '@/components/includes/Breadcrumb'
 	export default {
 		middleware: ["auth","admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,
-			ValidationProvider
+			ValidationProvider,
+      Breadcrumb
 		},
 		computed: {
 			img_url() {
@@ -128,6 +122,18 @@
 		},
 		data() {
 			return {
+        items: [
+          {
+            text: 'Admin Paneli',
+            disabled: false,
+            href: '/panel'
+          },
+          {
+            text: 'Slaytlar',
+            disabled: true,
+            href: 'javascript:void(0)'
+          }
+        ],
 				data: [],
 				searchTitle: null,
 				headers: [
@@ -155,10 +161,10 @@
 		methods: {
 			isEmpty(obj) {
 				if (typeof obj == "number") return false;
-				else if (typeof obj == "string") return obj.length == 0;
-				else if (Array.isArray(obj)) return obj.length == 0;
+				else if (typeof obj == "string") return obj.length === 0;
+				else if (Array.isArray(obj)) return obj.length === 0;
 				else if (typeof obj == "object")
-					return obj == null || Object.keys(obj).length == 0;
+					return obj == null || Object.keys(obj).length === 0;
 				else if (typeof obj == "boolean") return false;
 				else return !obj;
 			},
@@ -183,20 +189,9 @@
 					.get(
 						`${process.env.apiBaseUrl}panel/sliders/${urlParam}?table=sliders&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`,
 						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
 							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
 								Authorization: "Bearer " + this.userData.api_token
 							},
-							credentials: "same-origin"
 						}
 					)
 					.then(response => {
@@ -225,20 +220,9 @@
 			deleteData(id) {
 				this.$axios
 					.delete(process.env.apiBaseUrl + "panel/sliders/delete/" + id, {
-						json: true,
-						withCredentials: false,
-						mode: "no-cors",
 						headers: {
-							"Access-Control-Allow-Origin": "*",
-							"Access-Control-Allow-Headers":
-								"Origin, Content-Type, X-Auth-Token, Authorization",
-							"Access-Control-Allow-Methods":
-								"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-							"Access-Control-Allow-Credentials": true,
-							"Content-type": "application/json",
 							Authorization: "Bearer " + this.userData.api_token
 						},
-						credentials: "same-origin"
 					})
 					.then(response => {
 						if (response.data.success) {
@@ -264,20 +248,9 @@
 							"panel/datatables/is-active-setter?table=sliders&id=" +
 							id,
 						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
 							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
 								Authorization: "Bearer " + this.userData.api_token
 							},
-							credentials: "same-origin"
 						}
 					)
 					.then(response => {

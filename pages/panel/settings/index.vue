@@ -25,79 +25,82 @@
 							</v-btn>
 						</span>
         </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="headers"
+            :items="data"
+            disable-pagination
+            :hide-default-footer="true"
+          >
+            <template v-slot:[`item.logo`]="{ item }">
+              <v-img :src="item.logo" :lazy-src='item.logo' max-width='150' max-height="150" contain class='justify-center mx-auto px-auto text-center'/>
+            </template>
+            <template v-slot:[`item.isActive`]="{ item }">
+              <v-layout justify-center>
+                <v-switch
+                  class="d-flex justify-content-center mx-auto px-auto text-center"
+                  v-model="item.isActive"
+                  color="success"
+                  :key="item.id"
+                  @click="isActiveSetter(item.id)"
+                ></v-switch>
+              </v-layout>
+            </template>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="editData(item.id)"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                </template>
+                <span>Ayarı Düzenle</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    small
+                    @click="deleteData(item.id)"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </template>
+                <span>Ayarı Sil</span>
+              </v-tooltip>
+            </template>
+          </v-data-table>
+        </v-card-text>
+        <v-card-actions>
+          <v-row>
+            <v-col cols="12" sm="12" md="3" lg="3" xl="3">
+              <v-select
+                v-model="pageSize"
+                :items="pageSizes"
+                label="Sayfada Görüntüleme Sayısı"
+                @change="handlePageSizeChange"
+              ></v-select>
+            </v-col>
 
-        <v-data-table
-          :headers="headers"
-          :items="data"
-          disable-pagination
-          :hide-default-footer="true"
-        >
-          <template v-slot:[`item.logo`]="{ item }">
-            <img v-bind:src="item.logo" width="220" height="60" />
-          </template>
-          <template v-slot:[`item.isActive`]="{ item }">
-            <v-layout justify-center>
-              <v-switch
-                class="d-flex justify-content-center mx-auto px-auto text-center"
-                v-model="item.isActive"
-                color="success"
-                :key="item.id"
-                @click="isActiveSetter(item.id)"
-              ></v-switch>
-            </v-layout>
-          </template>
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="editData(item.id)"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  mdi-pencil
-                </v-icon>
-              </template>
-              <span>Ayarı Düzenle</span>
-            </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  small
-                  @click="deleteData(item.id)"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  mdi-delete
-                </v-icon>
-              </template>
-              <span>Ayarı Sil</span>
-            </v-tooltip>
-          </template>
-        </v-data-table>
+            <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+              <v-pagination
+                v-model="page"
+                :length="totalPages"
+                total-visible="7"
+                next-icon="mdi-menu-right"
+                prev-icon="mdi-menu-left"
+                @input="handlePageChange"
+              ></v-pagination>
+            </v-col>
+          </v-row>
+        </v-card-actions>
       </v-card>
-      <v-row>
-        <v-col cols="12" sm="12" md="3" lg="3" xl="3">
-          <v-select
-            v-model="pageSize"
-            :items="pageSizes"
-            label="Sayfada Görüntüleme Sayısı"
-            @change="handlePageSizeChange"
-          ></v-select>
-        </v-col>
-
-        <v-col cols="12" sm="12" md="9" lg="9" xl="9">
-          <v-pagination
-            v-model="page"
-            :length="totalPages"
-            total-visible="7"
-            next-icon="mdi-menu-right"
-            prev-icon="mdi-menu-left"
-            @input="handlePageChange"
-          ></v-pagination>
-        </v-col>
-      </v-row>
     </client-only>
   </v-container>
 
@@ -148,8 +151,8 @@
 				],
 				page: 1,
 				totalPages: 1,
-				pageSize: 5,
-				pageSizes: [5, 10, 25, 50, 100, 200, 500, 1000],
+				pageSize: 25,
+				pageSizes: [25, 50, 100, 200, 500, 1000],
 				loading: false,
 				userData: !this.isEmpty(this.$auth.$storage.getUniversal("user"))
 					? this.$auth.$storage.getUniversal("user")
@@ -159,10 +162,10 @@
 		methods: {
 			isEmpty(obj) {
 				if (typeof obj == "number") return false;
-				else if (typeof obj == "string") return obj.length == 0;
-				else if (Array.isArray(obj)) return obj.length == 0;
+				else if (typeof obj == "string") return obj.length === 0;
+				else if (Array.isArray(obj)) return obj.length === 0;
 				else if (typeof obj == "object")
-					return obj == null || Object.keys(obj).length == 0;
+					return obj == null || Object.keys(obj).length === 0;
 				else if (typeof obj == "boolean") return false;
 				else return !obj;
 			},
@@ -187,20 +190,9 @@
 					.get(
 						`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=settings&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=company_name`,
 						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
 							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
 								Authorization: "Bearer " + this.userData.api_token
 							},
-							credentials: "same-origin"
 						}
 					)
 					.then(response => {
@@ -229,20 +221,9 @@
 			deleteData(id) {
 				this.$axios
 					.delete(process.env.apiBaseUrl + "panel/settings/delete/" + id, {
-						json: true,
-						withCredentials: false,
-						mode: "no-cors",
 						headers: {
-							"Access-Control-Allow-Origin": "*",
-							"Access-Control-Allow-Headers":
-								"Origin, Content-Type, X-Auth-Token, Authorization",
-							"Access-Control-Allow-Methods":
-								"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-							"Access-Control-Allow-Credentials": true,
-							"Content-type": "application/json",
 							Authorization: "Bearer " + this.userData.api_token
 						},
-						credentials: "same-origin"
 					})
 					.then(response => {
 						if (response.data.success) {
@@ -268,20 +249,9 @@
 							"panel/datatables/is-active-setter?table=settings&id=" +
 							id,
 						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
 							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
 								Authorization: "Bearer " + this.userData.api_token
 							},
-							credentials: "same-origin"
 						}
 					)
 					.then(response => {

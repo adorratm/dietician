@@ -1,93 +1,87 @@
 <template>
-	<div class="main-wrapper">
-		<div class="page-wrapper">
-			<v-container fluid class="content">
-				<div class="page-header">
-					<h3 class="page-title">Kullanıcılar</h3>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<nuxt-link to="/panel">Anasayfa</nuxt-link>
-						</li>
-						<li class="breadcrumb-item active">Kullanıcılar</li>
-					</ul>
-				</div>
-
-				<v-card tile>
-					<v-card-title class="d-flex justify-content-between">
+	<v-container>
+    <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
+      <v-card>
+        <v-card-title class="d-flex justify-content-between">
 						<span class="justify-content-center flex-grow-1">
 							<v-text-field
-								v-model="searchTitle"
-								label="Arama Yapın..."
-								class="my-auto py-auto"
-								v-on:keyup.prevent="
+                v-model="searchTitle"
+                label="Arama Yapın..."
+                class="my-auto py-auto"
+                v-on:keyup.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"
-							></v-text-field>
+              ></v-text-field>
 						</span>
-					</v-card-title>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="headers"
+            :items="data"
+            disable-pagination
+            :hide-default-footer="true"
+          >
+            <template v-slot:[`item.img_url`]="{ item }">
+              <v-img :src="item.img_url" :lazy-src='item.img_url' max-width='150' max-height="150" contain class='justify-center text-center mx-auto px-auto' />
+            </template>
+            <template v-slot:[`item.isActive`]="{ item }">
+              <v-layout justify-center>
+                <v-switch
+                  class="d-flex justify-content-center mx-auto px-auto text-center"
+                  v-model="item.isActive"
+                  color="success"
+                  :key="item.id"
+                  @click="isActiveSetter(item.id)"
+                ></v-switch>
+              </v-layout>
+            </template>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-icon small class="mr-2" @click="editData(item.id)">
+                mdi-pencil
+              </v-icon>
+              <v-icon small @click="deleteData(item.id)"> mdi-delete </v-icon>
+            </template>
+          </v-data-table>
+        </v-card-text>
+        <v-card-actions>
+          <v-row>
+            <v-col cols="12" sm="12" md="3" lg="3" xl="3">
+              <v-select
+                v-model="pageSize"
+                :items="pageSizes"
+                label="Sayfada Görüntüleme Sayısı"
+                @change="handlePageSizeChange"
+              ></v-select>
+            </v-col>
 
-					<v-data-table
-						:headers="headers"
-						:items="data"
-						disable-pagination
-						:hide-default-footer="true"
-					>
-						<template v-slot:[`item.img_url`]="{ item }">
-							<img v-bind:src="item.img_url" width="150" height="150" />
-						</template>
-						<template v-slot:[`item.isActive`]="{ item }">
-							<v-layout justify-center>
-								<v-switch
-									class="d-flex justify-content-center mx-auto px-auto text-center"
-									v-model="item.isActive"
-									color="success"
-									:key="item.id"
-									@click="isActiveSetter(item.id)"
-								></v-switch>
-							</v-layout>
-						</template>
-						<template v-slot:[`item.actions`]="{ item }">
-							<v-icon small class="mr-2" @click="editData(item.id)">
-								mdi-pencil
-							</v-icon>
-							<v-icon small @click="deleteData(item.id)"> mdi-delete </v-icon>
-						</template>
-					</v-data-table>
-				</v-card>
-				<v-row>
-					<v-col cols="12" sm="12" md="3" lg="3" xl="3">
-						<v-select
-							v-model="pageSize"
-							:items="pageSizes"
-							label="Sayfada Görüntüleme Sayısı"
-							@change="handlePageSizeChange"
-						></v-select>
-					</v-col>
-
-					<v-col cols="12" sm="12" md="9" lg="9" xl="9">
-						<v-pagination
-							v-model="page"
-							:length="totalPages"
-							total-visible="7"
-							next-icon="mdi-menu-right"
-							prev-icon="mdi-menu-left"
-							@input="handlePageChange"
-						></v-pagination>
-					</v-col>
-				</v-row>
-			</v-container>
-		</div>
-	</div>
+            <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+              <v-pagination
+                v-model="page"
+                :length="totalPages"
+                total-visible="7"
+                next-icon="mdi-menu-right"
+                prev-icon="mdi-menu-left"
+                @input="handlePageChange"
+              ></v-pagination>
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </client-only>
+  </v-container>
 </template>
 <script>
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
+  import Breadcrumb from '@/components/includes/Breadcrumb'
 	export default {
 		middleware: ["auth","admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,
-			ValidationProvider
+			ValidationProvider,
+      Breadcrumb
 		},
 		computed: {
 			img_url() {
@@ -96,6 +90,18 @@
 		},
 		data() {
 			return {
+        items: [
+          {
+            text: 'Admin Paneli',
+            disabled: false,
+            href: '/panel'
+          },
+          {
+            text: 'Kullanıcılar',
+            disabled: true,
+            href: 'javascript:void(0)'
+          }
+        ],
 				data: [],
 				searchTitle: null,
 				headers: [

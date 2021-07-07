@@ -35,6 +35,7 @@
                       type='text'
                       name='company_name'
                       v-model='company_name'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -54,6 +55,7 @@
                       counter
                       show-size
                       required
+                      clearable
                     ></v-file-input>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -73,6 +75,7 @@
                       counter
                       show-size
                       required
+                      clearable
                     ></v-file-input>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -223,6 +226,7 @@
                       type='text'
                       name='phone'
                       v-model='phone'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -240,6 +244,7 @@
                       type='email'
                       name='email'
                       v-model='email'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -257,6 +262,7 @@
                         v-model='address'
                         api-key='4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8'
                         :init="{
+                            placeholder:'Adres',
 														height: 300,
 														plugins: [
 															'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
@@ -301,6 +307,7 @@
                       type='text'
                       name='facebook'
                       v-model='facebook'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -318,6 +325,7 @@
                       type='text'
                       name='twitter'
                       v-model='twitter'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -335,6 +343,7 @@
                       type='text'
                       name='instagram'
                       v-model='instagram'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -352,6 +361,7 @@
                       type='text'
                       name='linkedin'
                       v-model='linkedin'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -363,12 +373,14 @@
                     v-slot='{ errors }'
                   >
                     <v-text-field
+                      class='mb-3'
                       label='Youtube'
                       hide-details='auto'
                       id='youtube'
                       type='text'
                       name='youtube'
                       v-model='youtube'
+                      clearable
                     ></v-text-field>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -381,34 +393,32 @@
                     rules=''
                     v-slot='{ errors }'
                   >
-                    <div class='form-group'>
                       <v-textarea
                         label='Meta Keywords'
                         name='metaKeywords'
                         id='metaKeywords'
                         v-model='metaKeywords'
+                        clearable
                       ></v-textarea>
-                      <small class='font-weight-bold text-danger'>{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name='Meta Description'
                     rules=''
                     v-slot='{ errors }'
                   >
-                    <div class='form-group'>
                       <v-textarea
                         label='Meta Description'
                         name='metaDescription'
                         id='metaDescription'
                         v-model='metaDescription'
+                        clearable
                       ></v-textarea>
-                      <small class='font-weight-bold text-danger'>{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
                   </ValidationProvider>
                 </v-tab-item>
                 <v-tab-item eager>
@@ -417,34 +427,31 @@
                     rules=''
                     v-slot='{ errors }'
                   >
-                    <div class='form-group'>
                       <v-textarea
                         label='Google Analytics'
                         name='analytics'
                         id='analytics'
                         v-model='analytics'
+                        clearable
                       ></v-textarea>
-                      <small class='font-weight-bold text-danger'>{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
                   </ValidationProvider>
                   <ValidationProvider
                     name='Yandex Metrica'
                     rules=''
                     v-slot='{ errors }'
                   >
-                    <div class='form-group'>
                       <v-textarea
                         label='Yandex Metrica'
                         name='metrica'
                         id='metrica'
                         v-model='metrica'
                       ></v-textarea>
-                      <small class='font-weight-bold text-danger'>{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                 </v-tab-item>
                 <v-tab-item eager>
@@ -453,23 +460,19 @@
                     rules=''
                     v-slot='{ errors }'
                   >
-                    <div class='form-group'>
                       <v-textarea
                         label='Canlı Destek'
                         name='liveSupport'
                         id='liveSupport'
                         v-model='liveSupport'
                       ></v-textarea>
-                      <small class='font-weight-bold text-danger'>{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
                   </ValidationProvider>
                 </v-tab-item>
               </v-tabs-items>
-              <div class='form-group'>
-                <v-btn color='primary' dark type='submit'>Kaydet</v-btn>
-              </div>
+                <v-btn color='primary' dark type='submit' class='mt-3'>Kaydet</v-btn>
             </form>
           </ValidationObserver>
         </v-card-text>
@@ -550,10 +553,10 @@ export default {
   methods: {
     isEmpty(obj) {
       if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length == 0
-      else if (Array.isArray(obj)) return obj.length == 0
+      else if (typeof obj == 'string') return obj.length === 0
+      else if (Array.isArray(obj)) return obj.length === 0
       else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length == 0
+        return obj == null || Object.keys(obj).length === 0
       else if (typeof obj == 'boolean') return false
       else return !obj
     },
@@ -561,21 +564,11 @@ export default {
       let formData = new FormData(this.$refs.settingsForm)
       this.$axios
         .post(process.env.apiBaseUrl + 'panel/settings/create', formData, {
-          json: true,
-          withCredentials: false,
-          mode: 'no-cors',
           headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers':
-              'Origin, Content-Type, X-Auth-Token, Authorization',
-            'Access-Control-Allow-Methods':
-              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Credentials': true,
             'Content-Type':
               'multipart/form-data; boundary=' + formData._boundary,
             Authorization: 'Bearer ' + this.userData.api_token
           },
-          credentials: 'same-origin'
         })
         .then(response => {
           if (response.data.success) {

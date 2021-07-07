@@ -19,6 +19,7 @@
 
 <script>
 export default {
+  name:'node-list',
   props: ['nodes','settings'],
 }
 </script>

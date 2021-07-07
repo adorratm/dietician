@@ -55,7 +55,7 @@
                 <v-tab>
                   Açıklama
                 </v-tab>
-                <v-tab-item>
+                <v-tab-item eager>
                   <v-simple-table>
                     <thead>
                     <tr>
@@ -75,7 +75,7 @@
                     </tbody>
                   </v-simple-table>
                 </v-tab-item>
-                <v-tab-item>
+                <v-tab-item eager>
 
                   {{ data.description }}
                 </v-tab-item>
