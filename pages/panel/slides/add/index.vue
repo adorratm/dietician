@@ -85,7 +85,7 @@
                   show-size
                   required
                   clearable
-                  v-model='img_url'
+                  v-model='imgUrl'
                 ></v-file-input>
               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                 {{ errors[0] }}
@@ -135,7 +135,7 @@
         ],
 				title: null,
 				description: null,
-        img_url:null,
+        imgUrl:null,
 				userData: !this.isEmpty(this.$auth.$storage.getUniversal("user"))
 					? this.$auth.$storage.getUniversal("user")
 					: null

@@ -185,6 +185,7 @@
 						}
 					)
 					.then(response => {
+					  console.log(response)
 						if (response.data.success) {
 							this.$izitoast.success({
 								title: response.data.title,

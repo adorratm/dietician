@@ -157,11 +157,6 @@
               <v-list-item-title>{{miniVariant ? 'Menüleri Genişlet' : 'Menüleri Daralt'}}</v-list-item-title>
             </v-list-item>
 
-            <v-list-item @click='setFixed'>
-              <v-list-item-icon><v-icon>mdi-page-layout-footer</v-icon></v-list-item-icon>
-              <v-list-item-title>{{!fixed ? "Footer'ı Sabitle" :"Footer'ı Sabitlemeyi Bırak"  }}</v-list-item-title>
-            </v-list-item>
-
             <v-list-item @click.stop='toggleTheme'
             >
               <v-list-item-icon><v-icon>{{!$vuetify.theme.dark ? 'mdi-moon-waxing-crescent' : 'mdi-white-balance-sunny'}}</v-icon></v-list-item-icon>

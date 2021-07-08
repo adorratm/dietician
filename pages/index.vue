@@ -1,18 +1,35 @@
 <template>
   <v-container>
     <client-only>
-      <v-lazy>
-        <v-responsive :aspect-ratio="16/9">
-          <v-carousel v-model="model" v-if='!isEmpty(sliders)' cycle continuous height='auto'>
-            <v-carousel-item
-              v-for="(slide, i) in sliders"
-              :key="i"
-            >
-              <v-img :src="img_url+slide.img_url" :aspect-ratio="16/9" max-height='500' contain></v-img>
-            </v-carousel-item>
-          </v-carousel>
-        </v-responsive>
-      </v-lazy>
+      <v-carousel v-model="model" v-if='!isEmpty(settings.sliders)' cycle continuous height='auto' class='mb-3'>
+        <v-carousel-item
+          v-for="(slide, i) in settings.sliders"
+          :key="i"
+        >
+          <v-img :src="img_url+slide.img_url" :aspect-ratio="1.77" max-height='500' contain></v-img>
+        </v-carousel-item>
+      </v-carousel>
+      <v-card class='mb-3' v-if='!isEmpty(settings.dieticians)'>
+        <v-card-title class='justify-center text-center'>ÖNE ÇIKAN DİYETİSYENLERİMİZ</v-card-title>
+      </v-card>
+      <v-row v-if='!isEmpty(settings.dieticians)'>
+        <v-col cols='12' sm='12' md='6' lg='4' xl='3' :key='i' v-for='(dietician,i) in settings.dieticians'>
+          <v-card>
+            <v-card-title>
+              {{dietician.name}}
+            </v-card-title>
+            <v-card-subtitle>{{dietician.department}}</v-card-subtitle>
+            <v-img :src='dietician.profile_photo' :lazy-src='dietician.profile_photo' :aspect-ratio='1.77' contain/>
+            <v-divider></v-divider>
+            <v-card-text>
+              Çalıştığı Hastane/Poliklinik : <b>{{dietician.hospitalName}}</b>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn :to='"/dieticians/"+dietician.slug+"/make-appointment"' color='primary' block>Randevu Almak İçin Tıklayın</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </client-only>
 
   </v-container>
@@ -20,10 +37,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import Cookie from 'js-cookie'
-import {Base64} from 'js-base64'
 export default {
   computed:{
+    ...mapState(["settings"]),
     img_url() {
       return process.env.apiPublicUrl
     },
@@ -33,8 +49,6 @@ export default {
   data(){
     return {
       model: 0,
-      settings: null,
-      sliders: []
     }
   },
   methods:{

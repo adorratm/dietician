@@ -169,11 +169,6 @@ export const mutations = {
  * @type {{getCriterias(*, *): Promise<AxiosResponse<*>>, getNutrients(*, *): Promise<AxiosResponse<*>>, nuxtServerInit({commit: *}): *, getSearchs(*, *): Promise<AxiosResponse<*>>, getRecipeCategories(*, *): Promise<AxiosResponse<*>>, getDieticians(*, *): Promise<AxiosResponse<*>>, RegisterUser(*, *=): Promise<*>}}
  */
 export const actions = {
-  async nuxtServerInit ({ commit }) {
-    const {data} = await this.$axios.get(process.env.apiBaseUrl+'home')
-    await commit('setSettings', data.data)
-    return await data.data
-  },
   setSiteSettings(vuexContext){
     return this.$axios.get(process.env.apiBaseUrl+'home').then(response=>{
       vuexContext.commit("setSettings",response.data.data)
