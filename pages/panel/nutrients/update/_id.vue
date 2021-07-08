@@ -63,290 +63,159 @@
                   </v-alert>
                 </ValidationProvider>
                 <v-tabs v-model='tab' background-color='primary' dark>
-                  <client-only>
                     <v-tab v-for='item in tabItems' :key='item.tab'>
                       {{ item.tab }}
                     </v-tab>
-                  </client-only>
                 </v-tabs>
                 <v-tabs-items v-model='tab'>
                   <v-tab-item eager>
                     <v-card flat>
-                      <v-card-text
-                        v-if="
-																data.values !== null &&
-																	data.values !== undefined &&
-																	data.values !== '' &&
-																	data.values.length > 0
-															"
-                      >
-                        <client-only>
-                          <v-row
-                            v-bind:key='index'
-                            v-for='(input, index) in data.values'
-                          >
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='4'
-                              xl='4'
-                            >
+                      <v-card-text v-if="!isEmpty(data.values) && data.values.length > 0">
+                          <v-row :key='index' v-for='(input, index) in data.values'>
+                            <v-col cols='12' sm='12' md='12' lg='4' xl='4'>
                               <ValidationProvider
                                 name='Besin Değeri Adı'
                                 rules='required'
                                 v-slot='{ errors }'
                               >
-                                <div class='form-group'>
-                                  <label v-bind:for="'vitamin' + index"
-                                  >Besin Değeri Adı</label
-                                  >
-                                  <input
-                                    v-bind:id="'vitamin' + index"
+                                  <v-text-field
+                                    label='Besin Değeri Adı'
                                     type='text'
-                                    class='form-control'
                                     name='vitaminName[]'
                                     v-model='input.title'
+                                    clearable
                                   />
-                                  <small
-                                    class='font-weight-bold text-danger'
-                                  >{{ errors[0] }}</small
-                                  >
-                                </div>
+                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                  {{ errors[0] }}
+                                </v-alert>
                               </ValidationProvider>
                             </v-col>
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='3'
-                              xl='3'
-                            >
+                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
                               <ValidationProvider
                                 name='Besin Değeri'
                                 rules='required'
                                 v-slot='{ errors }'
                               >
-                                <div class='form-group'>
-                                  <label
-                                    v-bind:for="'vitaminValue' + index"
-                                  >Besin Değeri</label
-                                  >
-                                  <input
-                                    v-bind:id="'vitaminValue' + index"
+                                  <v-text-field
+                                    label='Besin Değeri'
                                     type='text'
-                                    class='form-control'
                                     name='vitaminValue[]'
                                     v-model='input.value'
+                                    clearable
                                   />
-                                  <small
-                                    class='font-weight-bold text-danger'
-                                  >{{ errors[0] }}</small
-                                  >
-                                </div>
+                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                  {{ errors[0] }}
+                                </v-alert>
                               </ValidationProvider>
                             </v-col>
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='3'
-                              xl='3'
-                            >
+                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
                               <ValidationProvider
                                 name='Besin Değeri Türü'
                                 rules='required'
                                 v-slot='{ errors }'
                               >
-                                <div class='form-group'>
-                                  <label
-                                    v-bind:for="'vitaminType' + index"
-                                  >Besin Değeri Türü</label
-                                  >
-                                  <input
-                                    v-bind:id="'vitaminType' + index"
+                                  <v-text-field
+                                    label='Besin Değeri Türü'
                                     type='text'
-                                    class='form-control'
                                     name='vitaminType[]'
                                     v-model='input.type'
+                                    clearable
                                   />
-                                  <small
-                                    class='font-weight-bold text-danger'
-                                  >{{ errors[0] }}</small
-                                  >
-                                </div>
+                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                    {{ errors[0] }}
+                                  </v-alert>
                               </ValidationProvider>
                             </v-col>
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='2'
-                              xl='2'
-                              class='py-auto my-auto text-center align-bottom'
-                            >
-                              <button
+                            <v-col cols='12' sm='12' md='12' lg='2' xl='2' class='text-center justify-center'>
+                              <v-btn
                                 @click.prevent='cloneProperty'
-                                class='btn btn-lg btn-primary text-white rounded-circle align-bottom text-center'
+                                fab
+                                small
+                                color='info'
                                 role='button'
                               >
-                                <i class='fa fa-plus'></i>
-                              </button>
-                              <button
+                                <v-icon>mdi mdi-plus</v-icon>
+                              </v-btn>
+                              <v-btn
+                                class='ml-2'
                                 v-if='data.values.length > 1'
                                 @click.prevent='removeProperty(index)'
                                 role='button'
-                                class='btn btn-lg btn-danger text-white rounded-circle align-bottom text-center'
+                                color='error'
+                                fab
+                                small
                               >
-                                <i class='fa fa-times'></i>
-                              </button>
+                                <v-icon>mdi mdi-close</v-icon>
+                              </v-btn>
                             </v-col>
                           </v-row>
-                        </client-only>
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item eager>
                     <v-card flat>
-                      <v-card-text
-                        v-if="
-																data.criteria_values !== null &&
-																	data.criteria_values !== undefined &&
-																	data.criteria_values !== '' &&
-																	data.criteria_values.length > 0
-															"
-                      >
-                        <client-only>
+                      <v-card-text v-if="!isEmpty(data.criteria_values) && data.criteria_values.length > 0">
                           <v-row
-                            v-bind:key='index'
+                            :key='index'
                             v-for='(input, index) in data.criteria_values'
                           >
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='4'
-                              xl='4'
-                            >
+                            <v-col cols='12' sm='12' md='12' lg='4' xl='4'>
                               <ValidationProvider
                                 name='Ölçüt Değeri Adı'
                                 rules='required'
                                 v-slot='{ errors }'
                               >
-                                <div class='form-group'>
-                                  <label v-bind:for="'criteria' + index"
-                                  >Ölçüt Değeri Adı</label
-                                  >
-                                  <select
-                                    name='criteriaName[]'
-                                    v-bind:id="'criteria' + index"
-                                    class='form-control'
-                                    v-if="
-																						data.criterias !== null &&
-																							data.criterias !== undefined &&
-																							data.criterias !== '' &&
-																							data.criterias.length > 0
-																					"
-                                  >
-                                    <option value='' selected>
-                                      Ölçüt Seçiniz
-                                    </option>
-                                    <client-only>
-                                      <option
-                                        v-bind:value='criteria.name'
-                                        :selected='
-																								criteria.name === input.title
-																							'
-                                        v-bind:key='index'
-                                        v-for='(criteria,
-																							index) in data.criterias'
-                                      >
-                                        {{ criteria.name }}
-                                      </option>
-                                    </client-only>
-                                  </select>
-                                  <select
-                                    name='criteriaName[]'
-                                    v-bind:id="'criteria' + index"
-                                    class='form-control'
-                                    v-if="
-																						data.criterias === null &&
-																							data.criterias === undefined &&
-																							data.criterias === '' &&
-																							data.criterias.length <= 0
-																					"
-                                  >
-                                    <option v-bind:value='null' selected>
-                                      Ölçüt Seçiniz
-                                    </option>
-                                  </select>
-                                  <small
-                                    class='font-weight-bold text-danger'
-                                  >{{ errors[0] }}</small
-                                  >
-                                </div>
+                                <v-autocomplete
+                                  label='Ölçüt Değeri Adı'
+                                  name="criteriaName[]"
+                                  v-model="input.title"
+                                  :items='data.criterias'
+                                  item-text='name'
+                                  item-value='name'
+                                  clearable
+                                >
+                                </v-autocomplete>
+                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                  {{ errors[0] }}
+                                </v-alert>
                               </ValidationProvider>
                             </v-col>
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='3'
-                              xl='3'
-                            >
+                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
                               <ValidationProvider
                                 name='Ölçüt Değeri'
                                 rules='required'
                                 v-slot='{ errors }'
                               >
-                                <div class='form-group'>
-                                  <label
-                                    v-bind:for="'criteriaValue' + index"
-                                  >Ölçüt Değeri</label
-                                  >
-                                  <input
-                                    v-bind:id="'criteriaValue' + index"
-                                    type='text'
-                                    class='form-control'
-                                    name='criteriaValue[]'
-                                    v-model='input.value'
-                                  />
-                                  <small
-                                    class='font-weight-bold text-danger'
-                                  >{{ errors[0] }}</small
-                                  >
-                                </div>
+                                <v-text-field
+                                  label='Ölçüt Değeri'
+                                  type="text"
+                                  class="form-control"
+                                  name="criteriaValue[]"
+                                  v-model="input.value"
+                                  clearable
+                                />
+                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                  {{ errors[0] }}
+                                </v-alert>
                               </ValidationProvider>
                             </v-col>
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='3'
-                              xl='3'
-                            >
+                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
                               <ValidationProvider
                                 name='Ölçüt Değeri Türü'
                                 rules='required'
                                 v-slot='{ errors }'
                               >
-                                <div class='form-group'>
-                                  <label
-                                    v-bind:for="'criteriaType' + index"
-                                  >Ölçüt Değeri Türü</label
-                                  >
-                                  <input
-                                    v-bind:id="'criteriaType' + index"
-                                    type='text'
-                                    class='form-control'
-                                    name='criteriaType[]'
-                                    v-model='input.type'
-                                  />
-                                  <small
-                                    class='font-weight-bold text-danger'
-                                  >{{ errors[0] }}</small
-                                  >
-                                </div>
+                                <v-text-field
+                                  label='Ölçüt Değeri Türü'
+                                  type="text"
+                                  class="form-control"
+                                  name="criteriaType[]"
+                                  v-model="input.type"
+                                  clearable
+                                />
+                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                  {{ errors[0] }}
+                                </v-alert>
                               </ValidationProvider>
                             </v-col>
                             <v-col
@@ -355,43 +224,48 @@
                               md='12'
                               lg='2'
                               xl='2'
-                              class='py-auto my-auto text-center align-bottom'
+                              class='text-center justify-center'
                             >
-                              <button
+                              <v-btn
+                                color='info'
+                                small
+                                fab
                                 @click.prevent='cloneProperty2'
-                                class='btn btn-lg btn-primary text-white rounded-circle align-bottom text-center'
                                 role='button'
                               >
-                                <i class='fa fa-plus'></i>
-                              </button>
-                              <button
+                                <v-icon>mdi mdi-plus</v-icon>
+                              </v-btn>
+                              <v-btn
                                 v-if='data.criteria_values.length > 1'
+                                color='error'
+                                small
+                                fab
                                 @click.prevent='removeProperty2(index)'
                                 role='button'
-                                class='btn btn-lg btn-danger text-white rounded-circle align-bottom text-center'
+                                class='ml-2'
                               >
-                                <i class='fa fa-times'></i>
-                              </button>
+                                <v-icon>mdi mdi-close</v-icon>
+                              </v-btn>
                             </v-col>
                           </v-row>
-                        </client-only>
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
                 </v-tabs-items>
 
-                <button
-                  class='btn btn-outline-primary rounded-0 btn-lg'
+                <v-btn
+                  color='primary'
+                  class='mt-3'
                   role='button'
                   @click.prevent='e1 = 2'
                 >
                   Görsel Yüklemeye Geç
-                </button>
+                </v-btn>
               </v-stepper-content>
 
               <v-stepper-content step='2'>
-                <v-row>
-                  <v-col cols='12' sm='12' md='12' lg='12' xl='12'>
+                <v-card>
+                  <v-card-text>
                     <dropzone
                       @vdropzone-complete='onComplete'
                       ref='myDropzone'
@@ -399,122 +273,117 @@
                       :options='options'
                       :headers='options.headers'
                     ></dropzone>
-                  </v-col>
-                </v-row>
-                <button
-                  class='btn btn-outline-primary rounded-0 btn-lg'
-                  role='button'
-                  @click.prevent='e1 = 1'
-                >
-                  Geri Dön
-                </button>
-                <button
-                  class='btn btn-outline-primary rounded-0 btn-lg'
-                  role='button'
-                  @click.prevent='selectCover'
-                >
-                  Kapak Fotoğrafı Seç
-                </button>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn
+                      color='info'
+                      role='button'
+                      @click.prevent='e1 = 1'
+                    >
+                      Geri Dön
+                    </v-btn>
+                    <v-btn
+                      color='primary'
+                      role='button'
+                      @click.prevent='selectCover'
+                    >
+                      Kapak Fotoğrafı Seç
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
               </v-stepper-content>
 
               <v-stepper-content step='3'>
-                <div class='card'>
-                  <div class='card-header'>
-                    <h4 class='card-title'>Görseller</h4>
-                  </div>
-                  <div class='card-body'>
-                    <v-card>
-                      <v-card-title>
-                        Görseller
-                      </v-card-title>
-                      <v-card-text>
-                        <v-data-table
-                          :headers='headers'
-                          :items='imageData'
-                          disable-pagination
-                          :hide-default-footer='true'
-                        >
-                          <template v-slot:[`item.img_url`]='{ item }'>
-                            <v-img
-                              :src='item.img_url'
-                              :lazy-src='item.img_url'
-                              max-width='150'
-                              max-height='150'
-                              contain
-                              class='text-center justify-center mx-auto px-auto'
-                            />
-                          </template>
-                          <template v-slot:[`item.isCover`]='{ item }'>
-                            <v-layout justify-center>
-                              <v-switch
-                                class='d-flex justify-content-center mx-auto px-auto text-center'
-                                v-model='item.isCover'
-                                color='success'
-                                :key='item.id'
-                                @click='isCoverSetter(item.id)'
-                              ></v-switch>
-                            </v-layout>
-                          </template>
-                          <template v-slot:[`item.isActive`]='{ item }'>
-                            <v-layout justify-center>
-                              <v-switch
-                                class='d-flex justify-content-center mx-auto px-auto text-center'
-                                v-model='item.isActive'
-                                color='success'
-                                :key='item.id'
-                                @click='isActiveSetter(item.id)'
-                              ></v-switch>
-                            </v-layout>
-                          </template>
-                          <template v-slot:[`item.actions`]='{ item }'>
-                            <v-icon small @click='deleteData(item.id)'>
-                              mdi-delete
-                            </v-icon>
-                          </template>
-                        </v-data-table>
-                      </v-card-text>
-
-                    </v-card>
-                    <div class='row'>
-                      <v-col cols='12' sm='12'>
-                        <div class='row'>
-                          <v-col cols='12' lg='3'>
-                            <v-select
-                              v-model='pageSize'
-                              :items='pageSizes'
-                              label='Sayfada Görüntüleme Sayısı'
-                              @change='handlePageSizeChange'
-                            ></v-select>
-                          </v-col>
-
-                          <v-col cols='12' lg='9'>
-                            <v-pagination
-                              v-model='page'
-                              :length='totalPages'
-                              total-visible='7'
-                              next-icon='mdi-menu-right'
-                              prev-icon='mdi-menu-left'
-                              @input='handlePageChange'
-                            ></v-pagination>
-                          </v-col>
-                        </div>
+                <v-card>
+                  <v-card-title>
+                    Görseller
+                  </v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                      :headers='headers'
+                      :items='imageData'
+                      disable-pagination
+                      :hide-default-footer='true'
+                    >
+                      <template v-slot:[`item.img_url`]='{ item }'>
+                        <v-img
+                          :src='item.img_url'
+                          :lazy-src='item.img_url'
+                          max-width='150'
+                          max-height='150'
+                          contain
+                          class='text-center justify-center mx-auto px-auto'
+                        />
+                      </template>
+                      <template v-slot:[`item.isCover`]='{ item }'>
+                        <v-layout justify-center>
+                          <v-switch
+                            class='d-flex justify-content-center mx-auto px-auto text-center'
+                            v-model='item.isCover'
+                            color='success'
+                            :key='item.id'
+                            @click='isCoverSetter(item.id)'
+                          ></v-switch>
+                        </v-layout>
+                      </template>
+                      <template v-slot:[`item.isActive`]='{ item }'>
+                        <v-layout justify-center>
+                          <v-switch
+                            class='d-flex justify-content-center mx-auto px-auto text-center'
+                            v-model='item.isActive'
+                            color='success'
+                            :key='item.id'
+                            @click='isActiveSetter(item.id)'
+                          ></v-switch>
+                        </v-layout>
+                      </template>
+                      <template v-slot:[`item.actions`]='{ item }'>
+                        <v-icon small @click='deleteData(item.id)'>
+                          mdi-delete
+                        </v-icon>
+                      </template>
+                    </v-data-table>
+                    <v-row>
+                      <v-col cols='12' lg='3'>
+                        <v-select
+                          v-model='pageSize'
+                          :items='pageSizes'
+                          label='Sayfada Görüntüleme Sayısı'
+                          @change='handlePageSizeChange'
+                        ></v-select>
                       </v-col>
-                    </div>
-                  </div>
-                </div>
-                <v-btn
-                  color='info'
-                  role='button'
-                  @click.prevent='e1 = 2'
-                >
-                  Geri Dön
-                </v-btn>
-                <v-btn
-                  color='primary'
-                  type='submit'
-                >
-                  Besini Güncelle
-                </v-btn>
+
+                      <v-col cols='12' lg='9'>
+                        <v-pagination
+                          v-model='page'
+                          :length='totalPages'
+                          total-visible='7'
+                          next-icon='mdi-menu-right'
+                          prev-icon='mdi-menu-left'
+                          @input='handlePageChange'
+                        ></v-pagination>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-card-actions>
+
+
+                    <v-btn
+                      color='info'
+                      role='button'
+                      @click.prevent='e1 = 2'
+                    >
+                      Geri Dön
+                    </v-btn>
+                    <v-btn
+                      color='primary'
+                      type='submit'
+                    >
+                      Besini Güncelle
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -525,20 +394,38 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import Breadcrumb from '@/components/includes/Breadcrumb'
 
 export default {
   middleware: ['auth', 'admin'],
   layout: 'admin',
   components: {
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
+    Breadcrumb
   },
   mounted() {
     this.retrieveData()
   },
   data() {
     return {
-
+      items: [
+        {
+          text: 'Admin Paneli',
+          disabled: false,
+          href: '/panel'
+        },
+        {
+          text: 'Besinler',
+          disabled: false,
+          href: '/panel/nutrients/'
+        },
+        {
+          text: 'Besin Düzenle',
+          disabled: true,
+          href: 'javascript:void(0)'
+        }
+      ],
       counter: !this.isEmpty(this.data) && !this.isEmpty(this.data.values) ? this.data.values.length : 0,
       counter2: !this.isEmpty(this.data) && !this.isEmpty(this.data.criteria_values) ? this.data.criteria_values.length : 0,
       e1: 1,
@@ -849,6 +736,11 @@ export default {
     },
     editNutrients() {
       let formData = new FormData(this.$refs.nutrientsForm)
+      formData.delete("criteriaName[]");
+      let criteriaValues = this.data.criteria_values
+      for (let i = 0; i < criteriaValues.length; i++) {
+        formData.append("criteriaName[]", criteriaValues[i].title);
+      }
       this.$axios
         .post(
           process.env.apiBaseUrl +
