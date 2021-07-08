@@ -1,13 +1,11 @@
 <template>
   <client-only>
-  <div>
       <v-footer
         :absolute='!fixed'
         app
       >
         <span>&copy; {{ new Date().getFullYear() }}</span>
       </v-footer>
-  </div>
   </client-only>
 </template>
 

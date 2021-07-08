@@ -14,6 +14,9 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no, minimal-ui' },
+      { 'http-equiv': 'cache-control', content: 'no-cache, no-store, must-revalidate, max-age=0' },
+      { 'http-equiv': 'expires', content: '0' },
+      { 'http-equiv': 'pragma', content: 'no-cache' },
       { hid: 'description', name: 'description', content: '' }
     ],
   },

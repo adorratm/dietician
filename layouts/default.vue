@@ -1,15 +1,15 @@
 <template>
   <v-app>
     <client-only>
-      <Header :items='items' :settings='settings'></Header>
+      <Header v-if='!isEmpty(settings)' :items='items' :settings='settings'></Header>
     </client-only>
     <v-main>
       <v-container>
-        <nuxt />
+        <nuxt v-if='!isEmpty(settings)' />
       </v-container>
     </v-main>
     <client-only>
-      <Footer :settings='settings'></Footer>
+      <Footer v-if='!isEmpty(settings)' :settings='settings'></Footer>
     </client-only>
   </v-app>
 </template>
@@ -17,7 +17,6 @@
 <script>
 import Header from "@/components/includes/Header"
 import Footer from "@/components/includes/Footer"
-import { mapState } from "vuex";
 
 export default {
   head(){
@@ -31,14 +30,12 @@ export default {
     Header,
     Footer
   },
-  computed: {
-    ...mapState(["settings"])
-  },
   beforeCreate() {
-    this.$store.dispatch("setSiteSettings")
+    this.$store.dispatch("setSiteSettings").then(result => {
+      this.settings=result
+    })
   },
   mounted() {
-    console.log(this.settings)
     // This Function Changing Default Theme
     const theme = localStorage.getItem("useDarkTheme");
     if (theme) {
@@ -50,6 +47,7 @@ export default {
   },
   data () {
     return {
+      settings: {},
       items: [
         {
           icon: 'mdi-home',
