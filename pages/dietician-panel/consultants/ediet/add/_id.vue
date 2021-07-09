@@ -25,6 +25,18 @@
                 <v-divider></v-divider>
 
                 <v-stepper-step :complete="e1 > 2" step="3">
+                  Faktörler
+                </v-stepper-step>
+
+                <v-divider></v-divider>
+
+                <v-stepper-step :complete="e1 > 3" step="4">
+                  Egzersiz
+                </v-stepper-step>
+
+                <v-divider></v-divider>
+
+                <v-stepper-step :complete="e1 > 4" step="5">
                   Diyet Listesi
                 </v-stepper-step>
               </v-stepper-header>
@@ -32,7 +44,22 @@
               <v-stepper-items>
 
                 <v-stepper-content step="1">
-                  <v-btn color="primary" role="button" @click.prevent="e1 = 2">
+                  <v-simple-table>
+                    <thead>
+                    <tr>
+                      <th colspan='2' class='text-center justify-center'>Kalori Hesabı Sonucu</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>Olması Gereken Ağırlık:</td><td>{{!isEmpty(adultCalorieCalc.original.data.oga) ? adultCalorieCalc.original.data.oga : null}} KG</td>
+                    </tr>
+                    <tr>
+                      <td>Beden Kütle İndexi:</td><td>{{ !isEmpty(adultCalorieCalc.original.data.bki) ? adultCalorieCalc.original.data.bki : null}}</td>
+                    </tr>
+                    </tbody>
+                  </v-simple-table>
+                  <v-btn color="primary" role="button" @click.prevent="e1 = 2" class='mt-2'>
                     İlerle
                   </v-btn>
                 </v-stepper-content>
@@ -43,9 +70,8 @@
                     rules="required"
                     v-slot="{ errors }"
                   >
-                    <div class="form-group">
                       <v-select
-                        name="meals[]"
+                        name="meals"
                         v-model="selectedMeals"
                         :items="meals"
                         label="Öğün Seçin"
@@ -84,15 +110,15 @@
                           </v-list-item-content>
                         </template>
                       </v-select>
-                      <small class="font-weight-bold text-danger">{{
-                          errors[0]
-                        }}</small>
-                    </div>
+                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        {{ errors[0] }}
+                      </v-alert>
                   </ValidationProvider>
-                  <v-btn color="primary" role="button" @click.prevent="e1 = 3">
+                  <v-btn class='mt-2' color="primary" role="button" @click.prevent="(!isEmpty(selectedMeals) ? e1 = 3 : e1=2)">
                     İlerle
                   </v-btn>
                   <v-btn
+                    class='mt-2'
                     color='info'
                     role="button"
                     @click.prevent="e1 = 1"
@@ -102,10 +128,110 @@
                 </v-stepper-content>
 
                 <v-stepper-content step="3">
+                  <v-select v-for='(item,index) in stressFacLabel'
+                            name="meals"
+                            v-model="selectedFacts[item._id.$oid]"
+                            :items="stressFacValue"
+                            :label="item.title+' SEÇİN'"
+                            item-text="title"
+                            item-value="_id"
+                            return-object
+                  >
+                    <template v-slot:item="data">
+                      <v-list-item-content  v-if='data.item.factors_id === item._id.$oid'>
+                        <v-list-item-title
+                          v-html="data.item.name"
+                        ></v-list-item-title>
+                      </v-list-item-content>
+                    </template>
+                  </v-select>
+                  <v-btn color="primary" role="button" @click.prevent="e1 = 4" class='mt-2'>
+                    İlerle
+                  </v-btn>
                   <v-btn
+                    class='mt-2'
                     color='info'
                     role="button"
                     @click.prevent="e1 = 2"
+                  >
+                    Geri Dön
+                  </v-btn>
+                </v-stepper-content>
+                <v-stepper-content step="4">
+
+                  <v-btn color="primary" role="button" @click.prevent="e1 = 5" class='mt-2'>
+                    İlerle
+                  </v-btn>
+                  <v-btn
+                    class='mt-2'
+                    color='info'
+                    role="button"
+                    @click.prevent="e1 = 3"
+                  >
+                    Geri Dön
+                  </v-btn>
+                </v-stepper-content>
+                <v-stepper-content step="5">
+                  <ValidationProvider
+                    name="Öğün"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <v-select
+                      name="meals"
+                      v-model="selectedMeals"
+                      :items="meals"
+                      label="Öğün Seçin"
+                      item-text="name"
+                      item-value="_id"
+                      return-object
+                      multiple
+                    >
+                      <template v-slot:prepend-item>
+                        <v-list-item ripple @click="toggle">
+                          <v-list-item-action>
+                            <v-icon
+                              :color="
+																	!isEmpty(selectedMeals) &&
+																	selectedMeals.length > 0
+																		? 'indigo darken-4'
+																		: ''
+																"
+                            >
+                              {{ icon }}
+                            </v-icon>
+                          </v-list-item-action>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              Tümünü Seç
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class="mt-2"></v-divider>
+                      </template>
+                      <template v-slot:item="data">
+                        <v-list-item-content>
+                          <v-list-item-title
+                            v-html="data.item.name"
+                          ></v-list-item-title>
+                        </v-list-item-content>
+                      </template>
+                    </v-select>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
+                  </ValidationProvider>
+                  <v-btn color="primary" type='submit' class='mt-2'>
+                    Kaydet
+                  </v-btn>
+                  <v-btn color="success" role="button" class='mt-2'>
+                    Kaydet ve Yazdır
+                  </v-btn>
+                  <v-btn
+                    class='mt-2'
+                    color='info'
+                    role="button"
+                    @click.prevent="e1 = 4"
                   >
                     Geri Dön
                   </v-btn>
@@ -156,6 +282,7 @@ export default {
   },
   data() {
     return {
+      selectedFacts: [],
       items: [
         {
           text: 'Anasayfa',
@@ -196,9 +323,6 @@ export default {
       calorie: null,
     };
   },
-  mounted() {
-    this.calcCalorie()
-  },
   validate({ params }) {
     return params.id !== null ? params.id : null;
   },
@@ -207,7 +331,6 @@ export default {
       const { data } = await $axios.get(
         process.env.apiBaseUrl + "dietician/e-diets/create/" + params.id
       );
-      console.log(data);
       return data.data;
     } catch (e) {
       error({ message: "Danışan Bilgisi Bulunamadı.", statusCode: 404 });
@@ -217,19 +340,13 @@ export default {
     /**
      * This Function Will Be Remove
      */
-    calcCalorie(){
-      this.ogbki = parseInt(this.user.weight)/(parseInt(this.user.size)*parseInt(this.user.size))*10000
-      console.log(this.ogbki)
-      this.calorie = this.ogbki*parseInt(this.user.size)*parseInt(this.user.size)/10000
-      console.log(this.calorie)
-    },
     toggle() {
       this.$nextTick(() => {
         if (this.likesAllMeal) {
           this.selectedMeals = [];
         } else {
           this.selectedMeals = [];
-          this.meals.forEach((el, index) => {
+          this.meals.forEach((el) => {
             this.selectedMeals.push(el._id);
           });
         }

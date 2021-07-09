@@ -865,6 +865,7 @@
                                   type='file'
                                   accept='image/*'
                                   placeholder='Profil Resminiz'
+                                  v-model='imgURL'
                                   name='img_url'
                                   label='Profil Resminiz'
                                   clearable
@@ -908,7 +909,6 @@
                             rules=''
                             v-slot='{ errors }'
                           >
-                            <div class='form-group'>
                               <v-autocomplete
                                 name='selectedDiseases'
                                 v-model='selectedDiseases'
@@ -965,7 +965,6 @@
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
-                            </div>
                           </ValidationProvider>
 
                           <v-btn color='primary' type='submit' class='mb-2'>
@@ -992,7 +991,6 @@
                             rules=''
                             v-slot='{ errors }'
                           >
-                            <div class='form-group'>
                               <v-autocomplete
                                 name='selectedAllergenFoods'
                                 v-model='selectedAllergenFoods'
@@ -1049,7 +1047,6 @@
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
-                            </div>
                           </ValidationProvider>
 
                           <v-btn color='primary' type='submit' class='mb-2'>
@@ -1076,7 +1073,6 @@
                             rules=''
                             v-slot='{ errors }'
                           >
-                            <div class='form-group'>
                               <v-autocomplete
                                 name='selectedUnlikedFoods'
                                 v-model='selectedUnlikedFoods'
@@ -1133,7 +1129,6 @@
                               <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
-                            </div>
                           </ValidationProvider>
 
                           <v-btn color='primary' type='submit' class='mb-2'>
@@ -1189,6 +1184,7 @@ export default {
   },
   data() {
     return {
+      imgURL:null,
       e1: 1,
       specialCases: [{ 'value': 'YOK' }, { 'value': 'EMZİKLİ' }, { 'value': 'HAMİLE' }],
       disease: null,
@@ -1369,6 +1365,8 @@ export default {
         })
         .then(response => {
           this.diseases = response.data.data.diseases
+          this.unlikedFoods = response.data.data.unlikedFoods
+          this.allergenFoods = response.data.data.allergenFoods
         })
         .catch(err => console.log(err))
     },
@@ -1530,7 +1528,7 @@ export default {
               message: response.data.msg,
               position: 'topCenter'
             })
-            this.e1 = 2
+            this.e1 = 3
           } else {
             this.$izitoast.error({
               title: response.data.title,
@@ -1551,7 +1549,7 @@ export default {
       this.$axios
         .post(
           process.env.apiBaseUrl +
-          'dietician/users/user-diseases/',
+          'dietician/users/user-allergenfoods/',
           formData,
           {
             headers: {
@@ -1568,7 +1566,7 @@ export default {
               message: response.data.msg,
               position: 'topCenter'
             })
-            this.e1 = 2
+            this.e1 = 4
           } else {
             this.$izitoast.error({
               title: response.data.title,
@@ -1589,7 +1587,7 @@ export default {
       this.$axios
         .post(
           process.env.apiBaseUrl +
-          'dietician/users/user-diseases/',
+          'dietician/users/user-unlovedfoods/',
           formData,
           {
             headers: {
@@ -1606,7 +1604,6 @@ export default {
               message: response.data.msg,
               position: 'topCenter'
             })
-            this.e1 = 2
           } else {
             this.$izitoast.error({
               title: response.data.title,

@@ -189,6 +189,11 @@
 			ValidationProvider,
       Breadcrumb
 		},
+    computed:{
+      img_url() {
+        return process.env.apiPublicUrl
+      },
+    },
 		data() {
 			return {
         items: [

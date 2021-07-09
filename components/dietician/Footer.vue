@@ -92,10 +92,10 @@
 
         <v-card-text>
           <v-row>
-            <v-col cols='12' sm='12' md='10' lg='10' xl='10' class='text-center justify-center mx-auto px-auto my-auto py-auto'>
+            <v-col cols='12' sm='12' md='10' lg='11' xl='11' class='text-center justify-center mx-auto px-auto my-auto py-auto'>
               &copy; {{ new Date().getFullYear() }} - <nuxt-link to='/'>{{settings.settings.company_name}}</nuxt-link> Tüm Hakları Saklıdır.
             </v-col>
-            <v-col cols='12' sm='12' md='10' lg='2' xl='2' class='text-center justify-center mx-auto px-auto'>
+            <v-col cols='12' sm='12' md='2' lg='1' xl='1' class='text-center justify-center mx-auto px-auto'>
               <v-img src='https://mutfakyapim.com/images/mutfak/logo.png?v=1' lazy-src='https://mutfakyapim.com/images/mutfak/logo.png?v=1' contain height='25' style='filter:drop-shadow(1px 1px 1px black)' />
             </v-col>
           </v-row>
