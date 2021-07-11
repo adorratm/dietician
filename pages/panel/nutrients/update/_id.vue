@@ -4,9 +4,9 @@
       <Breadcrumb :items='items'></Breadcrumb>
       <ValidationObserver v-slot='{ handleSubmit }'>
         <form
-          @submit.prevent='handleSubmit(editNutrients)'
           ref='nutrientsForm'
           enctype='multipart/form-data'
+          @submit.prevent='handleSubmit(editNutrients)'
         >
           <v-stepper v-model='e1'>
             <v-stepper-header>
@@ -29,233 +29,233 @@
             <v-stepper-items>
               <v-stepper-content step='1'>
                 <ValidationProvider
+                  v-slot='{ errors }'
                   name='Besin Adı'
                   rules='required'
-                  v-slot='{ errors }'
                 >
                   <v-text-field
-                    label='Besin Adı'
                     id='title'
-                    type='text'
-                    name='name'
                     v-model='data.name'
                     clearable
+                    label='Besin Adı'
+                    name='name'
+                    type='text'
                   />
-                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                  <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
                     {{ errors[0] }}
                   </v-alert>
                 </ValidationProvider>
                 <ValidationProvider
+                  v-slot='{ errors }'
                   name='Besin Açıklaması'
                   rules='required'
-                  v-slot='{ errors }'
                 >
                   <v-textarea
-                    label='Besin Açıklaması'
                     id='description'
-                    class='form-control'
-                    name='description'
                     v-model='data.description'
+                    class='form-control'
                     clearable
+                    label='Besin Açıklaması'
+                    name='description'
                   ></v-textarea>
-                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                  <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
                     {{ errors[0] }}
                   </v-alert>
                 </ValidationProvider>
                 <v-tabs v-model='tab' background-color='primary' dark>
-                    <v-tab v-for='item in tabItems' :key='item.tab'>
-                      {{ item.tab }}
-                    </v-tab>
+                  <v-tab v-for='item in tabItems' :key='item.tab'>
+                    {{ item.tab }}
+                  </v-tab>
                 </v-tabs>
                 <v-tabs-items v-model='tab'>
                   <v-tab-item eager>
                     <v-card flat>
-                      <v-card-text v-if="!isEmpty(data.values) && data.values.length > 0">
-                          <v-row :key='index' v-for='(input, index) in data.values'>
-                            <v-col cols='12' sm='12' md='12' lg='4' xl='4'>
-                              <ValidationProvider
-                                name='Besin Değeri Adı'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                  <v-text-field
-                                    label='Besin Değeri Adı'
-                                    type='text'
-                                    name='vitaminName[]'
-                                    v-model='input.title'
-                                    clearable
-                                  />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                            </v-col>
-                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
-                              <ValidationProvider
-                                name='Besin Değeri'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                  <v-text-field
-                                    label='Besin Değeri'
-                                    type='text'
-                                    name='vitaminValue[]'
-                                    v-model='input.value'
-                                    clearable
-                                  />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                            </v-col>
-                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
-                              <ValidationProvider
-                                name='Besin Değeri Türü'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                  <v-text-field
-                                    label='Besin Değeri Türü'
-                                    type='text'
-                                    name='vitaminType[]'
-                                    v-model='input.type'
-                                    clearable
-                                  />
-                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                    {{ errors[0] }}
-                                  </v-alert>
-                              </ValidationProvider>
-                            </v-col>
-                            <v-col cols='12' sm='12' md='12' lg='2' xl='2' class='text-center justify-center'>
-                              <v-btn
-                                @click.prevent='cloneProperty'
-                                fab
-                                small
-                                color='info'
-                                role='button'
-                              >
-                                <v-icon>mdi mdi-plus</v-icon>
-                              </v-btn>
-                              <v-btn
-                                class='ml-2'
-                                v-if='data.values.length > 1'
-                                @click.prevent='removeProperty(index)'
-                                role='button'
-                                color='error'
-                                fab
-                                small
-                              >
-                                <v-icon>mdi mdi-close</v-icon>
-                              </v-btn>
-                            </v-col>
-                          </v-row>
+                      <v-card-text v-if='!isEmpty(data.values) && data.values.length > 0'>
+                        <v-row v-for='(input, index) in data.values' :key='index'>
+                          <v-col cols='12' lg='4' md='12' sm='12' xl='4'>
+                            <ValidationProvider
+                              v-slot='{ errors }'
+                              name='Besin Değeri Adı'
+                              rules='required'
+                            >
+                              <v-text-field
+                                v-model='input.title'
+                                clearable
+                                label='Besin Değeri Adı'
+                                name='vitaminName[]'
+                                type='text'
+                              />
+                              <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                          </v-col>
+                          <v-col cols='12' lg='3' md='12' sm='12' xl='3'>
+                            <ValidationProvider
+                              v-slot='{ errors }'
+                              name='Besin Değeri'
+                              rules='required'
+                            >
+                              <v-text-field
+                                v-model='input.value'
+                                clearable
+                                label='Besin Değeri'
+                                name='vitaminValue[]'
+                                type='text'
+                              />
+                              <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                          </v-col>
+                          <v-col cols='12' lg='3' md='12' sm='12' xl='3'>
+                            <ValidationProvider
+                              v-slot='{ errors }'
+                              name='Besin Değeri Türü'
+                              rules='required'
+                            >
+                              <v-text-field
+                                v-model='input.type'
+                                clearable
+                                label='Besin Değeri Türü'
+                                name='vitaminType[]'
+                                type='text'
+                              />
+                              <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                          </v-col>
+                          <v-col class='text-center justify-center' cols='12' lg='2' md='12' sm='12' xl='2'>
+                            <v-btn
+                              color='info'
+                              fab
+                              role='button'
+                              small
+                              @click.prevent='cloneProperty'
+                            >
+                              <v-icon>mdi mdi-plus</v-icon>
+                            </v-btn>
+                            <v-btn
+                              v-if='data.values.length > 1'
+                              class='ml-2'
+                              color='error'
+                              fab
+                              role='button'
+                              small
+                              @click.prevent='removeProperty(index)'
+                            >
+                              <v-icon>mdi mdi-close</v-icon>
+                            </v-btn>
+                          </v-col>
+                        </v-row>
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
                   <v-tab-item eager>
                     <v-card flat>
-                      <v-card-text v-if="!isEmpty(data.criteria_values) && data.criteria_values.length > 0">
-                          <v-row
-                            :key='index'
-                            v-for='(input, index) in data.criteria_values'
-                          >
-                            <v-col cols='12' sm='12' md='12' lg='4' xl='4'>
-                              <ValidationProvider
-                                name='Ölçüt Değeri Adı'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                <v-autocomplete
-                                  label='Ölçüt Değeri Adı'
-                                  name="criteriaName[]"
-                                  v-model="input.title"
-                                  :items='data.criterias'
-                                  item-text='name'
-                                  item-value='name'
-                                  clearable
-                                >
-                                </v-autocomplete>
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                            </v-col>
-                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
-                              <ValidationProvider
-                                name='Ölçüt Değeri'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                <v-text-field
-                                  label='Ölçüt Değeri'
-                                  type="text"
-                                  class="form-control"
-                                  name="criteriaValue[]"
-                                  v-model="input.value"
-                                  clearable
-                                />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                            </v-col>
-                            <v-col cols='12' sm='12' md='12' lg='3' xl='3'>
-                              <ValidationProvider
-                                name='Ölçüt Değeri Türü'
-                                rules='required'
-                                v-slot='{ errors }'
-                              >
-                                <v-text-field
-                                  label='Ölçüt Değeri Türü'
-                                  type="text"
-                                  class="form-control"
-                                  name="criteriaType[]"
-                                  v-model="input.type"
-                                  clearable
-                                />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                                  {{ errors[0] }}
-                                </v-alert>
-                              </ValidationProvider>
-                            </v-col>
-                            <v-col
-                              cols='12'
-                              sm='12'
-                              md='12'
-                              lg='2'
-                              xl='2'
-                              class='text-center justify-center'
+                      <v-card-text v-if='!isEmpty(data.criteria_values) && data.criteria_values.length > 0'>
+                        <v-row
+                          v-for='(input, index) in data.criteria_values'
+                          :key='index'
+                        >
+                          <v-col cols='12' lg='4' md='12' sm='12' xl='4'>
+                            <ValidationProvider
+                              v-slot='{ errors }'
+                              name='Ölçüt Değeri Adı'
+                              rules='required'
                             >
-                              <v-btn
-                                color='info'
-                                small
-                                fab
-                                @click.prevent='cloneProperty2'
-                                role='button'
+                              <v-autocomplete
+                                v-model='input.title'
+                                :items='data.criterias'
+                                clearable
+                                item-text='name'
+                                item-value='name'
+                                label='Ölçüt Değeri Adı'
+                                name='criteriaName[]'
                               >
-                                <v-icon>mdi mdi-plus</v-icon>
-                              </v-btn>
-                              <v-btn
-                                v-if='data.criteria_values.length > 1'
-                                color='error'
-                                small
-                                fab
-                                @click.prevent='removeProperty2(index)'
-                                role='button'
-                                class='ml-2'
-                              >
-                                <v-icon>mdi mdi-close</v-icon>
-                              </v-btn>
-                            </v-col>
-                          </v-row>
+                              </v-autocomplete>
+                              <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                          </v-col>
+                          <v-col cols='12' lg='3' md='12' sm='12' xl='3'>
+                            <ValidationProvider
+                              v-slot='{ errors }'
+                              name='Ölçüt Değeri'
+                              rules='required'
+                            >
+                              <v-text-field
+                                v-model='input.value'
+                                class='form-control'
+                                clearable
+                                label='Ölçüt Değeri'
+                                name='criteriaValue[]'
+                                type='text'
+                              />
+                              <v-alert v-show='errors[0]' class='my-1' dense type='warning'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                          </v-col>
+                          <v-col cols='12' lg='3' md='12' sm='12' xl='3'>
+                            <ValidationProvider
+                              v-slot='{ errors }'
+                              name='Ölçüt Değeri Türü'
+                              rules='required'
+                            >
+                              <v-text-field
+                                v-model='input.type'
+                                class='form-control'
+                                clearable
+                                label='Ölçüt Değeri Türü'
+                                name='criteriaType[]'
+                                type='text'
+                              />
+                              <v-alert v-show='errors[0]' class='my-1' dense type='warning'>
+                                {{ errors[0] }}
+                              </v-alert>
+                            </ValidationProvider>
+                          </v-col>
+                          <v-col
+                            class='text-center justify-center'
+                            cols='12'
+                            lg='2'
+                            md='12'
+                            sm='12'
+                            xl='2'
+                          >
+                            <v-btn
+                              color='info'
+                              fab
+                              role='button'
+                              small
+                              @click.prevent='cloneProperty2'
+                            >
+                              <v-icon>mdi mdi-plus</v-icon>
+                            </v-btn>
+                            <v-btn
+                              v-if='data.criteria_values.length > 1'
+                              class='ml-2'
+                              color='error'
+                              fab
+                              role='button'
+                              small
+                              @click.prevent='removeProperty2(index)'
+                            >
+                              <v-icon>mdi mdi-close</v-icon>
+                            </v-btn>
+                          </v-col>
+                        </v-row>
                       </v-card-text>
                     </v-card>
                   </v-tab-item>
                 </v-tabs-items>
 
                 <v-btn
-                  color='primary'
                   class='mt-3'
+                  color='primary'
                   role='button'
                   @click.prevent='e1 = 2'
                 >
@@ -267,11 +267,11 @@
                 <v-card>
                   <v-card-text>
                     <dropzone
-                      @vdropzone-complete='onComplete'
-                      ref='myDropzone'
                       id='dropzone'
-                      :options='options'
+                      ref='myDropzone'
                       :headers='options.headers'
+                      :options='options'
+                      @vdropzone-complete='onComplete'
                     ></dropzone>
                   </v-card-text>
                   <v-card-actions>
@@ -301,27 +301,27 @@
                   <v-card-text>
                     <v-data-table
                       :headers='headers'
+                      :hide-default-footer='true'
                       :items='imageData'
                       disable-pagination
-                      :hide-default-footer='true'
                     >
                       <template v-slot:[`item.img_url`]='{ item }'>
                         <v-img
-                          :src='item.img_url'
                           :lazy-src='item.img_url'
-                          max-width='150'
-                          max-height='150'
-                          contain
+                          :src='item.img_url'
                           class='text-center justify-center mx-auto px-auto'
+                          contain
+                          max-height='150'
+                          max-width='150'
                         />
                       </template>
                       <template v-slot:[`item.isCover`]='{ item }'>
                         <v-layout justify-center>
                           <v-switch
-                            class='d-flex justify-content-center mx-auto px-auto text-center'
-                            v-model='item.isCover'
-                            color='success'
                             :key='item.id'
+                            v-model='item.isCover'
+                            class='d-flex justify-content-center mx-auto px-auto text-center'
+                            color='success'
                             @click='isCoverSetter(item.id)'
                           ></v-switch>
                         </v-layout>
@@ -329,10 +329,10 @@
                       <template v-slot:[`item.isActive`]='{ item }'>
                         <v-layout justify-center>
                           <v-switch
-                            class='d-flex justify-content-center mx-auto px-auto text-center'
-                            v-model='item.isActive'
-                            color='success'
                             :key='item.id'
+                            v-model='item.isActive'
+                            class='d-flex justify-content-center mx-auto px-auto text-center'
+                            color='success'
                             @click='isActiveSetter(item.id)'
                           ></v-switch>
                         </v-layout>
@@ -357,9 +357,9 @@
                         <v-pagination
                           v-model='page'
                           :length='totalPages'
-                          total-visible='7'
                           next-icon='mdi-menu-right'
                           prev-icon='mdi-menu-left'
+                          total-visible='7'
                           @input='handlePageChange'
                         ></v-pagination>
                       </v-col>
@@ -464,10 +464,9 @@ export default {
               : null)
         },
         params: {
-          title:
-            this.data !== null && this.data !== undefined && this.data !== ''
-              ? this.data.data.name
-              : null
+          title: !this.isEmpty(this.data)
+            ? this.data.data.name
+            : null
         },
         uploadMultiple: true,
         parallelUploads: 10
@@ -570,7 +569,7 @@ export default {
           {
             headers: {
               Authorization: 'Bearer ' + this.userData.api_token
-            },
+            }
           }
         )
         .then(response => {
@@ -602,7 +601,7 @@ export default {
           {
             headers: {
               Authorization: 'Bearer ' + this.userData.api_token
-            },
+            }
           }
         )
         .then(response => {
@@ -633,7 +632,7 @@ export default {
           {
             headers: {
               Authorization: 'Bearer ' + this.userData.api_token
-            },
+            }
           }
         )
         .then(response => {
@@ -664,7 +663,7 @@ export default {
           {
             headers: {
               Authorization: 'Bearer ' + this.userData.api_token
-            },
+            }
           }
         )
         .then(response => {
@@ -736,10 +735,10 @@ export default {
     },
     editNutrients() {
       let formData = new FormData(this.$refs.nutrientsForm)
-      formData.delete("criteriaName[]");
+      formData.delete('criteriaName[]')
       let criteriaValues = this.data.criteria_values
       for (let i = 0; i < criteriaValues.length; i++) {
-        formData.append("criteriaName[]", criteriaValues[i].title);
+        formData.append('criteriaName[]', criteriaValues[i].title)
       }
       this.$axios
         .post(

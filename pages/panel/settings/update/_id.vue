@@ -94,6 +94,7 @@
                     v-slot="{ errors }"
                   >
                     <div class='my-3'>
+                      <label for='aboutUs'>Hakkımızda</label>
                       <editor
                         name="aboutUs"
                         id="aboutUs"
@@ -119,6 +120,9 @@
 														theme: 'silver'
 													},
 													setup: function(editor) {
+                            editor.on('Init', function() {
+                              editor.save();
+                            });
 														editor.on('change', function() {
 															editor.save();
 														});
@@ -137,6 +141,7 @@
                     v-slot="{ errors }"
                   >
                     <div class="my-3">
+                      <label for='mission'>Misyonumuz</label>
                       <editor
                         name="mission"
                         id="mission"
@@ -162,6 +167,9 @@
 														theme: 'silver'
 													},
 													setup: function(editor) {
+                            editor.on('Init', function() {
+                              editor.save();
+                            });
 														editor.on('change', function() {
 															editor.save();
 														});
@@ -180,6 +188,7 @@
                     v-slot="{ errors }"
                   >
                     <div class="my-3">
+                      <label for='vision'>Vizyonumuz</label>
                       <editor
                         name="vision"
                         id="vision"
@@ -205,6 +214,9 @@
 														theme: 'silver'
 													},
 													setup: function(editor) {
+                            editor.on('Init', function() {
+                              editor.save();
+                            });
 														editor.on('change', function() {
 															editor.save();
 														});
@@ -260,38 +272,13 @@
                     rules="required"
                     v-slot="{ errors }"
                   >
-                      <editor
-                        id="address"
-                        name="address"
-                        v-model="data.address"
-                        api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
-                        :init="{
-                          placeholder:'Adres',
-													height: 300,
-													plugins: [
-														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
-													],
-													toolbar:
-														'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-													entity_encoding: 'raw',
-													forced_root_block: '',
-													paste_auto_cleanup_on_paste: true,
-													language: 'tr_TR', // select language
-													language_url:
-														'https://cdn.jsdelivr.net/npm/tinymce-lang/langs/tr_TR.js',
-													branding: false,
-													image_advtab: true,
-													mobile: {
-														theme: 'silver'
-													},
-													setup: function(editor) {
-														editor.on('change', function() {
-															editor.save();
-														});
-													},
-													convert_urls: false
-												}"
-                      />
+                    <v-textarea
+                      label='Adres'
+                      name='address'
+                      id='address'
+                      v-model='data.address'
+                      clearable
+                    ></v-textarea>
                     <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
                     </v-alert>

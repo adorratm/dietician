@@ -41,7 +41,7 @@
                       v-model="inputData.name"
                       clearable
                     />
-                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                    <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
                     </v-alert>
                 </ValidationProvider>
@@ -57,7 +57,7 @@
                       v-model="inputData.description"
                       clearable
                     ></v-textarea>
-                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                    <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
                     </v-alert>
                 </ValidationProvider>
@@ -97,7 +97,7 @@
                                     v-model="input[0].value"
                                     clearable
                                   />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                   {{ errors[0] }}
                                 </v-alert>
                               </ValidationProvider>
@@ -122,7 +122,7 @@
                                     v-model="input[1].value"
                                     clearable
                                   />
-                                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                   {{ errors[0] }}
                                 </v-alert>
                               </ValidationProvider>
@@ -146,7 +146,7 @@
                                     v-model="input[2].value"
                                     clearable
                                   />
-                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                     {{ errors[0] }}
                                   </v-alert>
                               </ValidationProvider>
@@ -169,6 +169,7 @@
                                 <v-icon>mdi mdi-plus</v-icon>
                               </v-btn>
                               <v-btn
+                                class='ml-2'
                                 v-if="inputs.length > 1"
                                 @click.prevent="
 																				removeProperty(input[0].id)
@@ -207,16 +208,14 @@
                                   <v-autocomplete
                                     :label='input2[0].label'
                                     name="criteriaName[]"
-                                    v-bind:id="input2[0].id"
                                     v-model="input2[0].value"
                                     :items='allCriterias'
                                     item-text='name'
                                     item-value='name'
-                                    return-object
                                     clearable
                                   >
                                   </v-autocomplete>
-                                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                     {{ errors[0] }}
                                   </v-alert>
                               </ValidationProvider>
@@ -308,6 +307,7 @@
                 </v-tabs-items>
 
                 <v-btn
+                  class='mt-3'
                   color='primary'
                   type="submit"
                 >
@@ -328,6 +328,7 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-btn
+                      class='mt-3'
                       color='primary'
                       role="button"
                       @click.prevent="selectCover"
@@ -410,13 +411,14 @@
                             ></v-pagination>
                           </v-col>
                         </div>
-                        <button
-                          class="btn btn-outline-primary rounded-0 btn-lg"
+                        <v-btn
+                          class='mt-3'
+                          color='info'
                           role="button"
                           @click.prevent="e1 = 2"
                         >
                           Geri Dön
-                        </button>
+                        </v-btn>
                       </v-card-actions>
                     </v-card>
               </v-stepper-content>
@@ -848,7 +850,11 @@
 			},
 			saveNutrients() {
 				let formData = new FormData(this.$refs.nutrientsForm);
-
+        formData.delete("criteriaName[]");
+        let criteriaValues = this.inputs2
+        for (let i = 0; i < criteriaValues.length; i++) {
+          formData.append("criteriaName[]", criteriaValues[i].value);
+        }
 				this.$axios
 					.post(process.env.apiBaseUrl + "panel/nutrients/create", formData, {
 						json: true,

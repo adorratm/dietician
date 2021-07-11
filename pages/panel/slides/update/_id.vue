@@ -24,7 +24,7 @@
                     v-model="data.title"
                     clearable
                   ></v-text-field>
-                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                     {{ errors[0] }}
                   </v-alert>
               </ValidationProvider>
@@ -34,6 +34,7 @@
                 v-slot="{ errors }"
               >
                 <div class="my-3">
+                  <label for='description'>Slayt Açıklaması</label>
                   <editor
                     id="description"
                     name="description"
@@ -59,6 +60,9 @@
 													theme: 'silver'
 												},
 												setup: function(editor) {
+                          editor.on('Init', function() {
+														editor.save();
+													});
 													editor.on('change', function() {
 														editor.save();
 													});
@@ -66,9 +70,9 @@
 												convert_urls: false
 											}"
                   />
-                  <small class="font-weight-bold text-danger">{{
-                      errors[0]
-                    }}</small>
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                    {{ errors[0] }}
+                  </v-alert>
                 </div>
               </ValidationProvider>
                 <v-row>
@@ -89,7 +93,6 @@
                       type="file"
                       counter
                       show-size
-                      required
                       clearable
                     ></v-file-input>
                   </v-col>
@@ -147,7 +150,9 @@
 				return process.env.apiPublicUrl;
 			}
 		},
-		validate({ params }) {
+    mounted() {
+    },
+    validate({ params }) {
 			return params.id !== null ? params.id : null;
 		},
 		async asyncData({ params, error, $axios }) {

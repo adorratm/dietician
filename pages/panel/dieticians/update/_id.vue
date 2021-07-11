@@ -36,7 +36,7 @@
                         v-model='data.name'
                         clearable
                       />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>
@@ -53,7 +53,7 @@
                         v-model='data.tc'
                         clearable
                       />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>
@@ -70,7 +70,7 @@
                         v-model='data.email'
                         clearable
                       />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>
@@ -87,7 +87,7 @@
                         v-model='data.phone'
                         clearable
                       />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>
@@ -264,7 +264,7 @@
                           id='address'
                           type='text'
                           name='address'
-                          v-model='data.address'
+                          v-model='data.company_address'
                           clearable
                         />
                       <v-alert type='warning' dense v-show='errors[0]' class='my-1'> {{ errors[0] }} </v-alert>

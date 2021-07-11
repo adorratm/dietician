@@ -33,7 +33,7 @@
                           v-model="data.name"
                           clearable
                         />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>
@@ -50,7 +50,7 @@
                           v-model="data.email"
                           clearable
                         />
-                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
                         </v-alert>
                     </ValidationProvider>
@@ -91,7 +91,7 @@
                           v-model="data.facebook"
                           clearable
                         />
-                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
                         </v-alert>
                     </ValidationProvider>
@@ -108,7 +108,7 @@
                           v-model="data.twitter"
                           clearable
                         />
-                        <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                        <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
                         </v-alert>
                     </ValidationProvider>
@@ -125,7 +125,7 @@
                           v-model="data.instagram"
                           clearable
                         />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>
@@ -143,7 +143,7 @@
                           v-model="data.linkedin"
                           clearable
                         />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>
@@ -160,7 +160,7 @@
                           v-model="data.youtube"
                           clearable
                         />
-                      <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                         {{ errors[0] }}
                       </v-alert>
                     </ValidationProvider>

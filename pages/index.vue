@@ -6,7 +6,7 @@
           v-for="(slide, i) in settings.sliders"
           :key="i"
         >
-          <v-img :src="img_url+slide.img_url" :aspect-ratio="1.77" max-height='500' contain></v-img>
+          <v-img :src="img_url+slide.img_url" :aspect-ratio="1.77" contain></v-img>
         </v-carousel-item>
       </v-carousel>
       <v-card class='mb-3' v-if='!isEmpty(settings.dieticians)'>

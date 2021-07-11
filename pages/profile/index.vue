@@ -4,7 +4,7 @@
       <Breadcrumb :items='items'></Breadcrumb>
       <v-card>
         <v-card-text>
-          <v-tabs vertical>
+          <v-tabs>
             <v-tab>
               <v-icon left>
                 mdi-account

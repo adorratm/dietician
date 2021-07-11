@@ -17,6 +17,7 @@
 <script>
 import Header from '@/components/admin/Header'
 import Footer from '@/components/admin/Footer'
+
 export default {
   head() {
     return {
@@ -29,17 +30,17 @@ export default {
     Header,
     Footer
   },
-  middleware:["auth","admin"],
+  middleware: ['auth', 'admin'],
   beforeCreate() {
-    this.$store.dispatch("setSiteSettings").then(result => {
-      this.settings=result
+    this.$store.dispatch('setSiteSettings').then(result => {
+      this.settings = result
     })
   },
   mounted() {
     // This Function Changing Default Theme
     const theme = localStorage.getItem('useDarkTheme')
     if (theme) {
-      this.$vuetify.theme.dark = theme === 'true';
+      this.$vuetify.theme.dark = theme === 'true'
     } else {
       // This Function Gets Default Windows || Mac Os || Linux Application Layout
       this.initDarkMode()
@@ -47,7 +48,7 @@ export default {
   },
   data() {
     return {
-      settings:null,
+      settings: null,
       items: [
         {
           icon: 'mdi-home',
@@ -110,13 +111,30 @@ export default {
               icon: 'mdi-food',
               title: 'E-Diyet Besinleri',
               to: '/panel/e-diet-foods'
-            },
+            }
           ]
         },
         {
           icon: 'mdi-virus-outline',
           title: 'Hastalıklar',
           to: '/panel/diseases'
+        },
+        {
+          icon: 'mdi-run-fast',
+          title: 'Yemek Tarifleri',
+          to: '/panel/recipes',
+          children: [
+            {
+              icon: 'mdi-view-list',
+              title: 'Kategoriler',
+              to: '/panel/recipe-categories'
+            },
+            {
+              icon: 'mdi-jump-rope',
+              title: 'Yemek Tarifleri',
+              to: '/panel/recipes'
+            }
+          ]
         },
         {
           icon: 'mdi-folder-text',
@@ -134,7 +152,7 @@ export default {
               to: '/panel/blogs'
             }
           ]
-        },
+        }
       ],
       userData: !this.isEmpty(this.$auth.$storage.getUniversal('user'))
         ? this.$auth.$storage.getUniversal('user')

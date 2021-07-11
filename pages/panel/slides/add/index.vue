@@ -24,7 +24,7 @@
                     v-model="title"
                     clearable
                   ></v-text-field>
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -34,6 +34,7 @@
                 v-slot="{ errors }"
               >
                 <div class="my-3">
+                  <label for='description'>Slayt Açıklaması</label>
                   <editor
                     id="description"
                     name="description"
@@ -59,6 +60,9 @@
 													theme: 'silver'
 												},
 												setup: function(editor) {
+                          editor.on('Init', function() {
+														editor.save();
+													});
 													editor.on('change', function() {
 														editor.save();
 													});
@@ -66,7 +70,7 @@
 												convert_urls: false
 											}"
                   />
-                  <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                     {{ errors[0] }}
                   </v-alert>
                 </div>
@@ -87,7 +91,7 @@
                   clearable
                   v-model='imgUrl'
                 ></v-file-input>
-              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+              <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                 {{ errors[0] }}
               </v-alert>
               </ValidationProvider>

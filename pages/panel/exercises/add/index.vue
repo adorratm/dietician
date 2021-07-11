@@ -1,649 +1,597 @@
 <template>
-	<div class="main-wrapper">
-		<div class="page-wrapper">
-			<v-container fluid class="content">
-				<div class="page-header">
-					<h3 class="page-title">Egzersizler</h3>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<nuxt-link to="/panel">Anasayfa</nuxt-link>
-						</li>
-						<li class="breadcrumb-item active">Egzersizler</li>
-					</ul>
-				</div>
+  <v-container>
+    <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
+      <ValidationObserver v-slot='{ handleSubmit }'>
+        <form
+          @submit.prevent='handleSubmit(saveExercises)'
+          ref='exercisesForm'
+          enctype='multipart/form-data'
+        >
+          <v-stepper v-model='e1'>
+            <v-stepper-header>
+              <v-stepper-step :complete='e1 > 1' step='1'>
+                Egzersiz Bilgileri
+              </v-stepper-step>
 
-				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Egzersiz Ekle</h4>
-					</div>
-					<div class="card-body">
-						<ValidationObserver v-slot="{ handleSubmit }">
-							<form
-								@submit.prevent="handleSubmit(saveExercises)"
-								ref="exercisesForm"
-								enctype="multipart/form-data"
-							>
-								<v-stepper v-model="e1">
-									<v-stepper-header>
-										<v-stepper-step :complete="e1 > 1" step="1">
-											Egzersiz Bilgileri
-										</v-stepper-step>
+              <v-divider></v-divider>
 
-										<v-divider></v-divider>
+              <v-stepper-step :complete='e1 > 2' step='2'>
+                Egzersiz Görselleri
+              </v-stepper-step>
+              <v-divider></v-divider>
 
-										<v-stepper-step :complete="e1 > 2" step="2">
-											Egzersiz Görselleri
-										</v-stepper-step>
-										<v-divider></v-divider>
+              <v-stepper-step :complete='e1 > 3' step='3'>
+                Kapak Fotoğrafı Seçimi
+              </v-stepper-step>
+            </v-stepper-header>
 
-										<v-stepper-step :complete="e1 > 3" step="3">
-											Kapak Fotoğrafı Seçimi
-										</v-stepper-step>
-									</v-stepper-header>
+            <v-stepper-items>
+              <v-stepper-content step='1'>
+                <ValidationProvider
+                  name='Egzersiz Adı'
+                  rules='required'
+                  v-slot='{ errors }'
+                >
+                  <v-text-field
+                    label='Egzersiz Adı'
+                    name='name'
+                    v-model='inputData.name'
+                    clearable
+                  />
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                    {{ errors[0] }}
+                  </v-alert>
+                </ValidationProvider>
+                <ValidationProvider
+                  name='Egzersiz Kategorisi'
+                  rules='required'
+                  v-slot='{ errors }'
+                >
+                  <v-autocomplete
+                    label='Egzersiz Kategorisi'
+                    name='category_id'
+                    v-model='inputData.category_id'
+                    :items='allExerciseCategories'
+                    item-text='name'
+                    item-value='_id.$oid'
+                    clearable
+                  />
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                    {{ errors[0] }}
+                  </v-alert>
+                </ValidationProvider>
+                <ValidationProvider
+                  name='Egzersiz Birim Değeri'
+                  rules='required'
+                  v-slot='{ errors }'
+                >
+                  <v-text-field
+                    label='Egzersiz Birim Değeri'
+                    name='unit'
+                    v-model='inputData.unit'
+                    clearable
+                  />
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                    {{ errors[0] }}
+                  </v-alert>
+                </ValidationProvider>
+                <ValidationProvider
+                  name='Egzersiz Açıklaması'
+                  rules='required'
+                  v-slot='{ errors }'
+                >
+                  <v-textarea
+                    label='Egzersiz Açıklaması'
+                    name='description'
+                    v-model='inputData.description'
+                    clearable
+                  />
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                    {{ errors[0] }}
+                  </v-alert>
+                </ValidationProvider>
 
-									<v-stepper-items>
-										<v-stepper-content step="1">
-											<ValidationProvider
-												name="Egzersiz Adı"
-												rules="required"
-												v-slot="{ errors }"
-											>
-												<div class="form-group">
-													<label for="title">Egzersiz Adı</label>
-													<input
-														id="title"
-														type="text"
-														class="form-control"
-														name="name"
-														v-model="inputData.name"
-													/>
-													<small class="font-weight-bold text-danger">{{
-														errors[0]
-													}}</small>
-												</div>
-											</ValidationProvider>
-											<ValidationProvider
-												name="Egzersiz Kategorisi"
-												rules="required"
-												v-slot="{ errors }"
-											>
-												<div class="form-group">
-													<label for="category_id">Egzersiz Kategorisi</label>
-													<select
-														name="category_id"
-														id="category_id"
-														class="form-control"
-														v-model="inputData.category_id"
-														v-if="
-															allExerciseCategories !== null &&
-																allExerciseCategories !== '' &&
-																allExerciseCategories !== undefined &&
-																allExerciseCategories.length > 0
-														"
-													>
-														<option value="" selected>
-															Egzersiz Kategorisi Seçiniz
-														</option>
-														<client-only>
-															<option
-																v-bind:value="item._id.$oid"
-																v-bind:key="index"
-																v-for="(item, index) in allExerciseCategories"
-															>
-																{{ item.name }}
-															</option>
-														</client-only>
-													</select>
-													<select
-														name="category_id"
-														id="category_id"
-														class="form-control"
-														v-model="inputData.category_id"
-														v-else-if="
-															allExerciseCategories === null &&
-																allExerciseCategories === '' &&
-																allExerciseCategories === undefined &&
-																allExerciseCategories.length <= 0
-														"
-													>
-														<option value="" selected>
-															Egzersiz Kategorisi Seçiniz
-														</option>
-													</select>
-													<small class="font-weight-bold text-danger">{{
-														errors[0]
-													}}</small>
-												</div>
-											</ValidationProvider>
-											<ValidationProvider
-												name="Egzersiz Birim Değeri"
-												rules="required"
-												v-slot="{ errors }"
-											>
-												<div class="form-group">
-													<label for="unit">Egzersiz Birim Değeri</label>
-													<input
-														id="unit"
-														type="text"
-														class="form-control"
-														name="unit"
-														v-model="inputData.unit"
-													/>
-													<small class="font-weight-bold text-danger">{{
-														errors[0]
-													}}</small>
-												</div>
-											</ValidationProvider>
-											<ValidationProvider
-												name="Egzersiz Açıklaması"
-												rules="required"
-												v-slot="{ errors }"
-											>
-												<div class="form-group">
-													<label for="description">Egzersiz Açıklaması</label>
-													<textarea
-														id="description"
-														class="form-control"
-														name="description"
-														v-model="inputData.description"
-													></textarea>
-													<small class="font-weight-bold text-danger">{{
-														errors[0]
-													}}</small>
-												</div>
-											</ValidationProvider>
+                <v-btn
+                  color='primary'
+                  type='submit'
+                  class='mt-2'
+                >
+                  Egzersizi Kayıt Et, Görsel Yüklemeye Geç
+                </v-btn>
+              </v-stepper-content>
 
-											<button
-												class="btn btn-outline-primary rounded-0 btn-lg"
-												type="submit"
-											>
-												Egzersizi Kayıt Et, Görsel Yüklemeye Geç
-											</button>
-										</v-stepper-content>
+              <v-stepper-content step='2'>
+                <dropzone
+                  @vdropzone-complete='onComplete'
+                  ref='myDropzone'
+                  id='dropzone'
+                  :options='options'
+                  :headers='options.headers'
+                ></dropzone>
+                <v-btn
+                  color='primary'
+                  class='mt-2'
+                  role='button'
+                  @click.prevent='selectCover'
+                >
+                  Kapak Fotoğrafı Seç
+                </v-btn>
+              </v-stepper-content>
 
-										<v-stepper-content step="2">
-											<v-row>
-												<v-col cols="12" sm="12" md="12" lg="12" xl="12">
-													<dropzone
-														@vdropzone-complete="onComplete"
-														ref="myDropzone"
-														id="dropzone"
-														:options="options"
-														:headers="options.headers"
-													></dropzone>
-												</v-col>
-											</v-row>
-											<button
-												class="btn btn-outline-primary rounded-0 btn-lg"
-												role="button"
-												@click.prevent="selectCover"
-											>
-												Kapak Fotoğrafı Seç
-											</button>
-										</v-stepper-content>
+              <v-stepper-content step='3'>
+                <v-card>
+                  <v-card-title>Görseller</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                      :headers='headers'
+                      :items='data'
+                      disable-pagination
+                      :hide-default-footer='true'
+                    >
+                      <template v-slot:[`item.img_url`]='{ item }'>
+                        <v-btn
+                          v-bind:src='item.img_url'
+                          width='150'
+                          height='150'
+                          contain
+                        />
+                      </template>
+                      <template v-slot:[`item.isCover`]='{ item }'>
+                        <v-layout justify-center>
+                          <v-switch
+                            class='d-flex justify-content-center mx-auto px-auto text-center'
+                            v-model='item.isCover'
+                            color='success'
+                            :key='item.id'
+                            @click='isCoverSetter(item.id)'
+                          ></v-switch>
+                        </v-layout>
+                      </template>
+                      <template v-slot:[`item.isActive`]='{ item }'>
+                        <v-layout justify-center>
+                          <v-switch
+                            class='d-flex justify-content-center mx-auto px-auto text-center'
+                            v-model='item.isActive'
+                            color='success'
+                            :key='item.id'
+                            @click='isActiveSetter(item.id)'
+                          ></v-switch>
+                        </v-layout>
+                      </template>
+                      <template v-slot:[`item.actions`]='{ item }'>
+                        <v-icon small @click='deleteData(item.id)'>
+                          mdi-delete
+                        </v-icon>
+                      </template>
+                    </v-data-table>
+                    <v-row>
+                      <v-col cols='12' lg='3'>
+                        <v-select
+                          v-model='pageSize'
+                          :items='pageSizes'
+                          label='Sayfada Görüntüleme Sayısı'
+                          @change='handlePageSizeChange'
+                        ></v-select>
+                      </v-col>
 
-										<v-stepper-content step="3">
-											<div class="card">
-												<div class="card-header">
-													<h4 class="card-title">Görseller</h4>
-												</div>
-												<div class="card-body">
-													<v-card tile>
-														<v-data-table
-															:headers="headers"
-															:items="data"
-															disable-pagination
-															:hide-default-footer="true"
-														>
-															<template v-slot:[`item.img_url`]="{ item }">
-																<img
-																	v-bind:src="item.img_url"
-																	width="150"
-																	height="150"
-																/>
-															</template>
-															<template v-slot:[`item.isCover`]="{ item }">
-																<v-layout justify-center>
-																	<v-switch
-																		class="d-flex justify-content-center mx-auto px-auto text-center"
-																		v-model="item.isCover"
-																		color="success"
-																		:key="item.id"
-																		@click="isCoverSetter(item.id)"
-																	></v-switch>
-																</v-layout>
-															</template>
-															<template v-slot:[`item.isActive`]="{ item }">
-																<v-layout justify-center>
-																	<v-switch
-																		class="d-flex justify-content-center mx-auto px-auto text-center"
-																		v-model="item.isActive"
-																		color="success"
-																		:key="item.id"
-																		@click="isActiveSetter(item.id)"
-																	></v-switch>
-																</v-layout>
-															</template>
-															<template v-slot:[`item.actions`]="{ item }">
-																<v-icon small @click="deleteData(item.id)">
-																	mdi-delete
-																</v-icon>
-															</template>
-														</v-data-table>
-													</v-card>
-													<div class="row">
-														<v-col cols="12" sm="12">
-															<div class="row">
-																<v-col cols="12" lg="3">
-																	<v-select
-																		v-model="pageSize"
-																		:items="pageSizes"
-																		label="Sayfada Görüntüleme Sayısı"
-																		@change="handlePageSizeChange"
-																	></v-select>
-																</v-col>
-
-																<v-col cols="12" lg="9">
-																	<v-pagination
-																		v-model="page"
-																		:length="totalPages"
-																		total-visible="7"
-																		next-icon="mdi-menu-right"
-																		prev-icon="mdi-menu-left"
-																		@input="handlePageChange"
-																	></v-pagination>
-																</v-col>
-															</div>
-														</v-col>
-													</div>
-												</div>
-											</div>
-											<button
-												class="btn btn-outline-primary rounded-0 btn-lg"
-												role="button"
-												@click.prevent="e1 = 2"
-											>
-												Geri Dön
-											</button>
-										</v-stepper-content>
-									</v-stepper-items>
-								</v-stepper>
-							</form>
-						</ValidationObserver>
-					</div>
-				</div>
-			</v-container>
-		</div>
-	</div>
+                      <v-col cols='12' lg='9'>
+                        <v-pagination
+                          v-model='page'
+                          :length='totalPages'
+                          total-visible='7'
+                          next-icon='mdi-menu-right'
+                          prev-icon='mdi-menu-left'
+                          @input='handlePageChange'
+                        ></v-pagination>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn
+                      color='info'
+                      role='button'
+                      @click.prevent='e1 = 2'
+                    >
+                      Geri Dön
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-stepper-content>
+            </v-stepper-items>
+          </v-stepper>
+        </form>
+      </ValidationObserver>
+    </client-only>
+  </v-container>
 </template>
 <script>
-	import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import Breadcrumb from '@/components/includes/Breadcrumb'
 
-	export default {
-		middleware: ["auth","admin"],
-		layout: "admin",
-		components: {
-			ValidationObserver,
-			ValidationProvider
-		},
-		mounted() {
-			this.retrieveData();
-			this.getExerciseCategories();
-		},
-		data() {
-			return {
-				counter: 0,
-				e1: 1,
-				inputData: {
-					name: null,
-					description: null,
-					id: null,
-					category_id: null,
-					unit: null
-				},
-				data: [],
-				searchTitle: null,
-				allExerciseCategories: [],
-				headers: [
-					{ text: "#", align: "center", value: "rank" },
-					{ text: "Görsel", align: "center", value: "img_url", sortable: false },
-					{ text: "Kapak Fotoğrafı", align: "center", value: "isCover" },
-					{ text: "Durum", align: "center", value: "isActive" },
-					{
-						text: "İşlemler",
-						align: "center",
-						value: "actions",
-						sortable: false
-					}
-				],
-				page: 1,
-				totalPages: 0,
-				pageSize: 25,
-				pageSizes: [25, 50, 100, 200, 500, 1000],
-				loading: false,
-				options: {
-					url: process.env.apiBaseUrl + "panel/exercises/create-file/",
-					headers: {
-						Authorization:
-							"Bearer " +
-							(!this.isEmpty(this.$auth.$storage.getUniversal("user"))
-								? this.$auth.$storage.getUniversal("user").api_token
-								: null)
-					},
-					params: {
-						title: null
-					},
-					uploadMultiple: true,
-					parallelUploads: 10
-				},
-				userData: !this.isEmpty(this.$auth.$storage.getUniversal("user"))
-					? this.$auth.$storage.getUniversal("user")
-					: null
-			};
-		},
-		computed: {
-			img_url() {
-				return process.env.apiPublicUrl;
-			}
-		},
-		methods: {
-			isEmpty(obj) {
-				if (typeof obj == "number") return false;
-				else if (typeof obj == "string") return obj.length == 0;
-				else if (Array.isArray(obj)) return obj.length == 0;
-				else if (typeof obj == "object")
-					return obj == null || Object.keys(obj).length == 0;
-				else if (typeof obj == "boolean") return false;
-				else return !obj;
-			},
-			getExerciseCategories() {
-				this.$axios
-					.get(`${process.env.apiBaseUrl}panel/exercises/create`, {
-						json: true,
-						withCredentials: false,
-						mode: "no-cors",
-						headers: {
-							"Access-Control-Allow-Origin": "*",
-							"Access-Control-Allow-Headers":
-								"Origin, Content-Type, X-Auth-Token, Authorization",
-							"Access-Control-Allow-Methods":
-								"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-							"Access-Control-Allow-Credentials": true,
-							"Content-type": "application/json",
-							Authorization: "Bearer " + this.userData.api_token
-						},
-						credentials: "same-origin"
-					})
-					.then(response => {
-						this.allExerciseCategories = response.data.data.exercise_categories;
-					})
-					.catch(err => console.log(err));
-			},
-			selectCover() {
-				this.e1 = 3;
-				this.retrieveData();
-			},
-			getRequestParams(searchTitle, page, pageSize) {
-				let params = {};
-				params["title"] = searchTitle;
-				params["page"] = page;
-				params["size"] = pageSize;
-				return params;
-			},
-			retrieveData(url) {
-				let urlParam = "get-all";
-				if (url !== undefined && url !== "" && url !== null) {
-					urlParam = url;
-				}
-				const params = this.getRequestParams(
-					this.searchTitle,
-					this.page,
-					this.pageSize
-				);
-				this.$axios
-					.get(
-						`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercises_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name&where_column=exercise_id&where_value=${this.inputData.id}&joins=exercises_file`,
-						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
-							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
-								Authorization: "Bearer " + this.userData.api_token
-							},
-							credentials: "same-origin"
-						}
-					)
-					.then(response => {
-						this.data = response.data.data.data.map(this.getDisplayData);
+export default {
+  middleware: ['auth', 'admin'],
+  layout: 'admin',
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+    Breadcrumb
+  },
+  mounted() {
+    this.retrieveData()
+    this.getExerciseCategories()
+  },
+  data() {
+    return {
+      items: [
+        {
+          text: 'Admin Paneli',
+          disabled: false,
+          href: '/panel'
+        },
+        {
+          text: 'Egzersizler',
+          disabled: false,
+          href: '/panel/exercises/'
+        },
+        {
+          text: 'Egzersiz Ekle',
+          disabled: true,
+          href: 'javascript:void(0)'
+        }
+      ],
+      counter: 0,
+      e1: 1,
+      inputData: {
+        name: null,
+        description: null,
+        id: null,
+        category_id: null,
+        unit: null
+      },
+      data: [],
+      searchTitle: null,
+      allExerciseCategories: [],
+      headers: [
+        { text: '#', align: 'center', value: 'rank' },
+        { text: 'Görsel', align: 'center', value: 'img_url', sortable: false },
+        { text: 'Kapak Fotoğrafı', align: 'center', value: 'isCover' },
+        { text: 'Durum', align: 'center', value: 'isActive' },
+        {
+          text: 'İşlemler',
+          align: 'center',
+          value: 'actions',
+          sortable: false
+        }
+      ],
+      page: 1,
+      totalPages: 0,
+      pageSize: 25,
+      pageSizes: [25, 50, 100, 200, 500, 1000],
+      loading: false,
+      options: {
+        url: process.env.apiBaseUrl + 'panel/exercises/create-file/',
+        headers: {
+          Authorization:
+            'Bearer ' +
+            (!this.isEmpty(this.$auth.$storage.getUniversal('user'))
+              ? this.$auth.$storage.getUniversal('user').api_token
+              : null)
+        },
+        params: {
+          title: null
+        },
+        uploadMultiple: true,
+        parallelUploads: 10
+      },
+      userData: !this.isEmpty(this.$auth.$storage.getUniversal('user'))
+        ? this.$auth.$storage.getUniversal('user')
+        : null
+    }
+  },
+  computed: {
+    img_url() {
+      return process.env.apiPublicUrl
+    }
+  },
+  methods: {
+    isEmpty(obj) {
+      if (typeof obj == 'number') return false
+      else if (typeof obj == 'string') return obj.length == 0
+      else if (Array.isArray(obj)) return obj.length == 0
+      else if (typeof obj == 'object')
+        return obj == null || Object.keys(obj).length == 0
+      else if (typeof obj == 'boolean') return false
+      else return !obj
+    },
+    getExerciseCategories() {
+      this.$axios
+        .get(`${process.env.apiBaseUrl}panel/exercises/create`, {
+          json: true,
+          withCredentials: false,
+          mode: 'no-cors',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers':
+              'Origin, Content-Type, X-Auth-Token, Authorization',
+            'Access-Control-Allow-Methods':
+              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Credentials': true,
+            'Content-type': 'application/json',
+            Authorization: 'Bearer ' + this.userData.api_token
+          },
+          credentials: 'same-origin'
+        })
+        .then(response => {
+          this.allExerciseCategories = response.data.data.exercise_categories
+        })
+        .catch(err => console.log(err))
+    },
+    selectCover() {
+      this.e1 = 3
+      this.retrieveData()
+    },
+    getRequestParams(searchTitle, page, pageSize) {
+      let params = {}
+      params['title'] = searchTitle
+      params['page'] = page
+      params['size'] = pageSize
+      return params
+    },
+    retrieveData(url) {
+      let urlParam = 'get-all'
+      if (url !== undefined && url !== '' && url !== null) {
+        urlParam = url
+      }
+      const params = this.getRequestParams(
+        this.searchTitle,
+        this.page,
+        this.pageSize
+      )
+      this.$axios
+        .get(
+          `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercises_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name&where_column=exercise_id&where_value=${this.inputData.id}&joins=exercises_file`,
+          {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-type': 'application/json',
+              Authorization: 'Bearer ' + this.userData.api_token
+            },
+            credentials: 'same-origin'
+          }
+        )
+        .then(response => {
+          this.data = response.data.data.data.map(this.getDisplayData)
 
-						this.totalPages = response.data.data.last_page;
-					})
-					.catch(err => console.log(err))
-					.finally(() => (this.loading = false));
-			},
-			handlePageChange(value) {
-				this.page = value;
-				this.retrieveData();
-			},
-			handlePageSizeChange(size) {
-				this.pageSize = size;
-				this.page = 1;
-				this.retrieveData();
-			},
-			refreshList() {
-				this.retrieveData();
-			},
-			deleteData(id) {
-				this.$axios
-					.delete(
-						process.env.apiBaseUrl +
-							"panel/datatables/delete-file?id=" +
-							id +
-							"&table=exercises_file",
-						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
-							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
-								Authorization: "Bearer " + this.userData.api_token
-							},
-							credentials: "same-origin"
-						}
-					)
-					.then(response => {
-						if (response.data.success) {
-							this.$izitoast.success({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter",
-								displayMode: "once"
-							});
-							this.refreshList();
-						} else {
-							this.$izitoast.error({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter",
-								displayMode: "once"
-							});
-						}
-					});
-			},
-			isActiveSetter(id) {
-				this.$axios
-					.get(
-						process.env.apiBaseUrl +
-							"panel/datatables/is-active-setter?table=exercises_file&id=" +
-							id,
-						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
-							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
-								Authorization: "Bearer " + this.userData.api_token
-							},
-							credentials: "same-origin"
-						}
-					)
-					.then(response => {
-						if (response.data.success) {
-							this.$izitoast.success({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter",
-								displayMode: "once"
-							});
-							this.refreshList();
-						} else {
-							this.$izitoast.error({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter",
-								displayMode: "once"
-							});
-						}
-					});
-			},
-			isCoverSetter(id) {
-				this.$axios
-					.get(
-						process.env.apiBaseUrl +
-							"panel/datatables/is-cover-setter?table=exercises_file&foreign_column=exercise_id&id=" +
-							id,
-						{
-							json: true,
-							withCredentials: false,
-							mode: "no-cors",
-							headers: {
-								"Access-Control-Allow-Origin": "*",
-								"Access-Control-Allow-Headers":
-									"Origin, Content-Type, X-Auth-Token, Authorization",
-								"Access-Control-Allow-Methods":
-									"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-								"Access-Control-Allow-Credentials": true,
-								"Content-type": "application/json",
-								Authorization: "Bearer " + this.userData.api_token
-							},
-							credentials: "same-origin"
-						}
-					)
-					.then(response => {
-						if (response.data.success) {
-							this.$izitoast.success({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter",
-								displayMode: "once"
-							});
-							this.refreshList();
-						} else {
-							this.$izitoast.error({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter",
-								displayMode: "once"
-							});
-						}
-					});
-			},
-			getDisplayData(data) {
-				return {
-					rank: data.rank,
-					id: data._id.$oid,
-					img_url: this.img_url + data.img_url,
-					isCover: data.isCover,
-					isActive: data.isActive
-				};
-			},
-			onComplete(e) {
-				if (JSON.parse(e.xhr.response).success) {
-					this.$izitoast.success({
-						title: JSON.parse(e.xhr.response).title,
-						message: JSON.parse(e.xhr.response).msg,
-						position: "topCenter",
-						displayMode: "once"
-					});
-				} else {
-					this.$izitoast.error({
-						title: JSON.parse(e.xhr.response).title,
-						message: JSON.parse(e.xhr.response).msg,
-						position: "topCenter",
-						displayMode: "once"
-					});
-				}
-			},
-			saveExercises() {
-				let formData = new FormData(this.$refs.exercisesForm);
-				this.$axios
-					.post(process.env.apiBaseUrl + "panel/exercises/create", formData, {
-						json: true,
-						withCredentials: false,
-						mode: "no-cors",
-						headers: {
-							"Access-Control-Allow-Origin": "*",
-							"Access-Control-Allow-Headers":
-								"Origin, Content-Type, X-Auth-Token, Authorization",
-							"Access-Control-Allow-Methods":
-								"GET, POST, PATCH, PUT, DELETE, OPTIONS",
-							"Access-Control-Allow-Credentials": true,
-							"Content-Type":
-								"multipart/form-data; boundary=" + formData._boundary,
-							Authorization: "Bearer " + this.userData.api_token
-						},
-						credentials: "same-origin"
-					})
-					.then(response => {
-						if (response.data.success) {
-							this.$izitoast.success({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter"
-							});
-							this.$refs.myDropzone.options.url =
-								process.env.apiBaseUrl +
-								"panel/exercises/create-file/" +
-								response.data.data.$oid;
-							this.$refs.myDropzone.dropzone.options.url =
-								process.env.apiBaseUrl +
-								"panel/exercises/create-file/" +
-								response.data.data.$oid;
-							this.options.url =
-								process.env.apiBaseUrl +
-								"panel/exercises/create-file/" +
-								response.data.data.$oid;
-							this.inputData.id = response.data.data.$oid;
-							this.options.params.title = response.data.name;
-							this.e1 = 2;
-						} else {
-							this.$izitoast.error({
-								title: response.data.title,
-								message: response.data.msg,
-								position: "topCenter"
-							});
-						}
-					});
-			}
-		}
-	};
+          this.totalPages = response.data.data.last_page
+        })
+        .catch(err => console.log(err))
+        .finally(() => (this.loading = false))
+    },
+    handlePageChange(value) {
+      this.page = value
+      this.retrieveData()
+    },
+    handlePageSizeChange(size) {
+      this.pageSize = size
+      this.page = 1
+      this.retrieveData()
+    },
+    refreshList() {
+      this.retrieveData()
+    },
+    deleteData(id) {
+      this.$axios
+        .delete(
+          process.env.apiBaseUrl +
+          'panel/datatables/delete-file?id=' +
+          id +
+          '&table=exercises_file',
+          {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-type': 'application/json',
+              Authorization: 'Bearer ' + this.userData.api_token
+            },
+            credentials: 'same-origin'
+          }
+        )
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter',
+              displayMode: 'once'
+            })
+            this.refreshList()
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter',
+              displayMode: 'once'
+            })
+          }
+        })
+    },
+    isActiveSetter(id) {
+      this.$axios
+        .get(
+          process.env.apiBaseUrl +
+          'panel/datatables/is-active-setter?table=exercises_file&id=' +
+          id,
+          {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-type': 'application/json',
+              Authorization: 'Bearer ' + this.userData.api_token
+            },
+            credentials: 'same-origin'
+          }
+        )
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter',
+              displayMode: 'once'
+            })
+            this.refreshList()
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter',
+              displayMode: 'once'
+            })
+          }
+        })
+    },
+    isCoverSetter(id) {
+      this.$axios
+        .get(
+          process.env.apiBaseUrl +
+          'panel/datatables/is-cover-setter?table=exercises_file&foreign_column=exercise_id&id=' +
+          id,
+          {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-type': 'application/json',
+              Authorization: 'Bearer ' + this.userData.api_token
+            },
+            credentials: 'same-origin'
+          }
+        )
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter',
+              displayMode: 'once'
+            })
+            this.refreshList()
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter',
+              displayMode: 'once'
+            })
+          }
+        })
+    },
+    getDisplayData(data) {
+      return {
+        rank: data.rank,
+        id: data._id.$oid,
+        img_url: this.img_url + data.img_url,
+        isCover: data.isCover,
+        isActive: data.isActive
+      }
+    },
+    onComplete(e) {
+      if (JSON.parse(e.xhr.response).success) {
+        this.$izitoast.success({
+          title: JSON.parse(e.xhr.response).title,
+          message: JSON.parse(e.xhr.response).msg,
+          position: 'topCenter',
+          displayMode: 'once'
+        })
+      } else {
+        this.$izitoast.error({
+          title: JSON.parse(e.xhr.response).title,
+          message: JSON.parse(e.xhr.response).msg,
+          position: 'topCenter',
+          displayMode: 'once'
+        })
+      }
+    },
+    saveExercises() {
+      let formData = new FormData(this.$refs.exercisesForm)
+      this.$axios
+        .post(process.env.apiBaseUrl + 'panel/exercises/create', formData, {
+          json: true,
+          withCredentials: false,
+          mode: 'no-cors',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers':
+              'Origin, Content-Type, X-Auth-Token, Authorization',
+            'Access-Control-Allow-Methods':
+              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Credentials': true,
+            'Content-Type':
+              'multipart/form-data; boundary=' + formData._boundary,
+            Authorization: 'Bearer ' + this.userData.api_token
+          },
+          credentials: 'same-origin'
+        })
+        .then(response => {
+          if (response.data.success) {
+            this.$izitoast.success({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+            this.$refs.myDropzone.options.url =
+              process.env.apiBaseUrl +
+              'panel/exercises/create-file/' +
+              response.data.data.$oid
+            this.$refs.myDropzone.dropzone.options.url =
+              process.env.apiBaseUrl +
+              'panel/exercises/create-file/' +
+              response.data.data.$oid
+            this.options.url =
+              process.env.apiBaseUrl +
+              'panel/exercises/create-file/' +
+              response.data.data.$oid
+            this.inputData.id = response.data.data.$oid
+            this.options.params.title = response.data.name
+            this.e1 = 2
+          } else {
+            this.$izitoast.error({
+              title: response.data.title,
+              message: response.data.msg,
+              position: 'topCenter'
+            })
+          }
+        })
+    }
+  }
+}
 </script>

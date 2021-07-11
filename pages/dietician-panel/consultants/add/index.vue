@@ -48,7 +48,7 @@
                   counter='11'
                   clearable
                 ></v-text-field>
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -64,7 +64,7 @@
                 counter='11'
                 clearable
               ></v-text-field>
-              <v-alert type='warning' dense  v-show='errors[0]' class='my-1'>
+              <v-alert dismissible type='warning' dense  v-show='errors[0]' class='my-1'>
                 {{errors[0]}}
               </v-alert>
               </ValidationProvider>

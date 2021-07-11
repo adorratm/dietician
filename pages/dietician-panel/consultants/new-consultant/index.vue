@@ -61,7 +61,7 @@
                               clearable
                               label='Adınız ve Soyadınız'
                             />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
                           </ValidationProvider>
@@ -85,7 +85,7 @@
                               clearable
                               label='Email Adresiniz'
                             />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
                           </ValidationProvider>
@@ -109,7 +109,7 @@
                               clearable
                               label='Telefon Numaranız'
                             />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
                           </ValidationProvider>
@@ -134,7 +134,7 @@
                               clearable
                               label='T.C. Kimlik Numaranız'
                             />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
                           </ValidationProvider>
@@ -156,7 +156,7 @@
                               clearable
                               label='Şifreniz'
                             />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
                           </ValidationProvider>
@@ -178,7 +178,7 @@
                               clearable
                               label='Tekrar Şifreniz'
                             />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
                           </ValidationProvider>

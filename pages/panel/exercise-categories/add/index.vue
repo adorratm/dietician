@@ -1,205 +1,199 @@
 <template>
-	<div class="main-wrapper">
-		<div class="page-wrapper">
-			<v-container fluid class="content">
-				<div class="page-header">
-					<h3 class="page-title">Egzersiz Kategorileri</h3>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<nuxt-link to="/panel">Anasayfa</nuxt-link>
-						</li>
-						<li class="breadcrumb-item active">Egzersiz Kategorileri</li>
-					</ul>
-				</div>
+  <v-container>
+    <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <form
+          @submit.prevent="handleSubmit(saveExerciseCategories)"
+          ref="exerciseCategoriesForm"
+          enctype="multipart/form-data"
+        >
+          <v-stepper v-model="e1">
+            <v-stepper-header>
+              <v-stepper-step :complete="e1 > 1" step="1">
+                Egzersiz Kategorisi Bilgileri
+              </v-stepper-step>
 
-				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Egzersiz Kategorisi Ekle</h4>
-					</div>
-					<div class="card-body">
-						<ValidationObserver v-slot="{ handleSubmit }">
-							<form
-								@submit.prevent="handleSubmit(saveExerciseCategories)"
-								ref="exerciseCategoriesForm"
-								enctype="multipart/form-data"
-							>
-								<v-stepper v-model="e1">
-									<v-stepper-header>
-										<v-stepper-step :complete="e1 > 1" step="1">
-											Egzersiz Kategorisi Bilgileri
-										</v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 2" step="2">
+                Egzersiz Kategorisi Görselleri
+              </v-stepper-step>
+              <v-divider></v-divider>
 
-										<v-divider></v-divider>
-										<v-stepper-step :complete="e1 > 2" step="2">
-											Egzersiz Kategorisi Görselleri
-										</v-stepper-step>
-										<v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 3" step="3">
+                Kapak Fotoğrafı Seçimi
+              </v-stepper-step>
+            </v-stepper-header>
 
-										<v-stepper-step :complete="e1 > 3" step="3">
-											Kapak Fotoğrafı Seçimi
-										</v-stepper-step>
-									</v-stepper-header>
+            <v-stepper-items>
+              <v-stepper-content step="1">
+                <ValidationProvider
+                  name="Egzersiz Kategorisi"
+                  rules="required"
+                  v-slot="{ errors }"
+                >
+                    <v-text-field
+                      label='Egzersiz Kategorisi'
+                      id="title"
+                      type="text"
+                      name="name"
+                      v-model="inputData.name"
+                      clearable
+                    />
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                    {{ errors[0] }}
+                  </v-alert>
+                </ValidationProvider>
 
-									<v-stepper-items>
-										<v-stepper-content step="1">
-											<ValidationProvider
-												name="Egzersiz Kategorisi"
-												rules="required"
-												v-slot="{ errors }"
-											>
-												<div class="form-group">
-													<label for="title">Egzersiz Kategorisi</label>
-													<input
-														id="title"
-														type="text"
-														class="form-control"
-														name="name"
-														v-model="inputData.name"
-													/>
-													<small class="font-weight-bold text-danger">{{
-														errors[0]
-													}}</small>
-												</div>
-											</ValidationProvider>
+                <v-btn
+                  color='primary'
+                  class="mt-2"
+                  type="submit"
+                >
+                  Egzersiz Kategorisini Kayıt Et
+                </v-btn>
+              </v-stepper-content>
 
-											<button
-												class="btn btn-outline-primary rounded-0 btn-lg"
-												type="submit"
-											>
-												Egzersiz Kategorisini Kayıt Et
-											</button>
-										</v-stepper-content>
+              <v-stepper-content step="2">
+                    <dropzone
+                      @vdropzone-complete="onComplete"
+                      ref="myDropzone"
+                      id="dropzone"
+                      :options="options"
+                      :headers="options.headers"
+                    ></dropzone>
+                <v-btn
+                  color='primary'
+                  class="mt-2"
+                  role="button"
+                  @click.prevent="selectCover"
+                >
+                  Kapak Fotoğrafı Seç
+                </v-btn>
+              </v-stepper-content>
 
-										<v-stepper-content step="2">
-											<v-row>
-												<v-col cols="12" sm="12" md="12" lg="12" xl="12">
-													<dropzone
-														@vdropzone-complete="onComplete"
-														ref="myDropzone"
-														id="dropzone"
-														:options="options"
-														:headers="options.headers"
-													></dropzone>
-												</v-col>
-											</v-row>
-											<button
-												class="btn btn-outline-primary rounded-0 btn-lg"
-												role="button"
-												@click.prevent="selectCover"
-											>
-												Kapak Fotoğrafı Seç
-											</button>
-										</v-stepper-content>
+              <v-stepper-content step="3">
+                <v-card>
+                  <v-card-title>
+                    Görseller
+                  </v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                      :headers="headers"
+                      :items="data"
+                      disable-pagination
+                      :hide-default-footer="true"
+                    >
+                      <template v-slot:[`item.img_url`]="{ item }">
+                        <img
+                          v-bind:src="item.img_url"
+                          width="150"
+                          height="150"
+                        />
+                      </template>
+                      <template v-slot:[`item.isCover`]="{ item }">
+                        <v-layout justify-center>
+                          <v-switch
+                            class="d-flex justify-content-center mx-auto px-auto text-center"
+                            v-model="item.isCover"
+                            color="success"
+                            :key="item.id"
+                            @click="isCoverSetter(item.id)"
+                          ></v-switch>
+                        </v-layout>
+                      </template>
+                      <template v-slot:[`item.isActive`]="{ item }">
+                        <v-layout justify-center>
+                          <v-switch
+                            class="d-flex justify-content-center mx-auto px-auto text-center"
+                            v-model="item.isActive"
+                            color="success"
+                            :key="item.id"
+                            @click="isActiveSetter(item.id)"
+                          ></v-switch>
+                        </v-layout>
+                      </template>
+                      <template v-slot:[`item.actions`]="{ item }">
+                        <v-icon small @click="deleteData(item.id)">
+                          mdi-delete
+                        </v-icon>
+                      </template>
+                    </v-data-table>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-row>
+                      <v-col cols="12" lg="3">
+                        <v-select
+                          v-model="pageSize"
+                          :items="pageSizes"
+                          label="Sayfada Görüntüleme Sayısı"
+                          @change="handlePageSizeChange"
+                        ></v-select>
+                      </v-col>
 
-										<v-stepper-content step="3">
-											<div class="card">
-												<div class="card-header">
-													<h4 class="card-title">Görseller</h4>
-												</div>
-												<div class="card-body">
-													<v-card tile>
-														<v-data-table
-															:headers="headers"
-															:items="data"
-															disable-pagination
-															:hide-default-footer="true"
-														>
-															<template v-slot:[`item.img_url`]="{ item }">
-																<img
-																	v-bind:src="item.img_url"
-																	width="150"
-																	height="150"
-																/>
-															</template>
-															<template v-slot:[`item.isCover`]="{ item }">
-																<v-layout justify-center>
-																	<v-switch
-																		class="d-flex justify-content-center mx-auto px-auto text-center"
-																		v-model="item.isCover"
-																		color="success"
-																		:key="item.id"
-																		@click="isCoverSetter(item.id)"
-																	></v-switch>
-																</v-layout>
-															</template>
-															<template v-slot:[`item.isActive`]="{ item }">
-																<v-layout justify-center>
-																	<v-switch
-																		class="d-flex justify-content-center mx-auto px-auto text-center"
-																		v-model="item.isActive"
-																		color="success"
-																		:key="item.id"
-																		@click="isActiveSetter(item.id)"
-																	></v-switch>
-																</v-layout>
-															</template>
-															<template v-slot:[`item.actions`]="{ item }">
-																<v-icon small @click="deleteData(item.id)">
-																	mdi-delete
-																</v-icon>
-															</template>
-														</v-data-table>
-													</v-card>
-													<div class="row">
-														<v-col cols="12" sm="12">
-															<div class="row">
-																<v-col cols="12" lg="3">
-																	<v-select
-																		v-model="pageSize"
-																		:items="pageSizes"
-																		label="Sayfada Görüntüleme Sayısı"
-																		@change="handlePageSizeChange"
-																	></v-select>
-																</v-col>
-
-																<v-col cols="12" lg="9">
-																	<v-pagination
-																		v-model="page"
-																		:length="totalPages"
-																		total-visible="7"
-																		next-icon="mdi-menu-right"
-																		prev-icon="mdi-menu-left"
-																		@input="handlePageChange"
-																	></v-pagination>
-																</v-col>
-															</div>
-														</v-col>
-													</div>
-												</div>
-											</div>
-											<button
-												class="btn btn-outline-primary rounded-0 btn-lg"
-												role="button"
-												@click.prevent="e1 = 2"
-											>
-												Geri Dön
-											</button>
-										</v-stepper-content>
-									</v-stepper-items>
-								</v-stepper>
-							</form>
-						</ValidationObserver>
-					</div>
-				</div>
-			</v-container>
-		</div>
-	</div>
+                      <v-col cols="12" lg="9">
+                        <v-pagination
+                          v-model="page"
+                          :length="totalPages"
+                          total-visible="7"
+                          next-icon="mdi-menu-right"
+                          prev-icon="mdi-menu-left"
+                          @input="handlePageChange"
+                        ></v-pagination>
+                      </v-col>
+                    </v-row>
+                    <v-btn
+                      color='info'
+                      class="mt-2"
+                      role="button"
+                      @click.prevent="e1 = 2"
+                    >
+                      Geri Dön
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-stepper-content>
+            </v-stepper-items>
+          </v-stepper>
+        </form>
+      </ValidationObserver>
+    </client-only>
+  </v-container>
 </template>
 <script>
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
+  import Breadcrumb from '~/components/includes/Breadcrumb'
 
 	export default {
 		middleware: ["auth","admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,
-			ValidationProvider
+			ValidationProvider,
+      Breadcrumb
 		},
 		mounted() {
 			this.retrieveData();
 		},
 		data() {
 			return {
+        items: [
+          {
+            text: 'Admin Paneli',
+            disabled: false,
+            href: '/panel'
+          },
+          {
+            text: 'Egzersiz Kategorileri',
+            disabled: false,
+            href: '/panel/exercise-categories'
+          },
+          {
+            text: 'Egzersiz Kategorisi Ekle',
+            disabled: true,
+            href: 'javascript:void(0)'
+          }
+        ],
 				counter: 0,
 				e1: 1,
 				inputData: {

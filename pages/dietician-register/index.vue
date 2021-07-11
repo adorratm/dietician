@@ -76,7 +76,7 @@
                                 v-model='name'
                                 clearable
                               ></v-text-field>
-                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                              <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
                             </ValidationProvider>
@@ -93,7 +93,7 @@
                                 v-model='tc'
                                 clearable
                               ></v-text-field>
-                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                              <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
                             </ValidationProvider>
@@ -110,7 +110,7 @@
                                 v-model='email'
                                 clearable
                               ></v-text-field>
-                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                              <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
                             </ValidationProvider>
@@ -127,7 +127,7 @@
                                 v-model='phone'
                                 clearable
                               ></v-text-field>
-                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                              <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
                             </ValidationProvider>
@@ -144,7 +144,7 @@
                                 v-model='password'
                                 clearable
                               ></v-text-field>
-                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                              <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
                             </ValidationProvider>
@@ -161,7 +161,7 @@
                                 v-model='password_confirmation'
                                 clearable
                               ></v-text-field>
-                              <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                              <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                                 {{ errors[0] }}
                               </v-alert>
                             </ValidationProvider>
