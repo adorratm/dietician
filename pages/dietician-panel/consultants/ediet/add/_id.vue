@@ -13,7 +13,7 @@
               <v-stepper-header>
 
                 <v-stepper-step :complete='e1 > 0' step='1'>
-                  Kalori Hesabı
+                  Faktörler
                 </v-stepper-step>
 
                 <v-divider></v-divider>
@@ -24,14 +24,14 @@
 
                 <v-divider></v-divider>
 
-                <v-stepper-step :complete='e1 > 2' step='3'>
-                  Faktörler
+                <v-stepper-step :complete='e1 > 3' step='3'>
+                  Egzersiz
                 </v-stepper-step>
 
                 <v-divider></v-divider>
 
-                <v-stepper-step :complete='e1 > 3' step='4'>
-                  Egzersiz
+                <v-stepper-step :complete='e1 > 4' step='4'>
+                  Kalori Hesabı
                 </v-stepper-step>
 
                 <v-divider></v-divider>
@@ -42,29 +42,26 @@
               </v-stepper-header>
 
               <v-stepper-items>
-
                 <v-stepper-content step='1'>
-                  <v-simple-table>
-                    <thead>
-                    <tr>
-                      <th class='text-center justify-center' colspan='2'>Kalori Hesabı Sonucu</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>Olması Gereken Ağırlık:</td>
-                      <td>{{ !isEmpty(adultCalorieCalc.original.data.oga) ? adultCalorieCalc.original.data.oga : null }}
-                        KG
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Beden Kütle İndexi:</td>
-                      <td>
-                        {{ !isEmpty(adultCalorieCalc.original.data.bki) ? adultCalorieCalc.original.data.bki : null }}
-                      </td>
-                    </tr>
-                    </tbody>
-                  </v-simple-table>
+                  <div  v-for='(item) in factors'>
+                    <ValidationProvider
+                      v-slot='{ errors }'
+                      :name='item.title'
+                      rules=''
+                    >
+                      <v-select
+                        :items='item.values'
+                        item-text='name'
+                        item-value='_id.$oid'
+                        :label='item.title+" SEÇİN"'
+                        name='factors[]'
+                        return-object
+                      />
+                      <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </ValidationProvider>
+                  </div>
                   <v-btn class='mt-2' color='primary' role='button' @click.prevent='e1 = 2'>
                     İlerle
                   </v-btn>
@@ -135,6 +132,7 @@
                 </v-stepper-content>
 
                 <v-stepper-content step='3'>
+
                   <v-btn class='mt-2' color='primary' role='button' @click.prevent='e1 = 4'>
                     İlerle
                   </v-btn>
@@ -147,8 +145,29 @@
                     Geri Dön
                   </v-btn>
                 </v-stepper-content>
-                <v-stepper-content step='4'>
 
+                <v-stepper-content step='4'>
+                  <v-simple-table>
+                    <thead>
+                    <tr>
+                      <th class='text-center justify-center' colspan='2'>Kalori Hesabı Sonucu</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>Olması Gereken Ağırlık:</td>
+                      <td>{{ !isEmpty(adultCalorieCalc.original.data.oga) ? adultCalorieCalc.original.data.oga : null }}
+                        KG
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Beden Kütle İndexi:</td>
+                      <td>
+                        {{ !isEmpty(adultCalorieCalc.original.data.bki) ? adultCalorieCalc.original.data.bki : null }}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </v-simple-table>
                   <v-btn class='mt-2' color='primary' role='button' @click.prevent='e1 = 5'>
                     İlerle
                   </v-btn>
@@ -162,55 +181,6 @@
                   </v-btn>
                 </v-stepper-content>
                 <v-stepper-content step='5'>
-                  <ValidationProvider
-                    v-slot='{ errors }'
-                    name='Öğün'
-                    rules='required'
-                  >
-                    <v-select
-                      v-model='selectedMeals'
-                      :items='meals'
-                      item-text='name'
-                      item-value='_id'
-                      label='Öğün Seçin'
-                      multiple
-                      name='meals'
-                      return-object
-                    >
-                      <template v-slot:prepend-item>
-                        <v-list-item ripple @click='toggle'>
-                          <v-list-item-action>
-                            <v-icon
-                              :color="
-																	!isEmpty(selectedMeals) &&
-																	selectedMeals.length > 0
-																		? 'indigo darken-4'
-																		: ''
-																"
-                            >
-                              {{ icon }}
-                            </v-icon>
-                          </v-list-item-action>
-                          <v-list-item-content>
-                            <v-list-item-title>
-                              Tümünü Seç
-                            </v-list-item-title>
-                          </v-list-item-content>
-                        </v-list-item>
-                        <v-divider class='mt-2'></v-divider>
-                      </template>
-                      <template v-slot:item='data'>
-                        <v-list-item-content>
-                          <v-list-item-title
-                            v-html='data.item.name'
-                          ></v-list-item-title>
-                        </v-list-item-content>
-                      </template>
-                    </v-select>
-                    <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
-                      {{ errors[0] }}
-                    </v-alert>
-                  </ValidationProvider>
                   <v-btn class='mt-2' color='primary' type='submit'>
                     Kaydet
                   </v-btn>

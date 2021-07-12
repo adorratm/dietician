@@ -2,6 +2,8 @@
   <client-only>
     <div>
       <v-navigation-drawer
+        height='100vh'
+        style='max-height: 100vh'
         v-model='drawer'
         :mini-variant='miniVariant'
         :disable-resize-watcher='true'
@@ -32,6 +34,8 @@
         </v-layout>
       </v-navigation-drawer>
       <v-navigation-drawer
+        height='100vh'
+        style='max-height: 100vh'
         v-model='rightDrawer'
         :disable-resize-watcher='true'
         :disable-route-watcher='true'

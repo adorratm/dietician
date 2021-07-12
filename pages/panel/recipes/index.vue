@@ -1,100 +1,96 @@
 <template>
-	<div class="main-wrapper">
-		<div class="page-wrapper">
-			<v-container fluid class="content">
-				<div class="page-header">
-					<h3 class="page-title">Yemek Tarifleri</h3>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<nuxt-link to="/panel">Anasayfa</nuxt-link>
-						</li>
-						<li class="breadcrumb-item active">Yemek Tarifleri</li>
-					</ul>
-				</div>
-				<v-card tile>
-					<v-card-title class="d-flex justify-content-between">
+  <v-container>
+    <client-only>
+      <Breadcrumb :items='items'></Breadcrumb>
+      <v-card>
+        <v-card-title class="d-flex justify-content-between">
 						<span class="justify-content-center flex-grow-1">
 							<v-text-field
-								v-model="searchTitle"
-								label="Arama Yapın..."
-								class="my-auto py-auto"
-								v-on:keyup.prevent="
+                v-model="searchTitle"
+                label="Arama Yapın..."
+                class="my-auto py-auto"
+                v-on:keyup.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"
-							></v-text-field>
+              ></v-text-field>
 						</span>
-						<span class="justify-content-end flex-shrink-1">
-							<nuxt-link
-								to="/panel/recipes/add"
-								class="float-right btn btn-info-light ml-3 my-auto py-auto"
-							>
-								<i class="fa fa-plus"></i> Ekle
-							</nuxt-link>
+          <span class="justify-content-end flex-shrink-1">
+							<v-btn
+                color='primary'
+                to="/panel/recipes/add"
+                class="float-right ml-3 my-auto py-auto"
+              >
+								<v-icon>mdi mdi-plus</v-icon> Ekle
+							</v-btn>
 						</span>
-					</v-card-title>
+        </v-card-title>
+        <v-card-text>
+          <v-data-table
+            :headers="headers"
+            :items="data"
+            disable-pagination
+            :hide-default-footer="true"
+          >
+            <template v-slot:[`item.img_url`]="{ item }">
+              <v-img contain v-bind:src="item.img_url" width="150" height="150" />
+            </template>
+            <template v-slot:[`item.isActive`]="{ item }">
+              <v-layout justify-center>
+                <v-switch
+                  class="d-flex justify-content-center mx-auto px-auto text-center"
+                  v-model="item.isActive"
+                  color="success"
+                  :key="item.id"
+                  @click="isActiveSetter(item.id)"
+                ></v-switch>
+              </v-layout>
+            </template>
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-icon small class="mr-2" @click="editData(item.id)">
+                mdi-pencil
+              </v-icon>
+              <v-icon small @click="deleteData(item.id)"> mdi-delete </v-icon>
+            </template>
+          </v-data-table>
+        </v-card-text>
+        <v-card-actions>
+          <v-row>
+            <v-col cols="12" sm="12" md="3" lg="3" xl="3">
+              <v-select
+                v-model="pageSize"
+                :items="pageSizes"
+                label="Sayfada Görüntüleme Sayısı"
+                @change="handlePageSizeChange"
+              ></v-select>
+            </v-col>
 
-					<v-data-table
-						:headers="headers"
-						:items="data"
-						disable-pagination
-						:hide-default-footer="true"
-					>
-						<template v-slot:[`item.img_url`]="{ item }">
-							<img v-bind:src="item.img_url" width="150" height="150" />
-						</template>
-						<template v-slot:[`item.isActive`]="{ item }">
-							<v-layout justify-center>
-								<v-switch
-									class="d-flex justify-content-center mx-auto px-auto text-center"
-									v-model="item.isActive"
-									color="success"
-									:key="item.id"
-									@click="isActiveSetter(item.id)"
-								></v-switch>
-							</v-layout>
-						</template>
-						<template v-slot:[`item.actions`]="{ item }">
-							<v-icon small class="mr-2" @click="editData(item.id)">
-								mdi-pencil
-							</v-icon>
-							<v-icon small @click="deleteData(item.id)"> mdi-delete </v-icon>
-						</template>
-					</v-data-table>
-				</v-card>
-				<v-row>
-					<v-col cols="12" sm="12" md="3" lg="3" xl="3">
-						<v-select
-							v-model="pageSize"
-							:items="pageSizes"
-							label="Sayfada Görüntüleme Sayısı"
-							@change="handlePageSizeChange"
-						></v-select>
-					</v-col>
-
-					<v-col cols="12" sm="12" md="9" lg="9" xl="9">
-						<v-pagination
-							v-model="page"
-							:length="totalPages"
-							total-visible="7"
-							next-icon="mdi-menu-right"
-							prev-icon="mdi-menu-left"
-							@input="handlePageChange"
-						></v-pagination>
-					</v-col>
-				</v-row>
-			</v-container>
-		</div>
-	</div>
+            <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+              <v-pagination
+                v-model="page"
+                :length="totalPages"
+                total-visible="7"
+                next-icon="mdi-menu-right"
+                prev-icon="mdi-menu-left"
+                @input="handlePageChange"
+              ></v-pagination>
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </client-only>
+  </v-container>
 </template>
 <script>
 	import { ValidationObserver, ValidationProvider } from "vee-validate";
+  import Breadcrumb from '@/components/includes/Breadcrumb'
 	export default {
 		middleware: ["auth","admin"],
 		layout: "admin",
 		components: {
 			ValidationObserver,
-			ValidationProvider
+			ValidationProvider,
+      Breadcrumb
 		},
 		computed: {
 			img_url() {
@@ -103,6 +99,18 @@
 		},
 		data() {
 			return {
+			  items: [
+          {
+            text: 'Admin Paneli',
+            disabled: false,
+            href: '/panel'
+          },
+          {
+            text: 'Yemek Tarifleri',
+            disabled: true,
+            href: 'javascript:void(0)'
+          }
+        ],
 				data: [],
 				searchTitle: null,
 				empty_url: null,
@@ -131,10 +139,10 @@
 		methods: {
 			isEmpty(obj) {
 				if (typeof obj == "number") return false;
-				else if (typeof obj == "string") return obj.length == 0;
-				else if (Array.isArray(obj)) return obj.length == 0;
+				else if (typeof obj == "string") return obj.length === 0;
+				else if (Array.isArray(obj)) return obj.length === 0;
 				else if (typeof obj == "object")
-					return obj == null || Object.keys(obj).length == 0;
+					return obj == null || Object.keys(obj).length === 0;
 				else if (typeof obj == "boolean") return false;
 				else return !obj;
 			},
