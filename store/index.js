@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie'
+
 /**
  * isEmpty
  * @param obj
@@ -26,14 +27,23 @@ export const state = () => ({
   criterias: [],
   dieticians: [],
   searchs: [],
-  fixed: (!isEmpty(Cookie.get('fixed')) ? !(Cookie.get('fixed') === 'false') : true),
-  clipped: (!isEmpty(Cookie.get('clipped')) ? (Cookie.get('clipped') === 'true') : false),
-  drawer: (!isEmpty(Cookie.get('drawer')) ? (Cookie.get('drawer') === 'true') : false),
-  miniVariant: (!isEmpty(Cookie.get('miniVariant')) ? (Cookie.get('miniVariant') === 'true') : false),
-  right: (!isEmpty(Cookie.get('right')) ? (Cookie.get('right') === 'false') : true),
-  rightDrawer: (!isEmpty(Cookie.get('rightDrawer')) ? (Cookie.get('rightDrawer') === 'true') : false),
-  left: (!isEmpty(Cookie.get('left')) ? (Cookie.get('left') === 'false') : true),
-  userData : null
+  fixed: !isEmpty(Cookie.get('fixed'))
+    ? !(Cookie.get('fixed') === 'false')
+    : true,
+  clipped: !isEmpty(Cookie.get('clipped'))
+    ? Cookie.get('clipped') === 'true'
+    : false,
+  drawer: !isEmpty(Cookie.get('drawer'))
+    ? Cookie.get('drawer') === 'true'
+    : false,
+  miniVariant: !isEmpty(Cookie.get('miniVariant'))
+    ? Cookie.get('miniVariant') === 'true'
+    : false,
+  right: !isEmpty(Cookie.get('right')) ? Cookie.get('right') === 'false' : true,
+  rightDrawer: !isEmpty(Cookie.get('rightDrawer'))
+    ? Cookie.get('rightDrawer') === 'true'
+    : false,
+  left: !isEmpty(Cookie.get('left')) ? Cookie.get('left') === 'false' : true,
 })
 
 /**
@@ -41,12 +51,6 @@ export const state = () => ({
  * @type {{setLeft(*): void, setRecipeCategories(*, *): void, setFixed(*): void, setDieticians(*, *): void, setRightDrawer(*, *=): void, setNutrients(*, *): void, setEmptyURL(*, *): void, setSettings(*, *): void, setCriterias(*, *): void, setClipped(*): void, setDrawer(*, *=): void, setRight(*): void, setSearchs(*, *): void, setMiniVariant(*): void}}
  */
 export const mutations = {
-  /**
-   * Set UserData
-   */
-  setUserData(state,userData){
-    state.userData = userData
-  },
   /**
    * setFixed
    * @param state
@@ -161,7 +165,7 @@ export const mutations = {
    */
   setSearchs(state, searchs) {
     state.searchs = searchs
-  }
+  },
 }
 
 /**
@@ -169,9 +173,9 @@ export const mutations = {
  * @type {{getCriterias(*, *): Promise<AxiosResponse<*>>, getNutrients(*, *): Promise<AxiosResponse<*>>, nuxtServerInit({commit: *}): *, getSearchs(*, *): Promise<AxiosResponse<*>>, getRecipeCategories(*, *): Promise<AxiosResponse<*>>, getDieticians(*, *): Promise<AxiosResponse<*>>, RegisterUser(*, *=): Promise<*>}}
  */
 export const actions = {
-  setSiteSettings(vuexContext){
-    return this.$axios.get(process.env.apiBaseUrl+'home').then(response=>{
-      vuexContext.commit("setSettings",response.data.data)
+  setSiteSettings(vuexContext) {
+    return this.$axios.get(process.env.apiBaseUrl + 'home').then((response) => {
+      vuexContext.commit('setSettings', response.data.data)
       return response.data.data
     })
   },
@@ -190,10 +194,11 @@ export const actions = {
     return this.$axios
       .post(process.env.apiBaseUrl + registerLink, registerData, {
         headers: {
-          'Content-Type': 'multipart/form-data; boundary=' + registerData._boundary
-        }
+          'Content-Type':
+            'multipart/form-data; boundary=' + registerData._boundary,
+        },
       })
-      .then(response => {
+      .then((response) => {
         return response.data
       })
   },
@@ -210,7 +215,7 @@ export const actions = {
     }
     return this.$axios
       .get(process.env.apiBaseUrl + nutrientsURL)
-      .then(response => {
+      .then((response) => {
         if (!isEmpty(response.data)) {
           vuexContext.commit('setNutrients', response.data.data)
           vuexContext.commit('setEmptyURL', response.data.emptyUrl)
@@ -230,7 +235,7 @@ export const actions = {
     }
     return this.$axios
       .get(process.env.apiBaseUrl + recipeCategoriesURL)
-      .then(response => {
+      .then((response) => {
         if (!isEmpty(response.data)) {
           vuexContext.commit('setRecipeCategories', response.data.data)
         }
@@ -249,7 +254,7 @@ export const actions = {
     }
     return this.$axios
       .get(process.env.apiBaseUrl + criteriasURL)
-      .then(response => {
+      .then((response) => {
         if (!isEmpty(response.data)) {
           vuexContext.commit('setCriterias', response.data.data)
         }
@@ -268,7 +273,7 @@ export const actions = {
     }
     return this.$axios
       .get(process.env.apiBaseUrl + dieticiansURL)
-      .then(response => {
+      .then((response) => {
         if (!isEmpty(response.data)) {
           vuexContext.commit('setDieticians', response.data.data.dieticians)
         }
@@ -287,10 +292,10 @@ export const actions = {
     }
     return this.$axios
       .get(process.env.apiBaseUrl + searchsURL)
-      .then(response => {
+      .then((response) => {
         if (!isEmpty(response.data)) {
           vuexContext.commit('setSearchs', response.data.data)
         }
       })
-  }
+  },
 }

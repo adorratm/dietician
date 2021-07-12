@@ -43,17 +43,18 @@
 
               <v-stepper-items>
                 <v-stepper-content step='1'>
-                  <div  v-for='(item) in factors'>
+                  <div v-for='(item,index) in factors' v-if='!isEmpty(item.values)'>
                     <ValidationProvider
                       v-slot='{ errors }'
                       :name='item.title'
-                      rules=''
+                      rules='required'
                     >
                       <v-select
+                        v-model='selectedFactors[index]'
                         :items='item.values'
+                        :label='item.title+" SEÇİN"'
                         item-text='name'
                         item-value='_id.$oid'
-                        :label='item.title+" SEÇİN"'
                         name='factors[]'
                         return-object
                       />
@@ -62,7 +63,8 @@
                       </v-alert>
                     </ValidationProvider>
                   </div>
-                  <v-btn class='mt-2' color='primary' role='button' @click.prevent='e1 = 2'>
+                  <v-btn class='mt-2' color='primary' role='button'
+                         @click.prevent='(!isEmpty(selectedFactors) ? e1 = 2 : e1=1)'>
                     İlerle
                   </v-btn>
                 </v-stepper-content>
@@ -132,7 +134,68 @@
                 </v-stepper-content>
 
                 <v-stepper-content step='3'>
-
+                  <ValidationProvider
+                    v-slot='{ errors }'
+                    name='Egzersizler'
+                    rules=''
+                  >
+                    <v-autocomplete
+                      v-model='selectedExercises'
+                      :items='exercises'
+                      chips
+                      item-text='name'
+                      item-value='_id.$oid'
+                      label='Egzersiz Seçin'
+                      multiple
+                      name='selectedExercises'
+                    >
+                      <template v-slot:prepend-item>
+                        <v-list-item ripple @click='toggleExercise'>
+                          <v-list-item-action>
+                            <v-icon
+                              :color="
+																	!isEmpty(selectedExercises) &&
+																	selectedExercises.length > 0
+																		? 'indigo darken-4'
+																		: ''
+																"
+                            >
+                              {{ exerciseIcon }}
+                            </v-icon>
+                          </v-list-item-action>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              Tümünü Seç
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class='mt-2'></v-divider>
+                      </template>
+                      <template v-slot:selection='data'>
+                        <v-chip
+                          v-bind='data.attrs'
+                          :input-value='data.selected'
+                          close
+                          @click='data.select'
+                          @click:close='remove(data.item)'
+                        >
+                          {{ data.item.name }}
+                        </v-chip>
+                      </template>
+                      <template v-slot:item='data'>
+                        <template>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              v-html='data.item.name'
+                            ></v-list-item-title>
+                          </v-list-item-content>
+                        </template>
+                      </template>
+                    </v-autocomplete>
+                    <v-alert v-show='errors[0]' class='my-1' dense type='warning'>
+                      {{ errors[0] }}
+                    </v-alert>
+                  </ValidationProvider>
                   <v-btn class='mt-2' color='primary' role='button' @click.prevent='e1 = 4'>
                     İlerle
                   </v-btn>
@@ -235,6 +298,25 @@ export default {
         !this.likesAllMeal
       )
     },
+    selectAllExercise() {
+      return (
+        !this.isEmpty(this.selectedExercises) &&
+        !this.isEmpty(this.exercises) &&
+        this.selectedExercises.length === this.exercises.length
+      )
+    },
+    selectSomeExercise() {
+      return (
+        !this.isEmpty(this.selectedExercises) &&
+        this.selectedExercises.length > 0 &&
+        !this.selectAllExercise
+      )
+    },
+    exerciseIcon() {
+      if (this.selectAllExercise) return 'mdi-close-box'
+      if (this.selectSomeExercise) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
     icon() {
       if (this.likesAllMeal) return 'mdi-close-box'
       if (this.likesSomeMeal) return 'mdi-minus-box'
@@ -243,7 +325,7 @@ export default {
   },
   data() {
     return {
-      selectedFacts: [],
+      selectedFactors: [],
       items: [
         {
           text: 'Anasayfa',
@@ -281,7 +363,10 @@ export default {
         : null,
       ogbki: null,
       size: null,
-      calorie: null
+      calorie: null,
+      exercise: null,
+      exercises: [],
+      selectedExercises: []
     }
   },
   validate({ params }) {
@@ -298,9 +383,22 @@ export default {
     }
   },
   methods: {
-    /**
-     * This Function Will Be Remove
-     */
+    toggleExercise() {
+      this.$nextTick(() => {
+        if (this.selectAllExercise) {
+          this.selectedExercises = []
+        } else {
+          this.selectedExercises = []
+          this.exercises.forEach((el, index) => {
+            this.selectedExercises.push(el._id.$oid)
+          })
+        }
+      })
+    },
+    remove(item) {
+      const index = this.selectedExercises.indexOf(item._id.$oid)
+      if (index >= 0) this.selectedExercises.splice(index, 1)
+    },
     toggle() {
       this.$nextTick(() => {
         if (this.likesAllMeal) {

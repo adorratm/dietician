@@ -3,23 +3,23 @@
     <div>
       <v-navigation-drawer
         v-model='drawer'
-        :mini-variant='miniVariant'
+        :clipped='clipped'
         :disable-resize-watcher='true'
         :disable-route-watcher='true'
-        :clipped='clipped'
-        fixed
+        :mini-variant='miniVariant'
         app
+        fixed
         height='100vh'
         style='max-height: 100vh'
       >
-        <v-layout fill-height column justify-space-between>
+        <v-layout column fill-height justify-space-between>
           <v-list dense>
             <v-list-item
               v-for='(item, i) in items'
               :key='i'
               :to='item.to'
-              router
               exact
+              router
             >
               <v-list-item-action>
                 <v-icon>{{ item.icon }}</v-icon>
@@ -29,13 +29,13 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          <v-list dense class='my-0 py-0'>
+          <v-list class='my-0 py-0' dense>
             <v-divider />
             <v-list-item v-if='this.$auth.loggedIn && userData.isDietician'
-                         to='/dietician-panel'
-                         router
-                         exact
                          class='my-0 py-0'
+                         exact
+                         router
+                         to='/dietician-panel'
             >
               <v-list-item-action>
                 <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
@@ -45,10 +45,10 @@
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-if='this.$auth.loggedIn && userData.status === "admin"'
-                         to='/panel'
-                         router
-                         exact
                          class='my-0 py-0'
+                         exact
+                         router
+                         to='/panel'
             >
               <v-list-item-action>
                 <v-icon>mdi mdi-desktop-mac-dashboard</v-icon>
@@ -61,22 +61,22 @@
         </v-layout>
       </v-navigation-drawer>
       <v-navigation-drawer
-        height='100vh'
-        style='max-height: 100vh'
         v-model='rightDrawer'
+        :clipped='clipped'
         :disable-resize-watcher='true'
         :disable-route-watcher='true'
-        :right='right'
         :mini-variant='miniVariant'
-        :clipped='clipped'
-        fixed
+        :right='right'
         app
+        fixed
+        height='100vh'
+        style='max-height: 100vh'
       >
-        <v-list dense v-if='!this.$auth.loggedIn'>
+        <v-list v-if='!this.$auth.loggedIn' dense>
           <v-list-item
-            to='/login'
-            router
             exact
+            router
+            to='/login'
           >
             <v-list-item-action>
               <v-icon>mdi-login</v-icon>
@@ -86,9 +86,9 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item
-            to='/register'
-            router
             exact
+            router
+            to='/register'
           >
             <v-list-item-action>
               <v-icon>mdi-account-plus</v-icon>
@@ -98,11 +98,11 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        <v-list dense v-else>
+        <v-list v-else dense>
           <v-list-item
-            to='/profile'
-            router
             exact
+            router
+            to='/profile'
           >
             <v-list-item-action>
               <v-icon>mdi-login</v-icon>
@@ -112,9 +112,9 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item
-            v-on:click='logout'
-            router
             exact
+            router
+            v-on:click='logout'
           >
             <v-list-item-action>
               <v-icon>mdi-logout</v-icon>
@@ -129,12 +129,12 @@
       <v-app-bar
         :clipped-left='clipped'
         :clipped-right='clipped'
-        fixed
-        app
         :dense='miniVariant'
+        app
+        fixed
         height='100'
       >
-        <v-tooltip bottom attach>
+        <v-tooltip attach bottom>
           <template v-slot:activator='{on}'>
             <v-app-bar-nav-icon v-on='on' @click.stop='drawer = !drawer' />
           </template>
@@ -146,9 +146,9 @@
           >
             <v-img
               v-if='!isEmpty(settings) && !isEmpty(settings.settings)'
-              :src='img_url + settings.settings.logo'
-              :lazy-src='img_url + settings.settings.logo'
               :alt='settings.settings.company_name'
+              :lazy-src='img_url + settings.settings.logo'
+              :src='img_url + settings.settings.logo'
               :style='!$vuetify.theme.dark ? "filter:invert(0%)" : "filter:invert(100%)"'
               aspect-ratio='16/9'
               max-height='75'
@@ -161,16 +161,16 @@
 
 
         <v-menu
-          attach
-          offset-y bottom left origin='top right'
-          :close-on-content-click='true'
           :close-on-click='true'
+          :close-on-content-click='true' attach bottom left
+          offset-y
+          origin='top right'
         >
           <template v-slot:activator='{ on,attrs }'>
             <v-btn
-              icon
               v-bind='attrs'
               v-on='on'
+              icon
             >
               <v-icon>mdi-cog</v-icon>
             </v-btn>
@@ -200,7 +200,7 @@
           </v-list>
         </v-menu>
 
-        <v-tooltip bottom attach>
+        <v-tooltip attach bottom>
           <template v-slot:activator='{on}'>
             <v-app-bar-nav-icon v-on='on' @click.stop='rightDrawer = !rightDrawer'>
               <v-icon>mdi-account</v-icon>
@@ -215,7 +215,6 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import Cookie from 'js-cookie'
 
 export default {
   props: ['items', 'settings'],
@@ -268,6 +267,8 @@ export default {
       this.$auth.logout()
       this.$auth.$storage.removeUniversal('user')
       this.$auth.strategy.refreshToken.reset()
+      this.$auth.strategy.token.reset()
+      this.$auth.reset()
       this.$izitoast.success({
         title: 'Başarılı!',
         message: 'Başarıyla Çıkış Yaptınız Yönlendiriliyorsunuz.',
