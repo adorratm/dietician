@@ -423,7 +423,7 @@ export default {
     sendFactors() {
       if (!this.isEmpty(this.selectedFactors)) {
         let selectedFactors = this.selectedFactors.filter(n => n)
-        this.$axios.post(process.env.apiBaseUrl + 'dietician/e-diets/create/', { 'selectedFactors': selectedFactors }).then((result) => {
+        this.$axios.post(process.env.apiBaseUrl + 'dietician/e-diets/create/' + this.user._id.$oid, { 'selectedFactors': selectedFactors }).then((result) => {
           this.e1 = 2
         })
       } else {
