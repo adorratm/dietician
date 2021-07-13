@@ -242,6 +242,7 @@
                     Geri Dön
                   </v-btn>
                 </v-stepper-content>
+
                 <v-stepper-content step='5'>
                   <v-btn class='mt-2' color='primary' type='submit'>
                     Kaydet
@@ -419,23 +420,23 @@ export default {
       else if (typeof obj == 'boolean') return false
       else return !obj
     },
-    sendFactors(){
-      if(!this.isEmpty(this.selectedFactors)){
-        let selectedFactors = this.selectedFactors.filter(n=>n)
-        this.$axios.post(process.env.apiBaseUrl+'dietician/e-diets/user-stresscalc/',{"selectedFactors":selectedFactors}).then((result) =>{
-          this.e1=2
+    sendFactors() {
+      if (!this.isEmpty(this.selectedFactors)) {
+        let selectedFactors = this.selectedFactors.filter(n => n)
+        this.$axios.post(process.env.apiBaseUrl + 'dietician/e-diets/create/', { 'selectedFactors': selectedFactors }).then((result) => {
+          this.e1 = 2
         })
-      }else{
+      } else {
         this.$izitoast.error({
-          title: "Hata!",
-          message: "Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.",
+          title: 'Hata!',
+          message: 'Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
           position: 'topCenter',
           displayMode: 'once'
         })
-        this.e1=1
+        this.e1 = 1
       }
 
     }
-  },
+  }
 }
 </script>
