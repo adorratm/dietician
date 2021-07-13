@@ -56,7 +56,6 @@
                         item-text='name'
                         item-value='_id.$oid'
                         name='factors[]'
-                        return-object
                       />
                       <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
                         {{ errors[0] }}
@@ -64,7 +63,7 @@
                     </ValidationProvider>
                   </div>
                   <v-btn class='mt-2' color='primary' role='button'
-                         @click.prevent='(!isEmpty(selectedFactors) ? e1 = 2 : e1=1)'>
+                         @click.prevent='sendFactors'>
                     İlerle
                   </v-btn>
                 </v-stepper-content>
@@ -419,7 +418,24 @@ export default {
         return obj == null || Object.keys(obj).length === 0
       else if (typeof obj == 'boolean') return false
       else return !obj
+    },
+    sendFactors(){
+      if(!this.isEmpty(this.selectedFactors)){
+        let selectedFactors = this.selectedFactors.filter(n=>n)
+        this.$axios.post(process.env.apiBaseUrl+'dietician/e-diets/create/'+this.user._id.$oid,{"selectedFactors":selectedFactors}).then((result) =>{
+          this.e1=2
+        })
+      }else{
+        this.$izitoast.error({
+          title: "Hata!",
+          message: "Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.",
+          position: 'topCenter',
+          displayMode: 'once'
+        })
+        this.e1=1
+      }
+
     }
-  }
+  },
 }
 </script>
