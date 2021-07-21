@@ -63,7 +63,7 @@
                     </ValidationProvider>
                   </div>
                   <v-btn class='mt-2' color='primary' role='button'
-                         @click.prevent='sendFactors'>
+                         @click.prevent='selectFactors'>
                     İlerle
                   </v-btn>
                 </v-stepper-content>
@@ -119,7 +119,7 @@
                     </v-alert>
                   </ValidationProvider>
                   <v-btn class='mt-2' color='primary' role='button'
-                         @click.prevent='(!isEmpty(selectedMeals) ? e1 = 3 : e1=2)'>
+                         @click.prevent='selectMeals'>
                     İlerle
                   </v-btn>
                   <v-btn
@@ -195,7 +195,7 @@
                       {{ errors[0] }}
                     </v-alert>
                   </ValidationProvider>
-                  <v-btn class='mt-2' color='primary' role='button' @click.prevent='e1 = 4'>
+                  <v-btn class='mt-2' color='primary' role='button' @click.prevent='selectExercises'>
                     İlerle
                   </v-btn>
                   <v-btn
@@ -230,7 +230,7 @@
                     </tr>
                     </tbody>
                   </v-simple-table>
-                  <v-btn class='mt-2' color='primary' role='button' @click.prevent='e1 = 5'>
+                  <v-btn class='mt-2' color='primary' role='button' @click.prevent='sendTotal(5)'>
                     İlerle
                   </v-btn>
                   <v-btn
@@ -420,12 +420,9 @@ export default {
       else if (typeof obj == 'boolean') return false
       else return !obj
     },
-    sendFactors() {
+    selectFactors() {
       if (!this.isEmpty(this.selectedFactors)) {
-        let selectedFactors = this.selectedFactors.filter(n => n)
-        this.$axios.post(process.env.apiBaseUrl + 'dietician/e-diets/create/' + this.user._id.$oid, { 'selectedFactors': selectedFactors }).then((result) => {
-          this.e1 = 2
-        })
+        this.e1 = 2
       } else {
         this.$izitoast.error({
           title: 'Hata!',
@@ -435,7 +432,54 @@ export default {
         })
         this.e1 = 1
       }
-
+    },
+    selectMeals() {
+      if (!this.isEmpty(this.selectedMeals)) {
+        this.e1 = 3
+      } else {
+        this.$izitoast.error({
+          title: 'Hata!',
+          message: 'Öğünleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
+          position: 'topCenter',
+          displayMode: 'once'
+        })
+        this.e1 = 2
+      }
+    },
+    selectExercises() {
+      if (!this.isEmpty(this.selectedExercises)) {
+        this.sendTotal(4)
+      } else {
+        this.$izitoast.error({
+          title: 'Hata!',
+          message: 'Egzersizleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
+          position: 'topCenter',
+          displayMode: 'once'
+        })
+        this.e1 = 3
+      }
+    },
+    sendTotal(e1 = 5) {
+      if (!this.isEmpty(this.selectedFactors) && !this.isEmpty(this.selectedMeals) && !this.isEmpty(this.selectedExercises)) {
+        let selectedFactors = this.selectedFactors.filter(n => n)
+        let selectedMeals = this.selectedMeals.filter(n => n)
+        let selectedExercises = this.selectedExercises.filter(n => n)
+        this.$axios.post(process.env.apiBaseUrl + 'dietician/e-diets/create/' + this.user._id.$oid, {
+          'selectedFactors': selectedFactors,
+          'selectedMeals': selectedMeals,
+          'selectedExercises': selectedExercises
+        }).then((result) => {
+          this.e1 = e1
+        })
+      } else {
+        this.$izitoast.error({
+          title: 'Hata!',
+          message: 'Faktörleri, Öğünleri ve Egzersizleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
+          position: 'topCenter',
+          displayMode: 'once'
+        })
+        this.e1 = 4
+      }
     }
   }
 }
