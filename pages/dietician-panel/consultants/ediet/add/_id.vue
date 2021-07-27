@@ -469,7 +469,13 @@ export default {
           'selectedMeals': selectedMeals,
           'selectedExercises': selectedExercises
         }).then((result) => {
+          console.log(selectedMeals)
+          let selectedIds = [];
+          selectedMeals.forEach(function(element,i){
+            selectedIds.push(element._id.$oid)
+          })
           this.e1 = e1
+
         })
       } else {
         this.$izitoast.error({
