@@ -218,14 +218,44 @@
                     <tbody>
                     <tr>
                       <td>Olması Gereken Ağırlık:</td>
-                      <td>{{ !isEmpty(adultCalorieCalc.original.data.oga) ? adultCalorieCalc.original.data.oga : null }}
+                      <td>{{ !isEmpty(adultCalorieCalc.original.data.oga) ? (adultCalorieCalc.original.data.oga).toFixed(2) : null }}
                         KG
                       </td>
                     </tr>
                     <tr>
                       <td>Beden Kütle İndexi:</td>
                       <td>
-                        {{ !isEmpty(adultCalorieCalc.original.data.bki) ? adultCalorieCalc.original.data.bki : null }}
+                        {{ !isEmpty(adultCalorieCalc.original.data.bki) ? (adultCalorieCalc.original.data.bki).toFixed(2) : null }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Alınması Gereken Kalori Miktarı:</td>
+                      <td>
+                        {{ !isEmpty(bmh) ? bmh.toFixed(2) : null }} kcal
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Stres Faktörüne Göre Alınması Gereken Kalori Miktarı:</td>
+                      <td>
+                        {{ !isEmpty(factorFirst) ? bmh.toFixed(2) +" + "+ (factorFirst - bmh).toFixed(2) +" = " + factorFirst.toFixed(2)   : null }} kcal
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Aktivite Faktörüne Göre Alınması Gereken Kalori Miktarı:</td>
+                      <td>
+                        {{ !isEmpty(factorSecond) ? bmh.toFixed(2) +" + "+ (factorSecond - bmh).toFixed(2) +" = " + factorSecond.toFixed(2)   : null }} kcal
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Termal Faktöre Göre Alınması Gereken Kalori Miktarı:</td>
+                      <td>
+                        {{ !isEmpty(factorThird) ? bmh.toFixed(2) +" + "+ (factorThird - bmh).toFixed(2) +" = " + factorThird.toFixed(2)   : null }} kcal
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Genel Alınması Gereken Kalori Miktarı:</td>
+                      <td>
+                        {{ !isEmpty(factorFour) ? bmh.toFixed(2) +" + "+ (factorFirst - bmh).toFixed(2) +" + " + (factorSecond - bmh).toFixed(2) +" + " + (factorThird - bmh).toFixed(2) +" = " + factorFour.toFixed(2) : null }} kcal
                       </td>
                     </tr>
                     </tbody>
@@ -366,7 +396,12 @@ export default {
       calorie: null,
       exercise: null,
       exercises: [],
-      selectedExercises: []
+      selectedExercises: [],
+      bmh: null,
+      factorFirst: null,
+      factorSecond: null,
+      factorThird: null,
+      factorFour: null
     }
   },
   validate({ params }) {
@@ -469,13 +504,12 @@ export default {
           'selectedMeals': selectedMeals,
           'selectedExercises': selectedExercises
         }).then((result) => {
-          console.log(selectedMeals)
-          let selectedIds = [];
-          selectedMeals.forEach(function(element,i){
-            selectedIds.push(element._id.$oid)
-          })
+          this.bmh = result.data.data.bmh
+          this.factorFirst = result.data.data.factorFirst
+          this.factorSecond = result.data.data.factorSecond
+          this.factorThird = result.data.data.factorThird
+          this.factorFour = result.data.data.factorFour
           this.e1 = e1
-
         })
       } else {
         this.$izitoast.error({
