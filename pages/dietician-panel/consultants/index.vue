@@ -230,7 +230,7 @@ export default {
     },
     deleteData(id) {
       this.$axios
-        .update(
+        .post(
           process.env.apiBaseUrl + "dietician/users/update/" + id,
           { dietician_id: null },
           {
