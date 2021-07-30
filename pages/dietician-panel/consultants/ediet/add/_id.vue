@@ -293,34 +293,40 @@
                             />
                           </nuxt-link>
                         </th>
-                        <th class='text-center'>{{userData.company_name}}</th>
+                        <th class='text-center'><h1>{{userData.hospitalName}}</h1></th>
                       </tr>
                       <tr>
                         <th class='text-center align-center align-content-center align-self-center'>ÖĞÜN</th>
-                        <th class='text-center align-center align-content-center align-self-center'>PORSİYON</th>
-                        <th class='text-center align-center align-content-center align-self-center'>MİKTAR</th>
-                        <th class='text-center align-center align-content-center align-self-center'>YİYECEK ADI</th>
-                        <th class='text-center align-center align-content-center align-self-center'>İŞLEMLER</th>
-                        <th class='text-center align-center align-content-center align-self-center'>KHO</th>
-                        <th class='text-center align-center align-content-center align-self-center'>PRT</th>
-                        <th class='text-center align-center align-content-center align-self-center'>YAĞ</th>
-                        <th class='text-center align-center align-content-center align-self-center'>KCAL</th>
+                        <th class='text-center align-center align-content-center align-self-center'>BESİNLER</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr v-if='!isEmpty(mealss)' v-for='(item,index) in mealss' :key='item.mealname+index'>
                         <td class='text-center align-center align-content-center align-self-center'>{{item.mealname}}</td>
-                        <td class='text-center align-center align-content-center align-self-center'>
+                        <td class='text-center align-center align-content-center align-self-center' colspan='8'>
                           <v-simple-table>
+                            <thead>
+                              <tr>
+                                <th class='text-center align-center align-content-center align-self-center'>PORSİYON</th>
+                                <th class='text-center align-center align-content-center align-self-center'>MİKTAR</th>
+                                <th class='text-center align-center align-content-center align-self-center'>YİYECEK ADI</th>
+                                <th class='text-center align-center align-content-center align-self-center'>İŞLEMLER</th>
+                                <th class='text-center align-center align-content-center align-self-center'>KHO</th>
+                                <th class='text-center align-center align-content-center align-self-center'>PRT</th>
+                                <th class='text-center align-center align-content-center align-self-center'>YAĞ</th>
+                                <th class='text-center align-center align-content-center align-self-center'>KCAL</th>
+                              </tr>
+                            </thead>
                             <tbody>
                               <tr v-for='(food,i) in item.foods' :key='food.name+i'>
                                 <td class='text-center align-center align-content-center align-self-center'><v-text-field label='Porsiyon' name='portion'></v-text-field></td>
-                                <td class='text-center align-center align-content-center align-self-center'><v-text-field label='Miktar' name='quantity'></v-text-field></td>
+                                <td class='text-center align-center align-content-center align-self-center'><v-text-field label='Miktar' name='quantity' :value='food.quantity'></v-text-field></td>
                                 <td class='text-center align-center align-content-center align-self-center'><v-autocomplete :items='edietfoods' item-value='_id.$oid' item-text='name' return-object :value='food._id' name='selectedFoods[]'></v-autocomplete></td>
-                                <td class='text-center align-center align-content-center align-self-center'></td>
-                                <td class='text-center align-center align-content-center align-self-center'></td>
-                                <td class='text-center align-center align-content-center align-self-center'></td>
-                                <td class='text-center align-center align-content-center align-self-center'></td>
+                                <td class='text-center align-center align-content-center align-self-center'><v-btn color='primary'><v-icon>mdi mdi-close</v-icon> Listeden Kaldır</v-btn></td>
+                                <td class='text-center align-center align-content-center align-self-center'>{{!isEmpty(food.karbonhidrat) ? parseFloat(food.karbonhidrat) : 0}}</td>
+                                <td class='text-center align-center align-content-center align-self-center'>{{!isEmpty(food.protein) ? parseFloat(food.protein) : 0}}</td>
+                                <td class='text-center align-center align-content-center align-self-center'>{{!isEmpty(food.yag) ? parseFloat(food.yag) : 0}}</td>
+                                <td class='text-center align-center align-content-center align-self-center'>{{!isEmpty(food.calorie) ? parseFloat(food.calorie) : 0}}</td>
                               </tr>
                             </tbody>
                           </v-simple-table>
