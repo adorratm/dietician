@@ -16,7 +16,7 @@
 
 <script>
 import Header from '@/components/admin/Header'
-import Footer from '@/components/admin/Footer'
+import Footer from '@/components/includes/Footer'
 
 export default {
   head() {

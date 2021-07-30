@@ -16,7 +16,7 @@
 
 <script>
 import Header from "@/components/dietician/Header"
-import Footer from "@/components/dietician/Footer"
+import Footer from "@/components/includes/Footer"
 export default {
   head(){
     return {

@@ -117,15 +117,14 @@
         <v-toolbar-title>
           <nuxt-link to='/'
           >
-            <v-img
+            <img
               v-if='!isEmpty(settings)'
               :alt='settings.settings.company_name'
-              :lazy-src='img_url + settings.settings.logo'
-              :src='img_url + settings.settings.logo'
+              v-bind:lazy-src='img_url + settings.settings.logo'
+              v-bind:src='img_url + settings.settings.logo'
               :style='!$vuetify.theme.dark ? "filter:invert(0%)" : "filter:invert(100%)"'
-              aspect-ratio='16/9'
-              max-height='75'
-              max-width='210'
+              width='210'
+              height='75'
             />
           </nuxt-link>
         </v-toolbar-title>
