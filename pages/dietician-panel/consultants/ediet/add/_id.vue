@@ -274,6 +274,18 @@
                 </v-stepper-content>
 
                 <v-stepper-content step='5'>
+                  <v-simple-table>
+                    <thead>
+                    <tr>
+                      <th ></th>
+                      <th ></th>
+                    </tr>
+                    <tr>
+                      <th>ÖĞÜN</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                  </v-simple-table>
                   <v-btn class='mt-2' color='primary' type='submit'>
                     Kaydet
                   </v-btn>
