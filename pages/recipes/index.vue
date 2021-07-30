@@ -9,7 +9,7 @@
           En Sağlıklı Yemek Tariflerini Keşfet
         </v-card-subtitle>
         <v-card-text>
-          <img src='/img/kalori.jpg' class='mb-3'
+          <img src='/img/recipess.jpeg' class='mb-3'
                style='width: 100%;min-height: 225px;max-height:450px;object-fit: scale-down' alt=''>
             <v-text-field
               type='text'
