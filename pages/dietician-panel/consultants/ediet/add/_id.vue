@@ -274,32 +274,77 @@
                 </v-stepper-content>
 
                 <v-stepper-content step='5'>
-                  <v-simple-table>
-                    <thead>
-                    <tr>
-                      <th ></th>
-                      <th ></th>
-                    </tr>
-                    <tr>
-                      <th>ÖĞÜN</th>
-                      <th></th>
-                    </tr>
-                    </thead>
-                  </v-simple-table>
-                  <v-btn class='mt-2' color='primary' type='submit'>
-                    Kaydet
-                  </v-btn>
-                  <v-btn class='mt-2' color='success' role='button'>
-                    Kaydet ve Yazdır
-                  </v-btn>
-                  <v-btn
-                    class='mt-2'
-                    color='info'
-                    role='button'
-                    @click.prevent='e1 = 4'
-                  >
-                    Geri Dön
-                  </v-btn>
+                  <form @submit.prevent='handleSubmit(saveEdiet)'
+                        ref='edietForm'
+                        enctype='multipart/form-data'>
+                    <v-simple-table>
+                      <thead>
+                      <tr>
+                        <th class='text-center'>
+                          <nuxt-link to='/'>
+                            <img
+                              v-if='!isEmpty(settings)'
+                              :alt='settings.settings.company_name'
+                              v-bind:lazy-src='img_url + settings.settings.logo'
+                              v-bind:src='img_url + settings.settings.logo'
+                              :style='!$vuetify.theme.dark ? "filter:invert(0%)" : "filter:invert(100%)"'
+                              width='210'
+                              height='75'
+                            />
+                          </nuxt-link>
+                        </th>
+                        <th class='text-center'>{{userData.company_name}}</th>
+                      </tr>
+                      <tr>
+                        <th class='text-center align-center align-content-center align-self-center'>ÖĞÜN</th>
+                        <th class='text-center align-center align-content-center align-self-center'>PORSİYON</th>
+                        <th class='text-center align-center align-content-center align-self-center'>MİKTAR</th>
+                        <th class='text-center align-center align-content-center align-self-center'>YİYECEK ADI</th>
+                        <th class='text-center align-center align-content-center align-self-center'>İŞLEMLER</th>
+                        <th class='text-center align-center align-content-center align-self-center'>KHO</th>
+                        <th class='text-center align-center align-content-center align-self-center'>PRT</th>
+                        <th class='text-center align-center align-content-center align-self-center'>YAĞ</th>
+                        <th class='text-center align-center align-content-center align-self-center'>KCAL</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-if='!isEmpty(mealss)' v-for='(item,index) in mealss' :key='item.mealname+index'>
+                        <td class='text-center align-center align-content-center align-self-center'>{{item.mealname}}</td>
+                        <td class='text-center align-center align-content-center align-self-center'>
+                          <v-simple-table>
+                            <tbody>
+                              <tr v-for='(food,i) in item.foods' :key='food.name+i'>
+                                <td class='text-center align-center align-content-center align-self-center'><v-text-field label='Porsiyon' name='portion'></v-text-field></td>
+                                <td class='text-center align-center align-content-center align-self-center'><v-text-field label='Miktar' name='quantity'></v-text-field></td>
+                                <td class='text-center align-center align-content-center align-self-center'><v-autocomplete :items='edietfoods' item-value='_id.$oid' item-text='name' return-object :value='food._id' name='selectedFoods[]'></v-autocomplete></td>
+                                <td class='text-center align-center align-content-center align-self-center'></td>
+                                <td class='text-center align-center align-content-center align-self-center'></td>
+                                <td class='text-center align-center align-content-center align-self-center'></td>
+                                <td class='text-center align-center align-content-center align-self-center'></td>
+                              </tr>
+                            </tbody>
+                          </v-simple-table>
+                        </td>
+
+                      </tr>
+                      </tbody>
+                    </v-simple-table>
+                    <v-btn class='mt-2' color='primary' type='submit'>
+                      Kaydet
+                    </v-btn>
+                    <v-btn class='mt-2' color='success' role='button'>
+                      Kaydet ve Yazdır
+                    </v-btn>
+                    <v-btn
+                      class='mt-2'
+                      color='info'
+                      role='button'
+                      @click.prevent='e1 = 4'
+                    >
+                      Geri Dön
+                    </v-btn>
+                  </form>
+
                 </v-stepper-content>
               </v-stepper-items>
             </v-stepper>
@@ -313,6 +358,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Breadcrumb from '@/components/includes/Breadcrumb'
+import { mapState } from 'vuex'
 
 export default {
   middleware: ['auth', 'dietician'],
@@ -323,6 +369,7 @@ export default {
     Breadcrumb
   },
   computed: {
+    ...mapState(["settings"]),
     img_url() {
       return process.env.apiPublicUrl
     },
@@ -413,7 +460,8 @@ export default {
       factorFirst: null,
       factorSecond: null,
       factorThird: null,
-      factorFour: null
+      factorFour: null,
+      mealss:[]
     }
   },
   validate({ params }) {
@@ -521,6 +569,7 @@ export default {
           this.factorSecond = result.data.data.factorSecond
           this.factorThird = result.data.data.factorThird
           this.factorFour = result.data.data.factorFour
+          this.mealss = result.data.data.mealss
           this.e1 = e1
         })
       } else {
