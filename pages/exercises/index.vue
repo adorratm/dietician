@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <client-only>
+      <Breadcrumb :items='items' color="purple"></Breadcrumb>
       <v-card class='mb-3 text-center'>
         <v-card-title class='text-center justify-center'>
           Egzersiz Kategorileri
@@ -97,7 +98,9 @@
 </template>
 
 <script>
+import Breadcrumb from "../../components/includes/Breadcrumb";
 export default {
+  components: {Breadcrumb},
   async mounted() {
     await this.$axios.get(process.env.apiBaseUrl + "home/exercisecategories").then(res => {
       this.setExercisecategories(res.data.data.data,res.data.data.links.length-2)
@@ -151,6 +154,16 @@ export default {
     loading: true,
     exercisecategories: [],
     items: [
+      {
+        text: 'Anasayfa',
+        disabled: false,
+        href: '/'
+      },
+      {
+        text: 'Egzersiz Kategorileri',
+        disabled: true,
+        href: '/exercises'
+      }
     ],
   }),
 }

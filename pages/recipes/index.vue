@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <client-only>
+      <Breadcrumb :items="items" color="purple"></Breadcrumb>
       <v-card class='mb-3 text-center'>
         <v-card-title class='text-center justify-center'>
           Yemek Tarifleri
@@ -8,6 +9,7 @@
         <v-card-subtitle>
           En Sağlıklı Yemek Tariflerini Keşfet
         </v-card-subtitle>
+
         <v-card-text>
           <img src='/img/recipess.jpeg' class='mb-3'
                style='width: 100%;min-height: 225px;max-height:450px;object-fit: scale-down' alt=''>
@@ -61,7 +63,7 @@
                       indeterminate
                     ></v-progress-linear>
                   </template>
-
+                  <nuxt-link v-bind:to='/recipes/ + recipe.slug' class="text-decoration-none">
                   <v-img
                     height="250"
                     :src="recipe.img_url"
@@ -69,6 +71,7 @@
 
                   <v-card-title v-text="recipe.name"></v-card-title>
 
+                  </nuxt-link>
                   <v-card-text>
                     <v-row
                       align="center"
@@ -87,7 +90,7 @@
                     <div v-text="recipe.description"></div>
                   </v-card-text>
 
-
+                  <nuxt-link v-bind:to='/recipes/ + recipe.slug' class="text-decoration-none">
                   <v-card-actions class="text-right">
                     <v-btn
                       color="deep-purple lighten-2"
@@ -97,6 +100,7 @@
                       YEMEK DETAYLARI
                     </v-btn>
                   </v-card-actions>
+                  </nuxt-link>
                 </v-card>
               </v-col>
             </client-only>
@@ -115,7 +119,9 @@
 </template>
 
 <script>
+import Breadcrumb from "../../components/includes/Breadcrumb";
 export default {
+  components: {Breadcrumb},
   async mounted() {
     await this.$axios.get(process.env.apiBaseUrl + "home/recipes").then(res => {
       this.setRecipess(res.data.data.data,res.data.data.links.length-2)
@@ -162,6 +168,7 @@ export default {
 
   },
   data: () => ({
+
     searchResultText:'Tüm Yemek Tarifleri',
     searchText: '',
     pageLength:1,
@@ -169,6 +176,16 @@ export default {
     loading: true,
     recipes: [],
     items: [
+      {
+        text: 'Anasayfa',
+        disabled: false,
+        href: '/'
+      },
+      {
+        text: 'Yemek Tarifleri',
+        disabled: true,
+        href: '/recipes'
+      }
     ],
   }),
 }

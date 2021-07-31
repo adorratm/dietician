@@ -66,9 +66,9 @@
                       }}
                     </nuxt-link>
                   </v-card-title>
-                  <v-card-text>
-                    {{ exercisecategory.description }}
-                  </v-card-text>
+<!--                  <v-card-text one-line>-->
+<!--                    {{ exercisecategory.description }}-->
+<!--                  </v-card-text>-->
                   <v-card-actions>
                     <v-btn
                       v-bind:to='"/exercises/details/" + exercisecategory.slug'
