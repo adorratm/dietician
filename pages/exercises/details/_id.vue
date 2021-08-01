@@ -38,8 +38,9 @@
           <v-list>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title class="font-weight-bold" v-text="exercise.data.name+' - '+exercise.data.category.name"></v-list-item-title>
-                <div class="my-3">{{exercise.data.description}}</div>
+                <v-list-item-title class="font-weight-bold"
+                                   v-text="exercise.data.name+' - '+exercise.data.category.name"></v-list-item-title>
+                <div class="my-3">{{ exercise.data.description }}</div>
               </v-list-item-content>
               <v-list-item-action>
               </v-list-item-action>
@@ -87,12 +88,12 @@ export default {
         {
           text: 'Egzersizler',
           disabled: true,
-          href: '/recipes'
+          href: '/exercises'
         },
         {
           text: this.exercise.data.category.name,
           disabled: false,
-          href: '/recipes/'+this.exercise.data.category.slug
+          href: '/recipes/' + this.exercise.data.category.slug
         },
         {
           text: this.item,

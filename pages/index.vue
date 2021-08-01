@@ -25,7 +25,7 @@
               Çalıştığı Hastane/Poliklinik : <b>{{dietician.hospitalName}}</b>
             </v-card-text>
             <v-card-actions>
-              <v-btn :to='"/dieticians/"+dietician.slug+"/make-appointment"' color='primary' block>Randevu Almak İçin Tıklayın</v-btn>
+              <v-btn :to='"/dieticians/appointments/"+dietician.slug' color='primary' block>Randevu Almak İçin Tıklayın</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>

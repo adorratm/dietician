@@ -57,12 +57,14 @@
                       Poliklinik: {{ item.hospitalName }}
                     </div>
                     <div>
-                      <v-btn
-                        depressed
-                        color="primary"
-                      >
-                        Randevu Al
-                      </v-btn>
+                      <NuxtLink :to="'/dieticians/appointments/'+item.slug" >
+                        <v-btn
+                          depressed
+                          color="primary"
+                        >
+                          Randevu Al
+                        </v-btn>
+                      </NuxtLink>
                     </div>
 
                   </v-list-item-subtitle>
