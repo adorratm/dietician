@@ -212,7 +212,7 @@
                           </ValidationProvider>
                         </td>
                       </tr>
-                      <tr v-if='data.gender === "Kadın"'>
+                      <tr v-if='data.gender == "Kadın"'>
                         <td><b>Özel Durum :</b></td>
                         <td colspan='2'>
                           <ValidationProvider
@@ -431,7 +431,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Boy (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -455,7 +454,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Ağırlık (kg)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -479,7 +477,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Bel (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -503,7 +500,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Kalça (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -527,7 +523,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Göğüs (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -551,7 +546,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Boyun (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -575,7 +569,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Üst Kol (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -600,7 +593,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Alt Kol (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -625,7 +617,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Kol Bileği (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -650,7 +641,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Üst Bacak (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -675,7 +665,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Alt Bacak (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -700,7 +689,6 @@
                         <td colspan='2'>
                           <ValidationProvider
                             name='Deri Kıvrım Kalınlığı (cm)'
-                            rules='required'
                             v-slot='{ errors }'
                           >
                             <v-text-field
@@ -1355,6 +1343,14 @@ export default {
     },
     saveInformation() {
       let formData = new FormData(this.$refs.informationForm)
+      formData.delete('district')
+      formData.delete('neighborhood')
+      formData.delete('city')
+      formData.delete('town')
+      formData.append('district',this.data.district.name)
+      formData.append('town',this.data.town.name)
+      formData.append('city',this.data.city.name)
+      formData.append('neighborhood',this.data.neighborhood.name)
       formData.append('dietician_id', this.userData._id)
       this.$axios
         .post(process.env.apiBaseUrl + 'dietician/users/create/', formData, {
@@ -1365,7 +1361,7 @@ export default {
           }
         })
         .then(response => {
-          if (response.data.success) {
+          if (response.status==200) {
             this.$izitoast.success({
               title: response.data.title,
               message: response.data.msg,
