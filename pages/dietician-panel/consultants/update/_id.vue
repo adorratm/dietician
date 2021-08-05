@@ -312,7 +312,7 @@
                                 </ValidationProvider>
                               </td>
                             </tr>
-                            <tr>
+                            <tr v-if='data.gender === "Kadın"'>
                               <td><b>Özel Durum :</b></td>
                               <td colspan='2'>
                                 <ValidationProvider

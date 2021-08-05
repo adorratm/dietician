@@ -212,7 +212,7 @@
                           </ValidationProvider>
                         </td>
                       </tr>
-                      <tr>
+                      <tr v-if='data.gender === "Kadın"'>
                         <td><b>Özel Durum :</b></td>
                         <td colspan='2'>
                           <ValidationProvider
@@ -1298,6 +1298,10 @@ export default {
             response.data.data.cities.length > 0
               ? response.data.data.cities
               : []
+          let item = this.country.cities.filter(obj => {
+            return obj.name === this.data.city
+          })
+          this.getTowns(item[0])
         })
     },
     getTowns: function(item) {
@@ -1310,6 +1314,10 @@ export default {
           this.country.neighborhoods = []
           this.company_district = null
           this.company_neighborhood = null
+          let item = this.country.towns.filter(obj => {
+            return obj.name === this.data.town
+          })
+          this.getDistricts(item[0])
         })
     },
     getDistricts: function(item) {
@@ -1323,6 +1331,10 @@ export default {
             response.data.districts.length > 0 ? response.data.districts : []
           this.country.neighborhoods = []
           this.company_neighborhood = null
+          let item = this.country.districts.filter(obj => {
+            return obj.name === this.data.district
+          })
+          this.getNeighborhoods(item[0])
         })
     },
     getNeighborhoods: function(item) {
@@ -1382,6 +1394,8 @@ export default {
       formData.append('tc', this.data.tc)
       formData.append('phone', this.data.phone)
       formData.append('id', this.createdConsultant)
+      formData.delete("selectedDiseases")
+      formData.append("selectedDiseases",this.selectedDiseases)
       this.$axios
         .post(
           process.env.apiBaseUrl +
@@ -1418,10 +1432,12 @@ export default {
       formData.append('tc', this.data.tc)
       formData.append('phone', this.data.phone)
       formData.append('id', this.createdConsultant)
+      formData.delete("selectedAllergenFoods")
+      formData.append("selectedAllergenFoods",this.selectedAllergenFoods)
       this.$axios
         .post(
           process.env.apiBaseUrl +
-          'dietician/users/user-diseases/',
+          'dietician/users/user-allergenfoods/',
           formData,
           {
             headers: {
@@ -1454,10 +1470,12 @@ export default {
       formData.append('tc', this.data.tc)
       formData.append('phone', this.data.phone)
       formData.append('id', this.createdConsultant)
+      formData.delete("selectedUnlikedFoods")
+      formData.append("selectedUnlikedFoods",this.selectedUnlikedFoods)
       this.$axios
         .post(
           process.env.apiBaseUrl +
-          'dietician/users/user-diseases/',
+          'dietician/users/user-unlovedfoods/',
           formData,
           {
             headers: {
