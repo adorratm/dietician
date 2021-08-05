@@ -259,8 +259,8 @@
                               v-model='data.city'
                               ref='city'
                               clearable
-                              label='İkamet Ettiğiniz İl'
                               return-object
+                              label='İkamet Ettiğiniz İl'
                             />
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
@@ -287,8 +287,8 @@
                               :items='country.towns'
                               item-value='name'
                               item-text='name'
-                              return-object
                               label='İkamet Ettiğiniz İlçe'
+                              return-object
                               clearable
                             />
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
@@ -316,8 +316,8 @@
                               :items='country.districts'
                               item-text='name'
                               item-value='name'
-                              return-object
                               label='İkamet Ettiğiniz Semt'
+                              return-object
                               clearable
                             />
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
@@ -345,6 +345,7 @@
                               item-value='name'
                               item-text='name'
                               clearable
+                              return-object
                               label='İkamet Ettiğiniz Mahalle'
                             />
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
