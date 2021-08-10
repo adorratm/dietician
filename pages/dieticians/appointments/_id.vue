@@ -21,17 +21,51 @@
             </v-card-title>
 
             <v-card-text>
-              <v-text-field label="Ad Soyad" v-model="fullname" name="fullname"></v-text-field>
-              <v-text-field label="Telefon" v-model="phone" name="phone"></v-text-field>
-              <v-text-field label="Mail" v-model="mail" name="mail"></v-text-field>
+<!--              <v-text-field label="Ad Soyad" v-model="fullname" name="fullname"></v-text-field>-->
+<!--              <v-text-field label="Telefon" v-model="phone" name="phone"></v-text-field>-->
+<!--              <v-text-field label="Mail" v-model="mail" name="mail"></v-text-field>-->
               <v-textarea
                 outlined
                 name="description"
                 label="Açıklama"
                 v-model="description"
+                class="my-3"
               ></v-textarea>
               <v-btn color="primary" @click="addAppointment">
                 Oluştur!
+              </v-btn>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+      <div class="text-center">
+        <v-dialog
+          v-model="dialogDel"
+          width="500"
+        >
+          <template v-slot:activator="{ on, attrs }">
+          </template>
+
+          <v-card>
+            <v-card-title class="text-h5 grey lighten-2">
+              Randevunuz
+              <v-divider></v-divider>
+              <span v-if="args!==null">{{ args.date.getDate()+ '.'+(args.date.getMonth()+1) +'.'+args.date.getFullYear()+' '+args.date.getHours()+':00' }}</span>
+            </v-card-title>
+
+            <v-card-text>
+<!--              <v-text-field label="Ad Soyad" v-model="fullname" name="fullname"></v-text-field>-->
+<!--              <v-text-field label="Telefon" v-model="phone" name="phone"></v-text-field>-->
+<!--              <v-text-field label="Mail" v-model="mail" name="mail"></v-text-field>-->
+              Silmek İstediğinize Emin Misiniz?
+              <v-btn color="danger">
+                Sil!
               </v-btn>
             </v-card-text>
 
@@ -62,6 +96,7 @@ export default {
   },
   mounted(){
     this.done=localStorage.getItem('done')
+    console.log(this.token)
     this.$axios.get(process.env.apiBaseUrl+'dieticians/dieticians/'+this.$route.params.id).then(res=>{
       this.dietician=res.data.data
     })
@@ -70,11 +105,26 @@ export default {
     })
   },
   methods:{
+    eventClick(arg){
+      // console.log(arg)
+      // if(arg.event.consultant_id==this.userData._id)
+      //   this.dialogDel=true
+    },
+    isEmpty(obj) {
+      if (typeof obj == "number") return false;
+      else if (typeof obj == "string") return obj.length === 0;
+      else if (Array.isArray(obj)) return obj.length === 0;
+      else if (typeof obj == "object")
+        return obj == null || Object.keys(obj).length === 0;
+      else if (typeof obj == "boolean") return false;
+      else return !obj;
+    },
     getAppointments(data){
       data.forEach(e=>{
         this.calendarOptions.events.push({
-          title:'DOLU',
-          start:e.date
+          title:this.userData!==null && this.userData._id==e.consultant_id ? 'RANDEVUNUZ' : 'DOLU',
+          start:e.date,
+          consultant_id:e.consultant_id
         })
       })
     },
@@ -86,16 +136,29 @@ export default {
     },
     addAppointment(){
       this.$axios.post(process.env.apiBaseUrl+'appointments/',{
-        fullname:this.fullname,
-        email:this.mail,
+        // fullname:this.fullname,
+        // email:this.mail,
         slug:this.$route.params.id,
         description:this.description,
         date:this.args.dateStr,
-        phone:this.phone
+        // phone:this.phone
+      },{
+        headers:{
+          'Authorization': "Bearer " + this.token
+        }
       })
       .then(res=>{
+        if(res.data.success==false){
+          this.dialog=false
+          this.$izitoast.error({
+            title: res.data.title,
+            message: res.data.msg,
+            position: "topCenter"
+          });
+        }
+          else{
           this.calendarOptions.events.push({
-            title:this.fullname,
+            title:'RANDEVUNUZ',
             date:this.args.dateStr
           })
           this.dialog=false
@@ -106,15 +169,22 @@ export default {
           this.done=true
           localStorage.setItem('done',true)
           console.log(res.data)
+          this.$izitoast.success({
+            title: res.data.title,
+            message: res.data.msg,
+            position: "topCenter"
+          });
+        }
 
-      }).catch(res=>{
-        this.dialog=false
-        alert('Bir Hata İle Karşılaşıldı! Lütfen Alanları Kontrol Edin')
       })
     }
   },
   data() {
     return {
+      token:'',
+      userData: !this.isEmpty(this.$auth.$storage.getUniversal("user"))
+        ? this.$auth.$storage.getUniversal("user")
+        : null,
       dietician:null,
       done:false,
       fullname:'',
@@ -125,8 +195,10 @@ export default {
         today:'Bugün'
       },
       dialog:false,
+      dialogDel:false,
       args:null,
       calendarOptions: {
+        eventClick:this.eventClick,
         plugins: [ dayGridPlugin, interactionPlugin,timeGridPlugin ],
         initialView: 'timeGridWeek',
         dateClick: this.handleDateClick,
@@ -151,6 +223,12 @@ export default {
     }
   },
   computed:{
+    token(){
+      if(this.userData==null)
+        return ''
+      else
+        return this.userData.api_token
+    },
     items(){
       return [
         {
