@@ -597,8 +597,8 @@ export default {
     editor: Editor
   },
   name: 'exercise-categories-add',
-  middleware: ['auth', 'admin'],
-  layout: 'admin',
+  middleware: ['auth', 'dietician'],
+  layout: 'dietician',
   computed: {
     currentPath() {
       return this.$route.name

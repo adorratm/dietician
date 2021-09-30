@@ -29,12 +29,15 @@ export default {
     }
   },
   mounted() {
-    if(this.$auth.strategy.token.status()._status === "UNKNOWN" || this.$auth.strategy.token.status()._status === false){
-      this.$auth.logout()
-      this.$auth.$storage.removeUniversal('user')
-      this.$auth.strategy.refreshToken.reset()
-      this.$auth.strategy.token.reset()
-      this.$auth.reset()
+    this.$store.dispatch("setSiteSettings")
+    if(!this.isEmpty(this.$auth.user) && !this.isEmpty(this.$auth.user.api_token)) {
+      if (this.$auth.strategy.token.status()._status === "UNKNOWN" || this.$auth.strategy.token.status()._status === false) {
+        this.$auth.logout()
+        this.$auth.$storage.removeUniversal('user')
+        this.$auth.strategy.refreshToken.reset()
+        this.$auth.strategy.token.reset()
+        this.$auth.reset()
+      }
     }
   },
   name: 'dietician',

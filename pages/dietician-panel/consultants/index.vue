@@ -26,6 +26,15 @@
                 clearable
               ></v-text-field>
 						</span>
+            <span class="justify-content-end flex-shrink-1">
+						<v-btn
+              to="/dietician-panel/consultants/add"
+              class="float-right ml-3 my-auto py-auto"
+              color="primary"
+              x-large
+            ><v-icon>mdi mdi-plus</v-icon> Ekle</v-btn
+            >
+					</span>
           </v-card-title>
           <v-card-text>
             <v-data-table
@@ -35,24 +44,49 @@
               :hide-default-footer="true"
             >
               <template v-slot:[`item.img_url`]="{ item }">
-                <img :src="item.img_url" :alt='item.img_url' width='150' height="150" contain class='justify-center text-center mx-auto px-auto' />
-              </template>
-              <template v-slot:[`item.isActive`]="{ item }">
-                <v-layout justify-center>
-                  <v-switch
-                    class="d-flex justify-content-center mx-auto px-auto text-center"
-                    v-model="item.isActive"
-                    color="success"
-                    :key="item.id"
-                    @click="isActiveSetter(item.id)"
-                  ></v-switch>
-                </v-layout>
+                <img v-bind:src="item.img_url" width="150" height="150" :alt='item.full_name' />
               </template>
               <template v-slot:[`item.actions`]="{ item }">
-                <v-icon small class="mr-2" @click="editData(item.id)">
-                  mdi-pencil
-                </v-icon>
-                <v-icon small @click="deleteData(item.id)"> mdi-delete </v-icon>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      class="mr-2"
+                      @click="createEdiet(item.id)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >mdi mdi-clipboard-edit</v-icon
+                    >
+                  </template>
+                  <span>Yeni E-Diyet Oluştur</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      class="mr-2"
+                      @click="editData(item.id)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      mdi-pencil
+                    </v-icon>
+                  </template>
+                  <span>Danışanı Düzenle</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      @click="deleteData(item.id)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      mdi-delete
+                    </v-icon>
+                  </template>
+                  <span>Danışanı Sil</span>
+                </v-tooltip>
               </template>
             </v-data-table>
           </v-card-text>
@@ -105,8 +139,8 @@ export default {
     editor: Editor,
   },
   name: 'users',
-  middleware: ["auth","admin"],
-  layout: 'admin',
+  middleware: ["auth","dietician"],
+  layout: 'dietician',
   computed: {
     currentPath() {
       return this.$route.name
@@ -122,7 +156,7 @@ export default {
     return {
       breadCrumbItems:[
         {name: "Anasayfa",url: "/panel"},
-        {name: "Kullanıcılar"}
+        {name: "Danışanlarım"}
       ],
       data: [],
       searchTitle: null,
@@ -132,7 +166,7 @@ export default {
         { text: "Adı Soyadı", align: "center", value: "name" },
         { text: "Email", align: "center", value: "email" },
         { text: "Telefon", align: "center", value: "phone" },
-        { text: "Durum", align: "center", value: "isActive" },
+        { text: "Kimlik No", align: "center", value: "tc" },
         {
           text: "İşlemler",
           align: "center",
@@ -141,7 +175,7 @@ export default {
         }
       ],
       page: 1,
-      totalPages: 1,
+      totalPages: 0,
       pageSize: 25,
       pageSizes: [25, 50, 100, 200, 500, 1000],
       loading: false,
@@ -165,7 +199,7 @@ export default {
     getRequestParams(searchTitle, page, pageSize) {
       let params = {};
       params["title"] = searchTitle;
-      params["page"] = page;
+      params["page"] = page - 1;
       params["size"] = pageSize;
       return params;
     },
@@ -181,22 +215,11 @@ export default {
       );
       this.$axios
         .get(
-          `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=users&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone`,
+          `${process.env.apiBaseUrl}dietician/datatables/${urlParam}?table=users&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=dietician_id&where_value=${this.user._id}`,
           {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
             headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
               Authorization: "Bearer " + this.user.api_token
             },
-            credentials: "same-origin"
           }
         )
         .then(response => {
@@ -219,65 +242,21 @@ export default {
     refreshList() {
       this.retrieveData();
     },
+    createEdiet(id) {
+      this.$router.push("/dietician-panel/consultants/ediet/add/" + id);
+    },
     editData(id) {
-      this.$router.push("/panel/users/update/" + id);
+      this.$router.push("/dietician-panel/consultants/update/" + id);
     },
     deleteData(id) {
       this.$axios
-        .delete(process.env.apiBaseUrl + "panel/users/delete/" + id, {
-          json: true,
-          withCredentials: false,
-          mode: "no-cors",
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers":
-              "Origin, Content-Type, X-Auth-Token, Authorization",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Credentials": true,
-            "Content-type": "application/json",
-            Authorization: "Bearer " + this.user.api_token
-          },
-          credentials: "same-origin"
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        });
-    },
-    isActiveSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          "panel/datatables/is-active-setter?table=users&id=" +
-          id,
+        .post(
+          process.env.apiBaseUrl + "dietician/users/update/" + id,
+          { dietician_id: null },
           {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
             headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
               Authorization: "Bearer " + this.user.api_token
             },
-            credentials: "same-origin"
           }
         )
         .then(response => {
@@ -304,7 +283,10 @@ export default {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        img_url: this.img_url + data.img_url,
+        tc: data.tc,
+        img_url:
+          this.img_url +
+          (data.status === "dietician" ? data.profile_photo : data.img_url),
         isActive: data.isActive
       };
     }

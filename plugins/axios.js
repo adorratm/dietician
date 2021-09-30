@@ -25,16 +25,18 @@ export default function ({ $axios, app, redirect}) {
     credentials: 'same-origin',
   })
   $axios.onRequest((config) => {
-    if(app.$auth.strategy.token.status()._status === "UNKNOWN" || app.$auth.strategy.token.status()._status === false){
-      app.$auth.strategy.token.reset()
-      app.$auth.strategy.refreshToken.reset()
-      app.$auth.$storage.removeUniversal('user')
-      app.$auth.reset()
-      setTimeout(function () {
-        redirect("/login")
-      }, 2000)
-    }else{
-      $axios.setToken(app.$auth.user.api_token, 'Bearer')
+    if(!isEmpty(app.$auth.user) && !isEmpty(app.$auth.user.api_token)){
+      if(app.$auth.strategy.token.status()._status === "UNKNOWN" || app.$auth.strategy.token.status()._status === false){
+        app.$auth.strategy.token.reset()
+        app.$auth.strategy.refreshToken.reset()
+        app.$auth.$storage.removeUniversal('user')
+        app.$auth.reset()
+        setTimeout(function () {
+          redirect("/login")
+        }, 2000)
+      }else{
+        $axios.setToken(app.$auth.user.api_token, 'Bearer')
+      }
     }
     console.log('Making request to ' + config.url)
   })
@@ -44,20 +46,23 @@ export default function ({ $axios, app, redirect}) {
         console.log(error)
       }
       if (code === 401 || code === 403) {
-        app.$auth.strategy.token.reset()
-        app.$auth.strategy.refreshToken.reset()
-        app.$auth.$storage.removeUniversal('user')
-        app.$auth.reset()
-        app.$izitoast.error({
-          title: 'Hata!',
-          message:
-            'Oturum Süreniz Doldu. İşlem Yapabilmek İçin Lütfen Tekrar Giriş Yapın. Anasayfaya Yönlendiriliyorsunuz.',
-          position: 'topCenter',
-          displayMode: 'once',
-        })
-        setTimeout(function () {
-          redirect("/login")
-        }, 2000)
+        if(!isEmpty(app.$auth.user) && !isEmpty(app.$auth.user.api_token)){
+          app.$auth.strategy.token.reset()
+          app.$auth.strategy.refreshToken.reset()
+          app.$auth.$storage.removeUniversal('user')
+          app.$auth.reset()
+          app.$izitoast.error({
+            title: 'Hata!',
+            message:
+              'Oturum Süreniz Doldu. İşlem Yapabilmek İçin Lütfen Tekrar Giriş Yapın. Anasayfaya Yönlendiriliyorsunuz.',
+            position: 'topCenter',
+            displayMode: 'once',
+          })
+          setTimeout(function () {
+            redirect("/login")
+          }, 2000)
+        }
+
       }
   })
 }

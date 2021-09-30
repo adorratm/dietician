@@ -115,8 +115,8 @@ export default {
     editor: Editor,
   },
   name: 'nutrients',
-  middleware: ["auth","admin"],
-  layout: 'admin',
+  middleware: ["auth","dietician"],
+  layout: 'dietician',
   computed: {
     currentPath() {
       return this.$route.name
@@ -132,7 +132,7 @@ export default {
     return {
       breadCrumbItems:[
         {name: "Anasayfa",url: "/panel"},
-        {name: "Yemek Tarifleri"}
+        {name: "Yemek Tariflerim"}
       ],
       data: [],
       searchTitle: null,
