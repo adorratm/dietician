@@ -13,7 +13,7 @@
               <div class='footer-widget footer-about'>
                 <div class='footer-logo'>
                   <NuxtLink to='/' rel='dofllow' :title='settings.settings.company_name'>
-                    <img :src='img_url+settings.settings.logo' class='img-fluid' :alt='settings.settings.company_name'
+                    <img :src='settings.settings.logo' class='img-fluid' :alt='settings.settings.company_name'
                          style='filter: invert(1);width:225px'>
                   </NuxtLink>
                 </div>

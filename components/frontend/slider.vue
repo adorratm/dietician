@@ -5,7 +5,7 @@
       <div class="swiper-container">
         <div class="swiper-wrapper">
           <a class='swiper-slide d-block' :href='!isEmpty(item.url) ? item.url : "javascript:void(0)"' rel='dofollow' :target='!isEmpty(item.url) ? "_blank" : "_self"' v-for='(item,index) in this.settings.sliders'>
-            <img :src='img_url+item.img_url' :alt='item.title' class='img-fluid w-100' style='object-fit: cover'>
+            <img :src='item.img_url' :alt='item.title' class='img-fluid w-100' style='object-fit: cover'>
             <div class="banner-wrapper">
               <div class="banner-header text-center">
                 <h1>{{item.title}}</h1>
@@ -72,6 +72,10 @@ export default {
         return obj == null || Object.keys(obj).length === 0
       else if (typeof obj == 'boolean') return false
       else return !obj
+    },
+    searchEveryWhere(){
+      let formData = new FormData(this.$refs.searchEveryWhere)
+      this.$router.push(formData.get("type")+"?search="+formData.get("search"))
     }
   }
 }

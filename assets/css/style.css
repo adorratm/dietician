@@ -12131,3 +12131,7 @@ ul.benifits-col li i{
 	}
 }
 
+.row-eq-height > [class^=col] {
+  display: flex!important;
+  flex-direction: column!important;
+}

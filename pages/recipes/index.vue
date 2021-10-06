@@ -12,11 +12,14 @@
           <!-- Content Left -->
           <div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8'>
             <v-text-field
-              label='Besin Aramak İçin "Enter" Tuşuna Basın...'
+              label='Yemek Tarifi Aramak İçin "Enter" Tuşuna Basın...'
               v-model='searchText'
               @change='search'
               solo
+              clearable
             ></v-text-field>
+
+            <h2 class='text-center mb-5'>{{ searchResultText }}</h2>
 
             <div class='mx-auto justify-center flex-wrap align-center text-center d-flex flex-column' v-if='loading'>
               <v-progress-circular
@@ -28,9 +31,9 @@
               ></v-progress-circular>
               <h3 class='mx-auto d-block mt-3'>İçerik Yükleniyor. Lütfen Bekleyin...</h3>
             </div>
-            <!-- Nutrient List -->
-            <NutrientList v-if='nutrients.length>0 && loading===false' :nutrients='nutrients' :emptyurl='emptyUrl' />
-            <!-- #Nutrient List -->
+            <!-- Recipe List -->
+            <RecipeList v-if='!isEmpty(recipes) && loading===false' :recipes='recipes' :emptyurl='emptyUrl' />
+            <!-- #Recipe List -->
 
             <div class='load-more text-center'>
               <v-pagination
@@ -57,31 +60,32 @@
 </template>
 
 <script>
-import NutrientList from '~/components/frontend/nutrient-list'
+import RecipeList from '~/components/frontend/recipe-list'
 import Breadcrumb from "~/components/frontend/breadcrumb"
 export default {
   layout: 'default',
-  name:"nutrients",
+  name:"recipes",
   components: {
-    NutrientList,
+    RecipeList,
     Breadcrumb
   },
   data: () => ({
+    searchResultText: 'Tüm Yemek Tarifleri',
     searchText: null,
     pagination: {
       current: 1,
       total: 1
     },
     loading: true,
-    nutrients: [],
+    recipes: [],
     emptyUrl:null,
     breadCrumbItems:[
       {name: "Anasayfa",url: "/"},
-      {name: "Kaç Kalori?"}
+      {name: "Yemek Tarifleri"}
     ]
   }),
-  mounted() {
-    this.getNutrients()
+  async mounted() {
+    await this.getRecipes()
     this.search(!this.isEmpty(this.$route.query.search) ? this.$route.query.search : null)
   },
   computed: {
@@ -107,59 +111,41 @@ export default {
       else if (typeof obj == 'boolean') return false
       else return !obj
     },
-    getNutrients(param) {
-      if (this.searchText !== null) {
-        this.$store
-          .dispatch('getNutrients', {
-            nutrientsURL:
-              'nutrients?page=' +
-              this.pagination.current +
-              '&search=' +
-              decodeURIComponent(this.searchText)
-          })
-          .then(() => {
-            this.emptyUrl = this.$store.state.emptyUrl
-            this.nutrients = this.$store.state.nutrients.data
-            this.pagination.current = this.$store.state.nutrients.current_page
-            this.pagination.total = this.$store.state.nutrients.last_page
-            this.loading = false
-          })
+    async getRecipes() {
+      this.loading=true
+      !this.isEmpty(this.searchText) ? this.searchResultText="'"+this.searchText+"' Arama Sonucuna İlişkin Yemek Tarifleri" : this.searchResultText='Tüm Yemek Tarifleri'
+      if (!this.isEmpty(this.searchText)) {
+        await this.$axios.post(process.env.apiBaseUrl + "home/searchrecipes"
+          , {
+            'page': this.pagination.current,
+            'searchText': this.searchText
+          }).then(res => {
+          this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
+          this.loading=false
+        })
       } else {
-        if (param) {
-          this.$store
-            .dispatch('getNutrients', { nutrientsURL: param })
-            .then(() => {
-              this.emptyUrl = this.$store.state.emptyUrl
-              this.nutrients = this.$store.state.nutrients.data
-              this.pagination.current = this.$store.state.nutrients.current_page
-              this.pagination.total = this.$store.state.nutrients.last_page
-              this.loading = false
-            })
-        } else {
-          this.$store
-            .dispatch('getNutrients', {
-              nutrientsURL: 'nutrients?page=' + this.pagination.current
-            })
-            .then(() => {
-              this.emptyUrl = this.$store.state.emptyUrl
-              this.nutrients = this.$store.state.nutrients.data
-              this.pagination.current = this.$store.state.nutrients.current_page
-              this.pagination.total = this.$store.state.nutrients.last_page
-              this.loading = false
-            })
-        }
+        await this.$axios.get(process.env.apiBaseUrl + "home/recipes?page="+this.pagination.current).then(res => {
+          this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
+          this.loading=false
+        })
       }
+    },
+    fillData(data,current_page,last_page){
+      this.emptyUrl = this.$store.state.emptyUrl
+      this.recipes = data
+      this.pagination.current = current_page
+      this.pagination.total = last_page
     },
     onPageChange() {
       this.loading = true
-      this.getNutrients()
+      this.getRecipes()
     },
     search(queryParam) {
       if(!this.isEmpty(queryParam)){
         this.searchText = queryParam
       }
       this.loading = true
-      this.getNutrients()
+      this.getRecipes()
     },
   }
 }

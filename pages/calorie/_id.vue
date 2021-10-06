@@ -34,7 +34,7 @@
                      height='300'
                      :key='index'
                      v-for='(image, index) in images'
-                     :src='img_url + image.img_url'
+                     :src='image.img_url'
                      :alt='data.name'
                    style='object-fit: scale-down'
               />

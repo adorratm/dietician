@@ -16,6 +16,7 @@
               v-model='searchText'
               @change='search'
               solo
+              clearable
             ></v-text-field>
 
             <div class='mx-auto justify-center flex-wrap align-center text-center d-flex flex-column' v-if='loading'>

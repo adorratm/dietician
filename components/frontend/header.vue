@@ -13,13 +13,13 @@
           </a>
 
           <NuxtLink to='/' class='navbar-brand logo' rel='dofollow' :title='settings.settings.company_name' :data-title='settings.settings.company_name'>
-            <img :src='img_url+settings.settings.logo' class='img-fluid' :alt='settings.settings.company_name'>
+            <img :src='settings.settings.logo' class='img-fluid' :alt='settings.settings.company_name'>
           </NuxtLink>
         </div>
         <div class='main-menu-wrapper'>
           <div class='menu-header'>
             <NuxtLink to='/' class='menu-logo' rel='dofollow' :title='settings.settings.company_name'>
-              <img :src='img_url+settings.settings.logo' class='img-fluid' :alt='settings.settings.company_name'>
+              <img :src='settings.settings.logo' class='img-fluid' :alt='settings.settings.company_name'>
             </NuxtLink>
             <a id='menu_close' class='menu-close' href='javascript:void(0);' rel='nofollow' title='Kapat'>
               <i class='fas fa-times'></i>

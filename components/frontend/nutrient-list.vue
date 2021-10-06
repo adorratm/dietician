@@ -4,7 +4,7 @@
       <div class="profile-widget">
         <div class="doc-img">
           <NuxtLink :to="'calorie/'+item.slug" rel='dofollow' :title='item.name' :data-title='item.name'>
-            <img class="img-fluid" :alt="item.name" style='object-fit: cover' :src="img_url +(!isEmpty(item.nutrients) && !isEmpty(item.nutrients.img_url) ? item.nutrients.img_url : emptyurl)">
+            <img class="img-fluid" :alt="item.name" style='object-fit: cover' :src="(!isEmpty(item.nutrients) && !isEmpty(item.nutrients.img_url) ? item.nutrients.img_url : img_url+emptyurl)">
           </NuxtLink>
         </div>
         <div class="pro-content">
