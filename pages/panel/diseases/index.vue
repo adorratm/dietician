@@ -17,7 +17,7 @@
                 v-model='searchTitle'
                 class='my-auto py-auto'
                 label='Arama Yapın...'
-                v-on:keyup.prevent="
+                v-on:keyup.enter.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"

@@ -118,8 +118,7 @@
                       <div class='form-group'>
                         <v-row>
                           <v-col cols='3' sm='3' md='3' lg='3' xl='3' class='justify-center text-center my-auto py-auto'>
-                            <img v-if='!isEmpty(data.img_url)'
-                                 :src='img_url + data.img_url'
+                            <img :src='!isEmpty(data.img_url) ? img_url + data.img_url : empty_url'
                                  :alt='data.name'
                                  width='150'
                                  height='150'
@@ -378,6 +377,9 @@ export default {
     },
     user(){
       return this.$auth.user
+    },
+    empty_url(){
+      return this.img_url+"uploads/settings/preparing/my.jpg"
     }
   },
   data(){

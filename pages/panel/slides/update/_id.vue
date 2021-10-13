@@ -112,8 +112,7 @@
                   <v-row>
                     <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
                       <img height='100'
-                           v-if='!isEmpty(data.img_url)'
-                           :src="img_url + data.img_url"
+                           :src="!isEmpty(data.img_url) ? data.img_url : empty_url"
                            :alt="data.title"
                            class="ma-3"
                       />
@@ -172,6 +171,9 @@ export default {
     },
     user(){
       return this.$auth.user
+    },
+    empty_url(){
+      return this.img_url+ "uploads/settings/preparing/my.jpg"
     }
   },
   data(){

@@ -73,9 +73,8 @@
                       <div class='form-group'>
                         <v-row>
                           <v-col cols="3" sm="3" md="3" lg="3" xl="3">
-                            <img v-if='!isEmpty(data.img_url)'
-                                 :src="img_url + data.img_url"
-                                 :alt="data.name"
+                            <img :src="!isEmpty(data.img_url) ? img_url + data.img_url : empty_url"
+                                 :alt="data.name" height='100'
                             />
                           </v-col>
                           <v-col cols="9" sm="9" md="9" lg="9" xl="9">
@@ -242,6 +241,9 @@ export default {
     },
     user(){
       return this.$auth.user
+    },
+    empty_url(){
+      return this.img_url+ "uploads/settings/preparing/my.jpg"
     }
   },
   data(){

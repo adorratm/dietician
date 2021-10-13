@@ -10,6 +10,7 @@ const _6fb708e6 = () => interopDefault(import('..\\pages\\dietician-login\\index
 const _6fe57bdc = () => interopDefault(import('..\\pages\\dietician-panel\\index.vue' /* webpackChunkName: "pages/dietician-panel/index" */))
 const _8973758a = () => interopDefault(import('..\\pages\\dietician-register\\index.vue' /* webpackChunkName: "pages/dietician-register/index" */))
 const _a42b9890 = () => interopDefault(import('..\\pages\\dieticians\\index.vue' /* webpackChunkName: "pages/dieticians/index" */))
+const _2f4f0fb6 = () => interopDefault(import('..\\pages\\exercises\\index.vue' /* webpackChunkName: "pages/exercises/index" */))
 const _458208a8 = () => interopDefault(import('..\\pages\\login\\index.vue' /* webpackChunkName: "pages/login/index" */))
 const _456acf2d = () => interopDefault(import('..\\pages\\panel\\index.vue' /* webpackChunkName: "pages/panel/index" */))
 const _8377afa8 = () => interopDefault(import('..\\pages\\recipes\\index.vue' /* webpackChunkName: "pages/recipes/index" */))
@@ -91,6 +92,7 @@ const _1ccf9081 = () => interopDefault(import('..\\pages\\panel\\recipes\\update
 const _8338c6ec = () => interopDefault(import('..\\pages\\panel\\slides\\update\\_id.vue' /* webpackChunkName: "pages/panel/slides/update/_id" */))
 const _beccf684 = () => interopDefault(import('..\\pages\\panel\\users\\update\\_id.vue' /* webpackChunkName: "pages/panel/users/update/_id" */))
 const _4aa67fa8 = () => interopDefault(import('..\\pages\\calorie\\_id.vue' /* webpackChunkName: "pages/calorie/_id" */))
+const _43a9879e = () => interopDefault(import('..\\pages\\exercises\\_id.vue' /* webpackChunkName: "pages/exercises/_id" */))
 const _2a5374d8 = () => interopDefault(import('..\\pages\\recipes\\_id.vue' /* webpackChunkName: "pages/recipes/_id" */))
 const _219e6783 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
@@ -129,6 +131,10 @@ export const routerOptions = {
     path: "/dieticians",
     component: _a42b9890,
     name: "dieticians"
+  }, {
+    path: "/exercises",
+    component: _2f4f0fb6,
+    name: "exercises"
   }, {
     path: "/login",
     component: _458208a8,
@@ -453,6 +459,10 @@ export const routerOptions = {
     path: "/calorie/:id",
     component: _4aa67fa8,
     name: "calorie-id"
+  }, {
+    path: "/exercises/:id",
+    component: _43a9879e,
+    name: "exercises-id"
   }, {
     path: "/recipes/:id",
     component: _2a5374d8,

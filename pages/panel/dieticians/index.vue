@@ -16,7 +16,7 @@
               v-model="searchTitle"
               label="Arama Yapın..."
               class="my-auto py-auto"
-              v-on:keyup.prevent="
+              v-on:keyup.enter.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"
@@ -115,6 +115,9 @@ export default {
     },
     user(){
       return this.$auth.user
+    },
+    empty_url(){
+      return this.img_url+ "uploads/settings/preparing/my.jpg"
     }
   },
   data(){
@@ -270,7 +273,7 @@ export default {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        img_url: this.img_url + data.profile_photo,
+        img_url: (!this.isEmpty(data.profile_photo) ? this.img_url + data.profile_photo : this.empty_url),
         isActive: data.isActive
       };
     }

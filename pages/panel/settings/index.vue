@@ -55,8 +55,8 @@
                     <div class="form-group">
                       <v-row>
                         <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
-                          <img v-if='!isEmpty(data.logo)' height='100'
-                               :src="img_url + data.logo"
+                          <img height='100'
+                               :src="!isEmpty(data.logo) ? img_url + data.logo : empty_url"
                                :alt="data.company_name"
                                class="ma-3"
                           />
@@ -78,8 +78,8 @@
                     <div class='form-group'>
                       <v-row>
                         <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
-                          <img height='100' v-if='!isEmpty(data.favicon)'
-                               :src="img_url + data.favicon"
+                          <img height='100'
+                               :src="!isEmpty(data.favicon) ? img_url + data.favicon : empty_url"
                                :alt="data.company_name"
                                class='ma-3'
                           />
@@ -555,6 +555,9 @@ export default {
     },
     user(){
       return this.$auth.user
+    },
+    empty_url(){
+      return this.img_url+ "uploads/settings/preparing/my.jpg";
     }
   },
   data(){

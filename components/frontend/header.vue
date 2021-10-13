@@ -69,13 +69,13 @@
           <li v-else class='nav-item dropdown has-arrow logged-item'>
             <a href='javascript:void(0)' class='dropdown-toggle nav-link' data-toggle='dropdown'>
                     <span class='user-img'>
-                        <img class='rounded-circle' :src='img_url+user.img_url' width='31' :alt='user.name'>
+                        <img class='rounded-circle' :src='user.img_url' width='31' :alt='user.name'>
                     </span>
             </a>
             <div class='dropdown-menu dropdown-menu-right'>
               <div class='user-header'>
                 <div class='avatar avatar-sm'>
-                  <img :src='img_url+user.img_url' :alt='user.name' class='avatar-img rounded-circle'>
+                  <img :src='user.img_url' :alt='user.name' class='avatar-img rounded-circle'>
                 </div>
                 <div class='user-text'>
                   <h6>{{ user.name }}</h6>

@@ -7,10 +7,10 @@
       <!-- Logo -->
       <div class='header-left'>
         <NuxtLink to='/panel' class='logo' rel='dofollow' :title='settings.settings.company_name' :data-title='settings.settings.company_name'>
-          <img :src='img_url+settings.settings.logo' :alt='settings.settings.company_name'>
+          <img :src='settings.settings.logo' :alt='settings.settings.company_name'>
         </NuxtLink>
         <NuxtLink to='/panel' class='logo logo-small' rel='dofollow' :title='settings.settings.company_name' :data-title='settings.settings.company_name'>
-          <img :src='img_url+settings.settings.logo' :alt='settings.settings.company_name' width='30' height='30'>
+          <img :src='settings.settings.logo' :alt='settings.settings.company_name' width='30' height='30'>
         </NuxtLink>
       </div>
       <!-- /Logo -->
@@ -70,20 +70,20 @@
         <!-- User Menu -->
         <li class='nav-item dropdown has-arrow' v-if='!isEmpty(user)'>
           <a href='javascript:void(0)' class='dropdown-toggle nav-link' data-toggle='dropdown' rel='dofollow' data-title='Profilim' title='Profilim'>
-            <span class='user-img'><img class='rounded-circle' :src='img_url+user.img_url'
+            <span class='user-img'><img class='rounded-circle' :src='user.img_url'
                                         width='31' :alt='user.name'></span>
           </a>
           <div class='dropdown-menu'>
             <div class='user-header'>
               <div class='avatar avatar-sm'>
-                <img :src='img_url+user.img_url' :alt='user.name' class='avatar-img rounded-circle'>
+                <img :src='user.img_url' :alt='user.name' class='avatar-img rounded-circle'>
               </div>
               <div class='user-text'>
                 <h6>{{ user.name }}</h6>
                 <p class='text-muted mb-0'>Yönetici</p>
               </div>
             </div>
-            <NuxtLink class='dropdown-item' to='/profile' rel='dofollow' title='Profilim' data-title='Profilim'>Profilim</NuxtLink>
+            <a class='dropdown-item' href='/profile' rel='dofollow' title='Profilim' data-title='Profilim'>Profilim</a>
             <NuxtLink class='dropdown-item' to='/panel/settings' rel='dofollow' title='Ayarlar' data-title='Ayarlar'>Ayarlar</NuxtLink>
             <a class='dropdown-item' href='javascript:void(0)' @click='logout' rel='dofollow' title='Çıkış Yap' data-title='Çıkış Yap'>Çıkış Yap</a>
           </div>

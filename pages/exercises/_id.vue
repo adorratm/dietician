@@ -12,7 +12,7 @@
           <!-- Content Left -->
           <div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8'>
             <v-text-field
-              label='Besin Aramak İçin "Enter" Tuşuna Basın...'
+              label='Egzersiz Kategorisi Aramak İçin "Enter" Tuşuna Basın...'
               v-model='searchText'
               @change='search'
               solo

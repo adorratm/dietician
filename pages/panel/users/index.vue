@@ -116,6 +116,9 @@ export default {
     },
     user(){
       return this.$auth.user
+    },
+    empty_url(){
+      return this.img_url+ "uploads/settings/preparing/my.jpg"
     }
   },
   data(){
@@ -304,7 +307,7 @@ export default {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        img_url: this.img_url + data.img_url,
+        img_url: (!this.isEmpty(data.img_url) ? this.img_url + data.img_url : this.empty_url),
         isActive: data.isActive
       };
     }

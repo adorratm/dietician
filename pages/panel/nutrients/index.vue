@@ -17,7 +17,7 @@
                 v-model="searchTitle"
                 label="Arama Yapın..."
                 class="my-auto py-auto"
-                v-on:keyup.prevent="
+                v-on:keyup.enter.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"
@@ -278,16 +278,9 @@ export default {
         rank: data.rank,
         id: data._id,
         name: data.name,
-        img_url:
-          this.img_url +
-          (data.nutrients !== null &&
-          data.nutrients !== undefined &&
-          data.nutrients !== "" &&
-          data.nutrients.img_url !== null &&
-          data.nutrients.img_url !== undefined &&
-          data.nutrients.img_url !== ""
+        img_url: (!this.isEmpty(data.nutrients) && !this.isEmpty(data.nutrients.img_url)
             ? data.nutrients.img_url
-            : this.empty_url),
+            : this.img_url + this.empty_url),
         isActive: data.isActive
       };
     }
