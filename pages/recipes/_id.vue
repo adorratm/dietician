@@ -49,9 +49,9 @@
                     Besin Değerleri
                   </v-tab>
                   <v-tab>
-                    Açıklama
+                    Yemek Tarifi
                   </v-tab>
-                  <v-tab-item eager>
+                  <v-tab-item eager class='py-4'>
                     <v-simple-table>
                       <thead>
                       <tr>
@@ -64,14 +64,14 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-if='!isEmpty(recipe.recipescriteriavalues)' v-for='(value) in recipe.recipescriteriavalues'>
+                      <tr v-if='!isEmpty(recipe.recipesvalue)' v-for='(value,index) in recipe.recipesvalue'>
                         <td>{{ value.title }} ({{ value.type }})</td>
                         <td>{{ value.value }}</td>
                       </tr>
                       </tbody>
                     </v-simple-table>
                   </v-tab-item>
-                  <v-tab-item eager>
+                  <v-tab-item eager class='py-4'>
 
                     {{ recipe.description }}
                   </v-tab-item>
@@ -255,9 +255,8 @@ export default {
 
           this.item=this.recipe.name
           this.breadCrumbItems.push({name: this.item})
-        })
+        }).catch(err => console.log(err))
       this.loading=false
-      console.log(this.recipe)
     }
   }
 }

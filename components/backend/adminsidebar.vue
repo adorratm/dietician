@@ -10,37 +10,37 @@
                 <span>Menü</span>
               </li>
               <li>
-                <NuxtLink to='/panel' router exact>
+                <NuxtLink to='/panel' router exact exact-active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-home</v-icon>
                   <span>Anasayfa</span></NuxtLink>
               </li>
               <li>
-                <NuxtLink to='/panel/settings' router exact>
+                <NuxtLink to='/panel/settings' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-cogs</v-icon>
                   <span>Ayarlar</span></NuxtLink>
               </li>
               <li>
-                <NuxtLink to='/panel/slides' router exact>
+                <NuxtLink to='/panel/slides' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-folder-multiple-image</v-icon>
                   <span>Slaytlar</span></NuxtLink>
               </li>
               <li>
-                <NuxtLink to='/panel/users' router exact>
+                <NuxtLink to='/panel/users' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-account-group</v-icon>
                   <span>Kullanıcılar</span></NuxtLink>
               </li>
               <li>
-                <NuxtLink to='/panel/dieticians' router exact>
+                <NuxtLink to='/panel/dieticians' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-doctor</v-icon>
                   <span>Diyetisyenler</span></NuxtLink>
               </li>
               <li>
-                <NuxtLink to='/panel/nutrients' router exact>
+                <NuxtLink to='/panel/nutrients' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-food</v-icon>
                   <span>Besinler</span></NuxtLink>
               </li>
               <li>
-                <NuxtLink to='/panel/criterias' router exact>
+                <NuxtLink to='/panel/criterias' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-food-variant</v-icon>
                   <span>Ölçütler</span></NuxtLink>
               </li>
@@ -50,20 +50,20 @@
                   <span> Egzersizler</span> <span class='menu-arrow'></span></a>
                 <ul style='display: none;'>
                   <li>
-                    <NuxtLink to='/panel/exercise-categories' router exact>Egzersiz Kategorileri</NuxtLink>
+                    <NuxtLink to='/panel/exercise-categories' router active-class="active">Egzersiz Kategorileri</NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to='/panel/exercises' router exact>Egzersizler</NuxtLink>
+                    <NuxtLink to='/panel/exercises' router active-class="active">Egzersizler</NuxtLink>
                   </li>
                 </ul>
               </li>
               <li>
-                <NuxtLink to='/panel/e-diet-foods' router exact>
+                <NuxtLink to='/panel/e-diet-foods' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-food</v-icon>
                   <span>E-Diyet Besinleri</span></NuxtLink>
               </li>
               <li>
-                <NuxtLink to='/panel/diseases' router exact>
+                <NuxtLink to='/panel/diseases' router active-class="active">
                   <v-icon class='custom-class text-white'>mdi mdi-virus-outline</v-icon>
                   <span>Hastalıklar</span></NuxtLink>
               </li>
@@ -73,10 +73,10 @@
                   <span> Yemek Tarifleri</span> <span class='menu-arrow'></span></a>
                 <ul style='display: none;'>
                   <li>
-                    <NuxtLink to='/panel/recipe-categories' router exact>Kategoriler</NuxtLink>
+                    <NuxtLink to='/panel/recipe-categories' router active-class="active">Kategoriler</NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to='/panel/recipes' router exact>Yemek Tarifleri</NuxtLink>
+                    <NuxtLink to='/panel/recipes' router active-class="active">Yemek Tarifleri</NuxtLink>
                   </li>
                 </ul>
               </li>
@@ -86,10 +86,10 @@
                   <span> Makaleler</span> <span class='menu-arrow'></span></a>
                 <ul style='display: none;'>
                   <li>
-                    <NuxtLink to='/panel/blog-categories' router exact>Kategoriler</NuxtLink>
+                    <NuxtLink to='/panel/blog-categories' router active-class="active">Kategoriler</NuxtLink>
                   </li>
                   <li>
-                    <NuxtLink to='/panel/blogs' router exact>Makaleler</NuxtLink>
+                    <NuxtLink to='/panel/blogs' router active-class="active">Makaleler</NuxtLink>
                   </li>
                 </ul>
               </li>

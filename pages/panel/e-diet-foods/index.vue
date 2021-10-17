@@ -140,7 +140,6 @@ export default {
       ],
       data: [],
       searchTitle: null,
-      empty_url: null,
       headers: [
         { text: "#", align: "center", value: "rank" },
         { text: "Görsel", align: "center", value: "img_url", sortable: false },
@@ -269,7 +268,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     isActiveSetter(id) {
       this.$axios
@@ -309,7 +308,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     getDisplayData(data) {
       return {
@@ -317,7 +316,7 @@ export default {
         id: data._id,
         name: data.name,
         img_url:
-          this.img_url +
+
           (!this.isEmpty(data.edietfoods) &&
           !this.isEmpty(data.edietfoods.img_url)
             ? data.edietfoods.img_url

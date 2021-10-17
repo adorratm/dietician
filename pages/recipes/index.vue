@@ -112,23 +112,28 @@ export default {
       else return !obj
     },
     async getRecipes() {
-      this.loading=true
-      !this.isEmpty(this.searchText) ? this.searchResultText="'"+this.searchText+"' Arama Sonucuna İlişkin Yemek Tarifleri" : this.searchResultText='Tüm Yemek Tarifleri'
-      if (!this.isEmpty(this.searchText)) {
-        await this.$axios.post(process.env.apiBaseUrl + "home/searchrecipes"
-          , {
-            'page': this.pagination.current,
-            'searchText': this.searchText
-          }).then(res => {
-          this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
-          this.loading=false
-        })
-      } else {
-        await this.$axios.get(process.env.apiBaseUrl + "home/recipes?page="+this.pagination.current).then(res => {
-          this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
-          this.loading=false
-        })
+      try{
+        this.loading=true
+        !this.isEmpty(this.searchText) ? this.searchResultText="'"+this.searchText+"' Arama Sonucuna İlişkin Yemek Tarifleri" : this.searchResultText='Tüm Yemek Tarifleri'
+        if (!this.isEmpty(this.searchText)) {
+          await this.$axios.post(process.env.apiBaseUrl + "home/searchrecipes"
+            , {
+              'page': this.pagination.current,
+              'searchText': this.searchText
+            }).then(res => {
+            this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
+            this.loading=false
+          })
+        } else {
+          await this.$axios.get(process.env.apiBaseUrl + "home/recipes?page="+this.pagination.current).then(res => {
+            this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
+            this.loading=false
+          })
+        }
+      }catch (err) {
+        console.log(err)
       }
+
     },
     fillData(data,current_page,last_page){
       this.emptyUrl = this.$store.state.emptyUrl

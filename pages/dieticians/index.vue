@@ -94,7 +94,7 @@ export default {
           this.search(!this.isEmpty(this.$route.query.search) ? this.$route.query.search : null)
         }
       }
-    })
+    }).catch(err => console.log(err))
   },
   mounted() {
     // Select 2
@@ -135,9 +135,8 @@ export default {
         if (!this.isEmpty(dietician.company_lat) && !this.isEmpty(dietician.company_long)) {
           this.initialize(dietician.company_lat, dietician.company_long, this.img_url, this.dieticians,this.map,this.infowindow,this.slider,new google.maps.LatLngBounds())
         }
-      })
+      }).catch(err => console.log(err))
     }
-
   },
   methods: {
     /**
@@ -172,7 +171,7 @@ export default {
             this.initialize(dietician.company_lat, dietician.company_long, this.img_url, this.dieticians,this.map,this.infowindow,this.slider,new google.maps.LatLngBounds())
           }
         }
-      })
+      }).catch(err => console.log(err))
     },
     initialize(lat, long, img_url, locations, map, infowindow, slider,bounds) {
       let mapOptions = {

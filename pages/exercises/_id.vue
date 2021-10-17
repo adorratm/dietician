@@ -252,12 +252,9 @@ export default {
       await this.$axios.get(process.env.apiBaseUrl+'recipes/details/'+this.$route.params.id)
         .then( res=>{
           this.recipe=res.data.data
-
           this.item=this.recipe.name
           this.breadCrumbItems.push({name: this.item})
-        })
-      this.loading=false
-      console.log(this.recipe)
+        }).catch(err => console.log(err)).finally(()=>{this.loading=false})
     }
   }
 }

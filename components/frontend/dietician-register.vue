@@ -382,7 +382,7 @@ export default {
             response.data.data.cities.length > 0
               ? response.data.data.cities
               : []
-        })
+        }).catch((err) => console.log(err))
     },
     getTowns: function(item) {
       if (!this.isEmpty(item) && !this.isEmpty(item.towns)) {
@@ -395,7 +395,7 @@ export default {
             this.country.neighborhoods = []
             this.company_district = null
             this.company_neighborhood = null
-          })
+          }).catch((err) => console.log(err))
       }
     },
     getDistricts: function(item) {
@@ -409,7 +409,7 @@ export default {
               response.data.districts.length > 0 ? response.data.districts : []
             this.country.neighborhoods = []
             this.company_neighborhood = null
-          })
+          }).catch((err) => console.log(err))
       }
     },
     getNeighborhoods: function(item) {
@@ -425,7 +425,7 @@ export default {
               response.data.neighborhoods.length > 0
                 ? response.data.neighborhoods
                 : []
-          })
+          }).catch((err) => console.log(err))
       }
     },
     clearTowns(){

@@ -1,8 +1,8 @@
 <template>
-  <div class='row' >
+  <div class='row row-eq-height align-content-stretch align-items-stretch justify-content-stretch' >
     <div v-for='(item,key) in dieticians' class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
 
-      <div class="profile-widget">
+      <div class="profile-widget h-100">
         <div class="doc-img">
           <NuxtLink to="doctor-profile">
             <img class="img-fluid" :alt="item.name" src="~/assets/img/doctors/doctor-01.jpg">

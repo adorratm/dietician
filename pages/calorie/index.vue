@@ -124,7 +124,7 @@ export default {
             this.pagination.current = this.$store.state.nutrients.current_page
             this.pagination.total = this.$store.state.nutrients.last_page
             this.loading = false
-          })
+          }).catch(err => console.log(err))
       } else {
         if (param) {
           this.$store
@@ -135,7 +135,7 @@ export default {
               this.pagination.current = this.$store.state.nutrients.current_page
               this.pagination.total = this.$store.state.nutrients.last_page
               this.loading = false
-            })
+            }).catch(err => console.log(err))
         } else {
           this.$store
             .dispatch('getNutrients', {
@@ -147,7 +147,7 @@ export default {
               this.pagination.current = this.$store.state.nutrients.current_page
               this.pagination.total = this.$store.state.nutrients.last_page
               this.loading = false
-            })
+            }).catch(err => console.log(err))
         }
       }
     },

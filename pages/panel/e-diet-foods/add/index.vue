@@ -711,6 +711,7 @@ export default {
       selectedAgeGroups: [],
       selectedMeals: [],
       counter: 0,
+      counter2: 0,
       inputs: [
         [
           { id: 'vitamin0', label: 'Besin Değeri Adı', value: '' },
@@ -962,7 +963,7 @@ export default {
               displayMode: 'once'
             })
           }
-        })
+        }).catch(err => console.log(err))
     },
     isActiveSetter(id) {
       this.$axios
@@ -1004,7 +1005,7 @@ export default {
               displayMode: 'once'
             })
           }
-        })
+        }).catch(err => console.log(err))
     },
     isCoverSetter(id) {
       this.$axios
@@ -1046,7 +1047,7 @@ export default {
               displayMode: 'once'
             })
           }
-        })
+        }).catch(err => console.log(err))
     },
     getDisplayData(data) {
       return {
@@ -1087,17 +1088,17 @@ export default {
     cloneProperty2() {
       this.inputs2.push([
         {
-          id: `criteria${++this.counter}`,
+          id: `criteria${++this.counter2}`,
           label: 'Ölçüt Değeri Adı',
           value: ''
         },
         {
-          id: `criteriaValue${++this.counter}`,
+          id: `criteriaValue${++this.counter2}`,
           label: 'Ölçüt Değeri',
           value: ''
         },
         {
-          id: `criteriaType${++this.counter}`,
+          id: `criteriaType${++this.counter2}`,
           label: 'Ölçüt Değeri Türü',
           value: ''
         }
@@ -1135,6 +1136,8 @@ export default {
       let diseases = this.selectedDiseases
       formData.delete('selectedDiseases[]')
       formData.delete('selectedDiseases')
+      formData.delete('criteriaName[]')
+      formData.delete('criteriaName')
       let criteriaValues = this.inputs2
       for (let i = 0; i < criteriaValues.length; i++) {
         formData.append('criteriaName[]', criteriaValues[i].value)
@@ -1192,7 +1195,7 @@ export default {
               position: 'topCenter'
             })
           }
-        })
+        }).catch(err => console.log(err))
     }
   },
   mounted() {

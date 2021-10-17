@@ -55,9 +55,6 @@ export default {
       return process.env.apiPublicUrl
     }
   },
-  mounted() {
-
-  },
   methods:{
     /**
      * isEmpty

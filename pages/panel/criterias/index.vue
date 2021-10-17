@@ -50,12 +50,12 @@
                     v-model="item.isActive"
                     color="success"
                     :key="item.id"
-                    @click="isActiveSetter(item.id.$oid)"
+                    @click="isActiveSetter(item.id)"
                   ></v-switch>
                 </v-layout>
               </template>
               <template v-slot:[`item.actions`]="{ item }">
-                <v-icon small class="mr-2" @click="editData(item.id.$oid)">
+                <v-icon small class="mr-2" @click="editData(item.id)">
                   mdi-pencil
                 </v-icon>
                 <v-icon small @click="deleteData(item.id)"> mdi-delete </v-icon>
@@ -264,7 +264,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     isActiveSetter(id) {
       this.$axios
@@ -304,12 +304,12 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     getDisplayData(data) {
       return {
         rank: data.rank,
-        id: data._id,
+        id: data._id.$oid,
         name: data.name,
         isActive: data.isActive
       };

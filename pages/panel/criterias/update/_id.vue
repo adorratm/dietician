@@ -198,7 +198,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     }
   }
 }

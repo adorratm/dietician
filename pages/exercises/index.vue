@@ -121,14 +121,12 @@ export default {
             'searchText': this.searchText
           }).then(res => {
           this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
-          this.loading=false
-        })
+        }).catch(err => console.log(err)).finally(() => {this.loading=false})
       } else {
         await this.$axios.get(process.env.apiBaseUrl + "home/exercisecategories?page="+this.pagination.current).then(res => {
           console.log(res.data.data.data)
           this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
-          this.loading=false
-        })
+        }).catch(err => console.log(err)).finally(() => {this.loading=false})
       }
     },
     fillData(data,current_page,last_page){

@@ -265,7 +265,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     isActiveSetter(id) {
       this.$axios
@@ -305,7 +305,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     getDisplayData(data) {
       return {
@@ -313,11 +313,10 @@ export default {
         id: data._id,
         name: data.name,
         img_url:
-          this.img_url +
-          (!this.isEmpty(data.recipes) !== null &&
+          (!this.isEmpty(data.recipes) &&
           !this.isEmpty(data.recipes.img_url)
             ? data.recipes.img_url
-            : this.empty_url),
+            : this.img_url +this.empty_url),
         isActive: data.isActive
       };
     }

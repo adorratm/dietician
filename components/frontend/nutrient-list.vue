@@ -1,10 +1,10 @@
 <template>
-  <div class='row' >
-    <div v-for='(item,key) in nutrients' class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
-      <div class="profile-widget">
+  <div class='row row-eq-height align-content-stretch align-items-stretch justify-content-stretch' >
+    <div v-for='(item,key) in nutrients' class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+      <div class="profile-widget h-100">
         <div class="doc-img">
           <NuxtLink :to="'calorie/'+item.slug" rel='dofollow' :title='item.name' :data-title='item.name'>
-            <img class="img-fluid" :alt="item.name" style='object-fit: cover' :src="(!isEmpty(item.nutrients) && !isEmpty(item.nutrients.img_url) ? item.nutrients.img_url : img_url+emptyurl)">
+            <img class="img-fluid" :alt="item.name" height='320' width='320' :src="(!isEmpty(item.nutrients) && !isEmpty(item.nutrients.img_url) ? item.nutrients.img_url : img_url+emptyurl)">
           </NuxtLink>
         </div>
         <div class="pro-content">

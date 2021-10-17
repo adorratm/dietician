@@ -17,7 +17,7 @@
                 v-model="searchTitle"
                 label="Arama Yapın..."
                 class="my-auto py-auto"
-                v-on:keyup.prevent="
+                v-on:keyup.enter.prevent="
 									page = 1;
 									retrieveData('get-by-search');
 								"
@@ -266,7 +266,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     isActiveSetter(id) {
       this.$axios
@@ -295,7 +295,7 @@ export default {
               position: "topCenter"
             });
           }
-        });
+        }).catch(err => console.log(err));
     },
     getDisplayData(data) {
       return {

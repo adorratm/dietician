@@ -26,23 +26,22 @@
             </a>
           </div>
           <ul class='main-nav'>
-            <li :class=" homeMenu ? 'active' : 'notactive'">
-              <NuxtLink to='/' rel='dofollow' title='Anasayfa' data-title='Anasayfa' router exact>Anasayfa</NuxtLink>
+            <li>
+              <NuxtLink to='/' rel='dofollow' title='Anasayfa' data-title='Anasayfa' router exact exact-active-class="active">Anasayfa</NuxtLink>
+            <li>
+              <NuxtLink to='/dieticians' rel='dofollow' title='Diyetisyenler' data-title='Diyetisyenler' router active-class="active">Diyetisyenler</NuxtLink>
             </li>
-            <li :class=" dieticianMenu ? 'active' : 'notactive'">
-              <NuxtLink to='/dieticians' rel='dofollow' title='Diyetisyenler' data-title='Diyetisyenler' router exact>Diyetisyenler</NuxtLink>
+            <li>
+              <NuxtLink to='/calorie' rel='dofollow' title='Kaç Kalori?' data-title='Kaç Kalori?' router active-class="active">Kaç Kalori?</NuxtLink>
             </li>
-            <li :class=" calorieMenu ? 'active' : 'notactive'">
-              <NuxtLink to='/calorie' rel='dofollow' title='Kaç Kalori?' data-title='Kaç Kalori?' router exact>Kaç Kalori?</NuxtLink>
+            <li>
+              <NuxtLink to='/criterias' rel='dofollow' title='Ölçütler' data-title='Ölçütler' router active-class="active">Ölçütler</NuxtLink>
             </li>
-            <li :class=" criteriaMenu ? 'active' : 'notactive'">
-              <NuxtLink to='/criterias' rel='dofollow' title='Ölçütler' data-title='Ölçütler' router exact>Ölçütler</NuxtLink>
+            <li>
+              <NuxtLink to='/recipes' rel='dofollow' title='Yemek Tarifleri' data-title='Yemek Tarifleri' router active-class="active">Yemek Tarifleri</NuxtLink>
             </li>
-            <li :class=" recipeMenu ? 'active' : 'notactive'">
-              <NuxtLink to='/recipes' rel='dofollow' title='Yemek Tarifleri' data-title='Yemek Tarifleri' router exact>Yemek Tarifleri</NuxtLink>
-            </li>
-            <li :class=" exerciseMenu ? 'active' : 'notactive'">
-              <NuxtLink to='/exercises' rel='dofollow' title='Egzersizler' data-title='Egzersizler' router exact>Egzersizler</NuxtLink>
+            <li>
+              <NuxtLink to='/exercises' rel='dofollow' title='Egzersizler' data-title='Egzersizler' router active-class="active">Egzersizler</NuxtLink>
             </li>
             <li class='login-link' v-if='!this.$auth.loggedIn'>
               <NuxtLink to='/login' rel='dofollow' title='Giriş Yap / Kayıt Ol' data-title='Giriş Yap / Kayıt Ol'>Giriş Yap / Kayıt Ol</NuxtLink>
@@ -127,17 +126,17 @@ export default {
       $('html').addClass('menu-opened')
       $('#task_window').removeClass('opened')
       return false
-    })
+    });
 
     $(document).on('click', '#menu_close', function() {
       $('html').removeClass('menu-opened')
       $('.sidebar-overlay').removeClass('opened')
       $('main-wrapper').removeClass('slide-nav')
-    })
+    });
     $('.main-nav ul li:not(.submenu) a').click(function() {
       $('html').removeClass('menu-opened')
       $('.sidebar-overlay').removeClass('opened')
-    })
+    });
 
   },
   computed: {
@@ -146,27 +145,6 @@ export default {
     },
     currentPath() {
       return this.$route.name
-    },
-    homeMenu() {
-      return this.$route.name ==='/'
-    },
-    dieticianMenu() {
-      return !this.isEmpty(this.$route.name) ? this.$route.name.includes('dieticians') : null
-    },
-    calorieMenu() {
-      return !this.isEmpty(this.$route.name) ? this.$route.name.includes('calorie') : null
-    },
-    recipeMenu() {
-      return !this.isEmpty(this.$route.name) ? this.$route.name.includes('recipes') : null
-    },
-    exerciseMenu() {
-      return !this.isEmpty(this.$route.name) ? this.$route.name.includes('exercises') : null
-    },
-    criteriaMenu() {
-      return !this.isEmpty(this.$route.name) ? this.$route.name.includes('criterias') : null
-    },
-    blogMenu() {
-      return !this.isEmpty(this.$route.name) ? this.$route.name.includes('blogs') : null
     },
     user() {
       return this.$auth.user

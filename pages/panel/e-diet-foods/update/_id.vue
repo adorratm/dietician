@@ -982,7 +982,7 @@ export default {
               displayMode: 'once'
             })
           }
-        })
+        }).catch(err => console.log(err))
     },
     isActiveSetter(id) {
       this.$axios
@@ -1024,7 +1024,7 @@ export default {
               displayMode: 'once'
             })
           }
-        })
+        }).catch(err => console.log(err))
     },
     isCoverSetter(id) {
       this.$axios
@@ -1066,7 +1066,7 @@ export default {
               displayMode: 'once'
             })
           }
-        })
+        }).catch(err => console.log(err))
     },
     getDisplayData(data) {
       return {
@@ -1124,6 +1124,8 @@ export default {
       let diseases = this.data.selectedDiseases
       formData.delete('selectedDiseases[]')
       formData.delete('selectedDiseases')
+      formData.delete('criteriaName[]')
+      formData.delete('criteriaName')
       let criteriaValues = this.data.criteria_values
       for (let i = 0; i < criteriaValues.length; i++) {
         formData.append('criteriaName[]', criteriaValues[i].title)
@@ -1174,7 +1176,7 @@ export default {
               position: 'topCenter'
             })
           }
-        })
+        }).catch(err => console.log(err))
     }
   }
 }

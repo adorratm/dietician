@@ -124,7 +124,7 @@ export default {
             this.pagination.current = this.$store.state.criterias.current_page
             this.pagination.total = this.$store.state.criterias.last_page
             this.loading = false
-          })
+          }).catch(err => console.log(err))
       } else {
         if (param) {
           this.$store
@@ -147,7 +147,7 @@ export default {
               this.pagination.current = this.$store.state.criterias.current_page
               this.pagination.total = this.$store.state.criterias.last_page
               this.loading = false
-            })
+            }).catch(err => console.log(err))
         }
       }
     },

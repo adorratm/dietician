@@ -11,10 +11,10 @@
           <h3 class="title">
             <NuxtLink :to="'/recipes/'+item.slug" rel='dofollow' :title='item.name' :data-title='item.name'>{{ item.name }}</NuxtLink>
           </h3>
-          <p class="white--text font-weight-bold purple lighten-2 pa-4">{{item.calorie}}</p>
+          <p class="text-success font-weight-bold py-4">{{item.calorie}}</p>
           <p class='text-subtitle-1'>Porsiyon :{{item.portion}} - Hazırlanma Süresi:{{ item.prepare_time}}</p>
           <p>{{item.description.length > 150 ? item.description.substring(0,250)+"..." : item.description}}</p>
-          <v-btn :to="'/recipes/'+item.slug" rel='dofollow' title='Yemek Tarifini İncele' data-title='Yemek Tarifini İncele' color='deep-purple lighten-2' text block>Yemek Tarifini İncele</v-btn>
+          <v-btn :to="'/recipes/'+item.slug" rel='dofollow' title='Yemek Tarifini İncele' data-title='Yemek Tarifini İncele' color='primary' block>Yemek Tarifini İncele</v-btn>
         </div>
       </div>
     </div>
