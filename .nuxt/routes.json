@@ -63,6 +63,13 @@
     "_name": "_456acf2d"
   },
   {
+    "name": "profile",
+    "path": "/profile",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\profile\\\\index.vue",
+    "chunkName": "pages/profile/index",
+    "_name": "_805b1eb0"
+  },
+  {
     "name": "recipes",
     "path": "/recipes",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\recipes\\\\index.vue",
@@ -621,6 +628,13 @@
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\exercises\\\\_id.vue",
     "chunkName": "pages/exercises/_id",
     "_name": "_43a9879e"
+  },
+  {
+    "name": "profile-id",
+    "path": "/profile/:id",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\profile\\\\_id.vue",
+    "chunkName": "pages/profile/_id",
+    "_name": "_03147d10"
   },
   {
     "name": "recipes-id",

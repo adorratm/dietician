@@ -101,6 +101,9 @@ body {
 	font-size: 0.9375rem;
     height: 100%;
 }
+label{
+  margin-bottom: 0!important;
+}
 h1, h2, h3, h4, h5, h6 {
 	color: #272b41;
 	font-weight: 500;
@@ -6310,9 +6313,9 @@ body .multi-optn {
 }
 .doc-info-right {
     margin-left: auto;
-    -ms-flex: 0 0 205px;
-    flex: 0 0 205px;
-    max-width: 205px;
+    -ms-flex: 0 0 235px;
+    flex: 0 0 235px;
+    max-width: 235px;
 }
 .doctor-img {
     -ms-flex: 0 0 150px;

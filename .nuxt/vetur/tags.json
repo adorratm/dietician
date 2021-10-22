@@ -50,6 +50,24 @@
   "FrontendNutrientList": {
     "description": "Auto imported from components/frontend/nutrient-list.vue"
   },
+  "FrontendProfileAllergenFoodsEdit": {
+    "description": "Auto imported from components/frontend/profile-allergen-foods-edit.vue"
+  },
+  "FrontendProfileDiseaseEdit": {
+    "description": "Auto imported from components/frontend/profile-disease-edit.vue"
+  },
+  "FrontendProfileInformationEdit": {
+    "description": "Auto imported from components/frontend/profile-information-edit.vue"
+  },
+  "FrontendProfileInformationTop": {
+    "description": "Auto imported from components/frontend/profile-information-top.vue"
+  },
+  "FrontendProfileInformation": {
+    "description": "Auto imported from components/frontend/profile-information.vue"
+  },
+  "FrontendProfileUnlikedFoodsEdit": {
+    "description": "Auto imported from components/frontend/profile-unliked-foods-edit.vue"
+  },
   "FrontendRecipeList": {
     "description": "Auto imported from components/frontend/recipe-list.vue"
   },

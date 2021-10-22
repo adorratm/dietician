@@ -13,6 +13,7 @@ const _a42b9890 = () => interopDefault(import('..\\pages\\dieticians\\index.vue'
 const _2f4f0fb6 = () => interopDefault(import('..\\pages\\exercises\\index.vue' /* webpackChunkName: "pages/exercises/index" */))
 const _458208a8 = () => interopDefault(import('..\\pages\\login\\index.vue' /* webpackChunkName: "pages/login/index" */))
 const _456acf2d = () => interopDefault(import('..\\pages\\panel\\index.vue' /* webpackChunkName: "pages/panel/index" */))
+const _805b1eb0 = () => interopDefault(import('..\\pages\\profile\\index.vue' /* webpackChunkName: "pages/profile/index" */))
 const _8377afa8 = () => interopDefault(import('..\\pages\\recipes\\index.vue' /* webpackChunkName: "pages/recipes/index" */))
 const _b6244380 = () => interopDefault(import('..\\pages\\register\\index.vue' /* webpackChunkName: "pages/register/index" */))
 const _837e302c = () => interopDefault(import('..\\pages\\dietician-panel\\consultants\\index.vue' /* webpackChunkName: "pages/dietician-panel/consultants/index" */))
@@ -93,6 +94,7 @@ const _8338c6ec = () => interopDefault(import('..\\pages\\panel\\slides\\update\
 const _beccf684 = () => interopDefault(import('..\\pages\\panel\\users\\update\\_id.vue' /* webpackChunkName: "pages/panel/users/update/_id" */))
 const _4aa67fa8 = () => interopDefault(import('..\\pages\\calorie\\_id.vue' /* webpackChunkName: "pages/calorie/_id" */))
 const _43a9879e = () => interopDefault(import('..\\pages\\exercises\\_id.vue' /* webpackChunkName: "pages/exercises/_id" */))
+const _03147d10 = () => interopDefault(import('..\\pages\\profile\\_id.vue' /* webpackChunkName: "pages/profile/_id" */))
 const _2a5374d8 = () => interopDefault(import('..\\pages\\recipes\\_id.vue' /* webpackChunkName: "pages/recipes/_id" */))
 const _219e6783 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
@@ -143,6 +145,10 @@ export const routerOptions = {
     path: "/panel",
     component: _456acf2d,
     name: "panel"
+  }, {
+    path: "/profile",
+    component: _805b1eb0,
+    name: "profile"
   }, {
     path: "/recipes",
     component: _8377afa8,
@@ -463,6 +469,10 @@ export const routerOptions = {
     path: "/exercises/:id",
     component: _43a9879e,
     name: "exercises-id"
+  }, {
+    path: "/profile/:id",
+    component: _03147d10,
+    name: "profile-id"
   }, {
     path: "/recipes/:id",
     component: _2a5374d8,
