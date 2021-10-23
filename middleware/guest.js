@@ -8,7 +8,11 @@ function isEmpty(obj) {
   else return !obj
 }
 export default function ( context ) {
-  if (!isEmpty(context.store.$auth.$storage.getUniversal( "user" )) && context.store.$auth.user !== false ) {
-    context.redirect( "/" )
+  try {
+    if (!isEmpty(context.store.$auth.$storage.getUniversal( "user" )) && context.store.$auth.user !== false ) {
+      context.redirect( "/" )
+    }
+  }catch (e) {
+    console.log(e)
   }
 }

@@ -365,92 +365,133 @@ export default {
     }
   },
   methods: {
+    /**
+     * isEmpty
+     * @param obj
+     * @returns {boolean}
+     */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     getCities() {
-      this.$axios
-        .get(process.env.apiBaseUrl + 'informations/cities')
-        .then(response => {
-          this.country.cities =
-            response.data.data.cities.length > 0
-              ? response.data.data.cities
-              : []
-        }).catch((err) => console.log(err))
+      try{
+        this.$axios
+          .get(process.env.apiBaseUrl + 'informations/cities')
+          .then(response => {
+            this.country.cities =
+              response.data.data.cities.length > 0
+                ? response.data.data.cities
+                : []
+          }).catch((err) => console.log(err))
+      }catch (e){
+        console.log(e)
+      }
     },
     getTowns: function(item) {
-      if (!this.isEmpty(item) && !this.isEmpty(item.towns)) {
-        this.$axios
-          .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
-          .then(response => {
-            this.country.towns =
-              response.data.towns.length > 0 ? response.data.towns : []
-            this.country.districts = []
-            this.country.neighborhoods = []
-            this.company_district = null
-            this.company_neighborhood = null
-          }).catch((err) => console.log(err))
+      try{
+        if (!this.isEmpty(item) && !this.isEmpty(item.towns)) {
+          this.$axios
+            .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
+            .then(response => {
+              this.country.towns =
+                response.data.towns.length > 0 ? response.data.towns : []
+              this.country.districts = []
+              this.country.neighborhoods = []
+              this.company_district = null
+              this.company_neighborhood = null
+            }).catch((err) => console.log(err))
+        }
+      }catch (e){
+        console.log(e)
       }
     },
     getDistricts: function(item) {
-      if (!this.isEmpty(item) && !this.isEmpty(item.districts)) {
-        this.$axios
-          .get(
-            process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
-          )
-          .then(response => {
-            this.country.districts =
-              response.data.districts.length > 0 ? response.data.districts : []
-            this.country.neighborhoods = []
-            this.company_neighborhood = null
-          }).catch((err) => console.log(err))
+      try{
+        if (!this.isEmpty(item) && !this.isEmpty(item.districts)) {
+          this.$axios
+            .get(
+              process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
+            )
+            .then(response => {
+              this.country.districts =
+                response.data.districts.length > 0 ? response.data.districts : []
+              this.country.neighborhoods = []
+              this.company_neighborhood = null
+            }).catch((err) => console.log(err))
+        }
+      }catch (e){
+        console.log(e)
       }
     },
     getNeighborhoods: function(item) {
-      if (!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)) {
-        this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            'informations/neighborhoods?id=' +
-            item.neighborhoods
-          )
-          .then(response => {
-            this.country.neighborhoods =
-              response.data.neighborhoods.length > 0
-                ? response.data.neighborhoods
-                : []
-          }).catch((err) => console.log(err))
+      try {
+        if (!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)) {
+          this.$axios
+            .get(
+              process.env.apiBaseUrl +
+              'informations/neighborhoods?id=' +
+              item.neighborhoods
+            )
+            .then(response => {
+              this.country.neighborhoods =
+                response.data.neighborhoods.length > 0
+                  ? response.data.neighborhoods
+                  : []
+            }).catch((err) => console.log(err))
+        }
+      }catch (e){
+        console.log(e)
       }
     },
     clearTowns(){
-      this.country.towns = [];
-      this.country.districts = [];
-      this.country.neighborhoods = [];
-      this.company_town = null;
-      this.company_district = null;
-      this.company_neighborhood = null;
+      try {
+        this.country.towns = [];
+        this.country.districts = [];
+        this.country.neighborhoods = [];
+        this.company_town = null;
+        this.company_district = null;
+        this.company_neighborhood = null;
+      }catch (e){
+        console.log(e)
+      }
     },
     clearDistricts(){
-      this.country.districts = [];
-      this.country.neighborhoods = [];
-      this.company_district = null;
-      this.company_neighborhood = null;
+      try {
+        this.country.districts = [];
+        this.country.neighborhoods = [];
+        this.company_district = null;
+        this.company_neighborhood = null;
+      }catch (e){
+        console.log(e)
+      }
     },
     clearNeighborhoods(){
-      this.country.neighborhoods = [];
-      this.company_neighborhood = null;
+      try {
+        this.country.neighborhoods = [];
+        this.company_neighborhood = null;
+      }catch (e) {
+        console.log(e)
+      }
     },
     changeStep(){
-      if(!this.isEmpty(this.name) && !this.isEmpty(this.tc) && !this.isEmpty(this.email) && !this.isEmpty(this.phone) && !this.isEmpty(this.password) && !this.isEmpty(this.password_confirmation)){
-        this.e1 = 2
-      }else{
-        this.$izitoast.error({title:"Başarısız!",message:"Alanları Doldurduğunuzdan Emin Olup, Lütfen Tekrar Deneyin.",position:"topCenter"});
+      try {
+        if(!this.isEmpty(this.name) && !this.isEmpty(this.tc) && !this.isEmpty(this.email) && !this.isEmpty(this.phone) && !this.isEmpty(this.password) && !this.isEmpty(this.password_confirmation)){
+          this.e1 = 2
+        }else{
+          this.$izitoast.error({title:"Başarısız!",message:"Alanları Doldurduğunuzdan Emin Olup, Lütfen Tekrar Deneyin.",position:"topCenter"});
+        }
+      }catch (e){
+        console.log(e)
       }
     }
   }

@@ -700,371 +700,442 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     getCriterias() {
-      this.$axios
-        .get(`${process.env.apiBaseUrl}panel/recipes/create`, {
-          json: true,
-          withCredentials: false,
-          mode: 'no-cors',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers':
-              'Origin, Content-Type, X-Auth-Token, Authorization',
-            'Access-Control-Allow-Methods':
-              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Credentials': true,
-            'Content-type': 'application/json',
-            Authorization: 'Bearer ' + this.user.api_token
-          },
-          credentials: 'same-origin'
-        })
-        .then(response => {
-          this.allCriterias = response.data.data.criterias
-          this.allNutrients = response.data.data.nutrients
-          this.allCategories = response.data.data.categories
-        })
-        .catch(err => console.log(err))
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}panel/recipes/create`, {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-type': 'application/json',
+              Authorization: 'Bearer ' + this.user.api_token
+            },
+            credentials: 'same-origin'
+          })
+          .then(response => {
+            this.allCriterias = response.data.data.criterias
+            this.allNutrients = response.data.data.nutrients
+            this.allCategories = response.data.data.categories
+          })
+          .catch(err => console.log(err))
+      }catch (e) {
+        console.log(e)
+      }
     },
     selectCover() {
-      this.e1 = 3
-      this.retrieveData()
+      try {
+        this.e1 = 3
+        this.retrieveData()
+      }catch (e) {
+        console.log(e)
+      }
     },
     getRequestParams(searchTitle, page, pageSize) {
-      let params = {}
-      params['title'] = searchTitle
-      params['page'] = page
-      params['size'] = pageSize
-      return params
+      try {
+        let params = {}
+        params['title'] = searchTitle
+        params['page'] = page
+        params['size'] = pageSize
+        return params
+      }catch (e) {
+        console.log(e)
+      }
     },
     retrieveData(url) {
-      let urlParam = 'get-all'
-      if (url !== undefined && url !== '' && url !== null) {
-        urlParam = url
-      }
-      const params = this.getRequestParams(
-        this.searchTitle,
-        this.page,
-        this.pageSize
-      )
-      this.$axios
-        .get(
-          `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=recipes_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=recipes_id&where_value=${this.inputData.id}&joins=recipes_file`,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
+      try {
+        let urlParam = 'get-all'
+        if (url !== undefined && url !== '' && url !== null) {
+          urlParam = url
+        }
+        const params = this.getRequestParams(
+          this.searchTitle,
+          this.page,
+          this.pageSize
         )
-        .then(response => {
-          this.data = response.data.data.data.map(this.getDisplayData)
+        this.$axios
+          .get(
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=recipes_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=recipes_id&where_value=${this.inputData.id}&joins=recipes_file`,
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            this.data = response.data.data.data.map(this.getDisplayData)
 
-          this.totalPages = response.data.data.last_page
-        })
-        .catch(err => console.log(err))
-        .finally(() => (this.loading = false))
+            this.totalPages = response.data.data.last_page
+          })
+          .catch(err => console.log(err))
+          .finally(() => (this.loading = false))
+      }catch (e) {
+        console.log(e)
+      }
     },
     handlePageChange(value) {
-      this.page = value
-      this.retrieveData()
-    },
-    handlePageSizeChange(size) {
-      this.pageSize = size
-      this.page = 1
-      this.retrieveData()
-    },
-    refreshList() {
-      this.retrieveData()
-    },
-    deleteData(id) {
-      this.$axios
-        .delete(
-          process.env.apiBaseUrl +
-          'panel/datatables/delete-file?id=' +
-          id +
-          '&table=recipes_file',
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-            this.refreshList()
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-          }
-        })
-    },
-    isActiveSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          'panel/datatables/is-active-setter?table=recipes_file&id=' +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-            this.refreshList()
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-          }
-        })
-    },
-    isCoverSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          'panel/datatables/is-cover-setter?table=recipes_file&foreign_column=recipes_id&id=' +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-            this.refreshList()
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-          }
-        })
-    },
-    getDisplayData(data) {
-      return {
-        rank: data.rank,
-        id: data._id.$oid,
-        img_url: this.img_url + data.img_url,
-        isCover: data.isCover,
-        isActive: data.isActive
+      try {
+        this.page = value
+        this.retrieveData()
+      }catch (e) {
+        console.log(e)
       }
     },
-
-    cloneProperty() {
-      this.inputs.push([
-        {
-          id: `vitamin${++this.counter}`,
-          label: 'Besin Değeri Adı',
-          value: ''
-        },
-        {
-          id: `vitaminValue${++this.counter}`,
-          label: 'Besin Değeri',
-          value: ''
-        },
-        {
-          id: `vitaminType${++this.counter}`,
-          label: 'Besin Değeri Türü',
-          value: ''
+    handlePageSizeChange(size) {
+      try {
+        this.pageSize = size
+        this.page = 1
+        this.retrieveData()
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    refreshList() {
+      try {
+        this.retrieveData()
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    deleteData(id) {
+      try {
+        this.$axios
+          .delete(
+            process.env.apiBaseUrl +
+            'panel/datatables/delete-file?id=' +
+            id +
+            '&table=recipes_file',
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+              this.refreshList()
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+            }
+          }).catch((e) => console.log(e))
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    isActiveSetter(id) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            'panel/datatables/is-active-setter?table=recipes_file&id=' +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+              this.refreshList()
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+            }
+          }).catch((e) => console.log(e))
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    isCoverSetter(id) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            'panel/datatables/is-cover-setter?table=recipes_file&foreign_column=recipes_id&id=' +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+              this.refreshList()
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+            }
+          }).catch((e) => console.log(e))
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    getDisplayData(data) {
+      try {
+        return {
+          rank: data.rank,
+          id: data._id.$oid,
+          img_url: this.img_url + data.img_url,
+          isCover: data.isCover,
+          isActive: data.isActive
         }
-      ])
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    cloneProperty() {
+      try {
+        this.inputs.push([
+          {
+            id: `vitamin${++this.counter}`,
+            label: 'Besin Değeri Adı',
+            value: ''
+          },
+          {
+            id: `vitaminValue${++this.counter}`,
+            label: 'Besin Değeri',
+            value: ''
+          },
+          {
+            id: `vitaminType${++this.counter}`,
+            label: 'Besin Değeri Türü',
+            value: ''
+          }
+        ])
+      }catch (e) {
+        console.log(e)
+      }
     },
     removeProperty(id) {
-      for (let i = 0; i < this.inputs.length; i++) {
-        if (this.inputs[i][0].id === id) {
-          this.inputs.splice(i, 1)
+      try {
+        for (let i = 0; i < this.inputs.length; i++) {
+          if (this.inputs[i][0].id === id) {
+            this.inputs.splice(i, 1)
+          }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     cloneProperty2() {
-      this.inputs2.push([
-        {
-          id: `recipe${++this.counter}`,
-          label: 'Malzeme Ölçüt Değeri Adı',
-          value: ''
-        },
-        {
-          id: `recipeValue${++this.counter}`,
-          label: 'Malzeme Ölçüt Değeri',
-          value: ''
-        },
-        {
-          id: `recipeType${++this.counter}`,
-          label: 'Malzeme Ölçüt Değeri Türü',
-          value: ''
-        },
-        {
-          id: `recipeNutrient${++this.counter}`,
-          label: 'Malzeme Besini',
-          value: ''
-        }
-      ])
+      try {
+        this.inputs2.push([
+          {
+            id: `recipe${++this.counter}`,
+            label: 'Malzeme Ölçüt Değeri Adı',
+            value: ''
+          },
+          {
+            id: `recipeValue${++this.counter}`,
+            label: 'Malzeme Ölçüt Değeri',
+            value: ''
+          },
+          {
+            id: `recipeType${++this.counter}`,
+            label: 'Malzeme Ölçüt Değeri Türü',
+            value: ''
+          },
+          {
+            id: `recipeNutrient${++this.counter}`,
+            label: 'Malzeme Besini',
+            value: ''
+          }
+        ])
+      }catch (e) {
+        console.log(e)
+      }
     },
     removeProperty2(id) {
-      for (let i = 0; i < this.inputs2.length; i++) {
-        if (this.inputs2[i][0].id === id) {
-          this.inputs2.splice(i, 1)
+      try {
+        for (let i = 0; i < this.inputs2.length; i++) {
+          if (this.inputs2[i][0].id === id) {
+            this.inputs2.splice(i, 1)
+          }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     onComplete(e) {
-      if (JSON.parse(e.xhr.response).success) {
-        this.$izitoast.success({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: 'topCenter',
-          displayMode: 'once'
-        })
-      } else {
-        this.$izitoast.error({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: 'topCenter',
-          displayMode: 'once'
-        })
+      try{
+        if (JSON.parse(e.xhr.response).success) {
+          this.$izitoast.success({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+        } else {
+          this.$izitoast.error({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+        }
+      }catch (e) {
+        console.log(e)
       }
     },
     saveRecipes() {
-      let formData = new FormData(this.$refs.recipesForm)
-      formData.delete('criteriaName[]')
-      let criteriaValues = this.inputs2
-      for (let i = 0; i < criteriaValues.length; i++) {
-        formData.append('criteriaName[]', criteriaValues[i][0].value)
+      try {
+        let formData = new FormData(this.$refs.recipesForm)
+        formData.delete('criteriaName[]')
+        let criteriaValues = this.inputs2
+        for (let i = 0; i < criteriaValues.length; i++) {
+          formData.append('criteriaName[]', criteriaValues[i][0].value)
+        }
+        formData.delete('criteriaNutrient[]')
+        let criteriaNutrient = this.inputs2
+        for (let i = 0; i < criteriaNutrient.length; i++) {
+          formData.append('criteriaNutrient[]', criteriaNutrient[i][3].value)
+        }
+        this.$axios
+          .post(process.env.apiBaseUrl + 'panel/recipes/create', formData, {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary,
+              Authorization: 'Bearer ' + this.user.api_token
+            },
+            credentials: 'same-origin'
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.$refs.myDropzone.options.url =
+                process.env.apiBaseUrl +
+                'panel/recipes/create-file/' +
+                response.data.data.$oid
+              this.$refs.myDropzone.dropzone.options.url =
+                process.env.apiBaseUrl +
+                'panel/recipes/create-file/' +
+                response.data.data.$oid
+              this.options.url =
+                process.env.apiBaseUrl +
+                'panel/recipes/create-file/' +
+                response.data.data.$oid
+              this.inputData.id = response.data.data.$oid
+              this.options.params.title = response.data.name
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      }catch (e) {
+        console.log(e)
       }
-      formData.delete('criteriaNutrient[]')
-      let criteriaNutrient = this.inputs2
-      for (let i = 0; i < criteriaNutrient.length; i++) {
-        formData.append('criteriaNutrient[]', criteriaNutrient[i][3].value)
-      }
-      this.$axios
-        .post(process.env.apiBaseUrl + 'panel/recipes/create', formData, {
-          json: true,
-          withCredentials: false,
-          mode: 'no-cors',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers':
-              'Origin, Content-Type, X-Auth-Token, Authorization',
-            'Access-Control-Allow-Methods':
-              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Credentials': true,
-            'Content-Type':
-              'multipart/form-data; boundary=' + formData._boundary,
-            Authorization: 'Bearer ' + this.user.api_token
-          },
-          credentials: 'same-origin'
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-            this.$refs.myDropzone.options.url =
-              process.env.apiBaseUrl +
-              'panel/recipes/create-file/' +
-              response.data.data.$oid
-            this.$refs.myDropzone.dropzone.options.url =
-              process.env.apiBaseUrl +
-              'panel/recipes/create-file/' +
-              response.data.data.$oid
-            this.options.url =
-              process.env.apiBaseUrl +
-              'panel/recipes/create-file/' +
-              response.data.data.$oid
-            this.inputData.id = response.data.data.$oid
-            this.options.params.title = response.data.name
-            this.e1 = 2
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-          }
-        })
     }
   },
   mounted() {

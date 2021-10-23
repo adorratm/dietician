@@ -282,6 +282,7 @@ export default {
       return data
 
     } catch (e) {
+      console.log(e)
       error({ message: 'Besin Bilgisi Bulunamadı.', statusCode: 404 })
     }
   },
@@ -291,9 +292,6 @@ export default {
     this.breadCrumbItems.push({name: this.data.name})
   },
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     img_url() {
       return process.env.apiPublicUrl
     },
@@ -320,80 +318,103 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     remove(item) {
-      console.log(item)
-      const index = this.showName.indexOf(item.title)
-      if (index >= 0) this.showName.splice(index, 1)
+      try {
+        const index = this.showName.indexOf(item.title)
+        if (index >= 0) this.showName.splice(index, 1)
+      }catch (e) {
+        console.log(e)
+      }
     },
     toggle() {
-      this.$nextTick(() => {
-        if (this.likesAllFruit) {
-          this.showName = []
-        } else {
-          this.showName = []
-          this.fordata.forEach((el) => {
-            this.showName.push(el.title)
-          })
-        }
-      })
+      try {
+        this.$nextTick(() => {
+          if (this.likesAllFruit) {
+            this.showName = []
+          } else {
+            this.showName = []
+            this.fordata.forEach((el) => {
+              this.showName.push(el.title)
+            })
+          }
+        })
+      }catch (e) {
+        console.log(e)
+      }
     },
     criteriaLimit: function(data) {
-      this.showName = []
-      this.showValue = []
-      this.showType = []
-      this.hideName = []
-      this.hideValue = []
-      this.hideType = []
-      if (!this.isEmpty(data.vitaminName)) {
-        let durum = 0
-        for (let i = 0; i <= data.vitaminName.length - 1; i++) {
-          durum = 0
-          for (let j = 0; j <= this.excel.length; j++) {
-            if (data.vitaminName[i] === this.excel[j]) {
-              durum = 1
+      try {
+        this.showName = []
+        this.showValue = []
+        this.showType = []
+        this.hideName = []
+        this.hideValue = []
+        this.hideType = []
+        if (!this.isEmpty(data.vitaminName)) {
+          let durum = 0
+          for (let i = 0; i <= data.vitaminName.length - 1; i++) {
+            durum = 0
+            for (let j = 0; j <= this.excel.length; j++) {
+              if (data.vitaminName[i] === this.excel[j]) {
+                durum = 1
+              }
+            }
+            if (durum === 1) {
+              this.showName.push(data.vitaminName[i])
+              this.showValue.push(data.vitaminValue[i])
+              this.showType.push(data.vitaminType[i])
+            } else {
+              this.hideName.push(data.vitaminName[i])
+              this.hideValue.push(data.vitaminValue[i])
+              this.hideType.push(data.vitaminType[i])
             }
           }
-          if (durum === 1) {
-            this.showName.push(data.vitaminName[i])
-            this.showValue.push(data.vitaminValue[i])
-            this.showType.push(data.vitaminType[i])
-          } else {
-            this.hideName.push(data.vitaminName[i])
-            this.hideValue.push(data.vitaminValue[i])
-            this.hideType.push(data.vitaminType[i])
-          }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     changeValue: function(item) {
-      this.criteriaValue = item.value
-      this.criteriaName = item.title
-      this.type = item.type
-      if (this.values.length > 0) {
-        for (let i = 0; i < this.values.length; i++) {
-          this.fordata[i].value =
-            (this.values[i].value / 100) *
-            ((this.unit <= 1 ? (this.unit = 1) : this.unit) *
-              this.criteriaValue)
-          if (
-            this.isEmpty(this.fordata[i].value) ||
-            isNaN(this.fordata[i].value)
-          ) {
-            this.fordata[i].value = this.values[i].value
+      try {
+        this.criteriaValue = item.value
+        this.criteriaName = item.title
+        this.type = item.type
+        if (this.values.length > 0) {
+          for (let i = 0; i < this.values.length; i++) {
+            this.fordata[i].value =
+              (this.values[i].value / 100) *
+              ((this.unit <= 1 ? (this.unit = 1) : this.unit) *
+                this.criteriaValue)
+            if (
+              this.isEmpty(this.fordata[i].value) ||
+              isNaN(this.fordata[i].value)
+            ) {
+              this.fordata[i].value = this.values[i].value
+            }
           }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     search(){
-      this.$router.push("/calorie?search="+this.searchText)
+      try {
+        this.$router.push("/calorie?search="+this.searchText)
+      }catch (e) {
+        console.log(e)
+      }
     }
   }
 }

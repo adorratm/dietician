@@ -162,118 +162,108 @@ export default {
      * @param obj
      * @returns {boolean}
      */
-    isEmpty(obj ) {
-      if ( typeof obj == "number" ) return false;
-      else if ( typeof obj == "string" ) return obj.length === 0;
-      else if ( Array.isArray( obj ) ) return obj.length === 0;
-      else if ( typeof obj == "object" )
-        return obj == null || Object.keys( obj ).length === 0;
-      else if ( typeof obj == "boolean" ) return false;
-      else return !obj;
+    isEmpty(obj) {
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     getRequestParams(searchTitle, page, pageSize) {
-      let params = {};
-      params["title"] = searchTitle;
-      params["page"] = page;
-      params["size"] = pageSize;
-      return params;
+      try {
+        let params = {};
+        params["title"] = searchTitle;
+        params["page"] = page;
+        params["size"] = pageSize;
+        return params;
+      }catch (e) {
+        console.log(e)
+      }
     },
     retrieveData(url) {
-      let urlParam = "get-all";
-      if (url !== undefined && url !== "" && url !== null) {
-        urlParam = url;
-      }
-      const params = this.getRequestParams(
-        this.searchTitle,
-        this.page,
-        this.pageSize
-      );
-      this.$axios
-        .get(
-          `${process.env.apiBaseUrl}panel/recipes/${urlParam}?table=recipes&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`,
-          {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
-              Authorization: "Bearer " + this.user.api_token
-            },
-            credentials: "same-origin"
-          }
-        )
-        .then(response => {
-          this.empty_url = response.data.empty_url;
-          this.data = response.data.data.data.map(this.getDisplayData);
+      try {
+        let urlParam = "get-all";
+        if (url !== undefined && url !== "" && url !== null) {
+          urlParam = url;
+        }
+        const params = this.getRequestParams(
+          this.searchTitle,
+          this.page,
+          this.pageSize
+        );
+        this.$axios
+          .get(
+            `${process.env.apiBaseUrl}panel/recipes/${urlParam}?table=recipes&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`,
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-type": "application/json",
+                Authorization: "Bearer " + this.user.api_token
+              },
+              credentials: "same-origin"
+            }
+          )
+          .then(response => {
+            this.empty_url = response.data.empty_url;
+            this.data = response.data.data.data.map(this.getDisplayData);
 
-          this.totalPages = response.data.data.last_page;
-        })
-        .catch(err => console.log(err))
-        .finally(() => (this.loading = false));
+            this.totalPages = response.data.data.last_page;
+          })
+          .catch(err => console.log(err))
+          .finally(() => (this.loading = false));
+      }catch (e) {
+        console.log(e)
+      }
     },
     handlePageChange(value) {
-      this.page = value;
-      this.retrieveData();
+      try {
+        this.page = value;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     handlePageSizeChange(size) {
-      this.pageSize = size;
-      this.page = 1;
-      this.retrieveData();
+      try {
+        this.pageSize = size;
+        this.page = 1;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     refreshList() {
-      this.retrieveData();
+      try {
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     editData(id) {
-      this.$router.push("/panel/recipes/update/" + id);
+      try {
+        this.$router.push("/panel/recipes/update/" + id);
+      }catch (e) {
+        console.log(e)
+      }
     },
     deleteData(id) {
-      this.$axios
-        .delete(process.env.apiBaseUrl + "panel/recipes/delete/" + id, {
-          json: true,
-          withCredentials: false,
-          mode: "no-cors",
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers":
-              "Origin, Content-Type, X-Auth-Token, Authorization",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Credentials": true,
-            "Content-type": "application/json",
-            Authorization: "Bearer " + this.user.api_token
-          },
-          credentials: "same-origin"
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        });
-    },
-    isActiveSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          "panel/datatables/is-active-setter?table=recipes&id=" +
-          id,
-          {
+      try {
+        this.$axios
+          .delete(process.env.apiBaseUrl + "panel/recipes/delete/" + id, {
             json: true,
             withCredentials: false,
             mode: "no-cors",
@@ -288,38 +278,89 @@ export default {
               Authorization: "Bearer " + this.user.api_token
             },
             credentials: "same-origin"
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        });
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch((e) => console.log(e));
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    isActiveSetter(id) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            "panel/datatables/is-active-setter?table=recipes&id=" +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-type": "application/json",
+                Authorization: "Bearer " + this.user.api_token
+              },
+              credentials: "same-origin"
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch((e) => console.log(e));
+      }catch (e) {
+        console.log(e)
+      }
+
     },
     getDisplayData(data) {
-      return {
-        rank: data.rank,
-        id: data._id,
-        name: data.name,
-        img_url:
-          this.img_url +
-          (!this.isEmpty(data.recipes) !== null &&
-          !this.isEmpty(data.recipes.img_url)
-            ? data.recipes.img_url
-            : this.empty_url),
-        isActive: data.isActive
-      };
+      try {
+        return {
+          rank: data.rank,
+          id: data._id,
+          name: data.name,
+          img_url:
+            this.img_url +
+            (!this.isEmpty(data.recipes) !== null &&
+            !this.isEmpty(data.recipes.img_url)
+              ? data.recipes.img_url
+              : this.empty_url),
+          isActive: data.isActive
+        };
+      }catch (e) {
+        console.log(e)
+      }
     }
   },
   mounted() {

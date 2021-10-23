@@ -513,176 +513,189 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
-
     toggleDisease() {
-      this.$nextTick(() => {
-        if (this.selectAllDisease) {
-          this.selectedDiseases = []
-        } else {
-          this.selectedDiseases = []
-          this.diseases.forEach((el, index) => {
-            this.selectedDiseases.push(el._id.$oid)
-          })
-        }
-      })
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllDisease) {
+            this.selectedDiseases = []
+          } else {
+            this.selectedDiseases = []
+            this.diseases.forEach((el, index) => {
+              this.selectedDiseases.push(el._id.$oid)
+            })
+          }
+        })
+      }catch (e) {
+        console.log(e)
+      }
     },
     toggleAllergenFoods() {
-      this.$nextTick(() => {
-        if (this.selectAllAllergenFoods) {
-          this.selectedAllergenFoods = []
-        } else {
-          this.selectedAllergenFoods = []
-          this.allergenFoods.forEach((el, index) => {
-            this.selectedAllergenFoods.push(el._id.$oid)
-          })
-        }
-      })
-    },
-
-    getDiseases() {
-      this.$axios
-        .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`, {
-          headers: {
-            Authorization: 'Bearer ' + this.userData.api_token
-          }
-        })
-        .then(response => {
-          this.diseases = response.data.data.diseases
-          this.unlikedFoods = response.data.data.unlikedFoods
-          this.allergenFoods = response.data.data.allergenFoods
-        })
-        .catch(err => console.log(err))
-    },
-    remove(item) {
-      const index = this.selectedDiseases.indexOf(item._id.$oid)
-      if (index >= 0) this.selectedDiseases.splice(index, 1)
-    },
-    removeAllergenFoods(item) {
-      const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
-      if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
-    },
-
-
-
-    updateDiseaseInformation() {
-      let formData = new FormData(this.$refs.diseaseInformationForm)
-      formData.append('dietician_id', this.userData._id)
-      formData.append('tc', this.data.tc)
-      formData.append('phone', this.data.phone)
-      formData.append('id', this.data._id.$oid)
-      formData.delete('selectedDiseases')
-      formData.append('selectedDiseases', this.selectedDiseases)
-
-      this.$axios
-        .post(
-          process.env.apiBaseUrl +
-          'dietician/users/user-diseases/',
-          formData,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-Type':
-                'multipart/form-data; boundary=' + formData._boundary,
-              Authorization: 'Bearer ' + this.userData.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-            this.e1 = 3
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllAllergenFoods) {
+            this.selectedAllergenFoods = []
           } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
+            this.selectedAllergenFoods = []
+            this.allergenFoods.forEach((el, index) => {
+              this.selectedAllergenFoods.push(el._id.$oid)
             })
           }
         })
+      }catch (e) {
+        console.log(e)
+      }
     },
-    updateAllergenFoodsInformation() {
-      let formData = new FormData(this.$refs.allergenFoodsInformationForm)
-      formData.append('dietician_id', this.userData._id)
-      formData.append('tc', this.data.tc)
-      formData.append('phone', this.data.phone)
-      formData.append('id', this.data._id.$oid)
-      formData.delete('selectedAllergenFoods')
-      formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
-      this.$axios
-        .post(
-          process.env.apiBaseUrl +
-          'dietician/users/user-allergenfoods/',
-          formData,
-          {
+    getDiseases() {
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`, {
             headers: {
-              'Content-Type':
-                'multipart/form-data; boundary=' + formData._boundary,
               Authorization: 'Bearer ' + this.userData.api_token
             }
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-            this.e1 = 4
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-          }
-        })
-    },
-
-
-
-    getNutrients(param) {
-      if (this.searchText !== null) {
-        this.$store
-          .dispatch('getNutrients', {
-            nutrientsURL:
-              'nutrients?page=' +
-              this.pagination.current +
-              '&search=' +
-              decodeURIComponent(this.searchText)
           })
-          .then(() => {
-            this.emptyUrl = this.$store.state.emptyUrl
-            this.nutrients = this.$store.state.nutrients.data
-            this.pagination.current = this.$store.state.nutrients.current_page
-            this.pagination.total = this.$store.state.nutrients.last_page
-            this.loading = false
-          }).catch(err => console.log(err))
-      } else {
-        if (param) {
+          .then(response => {
+            this.diseases = response.data.data.diseases
+            this.unlikedFoods = response.data.data.unlikedFoods
+            this.allergenFoods = response.data.data.allergenFoods
+          })
+          .catch(err => console.log(err))
+      }catch (e){
+        console.log(e)
+      }
+    },
+    remove(item) {
+      try {
+        const index = this.selectedDiseases.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedDiseases.splice(index, 1)
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    removeAllergenFoods(item) {
+      try {
+        const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    updateDiseaseInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.append('dietician_id', this.userData._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.data._id.$oid)
+        formData.delete('selectedDiseases')
+        formData.append('selectedDiseases', this.selectedDiseases)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-diseases/',
+            formData,
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary,
+                Authorization: 'Bearer ' + this.userData.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 3
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) =>console.log(e))
+      }catch (e){
+       console.log(e)
+      }
+    },
+    updateAllergenFoodsInformation() {
+      try {
+        let formData = new FormData(this.$refs.allergenFoodsInformationForm)
+        formData.append('dietician_id', this.userData._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.data._id.$oid)
+        formData.delete('selectedAllergenFoods')
+        formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-allergenfoods/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary,
+                Authorization: 'Bearer ' + this.userData.api_token
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 4
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) =>console.log(e))
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    getNutrients(param) {
+      try {
+        if (this.searchText !== null) {
           this.$store
-            .dispatch('getNutrients', { nutrientsURL: param })
+            .dispatch('getNutrients', {
+              nutrientsURL:
+                'nutrients?page=' +
+                this.pagination.current +
+                '&search=' +
+                decodeURIComponent(this.searchText)
+            })
             .then(() => {
               this.emptyUrl = this.$store.state.emptyUrl
               this.nutrients = this.$store.state.nutrients.data
@@ -691,30 +704,52 @@ export default {
               this.loading = false
             }).catch(err => console.log(err))
         } else {
-          this.$store
-            .dispatch('getNutrients', {
-              nutrientsURL: 'nutrients?page=' + this.pagination.current
-            })
-            .then(() => {
-              this.emptyUrl = this.$store.state.emptyUrl
-              this.nutrients = this.$store.state.nutrients.data
-              this.pagination.current = this.$store.state.nutrients.current_page
-              this.pagination.total = this.$store.state.nutrients.last_page
-              this.loading = false
-            }).catch(err => console.log(err))
+          if (param) {
+            this.$store
+              .dispatch('getNutrients', { nutrientsURL: param })
+              .then(() => {
+                this.emptyUrl = this.$store.state.emptyUrl
+                this.nutrients = this.$store.state.nutrients.data
+                this.pagination.current = this.$store.state.nutrients.current_page
+                this.pagination.total = this.$store.state.nutrients.last_page
+                this.loading = false
+              }).catch(err => console.log(err))
+          } else {
+            this.$store
+              .dispatch('getNutrients', {
+                nutrientsURL: 'nutrients?page=' + this.pagination.current
+              })
+              .then(() => {
+                this.emptyUrl = this.$store.state.emptyUrl
+                this.nutrients = this.$store.state.nutrients.data
+                this.pagination.current = this.$store.state.nutrients.current_page
+                this.pagination.total = this.$store.state.nutrients.last_page
+                this.loading = false
+              }).catch(err => console.log(err))
+          }
         }
+      }catch (e){
+        console.log(e)
       }
     },
     onPageChange() {
-      this.loading = true
-      this.getNutrients()
+      try {
+        this.loading = true
+        this.getNutrients()
+      }catch (e) {
+        console.log(e)
+      }
     },
     search(queryParam) {
-      if (!this.isEmpty(queryParam)) {
-        this.searchText = queryParam
+      try {
+        if (!this.isEmpty(queryParam)) {
+          this.searchText = queryParam
+        }
+        this.loading = true
+        this.getNutrients()
+      }catch (e) {
+        console.log(e)
       }
-      this.loading = true
-      this.getNutrients()
     }
   }
 }

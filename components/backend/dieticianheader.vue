@@ -170,28 +170,36 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     logout() {
-      this.$auth.logout()
-      this.$auth.$storage.removeUniversal('user')
-      this.$auth.strategy.refreshToken.reset()
-      this.$auth.strategy.token.reset()
-      this.$auth.reset()
-      this.$izitoast.success({
-        title: 'Başarılı!',
-        message: 'Başarıyla Çıkış Yaptınız Yönlendiriliyorsunuz.',
-        position: 'topCenter'
-      })
-      setTimeout(() => {
-        window.location.href="/dietician-panel/login"
-      }, 2000)
+      try {
+        this.$auth.logout()
+        this.$auth.$storage.removeUniversal('user')
+        this.$auth.strategy.refreshToken.reset()
+        this.$auth.strategy.token.reset()
+        this.$auth.reset()
+        this.$izitoast.success({
+          title: 'Başarılı!',
+          message: 'Başarıyla Çıkış Yaptınız Yönlendiriliyorsunuz.',
+          position: 'topCenter'
+        })
+        setTimeout(() => {
+          window.location.href="/dietician-panel/login"
+        }, 2000)
+      }catch (e) {
+        console.log(e)
+      }
     }
   }
 }

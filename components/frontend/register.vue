@@ -90,37 +90,50 @@ export default {
     }
   },
   methods: {
+    /**
+     * isEmpty
+     * @param obj
+     * @returns {boolean}
+     */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     /**
      * User Register Method
      */
     onRegister() {
-      let formData = new FormData(this.$refs.userRegister)
-      formData.append('isUser', true)
-      formData.append('isDietician', false)
-      this.$store.dispatch('RegisterUser', formData).then(response => {
-        if (response.success) {
-          this.$izitoast.success({
-            title: response.title,
-            message: response.msg,
-            position: 'topCenter'
-          })
-        } else {
-          this.$izitoast.error({
-            title: response.title,
-            message: response.msg,
-            position: 'topCenter'
-          })
-        }
-      })
+      try {
+        let formData = new FormData(this.$refs.userRegister)
+        formData.append('isUser', true)
+        formData.append('isDietician', false)
+        this.$store.dispatch('RegisterUser', formData).then(response => {
+          if (response.success) {
+            this.$izitoast.success({
+              title: response.title,
+              message: response.msg,
+              position: 'topCenter'
+            })
+          } else {
+            this.$izitoast.error({
+              title: response.title,
+              message: response.msg,
+              position: 'topCenter'
+            })
+          }
+        })
+      }catch (e){
+        console.log(e)
+      }
     }
   }
 

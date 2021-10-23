@@ -103,48 +103,68 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     async getExerciseCategories() {
-      this.loading=true
-      !this.isEmpty(this.searchText) ? this.searchResultText="'"+this.searchText+"' Arama Sonucuna İlişkin Egzersiz Kategorileri" : this.searchResultText='Tüm Egzersiz Kategorileri'
-      if (!this.isEmpty(this.searchText)) {
-        await this.$axios.post(process.env.apiBaseUrl + "home/searchexercisecategories"
-          , {
-            'page': this.pagination.current,
-            'searchText': this.searchText
-          }).then(res => {
-          this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
-        }).catch(err => console.log(err)).finally(() => {this.loading=false})
-      } else {
-        await this.$axios.get(process.env.apiBaseUrl + "home/exercisecategories?page="+this.pagination.current).then(res => {
-          console.log(res.data.data.data)
-          this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
-        }).catch(err => console.log(err)).finally(() => {this.loading=false})
+      try {
+        this.loading=true
+        !this.isEmpty(this.searchText) ? this.searchResultText="'"+this.searchText+"' Arama Sonucuna İlişkin Egzersiz Kategorileri" : this.searchResultText='Tüm Egzersiz Kategorileri'
+        if (!this.isEmpty(this.searchText)) {
+          await this.$axios.post(process.env.apiBaseUrl + "home/searchexercisecategories"
+            , {
+              'page': this.pagination.current,
+              'searchText': this.searchText
+            }).then(res => {
+            this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
+          }).catch(err => console.log(err)).finally(() => {this.loading=false})
+        } else {
+          await this.$axios.get(process.env.apiBaseUrl + "home/exercisecategories?page="+this.pagination.current).then(res => {
+            console.log(res.data.data.data)
+            this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
+          }).catch(err => console.log(err)).finally(() => {this.loading=false})
+        }
+      }catch (e) {
+        console.log(e)
       }
     },
     fillData(data,current_page,last_page){
-      this.emptyUrl = this.$store.state.emptyUrl
-      this.exerciseCategories = data
-      this.pagination.current = current_page
-      this.pagination.total = last_page
+      try {
+        this.emptyUrl = this.$store.state.emptyUrl
+        this.exerciseCategories = data
+        this.pagination.current = current_page
+        this.pagination.total = last_page
+      }catch (e) {
+        console.log(e)
+      }
     },
     onPageChange() {
-      this.loading = true
-      this.getExerciseCategories()
+      try {
+        this.loading = true
+        this.getExerciseCategories()
+      }catch (e) {
+        console.log(e)
+      }
     },
     search(queryParam) {
-      if(!this.isEmpty(queryParam)){
-        this.searchText = queryParam
+      try {
+        if(!this.isEmpty(queryParam)){
+          this.searchText = queryParam
+        }
+        this.loading = true
+        this.getExerciseCategories()
+      }catch (e) {
+        console.log(e)
       }
-      this.loading = true
-      this.getExerciseCategories()
     },
   }
 }

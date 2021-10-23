@@ -127,66 +127,82 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     toggleUnlikedFoods() {
-      this.$nextTick(() => {
-        if (this.selectAllUnlikedFoods) {
-          this.selectedUnlikedFoods = []
-        } else {
-          this.selectedUnlikedFoods = []
-          this.unlikedFoods.forEach((el, index) => {
-            this.selectedUnlikedFoods.push(el._id.$oid)
-          })
-        }
-      })
-    },
-    updateUnlikedFoodsInformation() {
-      let formData = new FormData(this.$refs.unlikedFoodsInformationForm)
-      formData.append('dietician_id', this.userData._id)
-      formData.append('tc', this.data.tc)
-      formData.append('phone', this.data.phone)
-      formData.append('id', this.data._id.$oid)
-      formData.delete('selectedUnlikedFoods')
-      formData.append('selectedUnlikedFoods', this.selectedUnlikedFoods)
-      this.$axios
-        .post(
-          process.env.apiBaseUrl +
-          'dietician/users/user-unlovedfoods/',
-          formData,
-          {
-            headers: {
-              'Content-Type':
-                'multipart/form-data; boundary=' + formData._boundary,
-              Authorization: 'Bearer ' + this.userData.api_token
-            }
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllUnlikedFoods) {
+            this.selectedUnlikedFoods = []
           } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
+            this.selectedUnlikedFoods = []
+            this.unlikedFoods.forEach((el, index) => {
+              this.selectedUnlikedFoods.push(el._id.$oid)
             })
           }
         })
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    updateUnlikedFoodsInformation() {
+      try {
+        let formData = new FormData(this.$refs.unlikedFoodsInformationForm)
+        formData.append('dietician_id', this.userData._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.data._id.$oid)
+        formData.delete('selectedUnlikedFoods')
+        formData.append('selectedUnlikedFoods', this.selectedUnlikedFoods)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-unlovedfoods/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary,
+                Authorization: 'Bearer ' + this.userData.api_token
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      }catch (e) {
+        console.log(e)
+      }
     },
     removeUnlikedFoods(item) {
-      const index = this.selectedUnlikedFoods.indexOf(item._id.$oid)
-      if (index >= 0) this.selectedUnlikedFoods.splice(index, 1)
+      try {
+        const index = this.selectedUnlikedFoods.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedUnlikedFoods.splice(index, 1)
+      }catch (e){
+        console.log(e)
+      }
     },
   },
 }

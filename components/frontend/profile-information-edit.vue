@@ -239,6 +239,7 @@
                   hide-details
                   outlined
                   return-object
+                  autocomplete="off"
                   label='İkamet Ettiğiniz İl'
                 />
                 <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
@@ -268,6 +269,7 @@
                   item-text='name'
                   label='İkamet Ettiğiniz İlçe'
                   return-object
+                  autocomplete="off"
                   clearable
                   hide-details
                   outlined
@@ -300,6 +302,7 @@
                   label='İkamet Ettiğiniz Semt'
                   return-object
                   clearable
+                  autocomplete="off"
                   hide-details
                   outlined
                 />
@@ -329,6 +332,7 @@
                   item-text='name'
                   clearable
                   return-object
+                  autocomplete="off"
                   label='İkamet Ettiğiniz Mahalle'
                   hide-details
                   outlined
@@ -861,125 +865,181 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     getCities() {
-      this.$axios
-        .get(process.env.apiBaseUrl + 'informations/cities')
-        .then(response => {
-          this.country.cities =
-            response.data.data.cities.length > 0
-              ? response.data.data.cities
-              : []
-          let item = this.country.cities.filter(obj => {
-            return obj.name === this.user.city
-          })
-          this.getTowns(item[0])
-        })
+      try{
+        this.$axios
+          .get(process.env.apiBaseUrl + 'informations/cities')
+          .then(response => {
+            this.country.cities =
+              response.data.data.cities.length > 0
+                ? response.data.data.cities
+                : []
+            let item = this.country.cities.filter(obj => {
+              if(!this.isEmpty(this.data.city)){
+                return obj.name === this.data.city
+              }else{
+                return obj.name
+              }
+            })
+            if(!this.isEmpty(item[0])){
+              this.getTowns(item[0])
+            }
+          }).catch((e) => console.log(e))
+      }catch (e) {
+        console.log(e)
+      }
     },
     getTowns: function(item) {
-      this.$axios
-        .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns.join(","))
-        .then(response => {
-          this.country.towns =
-            response.data.towns.length > 0 ? response.data.towns : []
-          this.country.districts = []
-          this.country.neighborhoods = []
-          this.company_district = null
-          this.company_neighborhood = null
-          let item = this.country.towns.filter(obj => {
-            return obj.name === this.data.town
-          })
-          this.getDistricts(item[0])
-        })
+      try {
+        if(!this.isEmpty(item) && !this.isEmpty(item.towns)){
+          this.$axios
+            .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns.join(","))
+            .then(response => {
+              this.country.towns =
+                response.data.towns.length > 0 ? response.data.towns : []
+              this.country.districts = []
+              this.country.neighborhoods = []
+              this.company_district = null
+              this.company_neighborhood = null
+              let item = this.country.towns.filter(obj => {
+                if(!this.isEmpty(this.data.town)){
+                  return obj.name === this.data.town
+                }else{
+                  return obj.name
+                }
+              })
+              if(!this.isEmpty(item[0])){
+                this.getDistricts(item[0])
+              }
+            }).catch((e) => console.log(e))
+        }
+      }catch (e) {
+        console.log(e)
+      }
     },
     getDistricts: function(item) {
-
-      this.$axios
-        .get(
-          process.env.apiBaseUrl + 'informations/districts?id=' + item.districts.join(",")
-        )
-        .then(response => {
-          this.country.districts =
-            response.data.districts.length > 0 ? response.data.districts : []
-          this.country.neighborhoods = []
-          this.company_neighborhood = null
-          let item = this.country.districts.filter(obj => {
-            return obj.name === this.data.district
-          })
-          this.getNeighborhoods(item[0])
-        })
+      try {
+        if(!this.isEmpty(item) && !this.isEmpty(item.districts)){
+          this.$axios
+            .get(
+              process.env.apiBaseUrl + 'informations/districts?id=' + item.districts.join(",")
+            )
+            .then(response => {
+              this.country.districts =
+                response.data.districts.length > 0 ? response.data.districts : []
+              this.country.neighborhoods = []
+              this.company_neighborhood = null
+              let item = this.country.districts.filter(obj => {
+                if(!this.isEmpty(this.data.district)){
+                  return obj.name === this.data.district
+                }else{
+                  return obj.name
+                }
+              })
+              if(!this.isEmpty(item[0])){
+                this.getNeighborhoods(item[0])
+              }
+            }).catch((e) => console.log(e))
+        }
+      }catch (e){
+        console.log(e)
+      }
     },
     getNeighborhoods: function(item) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          'informations/neighborhoods?id=' +
-          item.neighborhoods.join(",")
-        )
-        .then(response => {
-          this.country.neighborhoods =
-            response.data.neighborhoods.length > 0
-              ? response.data.neighborhoods
-              : []
-        })
+      try {
+        if(!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)){
+          this.$axios
+            .get(
+              process.env.apiBaseUrl +
+              'informations/neighborhoods?id=' +
+              item.neighborhoods.join(",")
+            )
+            .then(response => {
+              this.country.neighborhoods =
+                response.data.neighborhoods.length > 0
+                  ? response.data.neighborhoods
+                  : []
+            }).catch((e) => console.log(e))
+        }
+      }catch (e){
+        console.log(e)
+      }
     },
     updateInformation() {
-      let formData = new FormData(this.$refs.informationForm)
-      formData.append('birthDate', this.parseDate(this.dateFormatted))
-      console.log(this.user)
-      this.$axios
-        .post(
-          process.env.apiBaseUrl +
-          'users/update/' +
-          this.user._id,
-          formData,
-          {
-            headers: {
-              'Content-Type':
-                'multipart/form-data; boundary=' + formData._boundary,
-              Authorization: 'Bearer ' + this.user.api_token
+      try{
+        let formData = new FormData(this.$refs.informationForm)
+        formData.append('birthDate', this.parseDate(this.dateFormatted))
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'users/update/' +
+            this.user._id,
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary,
+                Authorization: 'Bearer ' + this.user.api_token
+              }
             }
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-            this.e1 = 2
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-          }
-        })
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      }catch (e) {
+        console.log(e)
+      }
     },
     save(date) {
-      this.$refs.menu.save(date)
+      try {
+        this.$refs.menu.save(date)
+      }catch (e){
+        console.log(e)
+      }
     },
     formatDate(date) {
-      if (!date) return null
-
-      const [year, month, day] = date.split('-')
-      return `${day}-${month}-${year}`
+      try{
+        if (!date) return null
+        const [year, month, day] = date.split('-')
+        return `${day}-${month}-${year}`
+      }catch (e) {
+        console.log(e)
+      }
     },
     parseDate(date)
     {
-      if (!date) return null
-
-      const [day, month, year] = date.split('-')
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+      try {
+        if (!date) return null
+        const [day, month, year] = date.split('-')
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+      }catch (e){
+        console.log(e)
+      }
     }
   }
 }

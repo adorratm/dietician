@@ -100,46 +100,28 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     getNutrients(param) {
-      if (this.searchText !== null) {
-        this.$store
-          .dispatch('getNutrients', {
-            nutrientsURL:
-              'nutrients?page=' +
-              this.pagination.current +
-              '&search=' +
-              decodeURIComponent(this.searchText)
-          })
-          .then(() => {
-            this.emptyUrl = this.$store.state.emptyUrl
-            this.nutrients = this.$store.state.nutrients.data
-            this.pagination.current = this.$store.state.nutrients.current_page
-            this.pagination.total = this.$store.state.nutrients.last_page
-            this.loading = false
-          }).catch(err => console.log(err))
-      } else {
-        if (param) {
-          this.$store
-            .dispatch('getNutrients', { nutrientsURL: param })
-            .then(() => {
-              this.emptyUrl = this.$store.state.emptyUrl
-              this.nutrients = this.$store.state.nutrients.data
-              this.pagination.current = this.$store.state.nutrients.current_page
-              this.pagination.total = this.$store.state.nutrients.last_page
-              this.loading = false
-            }).catch(err => console.log(err))
-        } else {
+      try {
+        if (this.searchText !== null) {
           this.$store
             .dispatch('getNutrients', {
-              nutrientsURL: 'nutrients?page=' + this.pagination.current
+              nutrientsURL:
+                'nutrients?page=' +
+                this.pagination.current +
+                '&search=' +
+                decodeURIComponent(this.searchText)
             })
             .then(() => {
               this.emptyUrl = this.$store.state.emptyUrl
@@ -148,19 +130,53 @@ export default {
               this.pagination.total = this.$store.state.nutrients.last_page
               this.loading = false
             }).catch(err => console.log(err))
+        } else {
+          if (param) {
+            this.$store
+              .dispatch('getNutrients', { nutrientsURL: param })
+              .then(() => {
+                this.emptyUrl = this.$store.state.emptyUrl
+                this.nutrients = this.$store.state.nutrients.data
+                this.pagination.current = this.$store.state.nutrients.current_page
+                this.pagination.total = this.$store.state.nutrients.last_page
+                this.loading = false
+              }).catch(err => console.log(err))
+          } else {
+            this.$store
+              .dispatch('getNutrients', {
+                nutrientsURL: 'nutrients?page=' + this.pagination.current
+              })
+              .then(() => {
+                this.emptyUrl = this.$store.state.emptyUrl
+                this.nutrients = this.$store.state.nutrients.data
+                this.pagination.current = this.$store.state.nutrients.current_page
+                this.pagination.total = this.$store.state.nutrients.last_page
+                this.loading = false
+              }).catch(err => console.log(err))
+          }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     onPageChange() {
-      this.loading = true
-      this.getNutrients()
+      try {
+        this.loading = true
+        this.getNutrients()
+      }catch (e) {
+        console.log(e)
+      }
     },
     search(queryParam) {
-      if(!this.isEmpty(queryParam)){
-        this.searchText = queryParam
+      try {
+        if(!this.isEmpty(queryParam)){
+          this.searchText = queryParam
+        }
+        this.loading = true
+        this.getNutrients()
+      }catch (e) {
+        console.log(e)
       }
-      this.loading = true
-      this.getNutrients()
     },
   }
 }
