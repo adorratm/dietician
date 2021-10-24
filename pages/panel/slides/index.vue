@@ -186,125 +186,165 @@ export default {
      * @param obj
      * @returns {boolean}
      */
-    isEmpty(obj ) {
-      if ( typeof obj == "number" ) return false;
-      else if ( typeof obj == "string" ) return obj.length === 0;
-      else if ( Array.isArray( obj ) ) return obj.length === 0;
-      else if ( typeof obj == "object" )
-        return obj == null || Object.keys( obj ).length === 0;
-      else if ( typeof obj == "boolean" ) return false;
-      else return !obj;
+    isEmpty(obj) {
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     getRequestParams(searchTitle, page, pageSize) {
-      let params = {};
-      params["title"] = searchTitle;
-      params["page"] = page;
-      params["size"] = pageSize;
-      return params;
+      try {
+        let params = {};
+        params["title"] = searchTitle;
+        params["page"] = page;
+        params["size"] = pageSize;
+        return params;
+      }catch (e) {
+        console.log(e)
+      }
     },
     retrieveData(url) {
-      let urlParam = "get-all";
-      if (url !== undefined && url !== "" && url !== null) {
-        urlParam = url;
-      }
-      const params = this.getRequestParams(
-        this.searchTitle,
-        this.page,
-        this.pageSize
-      );
-      this.$axios
-        .get(
-          `${process.env.apiBaseUrl}panel/sliders/${urlParam}?table=sliders&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`,
-          {
-            headers: {
-              Authorization: "Bearer " + this.user.api_token
-            },
-          }
-        )
-        .then(response => {
-          this.data = response.data.data.data.map(this.getDisplayData);
+      try {
+        let urlParam = "get-all";
+        if (url !== undefined && url !== "" && url !== null) {
+          urlParam = url;
+        }
+        const params = this.getRequestParams(
+          this.searchTitle,
+          this.page,
+          this.pageSize
+        );
+        this.$axios
+          .get(
+            `${process.env.apiBaseUrl}panel/sliders/${urlParam}?table=sliders&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`,
+            {
+              headers: {
+                Authorization: "Bearer " + this.user.api_token
+              },
+            }
+          )
+          .then(response => {
+            this.data = response.data.data.data.map(this.getDisplayData);
 
-          this.totalPages = response.data.data.last_page;
-        })
-        .catch(err => console.log(err))
-        .finally(() => (this.loading = false));
+            this.totalPages = response.data.data.last_page;
+          })
+          .catch(err => console.log(err))
+          .finally(() => (this.loading = false));
+      }catch (e) {
+        console.log(e)
+      }
     },
     handlePageChange(value) {
-      this.page = value;
-      this.retrieveData();
+      try {
+        this.page = value;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     handlePageSizeChange(size) {
-      this.pageSize = size;
-      this.page = 1;
-      this.retrieveData();
+      try {
+        this.pageSize = size;
+        this.page = 1;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     refreshList() {
-      this.retrieveData();
+      try {
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     editData(id) {
-      this.$router.push("/panel/slides/update/" + id);
+      try {
+        this.$router.push("/panel/slides/update/" + id);
+      }catch (e) {
+        console.log(e)
+      }
     },
     deleteData(id) {
-      this.$axios
-        .delete(process.env.apiBaseUrl + "panel/sliders/delete/" + id, {
-          headers: {
-            Authorization: "Bearer " + this.user.api_token
-          },
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
-    },
-    isActiveSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          "panel/datatables/is-active-setter?table=sliders&id=" +
-          id,
-          {
+      try {
+        this.$axios
+          .delete(process.env.apiBaseUrl + "panel/sliders/delete/" + id, {
             headers: {
               Authorization: "Bearer " + this.user.api_token
             },
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    isActiveSetter(id) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            "panel/datatables/is-active-setter?table=sliders&id=" +
+            id,
+            {
+              headers: {
+                Authorization: "Bearer " + this.user.api_token
+              },
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     },
     getDisplayData(data) {
-      return {
-        rank: data.rank,
-        id: data._id,
-        title: data.title,
-        img_url: (!this.isEmpty(data.img_url) ? data.img_url : this.empty_url),
-        isActive: data.isActive
-      };
+      try {
+        return {
+          rank: data.rank,
+          id: data._id,
+          title: data.title,
+          img_url: (!this.isEmpty(data.img_url) ? data.img_url : this.empty_url),
+          isActive: data.isActive
+        };
+      }catch (e) {
+        console.log(e)
+      }
     }
   },
   mounted() {

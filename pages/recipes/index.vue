@@ -89,9 +89,6 @@ export default {
     this.search(!this.isEmpty(this.$route.query.search) ? this.$route.query.search : null)
   },
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     img_url() {
       return process.env.apiPublicUrl
     }
@@ -103,13 +100,17 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     async getRecipes() {
       try{
@@ -123,34 +124,45 @@ export default {
             }).then(res => {
             this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
             this.loading=false
-          })
+          }).catch((e) => console.log(e))
         } else {
           await this.$axios.get(process.env.apiBaseUrl + "home/recipes?page="+this.pagination.current).then(res => {
             this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
             this.loading=false
-          })
+          }).catch((e) => console.log(e))
         }
       }catch (err) {
         console.log(err)
       }
-
     },
     fillData(data,current_page,last_page){
-      this.emptyUrl = this.$store.state.emptyUrl
-      this.recipes = data
-      this.pagination.current = current_page
-      this.pagination.total = last_page
+      try {
+        this.emptyUrl = this.$store.state.emptyUrl
+        this.recipes = data
+        this.pagination.current = current_page
+        this.pagination.total = last_page
+      }catch (e) {
+        console.log(e)
+      }
     },
     onPageChange() {
-      this.loading = true
-      this.getRecipes()
+      try {
+        this.loading = true
+        this.getRecipes()
+      }catch (e) {
+        console.log(e)
+      }
     },
     search(queryParam) {
-      if(!this.isEmpty(queryParam)){
-        this.searchText = queryParam
+      try {
+        if(!this.isEmpty(queryParam)){
+          this.searchText = queryParam
+        }
+        this.loading = true
+        this.getRecipes()
+      }catch (e) {
+        console.log(e)
       }
-      this.loading = true
-      this.getRecipes()
     },
   }
 }

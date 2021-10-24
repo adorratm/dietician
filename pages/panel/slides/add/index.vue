@@ -191,44 +191,52 @@ export default {
      * @param obj
      * @returns {boolean}
      */
-    isEmpty(obj ) {
-      if ( typeof obj == "number" ) return false;
-      else if ( typeof obj == "string" ) return obj.length === 0;
-      else if ( Array.isArray( obj ) ) return obj.length === 0;
-      else if ( typeof obj == "object" )
-        return obj == null || Object.keys( obj ).length === 0;
-      else if ( typeof obj == "boolean" ) return false;
-      else return !obj;
+    isEmpty(obj) {
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     saveSlides() {
-      let formData = new FormData(this.$refs.slidesForm);
-      this.$axios
-        .post(process.env.apiBaseUrl + "panel/sliders/create", formData, {
-          headers: {
-            "Content-Type":
-              "multipart/form-data; boundary=" + formData._boundary,
-            Authorization: "Bearer " + this.user.api_token
-          },
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
+      try {
+        let formData = new FormData(this.$refs.slidesForm);
+        this.$axios
+          .post(process.env.apiBaseUrl + "panel/sliders/create", formData, {
+            headers: {
+              "Content-Type":
+                "multipart/form-data; boundary=" + formData._boundary,
+              Authorization: "Bearer " + this.user.api_token
+            },
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
 
-            setTimeout(() => {
-              window.location.href = "/panel/slides";
-            }, 2000);
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
+              setTimeout(() => {
+                window.location.href = "/panel/slides";
+              }, 2000);
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     }
   },
 }

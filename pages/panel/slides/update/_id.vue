@@ -195,6 +195,7 @@ export default {
       );
       return data;
     } catch (e) {
+      console.log(e)
       error({ message: "Slayt Bilgisi Bulunamadı.", statusCode: 404 });
     }
   },
@@ -204,48 +205,56 @@ export default {
      * @param obj
      * @returns {boolean}
      */
-    isEmpty(obj ) {
-      if ( typeof obj == "number" ) return false;
-      else if ( typeof obj == "string" ) return obj.length === 0;
-      else if ( Array.isArray( obj ) ) return obj.length === 0;
-      else if ( typeof obj == "object" )
-        return obj == null || Object.keys( obj ).length === 0;
-      else if ( typeof obj == "boolean" ) return false;
-      else return !obj;
+    isEmpty(obj) {
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     editSlides() {
-      let formData = new FormData(this.$refs.slidesForm);
-      this.$axios
-        .post(
-          process.env.apiBaseUrl + "panel/sliders/update/" + this.data._id,
-          formData,
-          {
-            headers: {
-              "Content-Type":
-                "multipart/form-data; boundary=" + formData._boundary,
-              Authorization: "Bearer " + this.user.api_token
+      try {
+        let formData = new FormData(this.$refs.slidesForm);
+        this.$axios
+          .post(
+            process.env.apiBaseUrl + "panel/sliders/update/" + this.data._id,
+            formData,
+            {
+              headers: {
+                "Content-Type":
+                  "multipart/form-data; boundary=" + formData._boundary,
+                Authorization: "Bearer " + this.user.api_token
+              }
             }
-          }
-        )
-        .then(response => {
-          console.log(response)
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            setTimeout(() => {
-              window.location.href="/panel/slides";
-            }, 2000);
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
+          )
+          .then(response => {
+            console.log(response)
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              setTimeout(() => {
+                window.location.href="/panel/slides";
+              }, 2000);
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     }
   }
 }

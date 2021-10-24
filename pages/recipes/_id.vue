@@ -218,45 +218,60 @@ export default {
      * @returns {boolean}
      */
     isEmpty(obj) {
-      if (typeof obj == 'number') return false
-      else if (typeof obj == 'string') return obj.length === 0
-      else if (Array.isArray(obj)) return obj.length === 0
-      else if (typeof obj == 'object')
-        return obj == null || Object.keys(obj).length === 0
-      else if (typeof obj == 'boolean') return false
-      else return !obj
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     changeValue: function(item) {
-      this.criteriaValue = item.value
-      this.criteriaName = item.title
-      this.type = item.type
-      if (this.values.length > 0) {
-        for (let i = 0; i < this.values.length; i++) {
-          this.recipe.recipesvalue[i].value =
-            (this.values[i].value / 100) *
-            ((this.unit <= 1 ? (this.unit = 1) : this.unit) *
-              this.criteriaValue)
-          if (
-            this.isEmpty(this.recipe.recipesvalue[i].value) ||
-            isNaN(this.recipe.recipesvalue[i].value)
-          ) {
-            this.recipe.recipesvalue[i].value = this.values[i].value
+      try {
+        this.criteriaValue = item.value
+        this.criteriaName = item.title
+        this.type = item.type
+        if (this.values.length > 0) {
+          for (let i = 0; i < this.values.length; i++) {
+            this.recipe.recipesvalue[i].value =
+              (this.values[i].value / 100) *
+              ((this.unit <= 1 ? (this.unit = 1) : this.unit) *
+                this.criteriaValue)
+            if (
+              this.isEmpty(this.recipe.recipesvalue[i].value) ||
+              isNaN(this.recipe.recipesvalue[i].value)
+            ) {
+              this.recipe.recipesvalue[i].value = this.values[i].value
+            }
           }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     search(){
-      this.$router.push("/recipes?search="+this.searchText)
+      try {
+        this.$router.push("/recipes?search="+this.searchText)
+      }catch (e) {
+        console.log(e)
+      }
     },
     async getData() {
-      await this.$axios.get(process.env.apiBaseUrl+'recipes/details/'+this.$route.params.id)
-        .then( res=>{
-          this.recipe=res.data.data
-
-          this.item=this.recipe.name
-          this.breadCrumbItems.push({name: this.item})
-        }).catch(err => console.log(err))
-      this.loading=false
+      try {
+        await this.$axios.get(process.env.apiBaseUrl+'recipes/details/'+this.$route.params.id)
+          .then( res=>{
+            this.recipe=res.data.data
+            this.item=this.recipe.name
+            this.breadCrumbItems.push({name: this.item})
+          }).catch(err => console.log(err))
+        this.loading=false
+      }catch (e) {
+        console.log(e)
+      }
     }
   }
 }
