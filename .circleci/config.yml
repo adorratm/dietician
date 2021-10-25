@@ -1,41 +1,32 @@
 version: 2
-
 jobs:
   ci:
     docker:
       - image: cimg/node:lts
     steps:
       - checkout
-
       - restore_cache:
           keys:
             - node-v1-{{ checksum "package-lock.json" }}
-
       - run:
           name: Install dependencies
           command: npm ci
-
       - save_cache:
           key: node-v1-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
-
       - run:
           name: Stop Pm2 Dietician App
           command: pm2 stop dietician
-
       - run:
           name: Update Packages
           command: npm run update:packages
-
       - run:
           name: Run Build
           command: npm run build
-
       -run:
           name: Run Pm2
           command: pm2 restart dietician --watch --update-env
-
 workflows:
   version: 2
   ci:
