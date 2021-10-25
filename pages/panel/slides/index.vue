@@ -223,13 +223,7 @@ export default {
         );
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}panel/sliders/${urlParam}?table=sliders&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`,
-            {
-              headers: {
-                Authorization: "Bearer " + this.user.api_token
-              },
-            }
-          )
+            `${process.env.apiBaseUrl}panel/sliders/${urlParam}?table=sliders&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`)
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData);
 
@@ -275,11 +269,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(process.env.apiBaseUrl + "panel/sliders/delete/" + id, {
-            headers: {
-              Authorization: "Bearer " + this.user.api_token
-            },
-          })
+          .delete(process.env.apiBaseUrl + "panel/sliders/delete/" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -303,16 +293,7 @@ export default {
     isActiveSetter(id) {
       try {
         this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            "panel/datatables/is-active-setter?table=sliders&id=" +
-            id,
-            {
-              headers: {
-                Authorization: "Bearer " + this.user.api_token
-              },
-            }
-          )
+          .get(process.env.apiBaseUrl + "panel/datatables/is-active-setter?table=sliders&id=" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({

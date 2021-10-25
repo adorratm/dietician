@@ -644,8 +644,7 @@ export default {
             {
               headers: {
                 "Content-Type":
-                  "multipart/form-data; boundary=" + formData._boundary,
-                Authorization: "Bearer " + this.user.api_token
+                  "multipart/form-data; boundary=" + formData._boundary
               }
             }
           )
@@ -657,7 +656,7 @@ export default {
                 position: "topCenter"
               });
               setTimeout(() => {
-                window.location.href="/panel/settings"
+                //window.location.href="/panel/settings"
               }, 2000);
             } else {
               this.$izitoast.error({

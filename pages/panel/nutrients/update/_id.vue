@@ -616,13 +616,7 @@ export default {
         )
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=nutrients_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=nutrients_id&where_value=${this.data._id.$oid}&joins=nutrients_file`,
-            {
-              headers: {
-                Authorization: 'Bearer ' + this.user.api_token
-              }
-            }
-          )
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=nutrients_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=nutrients_id&where_value=${this.data._id.$oid}&joins=nutrients_file`)
           .then(response => {
             this.imageData = response.data.data.data.map(this.getDisplayData)
             this.totalPages = response.data.data.last_page
@@ -664,12 +658,7 @@ export default {
             process.env.apiBaseUrl +
             'panel/datatables/delete-file?id=' +
             id +
-            '&table=nutrients_file',
-            {
-              headers: {
-                Authorization: 'Bearer ' + this.user.api_token
-              }
-            }
+            '&table=nutrients_file'
           )
           .then(response => {
             if (response.data.success) {
@@ -699,12 +688,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-active-setter?table=nutrients_file&id=' +
-            id,
-            {
-              headers: {
-                Authorization: 'Bearer ' + this.user.api_token
-              }
-            }
+            id
           )
           .then(response => {
             if (response.data.success) {
@@ -734,12 +718,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-cover-setter?table=nutrients_file&foreign_column=nutrients_id&id=' +
-            id,
-            {
-              headers: {
-                Authorization: 'Bearer ' + this.user.api_token
-              }
-            }
+            id
           )
           .then(response => {
             if (response.data.success) {
@@ -852,8 +831,7 @@ export default {
             {
               headers: {
                 'Content-Type':
-                  'multipart/form-data; boundary=' + formData._boundary,
-                Authorization: 'Bearer ' + this.user.api_token
+                  'multipart/form-data; boundary=' + formData._boundary
               }
             }
           )

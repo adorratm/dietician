@@ -198,13 +198,7 @@ export default {
         );
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}panel/nutrients/${urlParam}?table=nutrients&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,description`,
-            {
-              headers: {
-                Authorization: "Bearer " + this.user.api_token
-              },
-            }
-          )
+            `${process.env.apiBaseUrl}panel/nutrients/${urlParam}?table=nutrients&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,description`)
           .then(response => {
             this.empty_url = response.data.empty_url;
             this.data = response.data.data.data.map(this.getDisplayData);
@@ -251,11 +245,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(process.env.apiBaseUrl + "panel/nutrients/delete/" + id, {
-            headers: {
-              Authorization: "Bearer " + this.user.api_token
-            },
-          })
+          .delete(process.env.apiBaseUrl + "panel/nutrients/delete/" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -282,12 +272,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             "panel/datatables/is-active-setter?table=nutrients&id=" +
-            id,
-            {
-              headers: {
-                Authorization: "Bearer " + this.user.api_token
-              },
-            }
+            id
           )
           .then(response => {
             if (response.data.success) {

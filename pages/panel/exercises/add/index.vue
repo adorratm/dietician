@@ -343,22 +343,7 @@ export default {
     getExerciseCategories() {
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/exercises/create`, {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          })
+          .get(`${process.env.apiBaseUrl}panel/exercises/create`)
           .then(response => {
             this.allExerciseCategories = response.data.data.exercise_categories
           })
@@ -399,23 +384,7 @@ export default {
         )
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercises_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name&where_column=exercise_id&where_value=${this.inputData.id}&joins=exercises_file`,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercises_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name&where_column=exercise_id&where_value=${this.inputData.id}&joins=exercises_file`
           )
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData)
@@ -459,23 +428,7 @@ export default {
             process.env.apiBaseUrl +
             'panel/datatables/delete-file?id=' +
             id +
-            '&table=exercises_file',
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
+            '&table=exercises_file'
           )
           .then(response => {
             if (response.data.success) {
@@ -505,23 +458,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-active-setter?table=exercises_file&id=' +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
+            id
           )
           .then(response => {
             if (response.data.success) {
@@ -551,23 +488,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-cover-setter?table=exercises_file&foreign_column=exercise_id&id=' +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
+            id
           )
           .then(response => {
             if (response.data.success) {
@@ -630,21 +551,10 @@ export default {
         let formData = new FormData(this.$refs.exercisesForm)
         this.$axios
           .post(process.env.apiBaseUrl + 'panel/exercises/create', formData, {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
             headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
               'Content-Type':
-                'multipart/form-data; boundary=' + formData._boundary,
-              Authorization: 'Bearer ' + this.user.api_token
+                'multipart/form-data; boundary=' + formData._boundary
             },
-            credentials: 'same-origin'
           })
           .then(response => {
             if (response.data.success) {

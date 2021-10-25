@@ -16,9 +16,8 @@ export default function ({ $axios, app, redirect}) {
     mode: 'no-cors',
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers':
-        'Origin, Content-Type, X-Auth-Token, Authorization',
-      'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token, Authorization',
+      'Access-Control-Allow-Methods': 'GET, POST, DELETE',
       'Access-Control-Allow-Credentials': true,
       'Content-type': 'application/json',
     },
@@ -27,12 +26,23 @@ export default function ({ $axios, app, redirect}) {
   $axios.onRequest((config) => {
     if(!isEmpty(app.$auth.user) && !isEmpty(app.$auth.user.api_token)){
       if(app.$auth.strategy.token.status()._status === "UNKNOWN" || app.$auth.strategy.token.status()._status === false){
+        let user = app.$auth.storage.getUniversal("user")
         app.$auth.strategy.token.reset()
         app.$auth.strategy.refreshToken.reset()
         app.$auth.$storage.removeUniversal('user')
         app.$auth.reset()
         setTimeout(function () {
-          redirect("/login")
+          if(!isEmpty(user)){
+            if(user.status === "admin"){
+              redirect("/panel/login")
+            }else if(user.status === "dietician"){
+              redirect("/dietician-panel/login")
+            }else{
+              redirect("/login")
+            }
+          }else{
+            redirect("/login")
+          }
         }, 2000)
       }else{
         $axios.setToken(app.$auth.user.api_token, 'Bearer')

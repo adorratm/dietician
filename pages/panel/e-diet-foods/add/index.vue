@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- Page Wrapper -->
-    <div class="page-wrapper">
-      <div class="content container-fluid">
+    <div class='page-wrapper'>
+      <div class='content container-fluid'>
 
         <!-- Page Header -->
         <Breadcrumb :items='breadCrumbItems' />
@@ -243,9 +243,9 @@
                         </div>
                       </ValidationProvider>
                       <v-tabs v-model='tab' background-color='primary' dark>
-                          <v-tab v-for='item in tabItems' :key='item.tab'>
-                            {{ item.tab }}
-                          </v-tab>
+                        <v-tab v-for='item in tabItems' :key='item.tab'>
+                          {{ item.tab }}
+                        </v-tab>
                       </v-tabs>
 
                       <v-tabs-items v-model='tab'>
@@ -372,7 +372,7 @@
                         <v-tab-item class='px-0' eager>
                           <v-card flat>
                             <v-card-text class='px-0'
-                              v-if='!isEmpty(inputs2) && !isEmpty(allCriterias)'
+                                         v-if='!isEmpty(inputs2) && !isEmpty(allCriterias)'
                             >
                               <v-row
                                 v-for='(input2, index) in inputs2'
@@ -627,18 +627,19 @@
 </template>
 
 <script>
-import Breadcrumb from "~/components/backend/breadcrumb"
-import { ValidationObserver, ValidationProvider } from "vee-validate";
-import Editor from "@tinymce/tinymce-vue";
+import Breadcrumb from '~/components/backend/breadcrumb'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import Editor from '@tinymce/tinymce-vue'
+
 export default {
-  components:{
+  components: {
     Breadcrumb,
     ValidationObserver,
     ValidationProvider,
-    editor: Editor,
+    editor: Editor
   },
   name: 'exercise-categories-add',
-  middleware: ["auth","admin"],
+  middleware: ['auth', 'admin'],
   layout: 'admin',
   computed: {
     currentPath() {
@@ -647,7 +648,7 @@ export default {
     img_url() {
       return process.env.apiPublicUrl
     },
-    user(){
+    user() {
       return this.$auth.user
     },
     likesAllFruit() {
@@ -694,12 +695,12 @@ export default {
       return 'mdi-checkbox-blank-outline'
     }
   },
-  data(){
+  data() {
     return {
-      breadCrumbItems:[
-        {name: "Anasayfa",url: "/panel"},
-        {name: "E-Diyet Besinleri",url:"/panel/e-diet-foods"},
-        {name: "E-Diyet Besini Ekle"}
+      breadCrumbItems: [
+        { name: 'Anasayfa', url: '/panel' },
+        { name: 'E-Diyet Besinleri', url: '/panel/e-diet-foods' },
+        { name: 'E-Diyet Besini Ekle' }
       ],
       disease: null,
       diseases: [],
@@ -787,7 +788,7 @@ export default {
       tabItems: [{ tab: 'Besin Değerleri' }, { tab: 'Ölçüt Değerleri' }]
     }
   },
-  methods:{
+  methods: {
     /**
      * isEmpty
      * @param obj
@@ -802,7 +803,7 @@ export default {
           return obj == null || Object.keys(obj).length === 0
         else if (typeof obj == 'boolean') return false
         else return !obj
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
@@ -815,406 +816,482 @@ export default {
             this.selectedMeals = this.meals.slice()
           }
         })
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
     toggle2() {
       try {
-
-      }catch (e) {
+        this.$nextTick(() => {
+          if (this.likesAllFruit2) {
+            this.selectedAgeGroups = []
+          } else {
+            this.selectedAgeGroups = this.ageGroups.slice()
+          }
+        })
+      } catch (e) {
         console.log(e)
       }
-      this.$nextTick(() => {
-        if (this.likesAllFruit2) {
-          this.selectedAgeGroups = []
-        } else {
-          this.selectedAgeGroups = this.ageGroups.slice()
-        }
-      })
+
     },
     toggle3() {
-      this.$nextTick(() => {
-        if (this.likesAllFruit3) {
-          this.selectedDiseases = []
-        } else {
-          this.selectedDiseases = []
-          this.diseases.forEach((el, index) => {
-            this.selectedDiseases.push(el._id.$oid)
-          })
-        }
-      })
+      try {
+        this.$nextTick(() => {
+          if (this.likesAllFruit3) {
+            this.selectedDiseases = []
+          } else {
+            this.selectedDiseases = []
+            this.diseases.forEach((el, index) => {
+              this.selectedDiseases.push(el._id.$oid)
+            })
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
     remove(item) {
-      const index = this.selectedDiseases.indexOf(item._id.$oid)
-      if (index >= 0) this.selectedDiseases.splice(index, 1)
+      try {
+        const index = this.selectedDiseases.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedDiseases.splice(index, 1)
+      } catch (e) {
+        console.log(e)
+      }
     },
     getCriterias() {
-      this.$axios
-        .get(`${process.env.apiBaseUrl}panel/e-diet-foods/create`, {
-          json: true,
-          withCredentials: false,
-          mode: 'no-cors',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers':
-              'Origin, Content-Type, X-Auth-Token, Authorization',
-            'Access-Control-Allow-Methods':
-              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Credentials': true,
-            'Content-type': 'application/json',
-            Authorization: 'Bearer ' + this.user.api_token
-          },
-          credentials: 'same-origin'
-        })
-        .then(response => {
-          this.allCriterias = response.data.data.criteria
-          this.diseases = response.data.data.diseases
-          this.meals = response.data.data.meals
-        })
-        .catch(err => console.log(err))
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}panel/e-diet-foods/create`, {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-type': 'application/json',
+              Authorization: 'Bearer ' + this.user.api_token
+            },
+            credentials: 'same-origin'
+          })
+          .then(response => {
+            this.allCriterias = response.data.data.criteria
+            this.diseases = response.data.data.diseases
+            this.meals = response.data.data.meals
+          })
+          .catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
     },
     selectCover() {
-      this.e1 = 3
-      this.retrieveData()
+      try {
+        this.e1 = 3
+        this.retrieveData()
+      } catch (e) {
+        console.log(e)
+      }
     },
     getRequestParams(searchTitle, page, pageSize) {
-      let params = {}
-      params['title'] = searchTitle
-      params['page'] = page
-      params['size'] = pageSize
-      return params
+      try {
+        let params = {}
+        params['title'] = searchTitle
+        params['page'] = page
+        params['size'] = pageSize
+        return params
+      } catch (e) {
+        console.log(e)
+      }
     },
     retrieveData(url) {
-      let urlParam = 'get-all'
-      if (url !== undefined && url !== '' && url !== null) {
-        urlParam = url
-      }
-      const params = this.getRequestParams(
-        this.searchTitle,
-        this.page,
-        this.pageSize
-      )
-      this.$axios
-        .get(
-          `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=edietfoods_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=edietfoods_id&where_value=${this.inputData.id}&joins=edietfoods_file`,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
+      try {
+        let urlParam = 'get-all'
+        if (url !== undefined && url !== '' && url !== null) {
+          urlParam = url
+        }
+        const params = this.getRequestParams(
+          this.searchTitle,
+          this.page,
+          this.pageSize
         )
-        .then(response => {
-          this.data = response.data.data.data.map(this.getDisplayData)
+        this.$axios
+          .get(
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=edietfoods_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=edietfoods_id&where_value=${this.inputData.id}&joins=edietfoods_file`,
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            this.data = response.data.data.data.map(this.getDisplayData)
 
-          this.totalPages = response.data.data.last_page
-        })
-        .catch(err => console.log(err))
-        .finally(() => (this.loading = false))
+            this.totalPages = response.data.data.last_page
+          })
+          .catch(err => console.log(err))
+          .finally(() => (this.loading = false))
+      } catch (e) {
+        console.log(e)
+      }
     },
     handlePageChange(value) {
-      this.page = value
-      this.retrieveData()
+      try {
+        this.page = value
+        this.retrieveData()
+      } catch (e) {
+        console.log(e)
+      }
     },
     handlePageSizeChange(size) {
-      this.pageSize = size
-      this.page = 1
-      this.retrieveData()
+      try {
+        this.pageSize = size
+        this.page = 1
+        this.retrieveData()
+      } catch (e) {
+        console.log(e)
+      }
     },
     refreshList() {
-      this.retrieveData()
+      try {
+        this.retrieveData()
+      } catch (e) {
+        console.log(e)
+      }
     },
     deleteData(id) {
-      this.$axios
-        .delete(
-          process.env.apiBaseUrl +
-          'panel/datatables/delete-file?id=' +
-          id +
-          '&table=edietfoods_file',
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-            this.refreshList()
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-          }
-        }).catch(err => console.log(err))
+      try {
+        this.$axios
+          .delete(
+            process.env.apiBaseUrl +
+            'panel/datatables/delete-file?id=' +
+            id +
+            '&table=edietfoods_file',
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+              this.refreshList()
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+            }
+          }).catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
     },
     isActiveSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          'panel/datatables/is-active-setter?table=edietfoods_file&id=' +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-            this.refreshList()
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-          }
-        }).catch(err => console.log(err))
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            'panel/datatables/is-active-setter?table=edietfoods_file&id=' +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+              this.refreshList()
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+            }
+          }).catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
     },
     isCoverSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          'panel/datatables/is-cover-setter?table=edietfoods_file&foreign_column=edietfoods_id&id=' +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-            this.refreshList()
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-          }
-        }).catch(err => console.log(err))
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            'panel/datatables/is-cover-setter?table=edietfoods_file&foreign_column=edietfoods_id&id=' +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers':
+                  'Origin, Content-Type, X-Auth-Token, Authorization',
+                'Access-Control-Allow-Methods':
+                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Credentials': true,
+                'Content-type': 'application/json',
+                Authorization: 'Bearer ' + this.user.api_token
+              },
+              credentials: 'same-origin'
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+              this.refreshList()
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+            }
+          }).catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
     },
     getDisplayData(data) {
-      return {
-        rank: data.rank,
-        id: data._id.$oid,
-        img_url: this.img_url + data.img_url,
-        isCover: data.isCover,
-        isActive: data.isActive
+      try {
+        return {
+          rank: data.rank,
+          id: data._id.$oid,
+          img_url: this.img_url + data.img_url,
+          isCover: data.isCover,
+          isActive: data.isActive
+        }
+      } catch (e) {
+        console.log(e)
       }
     },
 
     cloneProperty() {
-      this.inputs.push([
-        {
-          id: `vitamin${++this.counter}`,
-          label: 'Besin Değeri Adı',
-          value: ''
-        },
-        {
-          id: `vitaminValue${++this.counter}`,
-          label: 'Besin Değeri',
-          value: ''
-        },
-        {
-          id: `vitaminType${++this.counter}`,
-          label: 'Besin Değeri Türü',
-          value: ''
-        }
-      ])
+      try {
+        this.inputs.push([
+          {
+            id: `vitamin${++this.counter}`,
+            label: 'Besin Değeri Adı',
+            value: ''
+          },
+          {
+            id: `vitaminValue${++this.counter}`,
+            label: 'Besin Değeri',
+            value: ''
+          },
+          {
+            id: `vitaminType${++this.counter}`,
+            label: 'Besin Değeri Türü',
+            value: ''
+          }
+        ])
+      } catch (e) {
+        console.log(e)
+      }
     },
     removeProperty(id) {
-      for (let i = 0; i < this.inputs.length; i++) {
-        if (this.inputs[i][0].id === id) {
-          this.inputs.splice(i, 1)
+      try {
+        for (let i = 0; i < this.inputs.length; i++) {
+          if (this.inputs[i][0].id === id) {
+            this.inputs.splice(i, 1)
+          }
         }
+      } catch (e) {
+        console.log(e)
       }
     },
     cloneProperty2() {
-      this.inputs2.push([
-        {
-          id: `criteria${++this.counter2}`,
-          label: 'Ölçüt Değeri Adı',
-          value: ''
-        },
-        {
-          id: `criteriaValue${++this.counter2}`,
-          label: 'Ölçüt Değeri',
-          value: ''
-        },
-        {
-          id: `criteriaType${++this.counter2}`,
-          label: 'Ölçüt Değeri Türü',
-          value: ''
-        }
-      ])
+      try {
+        this.inputs2.push([
+          {
+            id: `criteria${++this.counter2}`,
+            label: 'Ölçüt Değeri Adı',
+            value: ''
+          },
+          {
+            id: `criteriaValue${++this.counter2}`,
+            label: 'Ölçüt Değeri',
+            value: ''
+          },
+          {
+            id: `criteriaType${++this.counter2}`,
+            label: 'Ölçüt Değeri Türü',
+            value: ''
+          }
+        ])
+      } catch (e) {
+        console.log(e)
+      }
     },
     removeProperty2(id) {
-      for (let i = 0; i < this.inputs2.length; i++) {
-        if (this.inputs2[i][0].id === id) {
-          this.inputs2.splice(i, 1)
+      try {
+        for (let i = 0; i < this.inputs2.length; i++) {
+          if (this.inputs2[i][0].id === id) {
+            this.inputs2.splice(i, 1)
+          }
         }
+      } catch (e) {
+        console.log(e)
       }
     },
     onComplete(e) {
-      if (JSON.parse(e.xhr.response).success) {
-        this.$izitoast.success({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: 'topCenter',
-          displayMode: 'once'
-        })
-      } else {
-        this.$izitoast.error({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: 'topCenter',
-          displayMode: 'once'
-        })
+      try {
+        if (JSON.parse(e.xhr.response).success) {
+          this.$izitoast.success({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+        } else {
+          this.$izitoast.error({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+        }
+      } catch (e) {
+        console.log(e)
       }
     },
     saveEdietFoods() {
-      let formData = new FormData(this.$refs.eDietFoodsForm)
-      let meals = this.selectedMeals
-      formData.delete('selectedMeals[]')
-      formData.delete('selectedMeals')
-      let diseases = this.selectedDiseases
-      formData.delete('selectedDiseases[]')
-      formData.delete('selectedDiseases')
-      formData.delete('criteriaName[]')
-      formData.delete('criteriaName')
-      let criteriaValues = this.inputs2
-      for (let i = 0; i < criteriaValues.length; i++) {
-        formData.append('criteriaName[]', criteriaValues[i].value)
+      try {
+        let formData = new FormData(this.$refs.eDietFoodsForm)
+        let meals = this.selectedMeals
+        formData.delete('selectedMeals[]')
+        formData.delete('selectedMeals')
+        let diseases = this.selectedDiseases
+        formData.delete('selectedDiseases[]')
+        formData.delete('selectedDiseases')
+        formData.delete('criteriaName[]')
+        formData.delete('criteriaName')
+        let criteriaValues = this.inputs2
+        for (let i = 0; i < criteriaValues.length; i++) {
+          formData.append('criteriaName[]', criteriaValues[i].value)
+        }
+        for (let i = 0; i < diseases.length; i++) {
+          formData.append('selectedDiseases[' + i + ']', diseases[i])
+        }
+        for (let i = 0; i < meals.length; i++) {
+          formData.append('selectedMeals[' + i + ']', meals[i])
+        }
+        this.$axios
+          .post(process.env.apiBaseUrl + 'panel/e-diet-foods/create', formData, {
+            json: true,
+            withCredentials: false,
+            mode: 'no-cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers':
+                'Origin, Content-Type, X-Auth-Token, Authorization',
+              'Access-Control-Allow-Methods':
+                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+              'Access-Control-Allow-Credentials': true,
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary,
+              Authorization: 'Bearer ' + this.user.api_token
+            },
+            credentials: 'same-origin'
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.$refs.myDropzone.options.url =
+                process.env.apiBaseUrl +
+                'panel/e-diet-foods/create-file/' +
+                response.data.data.$oid
+              this.$refs.myDropzone.dropzone.options.url =
+                process.env.apiBaseUrl +
+                'panel/e-diet-foods/create-file/' +
+                response.data.data.$oid
+              this.options.url =
+                process.env.apiBaseUrl +
+                'panel/e-diet-foods/create-file/' +
+                response.data.data.$oid
+              this.inputData.id = response.data.data.$oid
+              this.options.params.title = response.data.name
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
       }
-      for (let i = 0; i < diseases.length; i++) {
-        formData.append('selectedDiseases[' + i + ']', diseases[i])
-      }
-      for (let i = 0; i < meals.length; i++) {
-        formData.append('selectedMeals[' + i + ']', meals[i])
-      }
-      this.$axios
-        .post(process.env.apiBaseUrl + 'panel/e-diet-foods/create', formData, {
-          json: true,
-          withCredentials: false,
-          mode: 'no-cors',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers':
-              'Origin, Content-Type, X-Auth-Token, Authorization',
-            'Access-Control-Allow-Methods':
-              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Credentials': true,
-            'Content-Type':
-              'multipart/form-data; boundary=' + formData._boundary,
-            Authorization: 'Bearer ' + this.user.api_token
-          },
-          credentials: 'same-origin'
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-            this.$refs.myDropzone.options.url =
-              process.env.apiBaseUrl +
-              'panel/e-diet-foods/create-file/' +
-              response.data.data.$oid
-            this.$refs.myDropzone.dropzone.options.url =
-              process.env.apiBaseUrl +
-              'panel/e-diet-foods/create-file/' +
-              response.data.data.$oid
-            this.options.url =
-              process.env.apiBaseUrl +
-              'panel/e-diet-foods/create-file/' +
-              response.data.data.$oid
-            this.inputData.id = response.data.data.$oid
-            this.options.params.title = response.data.name
-            this.e1 = 2
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-          }
-        }).catch(err => console.log(err))
     }
   },
   mounted() {
-    this.retrieveData();
+    this.retrieveData()
     this.getCriterias()
-  },
+  }
 }
 </script>
 

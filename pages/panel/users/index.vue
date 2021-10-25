@@ -193,24 +193,7 @@ export default {
         );
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=users&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone`,
-            {
-              json: true,
-              withCredentials: false,
-              mode: "no-cors",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers":
-                  "Origin, Content-Type, X-Auth-Token, Authorization",
-                "Access-Control-Allow-Methods":
-                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Credentials": true,
-                "Content-type": "application/json",
-                Authorization: "Bearer " + this.user.api_token
-              },
-              credentials: "same-origin"
-            }
-          )
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=users&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone`)
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData);
 
@@ -256,22 +239,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(process.env.apiBaseUrl + "panel/users/delete/" + id, {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
-              Authorization: "Bearer " + this.user.api_token
-            },
-            credentials: "same-origin"
-          })
+          .delete(process.env.apiBaseUrl + "panel/users/delete/" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -295,27 +263,7 @@ export default {
     isActiveSetter(id) {
       try {
         this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            "panel/datatables/is-active-setter?table=users&id=" +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: "no-cors",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers":
-                  "Origin, Content-Type, X-Auth-Token, Authorization",
-                "Access-Control-Allow-Methods":
-                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Credentials": true,
-                "Content-type": "application/json",
-                Authorization: "Bearer " + this.user.api_token
-              },
-              credentials: "same-origin"
-            }
-          )
+          .get(process.env.apiBaseUrl + "panel/datatables/is-active-setter?table=users&id=" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
