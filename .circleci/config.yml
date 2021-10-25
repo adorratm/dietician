@@ -7,26 +7,26 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-       key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
        - run:
-        name: Install dependencies
-        command: npm install
+          name: Install dependencies
+          command: npm install
        - save_cache:
-        key: dependency-cache-{{ checksum "package-lock.json" }}
-        paths:
-         - ./node_modules
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+           - ./node_modules
        - run:
-        name: Stop Pm2 Dietician App
-        command: pm2 stop dietician
+          name: Stop Pm2 Dietician App
+          command: pm2 stop dietician
        - run:
-        name: Update Packages
-        command: npm run update:packages
+          name: Update Packages
+          command: npm run update:packages
        - run:
-        name: Run Build
-        command: npm run build
+          name: Run Build
+          command: npm run build
        - run:
-        name: Run Pm2
-        command: pm2 restart dietician --watch --update-env
+          name: Run Pm2
+          command: pm2 restart dietician --watch --update-env
 workflows:
   version: 2
   ci:
