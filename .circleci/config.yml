@@ -27,13 +27,3 @@ jobs:
       - run:
          name: Run Pm2
          command: pm2 restart dietician --watch --update-env
-workflows:
-  version: 2
-  ci:
-    jobs:
-      - ci:
-          filters:
-            branches:
-              only:
-                - main
-                - master
