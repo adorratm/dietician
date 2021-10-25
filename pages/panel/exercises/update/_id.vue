@@ -348,6 +348,7 @@ export default {
 
       return data;
     } catch (e) {
+      console.log(e)
       error({ message: "Egzersiz Bilgisi Bulunamadı.", statusCode: 404 });
     }
   },
@@ -357,271 +358,323 @@ export default {
      * @param obj
      * @returns {boolean}
      */
-    isEmpty(obj ) {
-      if ( typeof obj == "number" ) return false;
-      else if ( typeof obj == "string" ) return obj.length === 0;
-      else if ( Array.isArray( obj ) ) return obj.length === 0;
-      else if ( typeof obj == "object" )
-        return obj == null || Object.keys( obj ).length === 0;
-      else if ( typeof obj == "boolean" ) return false;
-      else return !obj;
+    isEmpty(obj) {
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     selectCover() {
-      this.e1 = 3;
-      this.retrieveData();
+      try {
+        this.e1 = 3;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     getRequestParams(searchTitle, page, pageSize) {
-      let params = {};
-      params["title"] = searchTitle;
-      params["page"] = page;
-      params["size"] = pageSize;
-      return params;
+      try {
+        let params = {};
+        params["title"] = searchTitle;
+        params["page"] = page;
+        params["size"] = pageSize;
+        return params;
+      }catch (e) {
+        console.log(e)
+      }
     },
     retrieveData(url) {
-      let urlParam = "get-all";
-      if (url !== undefined && url !== "" && url !== null) {
-        urlParam = url;
+      try {
+        let urlParam = "get-all";
+        if (url !== undefined && url !== "" && url !== null) {
+          urlParam = url;
+        }
+        const params = this.getRequestParams(
+          this.searchTitle,
+          this.page,
+          this.pageSize
+        );
+        this.$axios
+          .get(
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercises_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=exercise_id&where_value=${this.data._id.$oid}&joins=exercises_file`,
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-type": "application/json",
+                Authorization: "Bearer " + this.user.api_token
+              },
+              credentials: "same-origin"
+            }
+          )
+          .then(response => {
+            this.imageData = response.data.data.data.map(this.getDisplayData);
+            this.totalPages = response.data.data.last_page;
+          })
+          .catch(err => console.log(err))
+          .finally(() => (this.loading = false));
+      }catch (e) {
+        console.log(e)
       }
-      const params = this.getRequestParams(
-        this.searchTitle,
-        this.page,
-        this.pageSize
-      );
-      this.$axios
-        .get(
-          `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercises_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=exercise_id&where_value=${this.data._id.$oid}&joins=exercises_file`,
-          {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
-              Authorization: "Bearer " + this.user.api_token
-            },
-            credentials: "same-origin"
-          }
-        )
-        .then(response => {
-          this.imageData = response.data.data.data.map(this.getDisplayData);
-          this.totalPages = response.data.data.last_page;
-        })
-        .catch(err => console.log(err))
-        .finally(() => (this.loading = false));
     },
     handlePageChange(value) {
-      this.page = value;
-      this.retrieveData();
+      try {
+        this.page = value;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     handlePageSizeChange(size) {
-      this.pageSize = size;
-      this.page = 1;
-      this.retrieveData();
+      try {
+        this.pageSize = size;
+        this.page = 1;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     refreshList() {
-      this.retrieveData();
+      try {
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     deleteData(id) {
-      this.$axios
-        .delete(
-          process.env.apiBaseUrl +
-          "panel/datatables/delete-file?id=" +
-          id +
-          "&table=exercises_file",
-          {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
-              Authorization: "Bearer " + this.user.api_token
-            },
-            credentials: "same-origin"
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter",
-              displayMode: "once"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter",
-              displayMode: "once"
-            });
-          }
-        }).catch(err => console.log(err));
+      try {
+        this.$axios
+          .delete(
+            process.env.apiBaseUrl +
+            "panel/datatables/delete-file?id=" +
+            id +
+            "&table=exercises_file",
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-type": "application/json",
+                Authorization: "Bearer " + this.user.api_token
+              },
+              credentials: "same-origin"
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter",
+                displayMode: "once"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter",
+                displayMode: "once"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     },
     isActiveSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          "panel/datatables/is-active-setter?table=exercises_file&id=" +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
-              Authorization: "Bearer " + this.user.api_token
-            },
-            credentials: "same-origin"
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter",
-              displayMode: "once"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter",
-              displayMode: "once"
-            });
-          }
-        }).catch(err => console.log(err));
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            "panel/datatables/is-active-setter?table=exercises_file&id=" +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-type": "application/json",
+                Authorization: "Bearer " + this.user.api_token
+              },
+              credentials: "same-origin"
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter",
+                displayMode: "once"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter",
+                displayMode: "once"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     },
     isCoverSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          "panel/datatables/is-cover-setter?table=exercises_file&foreign_column=exercise_id&id=" +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-type": "application/json",
-              Authorization: "Bearer " + this.user.api_token
-            },
-            credentials: "same-origin"
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter",
-              displayMode: "once"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter",
-              displayMode: "once"
-            });
-          }
-        }).catch(err => console.log(err));
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            "panel/datatables/is-cover-setter?table=exercises_file&foreign_column=exercise_id&id=" +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-type": "application/json",
+                Authorization: "Bearer " + this.user.api_token
+              },
+              credentials: "same-origin"
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter",
+                displayMode: "once"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter",
+                displayMode: "once"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     },
     getDisplayData(data) {
-      return {
-        rank: data.rank,
-        id: data._id.$oid,
-        img_url: this.img_url + data.img_url,
-        isCover: data.isCover,
-        isActive: data.isActive
-      };
+      try {
+        return {
+          rank: data.rank,
+          id: data._id.$oid,
+          img_url: this.img_url + data.img_url,
+          isCover: data.isCover,
+          isActive: data.isActive
+        };
+      }catch (e) {
+        console.log(e)
+      }
     },
     onComplete(e) {
-      if (JSON.parse(e.xhr.response).success) {
-        this.$izitoast.success({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: "topCenter",
-          displayMode: "once"
-        });
-      } else {
-        this.$izitoast.error({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: "topCenter",
-          displayMode: "once"
-        });
+      try {
+        if (JSON.parse(e.xhr.response).success) {
+          this.$izitoast.success({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: "topCenter",
+            displayMode: "once"
+          });
+        } else {
+          this.$izitoast.error({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: "topCenter",
+            displayMode: "once"
+          });
+        }
+      }catch (e) {
+        console.log(e)
       }
     },
     editExercises() {
-      let formData = new FormData(this.$refs.exercisesForm);
-      this.$axios
-        .post(
-          process.env.apiBaseUrl +
-          "panel/exercises/update/" +
-          this.data._id.$oid,
-          formData,
-          {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
-              "Content-Type":
-                "multipart/form-data; boundary=" + formData._boundary,
-              Authorization: "Bearer " + this.user.api_token
+      try {
+        let formData = new FormData(this.$refs.exercisesForm);
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            "panel/exercises/update/" +
+            this.data._id.$oid,
+            formData,
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-Type":
+                  "multipart/form-data; boundary=" + formData._boundary,
+                Authorization: "Bearer " + this.user.api_token
+              }
             }
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            setTimeout(() => {
-              window.location.href="/panel/exercises"
-            }, 2000);
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              setTimeout(() => {
+                window.location.href="/panel/exercises"
+              }, 2000);
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     }
   }
 }

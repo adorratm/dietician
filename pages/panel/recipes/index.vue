@@ -238,58 +238,32 @@ export default {
       }
     },
     handlePageSizeChange(size) {
-      this.pageSize = size;
-      this.page = 1;
-      this.retrieveData();
+      try {
+        this.pageSize = size;
+        this.page = 1;
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     refreshList() {
-      this.retrieveData();
+      try {
+        this.retrieveData();
+      }catch (e) {
+        console.log(e)
+      }
     },
     editData(id) {
-      this.$router.push("/panel/recipes/update/" + id);
+      try {
+        this.$router.push("/panel/recipes/update/" + id);
+      }catch (e) {
+        console.log(e)
+      }
     },
     deleteData(id) {
-      this.$axios
-        .delete(process.env.apiBaseUrl + "panel/recipes/delete/" + id, {
-          json: true,
-          withCredentials: false,
-          mode: "no-cors",
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers":
-              "Origin, Content-Type, X-Auth-Token, Authorization",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Credentials": true,
-            "Content-type": "application/json",
-            Authorization: "Bearer " + this.user.api_token
-          },
-          credentials: "same-origin"
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
-    },
-    isActiveSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          "panel/datatables/is-active-setter?table=recipes&id=" +
-          id,
-          {
+      try {
+        this.$axios
+          .delete(process.env.apiBaseUrl + "panel/recipes/delete/" + id, {
             json: true,
             withCredentials: false,
             mode: "no-cors",
@@ -304,37 +278,88 @@ export default {
               Authorization: "Bearer " + this.user.api_token
             },
             credentials: "same-origin"
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            this.refreshList();
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    isActiveSetter(id) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            "panel/datatables/is-active-setter?table=recipes&id=" +
+            id,
+            {
+              json: true,
+              withCredentials: false,
+              mode: "no-cors",
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers":
+                  "Origin, Content-Type, X-Auth-Token, Authorization",
+                "Access-Control-Allow-Methods":
+                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Credentials": true,
+                "Content-type": "application/json",
+                Authorization: "Bearer " + this.user.api_token
+              },
+              credentials: "same-origin"
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              this.refreshList();
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     },
     getDisplayData(data) {
-      return {
-        rank: data.rank,
-        id: data._id,
-        name: data.name,
-        img_url:
-          (!this.isEmpty(data.recipes) &&
-          !this.isEmpty(data.recipes.img_url)
-            ? data.recipes.img_url
-            : this.img_url +this.empty_url),
-        isActive: data.isActive
-      };
+      try{
+        return {
+          rank: data.rank,
+          id: data._id,
+          name: data.name,
+          img_url:
+            (!this.isEmpty(data.recipes) &&
+            !this.isEmpty(data.recipes.img_url)
+              ? data.recipes.img_url
+              : this.img_url +this.empty_url),
+          isActive: data.isActive
+        };
+      }catch(e){
+        console.log(e)
+      }
+
     }
   },
   mounted() {

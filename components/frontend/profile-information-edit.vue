@@ -984,8 +984,7 @@ export default {
         this.$axios
           .post(
             process.env.apiBaseUrl +
-            'users/update/' +
-            this.user._id,
+            'theme/users/update/',
             formData,
             {
               headers: {
