@@ -17,7 +17,7 @@
           <div class='col-lg-4'>
             <div class='section-header '>
               <h2>Diyetisyenler</h2>
-              <p>En iyi hizmet bir tık uzağınızda... </p>
+              <p>En iyi hizmet bir tık uzağınızda...2 </p>
             </div>
             <div class='about-content'>
               <p>"Uzman diyetisyen yardımıyla zayıflamak istiyorum. Yüz yüze görüşmelerin yanında evimden, işimden trafiğe girmeden rahat rahat diyetisyenime ulaşayım, sevdiğim yiyeceklerden oluşan, ihtiyaçlarıma özel hazırlanmış bir diyet planım olsun, hedef kiloma en kısa sürede ulaşayım." diyorsanız diyetisyenlerimize hemen ulaşabilirsiniz</p>
