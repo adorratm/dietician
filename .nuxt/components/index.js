@@ -1,10 +1,3 @@
-export { default as BackendAdminheader } from '../..\\components\\backend\\adminheader.vue'
-export { default as BackendAdminsidebar } from '../..\\components\\backend\\adminsidebar.vue'
-export { default as BackendBreadcrumb } from '../..\\components\\backend\\breadcrumb.vue'
-export { default as BackendDieticianLogin } from '../..\\components\\backend\\dietician-login.vue'
-export { default as BackendDieticianheader } from '../..\\components\\backend\\dieticianheader.vue'
-export { default as BackendDieticiansidebar } from '../..\\components\\backend\\dieticiansidebar.vue'
-export { default as BackendLogin } from '../..\\components\\backend\\login.vue'
 export { default as FrontendBreadcrumb } from '../..\\components\\frontend\\breadcrumb.vue'
 export { default as FrontendCriteriaList } from '../..\\components\\frontend\\criteria-list.vue'
 export { default as FrontendDieticianList } from '../..\\components\\frontend\\dietician-list.vue'
@@ -24,6 +17,13 @@ export { default as FrontendProfileUnlikedFoodsEdit } from '../..\\components\\f
 export { default as FrontendRecipeList } from '../..\\components\\frontend\\recipe-list.vue'
 export { default as FrontendRegister } from '../..\\components\\frontend\\register.vue'
 export { default as FrontendSlider } from '../..\\components\\frontend\\slider.vue'
+export { default as BackendAdminheader } from '../..\\components\\backend\\adminheader.vue'
+export { default as BackendAdminsidebar } from '../..\\components\\backend\\adminsidebar.vue'
+export { default as BackendBreadcrumb } from '../..\\components\\backend\\breadcrumb.vue'
+export { default as BackendDieticianLogin } from '../..\\components\\backend\\dietician-login.vue'
+export { default as BackendDieticianheader } from '../..\\components\\backend\\dieticianheader.vue'
+export { default as BackendDieticiansidebar } from '../..\\components\\backend\\dieticiansidebar.vue'
+export { default as BackendLogin } from '../..\\components\\backend\\login.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

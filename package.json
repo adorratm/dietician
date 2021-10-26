@@ -27,6 +27,7 @@
     "js-base64": "^3.7.2",
     "js-cookie": "^2.2.1",
     "minify-css-string": "^1.0.0",
+    "moment": "^2.29.1",
     "nuxt": "^2.15.8",
     "nuxt-izitoast": "^1.0.0",
     "pm2": "^5.1.2",

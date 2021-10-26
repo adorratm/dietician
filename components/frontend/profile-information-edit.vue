@@ -388,24 +388,28 @@
                   offset-y
                   min-width='auto'
                 >
-                  <template v-slot:activator='{ on, attrs }'>
+                  <template v-slot:activator='{ on,attrs }'>
                     <v-text-field
                       name='birthDate'
-                      v-model='dateFormatted'
-                      label='Doğum Tarihi'
+                      v-model='computedDateFormattedMomentjs'
+                      label='Doğum Tarihi (Örn: 31-12-2002)'
+                      pattern="[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}"
                       prepend-icon='mdi-calendar'
-                      :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
                       min='1950-01-01'
+                      :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
                       v-bind='attrs'
                       v-on='on'
                       hide-details
+                      clearable
                       outlined
-                      @blur='date = parseDate(dateFormatted)'
-                      v-on:click:prepend='menu=true'
+                      minlength='10'
+                      maxlength='10'
+                      @click:clear="birthDate = null"
+                      v-on:click:prepend="menu=true"
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model='date'
+                    v-model='birthDate'
                     :active-picker.sync='activePicker'
                     :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
                     min='1950-01-01'
@@ -810,7 +814,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-
+import moment from 'moment'
 export default {
   components: {
     ValidationObserver,
@@ -821,23 +825,20 @@ export default {
     empty_url() {
       return this.img_url + 'uploads/settings/preparing/my.jpg'
     },
-    dateFormatted: {
-      get() {
-        return this.formatDate(this.user.birthDate)
+    computedDateFormattedMomentjs: {
+      get(){
+        return !this.isEmpty(this.birthDate) && this.birthDate.length === 10 ? moment(this.birthDate).format('DD-MM-YYYY') : null
       },
-      set(val) {
-        return val;
-        this.user.birthDate = this.formatDate(val)
+      set(val){
+        let isValid = moment(val,'DD-MM-YYYY')
+        if(val.length === 10 && isValid.isValid()){
+          console.log(val)
+          console.log(moment(val,'DD-MM-YYYY').format('YYYY-MM-DD'))
+          this.birthDate =moment(val,'DD-MM-YYYY').format('YYYY-MM-DD')
+        }
       }
+
     },
-    date: {
-      get() {
-        return this.user.birthDate
-      },
-      set(val) {
-        this.dateFormatted = val
-      }
-    }
   },
   props: ['user'],
   data() {
@@ -846,17 +847,14 @@ export default {
       data: { cities: [], towns: [], districts: [], neighborhoods: [] },
       country: { cities: [], towns: [], districts: [], neighborhoods: [] },
       activePicker: null,
-      menu: false
-    }
-  },
-  watch: {
-    date(val) {
-      console.log("watch"+val)
-      //this.dateFormatted = this.formatDate(this.date)
+      menu: false,
+      birthDate:null,
+      dateFormatted: null,
     }
   },
   mounted() {
     this.getCities()
+    this.birthDate = this.user.birthDate
   },
   methods: {
     /**
@@ -887,8 +885,8 @@ export default {
                 ? response.data.data.cities
                 : []
             let item = this.country.cities.filter(obj => {
-              if(!this.isEmpty(this.data.city)){
-                return obj.name === this.data.city
+              if(!this.isEmpty(this.user.city)){
+                return obj.name === this.user.city
               }else{
                 return obj.name
               }
@@ -914,8 +912,8 @@ export default {
               this.company_district = null
               this.company_neighborhood = null
               let item = this.country.towns.filter(obj => {
-                if(!this.isEmpty(this.data.town)){
-                  return obj.name === this.data.town
+                if(!this.isEmpty(this.user.town)){
+                  return obj.name === this.user.town
                 }else{
                   return obj.name
                 }
@@ -942,8 +940,8 @@ export default {
               this.country.neighborhoods = []
               this.company_neighborhood = null
               let item = this.country.districts.filter(obj => {
-                if(!this.isEmpty(this.data.district)){
-                  return obj.name === this.data.district
+                if(!this.isEmpty(this.user.district)){
+                  return obj.name === this.user.district
                 }else{
                   return obj.name
                 }
@@ -980,7 +978,7 @@ export default {
     updateInformation() {
       try{
         let formData = new FormData(this.$refs.informationForm)
-        formData.append('birthDate', this.parseDate(this.dateFormatted))
+        formData.append('birthDate', moment(this.birthDate).format("YYYY-MM-DD"))
         this.$axios
           .post(
             process.env.apiBaseUrl +
@@ -1020,25 +1018,6 @@ export default {
         console.log(e)
       }
     },
-    formatDate(date) {
-      try{
-        if (!date) return null
-        const [year, month, day] = date.split('-')
-        return `${day}-${month}-${year}`
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    parseDate(date)
-    {
-      try {
-        if (!date) return null
-        const [day, month, year] = date.split('-')
-        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-      }catch (e){
-        console.log(e)
-      }
-    }
   }
 }
 </script>
