@@ -858,22 +858,7 @@ export default {
     getCriterias() {
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/e-diet-foods/create`, {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          })
+          .get(`${process.env.apiBaseUrl}panel/e-diet-foods/create`)
           .then(response => {
             this.allCriterias = response.data.data.criteria
             this.diseases = response.data.data.diseases
@@ -915,25 +900,7 @@ export default {
           this.pageSize
         )
         this.$axios
-          .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=edietfoods_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=edietfoods_id&where_value=${this.inputData.id}&joins=edietfoods_file`,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+          .get(`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=edietfoods_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=edietfoods_id&where_value=${this.inputData.id}&joins=edietfoods_file`)
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData)
 
@@ -976,24 +943,7 @@ export default {
             process.env.apiBaseUrl +
             'panel/datatables/delete-file?id=' +
             id +
-            '&table=edietfoods_file',
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+            '&table=edietfoods_file')
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -1022,24 +972,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-active-setter?table=edietfoods_file&id=' +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+            id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -1068,24 +1001,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-cover-setter?table=edietfoods_file&foreign_column=edietfoods_id&id=' +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+            id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -1234,21 +1150,10 @@ export default {
         }
         this.$axios
           .post(process.env.apiBaseUrl + 'panel/e-diet-foods/create', formData, {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
             headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary,
-              Authorization: 'Bearer ' + this.user.api_token
             },
-            credentials: 'same-origin'
           })
           .then(response => {
             if (response.data.success) {

@@ -557,11 +557,7 @@ export default {
     getDiseases() {
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`, {
-            headers: {
-              Authorization: 'Bearer ' + this.userData.api_token
-            }
-          })
+          .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`)
           .then(response => {
             this.diseases = response.data.data.diseases
             this.unlikedFoods = response.data.data.unlikedFoods
@@ -603,21 +599,10 @@ export default {
             'dietician/users/user-diseases/',
             formData,
             {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
               headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
                 'Content-Type':
                   'multipart/form-data; boundary=' + formData._boundary,
-                Authorization: 'Bearer ' + this.userData.api_token
               },
-              credentials: 'same-origin'
             }
           )
           .then(response => {
@@ -658,7 +643,6 @@ export default {
               headers: {
                 'Content-Type':
                   'multipart/form-data; boundary=' + formData._boundary,
-                Authorization: 'Bearer ' + this.userData.api_token
               }
             }
           )

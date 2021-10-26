@@ -220,17 +220,9 @@ export default {
           this.pageSize
         );
         this.$axios
-          .get(
-            `${process.env.apiBaseUrl}dietician/datatables/${urlParam}?table=users&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=dietician_id&where_value=${this.user._id}`,
-            {
-              headers: {
-                Authorization: "Bearer " + this.user.api_token
-              },
-            }
-          )
+          .get(`${process.env.apiBaseUrl}dietician/datatables/${urlParam}?table=users&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=dietician_id&where_value=${this.user._id}`)
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData);
-
             this.totalPages = response.data.data.last_page;
           })
           .catch(err => console.log(err))
@@ -280,15 +272,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .post(
-            process.env.apiBaseUrl + "dietician/users/update/" + id,
-            { dietician_id: null },
-            {
-              headers: {
-                Authorization: "Bearer " + this.user.api_token
-              },
-            }
-          )
+          .post(process.env.apiBaseUrl + "dietician/users/update/" + id, { dietician_id: null })
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({

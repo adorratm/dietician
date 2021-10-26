@@ -1031,19 +1031,9 @@ export default {
             process.env.apiBaseUrl + "panel/recipes/update/" + this.data._id.$oid,
             formData,
             {
-              json: true,
-              withCredentials: false,
-              mode: "no-cors",
               headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers":
-                  "Origin, Content-Type, X-Auth-Token, Authorization",
-                "Access-Control-Allow-Methods":
-                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Credentials": true,
                 "Content-Type":
                   "multipart/form-data; boundary=" + formData._boundary,
-                Authorization: "Bearer " + this.user.api_token
               }
             }
           )

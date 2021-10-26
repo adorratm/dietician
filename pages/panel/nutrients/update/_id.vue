@@ -612,8 +612,7 @@ export default {
           this.pageSize
         )
         this.$axios
-          .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=nutrients_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=nutrients_id&where_value=${this.data._id.$oid}&joins=nutrients_file`)
+          .get(`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=nutrients_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=nutrients_id&where_value=${this.data._id.$oid}&joins=nutrients_file`)
           .then(response => {
             this.imageData = response.data.data.data.map(this.getDisplayData)
             this.totalPages = response.data.data.last_page

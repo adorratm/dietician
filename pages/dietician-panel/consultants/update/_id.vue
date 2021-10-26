@@ -306,8 +306,7 @@ export default {
             {
               headers: {
                 "Content-Type":
-                  "multipart/form-data; boundary=" + formData._boundary,
-                Authorization: "Bearer " + this.user.api_token
+                  "multipart/form-data; boundary=" + formData._boundary
               }
             }
           )

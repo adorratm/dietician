@@ -195,25 +195,7 @@ export default {
           this.pageSize
         );
         this.$axios
-          .get(
-            `${process.env.apiBaseUrl}panel/exercise-categories/${urlParam}?table=exercise_categories&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`,
-            {
-              json: true,
-              withCredentials: false,
-              mode: "no-cors",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers":
-                  "Origin, Content-Type, X-Auth-Token, Authorization",
-                "Access-Control-Allow-Methods":
-                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Credentials": true,
-                "Content-type": "application/json",
-                Authorization: "Bearer " + this.user.api_token
-              },
-              credentials: "same-origin"
-            }
-          )
+          .get(`${process.env.apiBaseUrl}panel/exercise-categories/${urlParam}?table=exercise_categories&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`)
           .then(response => {
             this.empty_url = response.data.empty_url;
             this.data = response.data.data.data.map(this.getDisplayData);
@@ -260,25 +242,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(
-            process.env.apiBaseUrl + "panel/exercise-categories/delete/" + id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: "no-cors",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers":
-                  "Origin, Content-Type, X-Auth-Token, Authorization",
-                "Access-Control-Allow-Methods":
-                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Credentials": true,
-                "Content-type": "application/json",
-                Authorization: "Bearer " + this.user.api_token
-              },
-              credentials: "same-origin"
-            }
-          )
+          .delete(process.env.apiBaseUrl + "panel/exercise-categories/delete/" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -305,24 +269,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             "panel/datatables/is-active-setter?table=exercise_categories&id=" +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: "no-cors",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers":
-                  "Origin, Content-Type, X-Auth-Token, Authorization",
-                "Access-Control-Allow-Methods":
-                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Credentials": true,
-                "Content-type": "application/json",
-                Authorization: "Bearer " + this.user.api_token
-              },
-              credentials: "same-origin"
-            }
-          )
+            id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({

@@ -350,27 +350,15 @@ export default {
     saveExerciseCategories() {
       try {
         let formData = new FormData(this.$refs.exerciseCategoriesForm);
-
         this.$axios
           .post(
             process.env.apiBaseUrl + "panel/exercise-categories/create",
             formData,
             {
-              json: true,
-              withCredentials: false,
-              mode: "no-cors",
               headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers":
-                  "Origin, Content-Type, X-Auth-Token, Authorization",
-                "Access-Control-Allow-Methods":
-                  "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Credentials": true,
                 "Content-Type":
-                  "multipart/form-data; boundary=" + formData._boundary,
-                Authorization: "Bearer " + this.user.api_token
-              },
-              credentials: "same-origin"
+                  "multipart/form-data; boundary=" + formData._boundary
+              }
             }
           )
           .then(response => {
@@ -438,25 +426,7 @@ export default {
           this.pageSize
         )
         this.$axios
-          .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=diseases_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=nutrients_id&where_value=${this.inputData.id}&joins=diseases_file`,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+          .get(`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=diseases_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=nutrients_id&where_value=${this.inputData.id}&joins=diseases_file`)
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData)
 
@@ -495,22 +465,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(process.env.apiBaseUrl + 'panel/diseases/delete/' + id, {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          })
+          .delete(process.env.apiBaseUrl + 'panel/diseases/delete/' + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -539,24 +494,7 @@ export default {
         .get(
           process.env.apiBaseUrl +
           'panel/datatables/is-active-setter?table=diseases_file&id=' +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
+          id)
         .then(response => {
           if (response.data.success) {
             this.$izitoast.success({
@@ -577,144 +515,139 @@ export default {
         }).catch(err => console.log(err))
     },
     isCoverSetter(id) {
-      this.$axios
-        .get(
-          process.env.apiBaseUrl +
-          'panel/datatables/is-cover-setter?table=diseases_file&foreign_column=diseases_id&id=' +
-          id,
-          {
-            json: true,
-            withCredentials: false,
-            mode: 'no-cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers':
-                'Origin, Content-Type, X-Auth-Token, Authorization',
-              'Access-Control-Allow-Methods':
-                'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-              'Access-Control-Allow-Credentials': true,
-              'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.user.api_token
-            },
-            credentials: 'same-origin'
-          }
-        )
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-            this.refreshList()
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter',
-              displayMode: 'once'
-            })
-          }
-        }).catch(err => console.log(err))
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            'panel/datatables/is-cover-setter?table=diseases_file&foreign_column=diseases_id&id=' +
+            id)
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+              this.refreshList()
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter',
+                displayMode: 'once'
+              })
+            }
+          }).catch(err => console.log(err))
+      }catch (e) {
+        console.log(e)
+      }
     },
     getDisplayData(data) {
-      return {
-        rank: data.rank,
-        id: data._id.$oid,
-        isCover: data.isCover,
-        isActive: data.isActive
+      try {
+        return {
+          rank: data.rank,
+          id: data._id.$oid,
+          isCover: data.isCover,
+          isActive: data.isActive
+        }
+      }catch (e) {
+        console.log(e)
       }
     },
 
     cloneProperty() {
-      this.inputs.push([
-        {
-          id: `disease${++this.counter}`,
-          label: 'Hastalık Değeri Adı',
-          value: ''
-        },
-        {
-          id: `diseaseValue${++this.counter}`,
-          label: 'Hastalık Değeri',
-          value: ''
-        },
-        {
-          id: `diseaseValuee${++this.counter}`,
-          label: 'Hastalık Değeri 2',
-          value: ''
-        },
-        {
-          id: `diseaseType${++this.counter}`,
-          label: 'Hastalık Değeri Türü',
-          value: ''
-        }
-      ])
+      try {
+        this.inputs.push([
+          {
+            id: `disease${++this.counter}`,
+            label: 'Hastalık Değeri Adı',
+            value: ''
+          },
+          {
+            id: `diseaseValue${++this.counter}`,
+            label: 'Hastalık Değeri',
+            value: ''
+          },
+          {
+            id: `diseaseValuee${++this.counter}`,
+            label: 'Hastalık Değeri 2',
+            value: ''
+          },
+          {
+            id: `diseaseType${++this.counter}`,
+            label: 'Hastalık Değeri Türü',
+            value: ''
+          }
+        ])
+      }catch (e) {
+        console.log(e)
+      }
     },
     removeProperty(id) {
-      for (let i = 0; i < this.inputs.length; i++) {
-        if (this.inputs[i][0].id === id) {
-          this.inputs.splice(i, 1)
+      try {
+        for (let i = 0; i < this.inputs.length; i++) {
+          if (this.inputs[i][0].id === id) {
+            this.inputs.splice(i, 1)
+          }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     onComplete(e) {
-      if (JSON.parse(e.xhr.response).success) {
-        this.$izitoast.success({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: 'topCenter',
-          displayMode: 'once'
-        })
-      } else {
-        this.$izitoast.error({
-          title: JSON.parse(e.xhr.response).title,
-          message: JSON.parse(e.xhr.response).msg,
-          position: 'topCenter',
-          displayMode: 'once'
-        })
+      try {
+        if (JSON.parse(e.xhr.response).success) {
+          this.$izitoast.success({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+        } else {
+          this.$izitoast.error({
+            title: JSON.parse(e.xhr.response).title,
+            message: JSON.parse(e.xhr.response).msg,
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+        }
+      }catch (e) {
+        console.log(e)
       }
     },
     saveDiseases() {
-      let formData = new FormData(this.$refs.diseasesForm)
-
-      this.$axios
-        .post(process.env.apiBaseUrl + 'panel/diseases/create', formData, {
-          json: true,
-          withCredentials: false,
-          mode: 'no-cors',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers':
-              'Origin, Content-Type, X-Auth-Token, Authorization',
-            'Access-Control-Allow-Methods':
-              'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Credentials': true,
-            'Content-Type':
-              'multipart/form-data; boundary=' + formData._boundary,
-            Authorization: 'Bearer ' + this.user.api_token
-          },
-          credentials: 'same-origin'
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-            this.inputData.id = response.data.data.$oid
-            setTimeout(() => {
-              window.location.href="/panel/diseases"
-            }, 2000)
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: 'topCenter'
-            })
-          }
-        }).catch(err => console.log(err))
+      try {
+        let formData = new FormData(this.$refs.diseasesForm)
+        this.$axios
+          .post(process.env.apiBaseUrl + 'panel/diseases/create', formData, {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary
+            },
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.inputData.id = response.data.data.$oid
+              setTimeout(() => {
+                window.location.href="/panel/diseases"
+              }, 2000)
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch(err => console.log(err))
+      }catch (e) {
+        console.log(e)
+      }
     }
   },
   mounted() {

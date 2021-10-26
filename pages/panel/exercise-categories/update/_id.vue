@@ -350,25 +350,7 @@ export default {
           this.pageSize
         )
         this.$axios
-          .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercise_categories_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=exercise_category_id&where_value=${this.data._id.$oid}&joins=exercise_categories_file`,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+          .get(`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=exercise_categories_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=exercise_category_id&where_value=${this.data._id.$oid}&joins=exercise_categories_file`)
           .then(response => {
             this.imageData = response.data.data.data.map(this.getDisplayData)
             this.totalPages = response.data.data.last_page
@@ -410,24 +392,7 @@ export default {
             process.env.apiBaseUrl +
             'panel/datatables/delete-file?id=' +
             id +
-            '&table=exercise_categories_file',
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+            '&table=exercise_categories_file')
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -456,24 +421,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-active-setter?table=exercise_categories_file&id=' +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+            id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -502,24 +450,7 @@ export default {
           .get(
             process.env.apiBaseUrl +
             'panel/datatables/is-cover-setter?table=exercise_categories_file&foreign_column=exercise_category_id&id=' +
-            id,
-            {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
-                'Content-type': 'application/json',
-                Authorization: 'Bearer ' + this.user.api_token
-              },
-              credentials: 'same-origin'
-            }
-          )
+            id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -586,19 +517,9 @@ export default {
             this.data._id.$oid,
             formData,
             {
-              json: true,
-              withCredentials: false,
-              mode: 'no-cors',
               headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers':
-                  'Origin, Content-Type, X-Auth-Token, Authorization',
-                'Access-Control-Allow-Methods':
-                  'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Credentials': true,
                 'Content-Type':
                   'multipart/form-data; boundary=' + formData._boundary,
-                Authorization: 'Bearer ' + this.user.api_token
               }
             }
           )

@@ -132,80 +132,83 @@ export default {
      * @param obj
      * @returns {boolean}
      */
-    isEmpty(obj ) {
-      if ( typeof obj == "number" ) return false;
-      else if ( typeof obj == "string" ) return obj.length === 0;
-      else if ( Array.isArray( obj ) ) return obj.length === 0;
-      else if ( typeof obj == "object" )
-        return obj == null || Object.keys( obj ).length === 0;
-      else if ( typeof obj == "boolean" ) return false;
-      else return !obj;
+    isEmpty(obj) {
+      try {
+        if (typeof obj == 'number') return false
+        else if (typeof obj == 'string') return obj.length === 0
+        else if (Array.isArray(obj)) return obj.length === 0
+        else if (typeof obj == 'object')
+          return obj == null || Object.keys(obj).length === 0
+        else if (typeof obj == 'boolean') return false
+        else return !obj
+      }catch (e){
+        console.log(e)
+      }
     },
     cloneProperty() {
-      this.inputs.push([
-        {
-          id: `criteria${++this.counter}`,
-          label: "Ölçüt Değeri Adı",
-          value: ""
-        },
-        {
-          id: `criteriaValue${++this.counter}`,
-          label: "Ölçüt Değeri",
-          value: ""
-        },
-        {
-          id: `criteriaType${++this.counter}`,
-          label: "Ölçüt Değeri Türü",
-          value: ""
-        }
-      ]);
+      try{
+        this.inputs.push([
+          {
+            id: `criteria${++this.counter}`,
+            label: "Ölçüt Değeri Adı",
+            value: ""
+          },
+          {
+            id: `criteriaValue${++this.counter}`,
+            label: "Ölçüt Değeri",
+            value: ""
+          },
+          {
+            id: `criteriaType${++this.counter}`,
+            label: "Ölçüt Değeri Türü",
+            value: ""
+          }
+        ]);
+      }catch (e) {
+        console.log(e)
+      }
     },
     removeProperty(id) {
-      for (let i = 0; i < this.inputs.length; i++) {
-        if (this.inputs[i][0].id === id) {
-          this.inputs.splice(i, 1);
+      try {
+        for (let i = 0; i < this.inputs.length; i++) {
+          if (this.inputs[i][0].id === id) {
+            this.inputs.splice(i, 1);
+          }
         }
+      }catch (e) {
+        console.log(e)
       }
     },
     saveCriterias() {
-      let formData = new FormData(this.$refs.criteriasForm);
-
-      this.$axios
-        .post(process.env.apiBaseUrl + "panel/criteria/create", formData, {
-          json: true,
-          withCredentials: false,
-          mode: "no-cors",
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers":
-              "Origin, Content-Type, X-Auth-Token, Authorization",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Credentials": true,
-            "Content-Type":
-              "multipart/form-data; boundary=" + formData._boundary,
-            Authorization: "Bearer " + this.userData.api_token
-          },
-          credentials: "same-origin"
-        })
-        .then(response => {
-          if (response.data.success) {
-            this.$izitoast.success({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-            setTimeout(function(){
-              window.location.href ="/panel/criterias"
-            },2000)
-          } else {
-            this.$izitoast.error({
-              title: response.data.title,
-              message: response.data.msg,
-              position: "topCenter"
-            });
-          }
-        }).catch(err => console.log(err));
+      try {
+        let formData = new FormData(this.$refs.criteriasForm);
+        this.$axios
+          .post(process.env.apiBaseUrl + "panel/criteria/create", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data; boundary=" + formData._boundary,
+            },
+          })
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              setTimeout(function(){
+                window.location.href ="/panel/criterias"
+              },2000)
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     }
   },
 }

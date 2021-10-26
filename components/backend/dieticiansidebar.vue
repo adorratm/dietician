@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <div class='sidebar' id='sidebar'>
       <div class='sidebar-inner'>
-        <vue-custom-scrollbar class='scroll-area' :settings='settings' @ps-scroll-y='scrollHanle'>
+        <vue-custom-scrollbar class='scroll-area' :settings='settings' @ps-scroll-y='scrollHandle'>
           <div id='sidebar-menu' class='sidebar-menu'>
             <ul>
               <li class='menu-title'>
@@ -71,7 +71,7 @@ export default {
     //  isactive : true
   },
   methods: {
-    scrollHanle(evt) {
+    scrollHandle(evt) {
       console.log(evt)
     }
   }

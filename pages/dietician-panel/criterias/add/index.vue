@@ -184,21 +184,10 @@ export default {
         let formData = new FormData(this.$refs.criteriasForm);
         this.$axios
           .post(process.env.apiBaseUrl + "panel/criteria/create", formData, {
-            json: true,
-            withCredentials: false,
-            mode: "no-cors",
             headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Headers":
-                "Origin, Content-Type, X-Auth-Token, Authorization",
-              "Access-Control-Allow-Methods":
-                "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-              "Access-Control-Allow-Credentials": true,
               "Content-Type":
-                "multipart/form-data; boundary=" + formData._boundary,
-              Authorization: "Bearer " + this.userData.api_token
+                "multipart/form-data; boundary=" + formData._boundary
             },
-            credentials: "same-origin"
           })
           .then(response => {
             if (response.data.success) {

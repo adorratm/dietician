@@ -172,8 +172,7 @@ export default {
             {
               headers: {
                 'Content-Type':
-                  'multipart/form-data; boundary=' + formData._boundary,
-                Authorization: 'Bearer ' + this.userData.api_token
+                  'multipart/form-data; boundary=' + formData._boundary
               }
             }
           )

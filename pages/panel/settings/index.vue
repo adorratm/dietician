@@ -653,7 +653,7 @@ export default {
                 position: "topCenter"
               });
               setTimeout(() => {
-                //window.location.href="/panel/settings"
+                window.location.href="/panel/settings"
               }, 2000);
             } else {
               this.$izitoast.error({
