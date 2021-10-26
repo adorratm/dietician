@@ -88,9 +88,6 @@ export default {
   middleware: ["auth","dietician"],
   layout: 'dietician',
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     img_url() {
       return process.env.apiPublicUrl
     },

@@ -46,9 +46,6 @@ export default {
   middleware: ['auth','guest'],
   auth: 'guest',
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     settings(){
       return this.$store.state.settings
     },

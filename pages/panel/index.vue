@@ -207,9 +207,6 @@ export default {
   },
     layout: 'admin',
 	computed: {
-       currentPath() {
-           return this.$route.name
-	   },
 	}
 }
 </script>

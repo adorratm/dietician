@@ -83,7 +83,6 @@ export default {
         {name: (this.error.statusCode ===404 ? this.pageNotFound : this.otherError)}]
     },
       currentPath() {
-      console.log(this.$route.path)
         return this.$route.path
       },
   },

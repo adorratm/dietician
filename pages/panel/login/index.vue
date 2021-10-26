@@ -36,9 +36,6 @@ export default {
     Login
   },
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     settings(){
       return this.$store.state.settings
     },

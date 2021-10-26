@@ -547,9 +547,6 @@ export default {
   name: 'settings',
   layout: 'admin',
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     img_url() {
       return process.env.apiPublicUrl
     },

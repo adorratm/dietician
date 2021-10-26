@@ -453,9 +453,6 @@ export default {
     this.search(!this.isEmpty(this.$route.query.search) ? this.$route.query.search : null)
   },
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     img_url() {
       return process.env.apiPublicUrl
     },

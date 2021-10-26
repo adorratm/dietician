@@ -201,9 +201,6 @@ export default {
     await this.getData()
   },
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     criterias(){
       return this.recipe.recipescriteriavalues;
     },

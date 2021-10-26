@@ -143,9 +143,6 @@ export default {
     img_url() {
       return process.env.apiPublicUrl
     },
-    currentPath() {
-      return this.$route.name
-    },
     user() {
       return this.$auth.user
     }

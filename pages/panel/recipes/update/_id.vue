@@ -646,9 +646,6 @@ export default {
   middleware: ["auth","admin"],
   layout: 'admin',
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     img_url() {
       return process.env.apiPublicUrl
     },

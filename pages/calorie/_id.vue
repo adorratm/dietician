@@ -292,9 +292,6 @@ export default {
     this.breadCrumbItems.push({name: this.data.name})
   },
   computed: {
-    currentPath() {
-      return this.$route.name
-    },
     img_url() {
       return process.env.apiPublicUrl
     },

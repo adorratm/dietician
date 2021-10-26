@@ -50,9 +50,6 @@ export default {
     Breadcrumb
   },
   computed:{
-    currentPath() {
-      return this.$route.name
-    },
     settings(){
       return this.$store.state.settings
     }

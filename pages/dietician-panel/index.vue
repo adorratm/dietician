@@ -207,9 +207,6 @@ export default {
   },
     layout: 'dietician',
 	computed: {
-       currentPath() {
-           return this.$route.name
-	   },
 	}
 }
 </script>
