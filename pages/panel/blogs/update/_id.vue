@@ -14,19 +14,20 @@
           <v-card-text>
             <ValidationObserver v-slot="{ handleSubmit }">
               <form
-                @submit.prevent="handleSubmit(saveBlogCategories)"
-                ref="blogCategoriesForm"
+                @submit.prevent="handleSubmit(editBlogs)"
+                ref="blogsForm"
                 enctype="multipart/form-data"
               >
                 <v-stepper flat v-model="e1">
                   <v-stepper-header>
                     <v-stepper-step :complete="e1 > 1" step="1">
-                      Makale Kategorisi Bilgileri
+                      Makale Bilgileri
                     </v-stepper-step>
 
                     <v-divider></v-divider>
+
                     <v-stepper-step :complete="e1 > 2" step="2">
-                      Makale Kategorisi Görselleri
+                      Makale Görselleri
                     </v-stepper-step>
                     <v-divider></v-divider>
 
@@ -38,17 +39,15 @@
                   <v-stepper-items>
                     <v-stepper-content class='px-0' step="1">
                       <ValidationProvider
-                        name="Makale Kategorisi"
+                        name="Makale Adı"
                         rules="required"
                         v-slot="{ errors }"
                       >
                         <div class='form-group'>
                           <v-text-field
-                            label='Makale Kategorisi'
-                            id="title"
-                            type="text"
+                            label='Makale Adı'
                             name="name"
-                            v-model="inputData.name"
+                            v-model="data.name"
                             clearable
                             outlined
                             hide-details
@@ -58,12 +57,54 @@
                           </v-alert>
                         </div>
                       </ValidationProvider>
+                      <ValidationProvider
+                        name="Makale Kategorisi"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <div class='form-group'>
+                          <v-autocomplete
+                            label='Makale Kategorisi'
+                            name='category_id'
+                            v-model='data.category_id'
+                            :items='data.blog_categories'
+                            item-text='name'
+                            item-value='_id.$oid'
+                            clearable
+                            hide-details
+                            outlined
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
+                        </div>
+                      </ValidationProvider>
+                      <ValidationProvider
+                        name="Makale Açıklaması"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <div class='form-group'>
+                          <v-textarea
+                            label='Makale Açıklaması'
+                            name="description"
+                            v-model="data.description"
+                            clearable
+                            hide-details
+                            outlined
+                          ></v-textarea>
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
+                        </div>
+                      </ValidationProvider>
 
                       <v-btn
                         color='primary'
-                        type="submit"
+                        role="button"
+                        @click.prevent="e1 = 2"
                       >
-                        Makale Kategorisini Kaydet
+                        Görsel Yüklemeye Geç
                       </v-btn>
                     </v-stepper-content>
 
@@ -79,6 +120,13 @@
                       </div>
 
                       <v-btn
+                        color='info'
+                        role="button"
+                        @click.prevent="e1 = 1"
+                      >
+                        Geri Dön
+                      </v-btn>
+                      <v-btn
                         color='primary'
                         role="button"
                         @click.prevent="selectCover"
@@ -89,19 +137,17 @@
 
                     <v-stepper-content class='px-0' step="3">
                       <v-card>
-                        <v-card-title>
-                          Görseller
-                        </v-card-title>
                         <v-card-text>
                           <v-data-table
                             :headers="headers"
-                            :items="data"
+                            :items="imageData"
                             disable-pagination
                             :hide-default-footer="true"
                           >
                             <template v-slot:[`item.img_url`]="{ item }">
                               <img
                                 v-bind:src="item.img_url"
+                                :alt='item.img_url'
                                 width="150"
                                 height="150"
                               />
@@ -143,16 +189,23 @@
                                 :items="pageSizes"
                                 label="Sayfada Görüntüleme Sayısı"
                                 @change="handlePageSizeChange"
-                                outlined
                                 hide-details
+                                outlined
                               ></v-select>
                               <v-btn
+                                class='mt-2'
                                 color='info'
-                                class="mt-2"
                                 role="button"
                                 @click.prevent="e1 = 2"
                               >
                                 Geri Dön
+                              </v-btn>
+                              <v-btn
+                                class='mt-2'
+                                color='primary'
+                                type="submit"
+                              >
+                                Makaleyi Güncelle
                               </v-btn>
                             </v-col>
 
@@ -198,7 +251,7 @@ export default {
     ValidationProvider,
     editor: Editor,
   },
-  name: 'blog-categories-add',
+  name: 'blogs-update',
   middleware: ["auth","admin"],
   layout: 'admin',
   computed: {
@@ -213,17 +266,14 @@ export default {
     return {
       breadCrumbItems:[
         {name: "Anasayfa",url: "/panel"},
-        {name: "Makale Kategorileri",url:"/panel/blog-categories"},
-        {name: "Makale Kategorisi Ekle"}
+        {name: "Makaleler",url:"/panel/blogs"},
+        {name: "Makale Düzenle"}
       ],
-      counter: 0,
       e1: 1,
-      inputData: {
-        name: null,
-        description: null,
-        id: null
+      imageData: [],
+      data: {
+        images: []
       },
-      data: [],
       searchTitle: null,
       headers: [
         { text: "#", align: "center", value: "rank" },
@@ -243,7 +293,10 @@ export default {
       pageSizes: [25, 50, 100, 200, 500, 1000],
       loading: false,
       options: {
-        url: process.env.apiBaseUrl + "panel/blog-categories/create-file/",
+        url:
+          process.env.apiBaseUrl +
+          "panel/blogs/create-file/" +
+          this.$route.params.id,
         headers: {
           Authorization:
             "Bearer " +
@@ -252,11 +305,29 @@ export default {
               : null)
         },
         params: {
-          title: null
+          title:
+            this.data !== null && this.data !== undefined && this.data !== ""
+              ? this.data.name
+              : null
         },
         uploadMultiple: true,
         parallelUploads: 10
       },
+    }
+  },
+  validate({ params }) {
+    return params.id !== null ? params.id : null;
+  },
+  async asyncData({ params, error, $axios }) {
+    try {
+      const { data } = await $axios.get(
+        process.env.apiBaseUrl + "panel/blogs/update/" + params.id
+      );
+
+      return data;
+    } catch (e) {
+      console.log(e)
+      error({ message: "Makale Bilgisi Bulunamadı.", statusCode: 404 });
     }
   },
   methods:{
@@ -275,53 +346,6 @@ export default {
         else if (typeof obj == 'boolean') return false
         else return !obj
       }catch (e){
-        console.log(e)
-      }
-    },
-    saveBlogCategories() {
-      try {
-        let formData = new FormData(this.$refs.blogCategoriesForm);
-        this.$axios
-          .post(
-            process.env.apiBaseUrl + "panel/blog-categories/create",
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data; boundary=" + formData._boundary,
-              },
-            }
-          )
-          .then(response => {
-            if (response.data.success) {
-              this.$izitoast.success({
-                title: response.data.title,
-                message: response.data.msg,
-                position: "topCenter"
-              });
-              this.$refs.myDropzone.options.url =
-                process.env.apiBaseUrl +
-                "panel/blog-categories/create-file/" +
-                response.data.data.$oid;
-              this.$refs.myDropzone.dropzone.options.url =
-                process.env.apiBaseUrl +
-                "panel/blog-categories/create-file/" +
-                response.data.data.$oid;
-              this.options.url =
-                process.env.apiBaseUrl +
-                "panel/blog-categories/create-file/" +
-                response.data.data.$oid;
-              this.inputData.id = response.data.data.$oid;
-              this.options.params.title = response.data.name;
-              this.e1 = 2;
-            } else {
-              this.$izitoast.error({
-                title: response.data.title,
-                message: response.data.msg,
-                position: "topCenter"
-              });
-            }
-          }).catch(err => console.log(err));
-      }catch (e) {
         console.log(e)
       }
     },
@@ -356,9 +380,11 @@ export default {
           this.pageSize
         );
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=blog_categories_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=blog_category_id&where_value=${this.inputData.id}&joins=blog_categories_file`)
+          .get(
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=blogs_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=blog_id&where_value=${this.data._id.$oid}&joins=blogs_file`
+          )
           .then(response => {
-            this.data = response.data.data.data.map(this.getDisplayData);
+            this.imageData = response.data.data.data.map(this.getDisplayData);
             this.totalPages = response.data.data.last_page;
           })
           .catch(err => console.log(err))
@@ -398,7 +424,7 @@ export default {
             process.env.apiBaseUrl +
             "panel/datatables/delete-file?id=" +
             id +
-            "&table=blog_categories_file"
+            "&table=blogs_file"
           )
           .then(response => {
             if (response.data.success) {
@@ -427,8 +453,9 @@ export default {
         this.$axios
           .get(
             process.env.apiBaseUrl +
-            "panel/datatables/is-active-setter?table=blog_categories_file&id=" +
-            id)
+            "panel/datatables/is-active-setter?table=blogs_file&id=" +
+            id
+          )
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -456,8 +483,9 @@ export default {
         this.$axios
           .get(
             process.env.apiBaseUrl +
-            "panel/datatables/is-cover-setter?table=blog_categories_file&foreign_column=blog_category_id&id=" +
-            id)
+            "panel/datatables/is-cover-setter?table=blogs_file&foreign_column=blog_id&id=" +
+            id
+          )
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -513,11 +541,46 @@ export default {
       }catch (e) {
         console.log(e)
       }
+    },
+    editBlogs() {
+      try {
+        let formData = new FormData(this.$refs.blogsForm);
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            "panel/blogs/update/" +
+            this.data._id.$oid,
+            formData,
+            {
+              headers: {
+                "Content-Type":
+                  "multipart/form-data; boundary=" + formData._boundary
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+              setTimeout(() => {
+                window.location.href="/panel/blogs"
+              }, 2000);
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: "topCenter"
+              });
+            }
+          }).catch(err => console.log(err));
+      }catch (e) {
+        console.log(e)
+      }
     }
-  },
-  mounted() {
-    this.retrieveData();
-  },
+  }
 }
 </script>
 

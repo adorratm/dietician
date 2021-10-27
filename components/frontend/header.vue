@@ -68,13 +68,13 @@
           <li v-else class='nav-item dropdown has-arrow logged-item'>
             <a href='javascript:void(0)' class='dropdown-toggle nav-link' data-toggle='dropdown'>
                     <span class='user-img'>
-                        <img class='rounded-circle' :src='user.img_url' width='31' :alt='user.name'>
+                        <img class='rounded-circle' :src='(user.status === "dietician" ? (!isEmpty(user.profile_photo) ? user.profile_photo : empty_url) : (!isEmpty(user.img_url) ? user.img_url : empty_url))' width='31' :alt='user.name'>
                     </span>
             </a>
             <div class='dropdown-menu dropdown-menu-right'>
               <div class='user-header'>
                 <div class='avatar avatar-sm'>
-                  <img :src='user.img_url' :alt='user.name' class='avatar-img rounded-circle'>
+                  <img :src='(user.status === "dietician" ? (!isEmpty(user.profile_photo) ? user.profile_photo : empty_url) : (!isEmpty(user.img_url) ? user.img_url : empty_url))' :alt='user.name' class='avatar-img rounded-circle'>
                 </div>
                 <div class='user-text'>
                   <h6>{{ user.name }}</h6>
@@ -142,6 +142,9 @@ export default {
   computed: {
     img_url() {
       return process.env.apiPublicUrl
+    },
+    empty_url(){
+      return this.img_url+ "uploads/settings/preparing/my.jpg"
     },
     user() {
       return this.$auth.user

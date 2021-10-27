@@ -9,6 +9,9 @@ middleware['dietician'] = middleware['dietician'].default || middleware['dietici
 middleware['guest'] = require('..\\middleware\\guest.js')
 middleware['guest'] = middleware['guest'].default || middleware['guest']
 
+middleware['loggedin'] = require('..\\middleware\\loggedin.js')
+middleware['loggedin'] = middleware['loggedin'].default || middleware['loggedin']
+
 middleware['user'] = require('..\\middleware\\user.js')
 middleware['user'] = middleware['user'].default || middleware['user']
 

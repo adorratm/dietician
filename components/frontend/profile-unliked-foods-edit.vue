@@ -20,6 +20,8 @@
           item-text='name'
           item-value='_id.$oid'
           multiple
+          outlined
+          hide-details
         >
           <template v-slot:prepend-item>
             <v-list-item ripple @click='toggleUnlikedFoods'>
@@ -69,11 +71,8 @@
         </v-alert>
       </ValidationProvider>
 
-      <v-btn color='primary' type='submit' class='mb-2'>
+      <v-btn color='primary' type='submit' class='mt-2'>
         Sevilmeyen Besin Bilgisini Kaydet
-      </v-btn>
-      <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 3'>
-        Geri Dön
       </v-btn>
     </form>
   </ValidationObserver>
@@ -96,6 +95,9 @@ export default {
     }
   },
   computed:{
+    img_url() {
+      return process.env.apiPublicUrl
+    },
     empty_url(){
       return this.img_url+ "uploads/settings/preparing/my.jpg"
     },
@@ -158,10 +160,6 @@ export default {
     updateUnlikedFoodsInformation() {
       try {
         let formData = new FormData(this.$refs.unlikedFoodsInformationForm)
-        formData.append('dietician_id', this.userData._id)
-        formData.append('tc', this.data.tc)
-        formData.append('phone', this.data.phone)
-        formData.append('id', this.data._id.$oid)
         formData.delete('selectedUnlikedFoods')
         formData.append('selectedUnlikedFoods', this.selectedUnlikedFoods)
         this.$axios

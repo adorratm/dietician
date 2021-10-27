@@ -22,18 +22,18 @@
 									retrieveData('get-by-search');
 								"
                 clearable
-                hide-details
                 outlined
+                hide-details
               ></v-text-field>
 						</span>
             <span class="justify-content-end flex-shrink-1">
 							<v-btn
                 color='primary'
-                to="/panel/blog-categories/add"
-                class="float-right btn btn-info-light ml-3 my-auto py-auto"
+                to="/panel/blogs/add"
+                class="float-right ml-3 my-auto py-auto"
                 x-large
               >
-								<i class="fa fa-plus"></i> Ekle
+								<v-icon>mdi mdi-plus</v-icon> Ekle
 							</v-btn>
 						</span>
           </v-card-title>
@@ -44,6 +44,9 @@
               disable-pagination
               :hide-default-footer="true"
             >
+              <template v-slot:[`item.img_url`]="{ item }">
+                <img v-bind:src="item.img_url" width="150" height="150" :alt='item.title' />
+              </template>
               <template v-slot:[`item.isActive`]="{ item }">
                 <v-layout justify-center>
                   <v-switch
@@ -65,7 +68,7 @@
           </v-card-text>
           <v-card-actions>
             <v-row>
-              <v-col cols="12" lg="3">
+              <v-col cols="12" sm="12" md="3" lg="3" xl="3">
                 <v-select
                   v-model="pageSize"
                   :items="pageSizes"
@@ -76,9 +79,8 @@
                 ></v-select>
               </v-col>
 
-              <v-col cols="12" lg="9">
+              <v-col cols="12" sm="12" md="9" lg="9" xl="9">
                 <v-pagination
-                  color="primary"
                   v-model="page"
                   :length="totalPages"
                   total-visible="7"
@@ -127,12 +129,14 @@ export default {
     return {
       breadCrumbItems:[
         {name: "Anasayfa",url: "/panel"},
-        {name: "Makale Kategorileri"}
+        {name: "Makaleler"}
       ],
       data: [],
       searchTitle: null,
+      empty_url: null,
       headers: [
         { text: "#", align: "center", value: "rank" },
+        { text: "Görsel", align: "center", value: "img_url", sortable: false },
         { text: "Adı", align: "center", value: "name" },
         { text: "Durum", align: "center", value: "isActive" },
         {
@@ -182,7 +186,7 @@ export default {
     retrieveData(url) {
       try {
         let urlParam = "get-all";
-        if (!this.isEmpty(url)) {
+        if (url !== undefined && url !== "" && url !== null) {
           urlParam = url;
         }
         const params = this.getRequestParams(
@@ -191,9 +195,13 @@ export default {
           this.pageSize
         );
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/blog-categories/${urlParam}?table=blog_categories&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`)
+          .get(
+            `${process.env.apiBaseUrl}panel/blogs/${urlParam}?table=blogs&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`
+          )
           .then(response => {
+            this.empty_url = response.data.empty_url;
             this.data = response.data.data.data.map(this.getDisplayData);
+
             this.totalPages = response.data.data.last_page;
           })
           .catch(err => console.log(err))
@@ -222,13 +230,13 @@ export default {
     refreshList() {
       try {
         this.retrieveData();
-      }catch (e) {
+      }catch (e){
         console.log(e)
       }
     },
     editData(id) {
       try {
-        this.$router.push("/panel/blog-categories/update/" + id);
+        this.$router.push("/panel/blogs/update/" + id);
       }catch (e) {
         console.log(e)
       }
@@ -236,7 +244,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(process.env.apiBaseUrl + "panel/blog-categories/delete/" + id)
+          .delete(process.env.apiBaseUrl + "panel/blogs/delete/" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -262,8 +270,9 @@ export default {
         this.$axios
           .get(
             process.env.apiBaseUrl +
-            "panel/datatables/is-active-setter?table=blog_categories&id=" +
-            id)
+            "panel/datatables/is-active-setter?table=blogs&id=" +
+            id
+          )
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -290,6 +299,11 @@ export default {
           rank: data.rank,
           id: data._id,
           name: data.name,
+          img_url:
+
+            (!this.isEmpty(data.blogs) && !this.isEmpty(data.blogs.img_url)
+              ? data.blogs.img_url
+              : this.empty_url),
           isActive: data.isActive
         };
       }catch (e) {

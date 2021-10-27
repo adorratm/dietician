@@ -4,7 +4,7 @@
       <div class='doctor-widget'>
         <div class='doc-info-left'>
           <div class='doctor-img'>
-            <img :src='(!isEmpty(user.img_url) ? user.img_url : empty_url)' class='img-fluid w-100' :alt='user.name'>
+            <img :src='(user.status === "dietician" ? (!isEmpty(user.profile_photo) ? user.profile_photo : empty_url) : (!isEmpty(user.img_url) ? user.img_url : empty_url))' class='img-fluid w-100' :alt='user.name'>
           </div>
           <div class='doc-info-cont'>
             <h4 class='doc-name'>{{ user.name }}</h4>
@@ -50,6 +50,9 @@
 export default {
   name: 'profile-information-top',
   computed:{
+    img_url() {
+      return process.env.apiPublicUrl
+    },
     empty_url(){
       return this.img_url+ "uploads/settings/preparing/my.jpg"
     },

@@ -4,6 +4,7 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _7ec4cc00 = () => interopDefault(import('..\\pages\\blogs\\index.vue' /* webpackChunkName: "pages/blogs/index" */))
 const _12665cc4 = () => interopDefault(import('..\\pages\\calorie\\index.vue' /* webpackChunkName: "pages/calorie/index" */))
 const _be664a86 = () => interopDefault(import('..\\pages\\criterias\\index.vue' /* webpackChunkName: "pages/criterias/index" */))
 const _6fb708e6 = () => interopDefault(import('..\\pages\\dietician-login\\index.vue' /* webpackChunkName: "pages/dietician-login/index" */))
@@ -21,6 +22,7 @@ const _46a5be64 = () => interopDefault(import('..\\pages\\dietician-panel\\crite
 const _235c018e = () => interopDefault(import('..\\pages\\dietician-panel\\login\\index.vue' /* webpackChunkName: "pages/dietician-panel/login/index" */))
 const _72f0be7d = () => interopDefault(import('..\\pages\\dietician-panel\\recipes\\index.vue' /* webpackChunkName: "pages/dietician-panel/recipes/index" */))
 const _67b43e00 = () => interopDefault(import('..\\pages\\panel\\blog-categories\\index.vue' /* webpackChunkName: "pages/panel/blog-categories/index" */))
+const _d831c1d4 = () => interopDefault(import('..\\pages\\panel\\blogs\\index.vue' /* webpackChunkName: "pages/panel/blogs/index" */))
 const _09fc365a = () => interopDefault(import('..\\pages\\panel\\criterias\\index.vue' /* webpackChunkName: "pages/panel/criterias/index" */))
 const _cb53273c = () => interopDefault(import('..\\pages\\panel\\dieticians\\index.vue' /* webpackChunkName: "pages/panel/dieticians/index" */))
 const _468fbd16 = () => interopDefault(import('..\\pages\\panel\\diseases\\index.vue' /* webpackChunkName: "pages/panel/diseases/index" */))
@@ -37,6 +39,7 @@ const _33b1e5bf = () => interopDefault(import('..\\pages\\panel\\users\\index.vu
 const _1e11efc5 = () => interopDefault(import('..\\pages\\dietician-panel\\criterias\\add\\index.vue' /* webpackChunkName: "pages/dietician-panel/criterias/add/index" */))
 const _0d288776 = () => interopDefault(import('..\\pages\\dietician-panel\\recipes\\add\\index.vue' /* webpackChunkName: "pages/dietician-panel/recipes/add/index" */))
 const _11637ed3 = () => interopDefault(import('..\\pages\\panel\\blog-categories\\add\\index.vue' /* webpackChunkName: "pages/panel/blog-categories/add/index" */))
+const _2778c306 = () => interopDefault(import('..\\pages\\panel\\blogs\\add\\index.vue' /* webpackChunkName: "pages/panel/blogs/add/index" */))
 const _529fe6e0 = () => interopDefault(import('..\\pages\\panel\\criterias\\add\\index.vue' /* webpackChunkName: "pages/panel/criterias/add/index" */))
 const _404dc07d = () => interopDefault(import('..\\pages\\panel\\diseases\\add\\index.vue' /* webpackChunkName: "pages/panel/diseases/add/index" */))
 const _b3b956ac = () => interopDefault(import('..\\pages\\panel\\e-diet-foods\\add\\index.vue' /* webpackChunkName: "pages/panel/e-diet-foods/add/index" */))
@@ -50,6 +53,7 @@ const _730afaa9 = () => interopDefault(import('..\\pages\\dietician-panel\\consu
 const _eb0c0ee6 = () => interopDefault(import('..\\pages\\dietician-panel\\criterias\\update\\_id.vue' /* webpackChunkName: "pages/dietician-panel/criterias/update/_id" */))
 const _7e3656fc = () => interopDefault(import('..\\pages\\dietician-panel\\recipes\\update\\_id.vue' /* webpackChunkName: "pages/dietician-panel/recipes/update/_id" */))
 const _015a4b3f = () => interopDefault(import('..\\pages\\panel\\blog-categories\\update\\_id.vue' /* webpackChunkName: "pages/panel/blog-categories/update/_id" */))
+const _fb03be56 = () => interopDefault(import('..\\pages\\panel\\blogs\\update\\_id.vue' /* webpackChunkName: "pages/panel/blogs/update/_id" */))
 const _30aa365c = () => interopDefault(import('..\\pages\\panel\\criterias\\update\\_id.vue' /* webpackChunkName: "pages/panel/criterias/update/_id" */))
 const _a44d75be = () => interopDefault(import('..\\pages\\panel\\dieticians\\update\\_id.vue' /* webpackChunkName: "pages/panel/dieticians/update/_id" */))
 const _a08f8256 = () => interopDefault(import('..\\pages\\panel\\diseases\\update\\_id.vue' /* webpackChunkName: "pages/panel/diseases/update/_id" */))
@@ -61,6 +65,7 @@ const _44d5d82a = () => interopDefault(import('..\\pages\\panel\\recipe-categori
 const _1ccf9081 = () => interopDefault(import('..\\pages\\panel\\recipes\\update\\_id.vue' /* webpackChunkName: "pages/panel/recipes/update/_id" */))
 const _8338c6ec = () => interopDefault(import('..\\pages\\panel\\slides\\update\\_id.vue' /* webpackChunkName: "pages/panel/slides/update/_id" */))
 const _beccf684 = () => interopDefault(import('..\\pages\\panel\\users\\update\\_id.vue' /* webpackChunkName: "pages/panel/users/update/_id" */))
+const _1aca1c68 = () => interopDefault(import('..\\pages\\blogs\\_id.vue' /* webpackChunkName: "pages/blogs/_id" */))
 const _4aa67fa8 = () => interopDefault(import('..\\pages\\calorie\\_id.vue' /* webpackChunkName: "pages/calorie/_id" */))
 const _43a9879e = () => interopDefault(import('..\\pages\\exercises\\_id.vue' /* webpackChunkName: "pages/exercises/_id" */))
 const _03147d10 = () => interopDefault(import('..\\pages\\profile\\_id.vue' /* webpackChunkName: "pages/profile/_id" */))
@@ -79,6 +84,10 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/blogs",
+    component: _7ec4cc00,
+    name: "blogs"
+  }, {
     path: "/calorie",
     component: _12665cc4,
     name: "calorie"
@@ -147,6 +156,10 @@ export const routerOptions = {
     component: _67b43e00,
     name: "panel-blog-categories"
   }, {
+    path: "/panel/blogs",
+    component: _d831c1d4,
+    name: "panel-blogs"
+  }, {
     path: "/panel/criterias",
     component: _09fc365a,
     name: "panel-criterias"
@@ -211,6 +224,10 @@ export const routerOptions = {
     component: _11637ed3,
     name: "panel-blog-categories-add"
   }, {
+    path: "/panel/blogs/add",
+    component: _2778c306,
+    name: "panel-blogs-add"
+  }, {
     path: "/panel/criterias/add",
     component: _529fe6e0,
     name: "panel-criterias-add"
@@ -263,6 +280,10 @@ export const routerOptions = {
     component: _015a4b3f,
     name: "panel-blog-categories-update-id"
   }, {
+    path: "/panel/blogs/update/:id?",
+    component: _fb03be56,
+    name: "panel-blogs-update-id"
+  }, {
     path: "/panel/criterias/update/:id?",
     component: _30aa365c,
     name: "panel-criterias-update-id"
@@ -306,6 +327,10 @@ export const routerOptions = {
     path: "/panel/users/update/:id?",
     component: _beccf684,
     name: "panel-users-update-id"
+  }, {
+    path: "/blogs/:id",
+    component: _1aca1c68,
+    name: "blogs-id"
   }, {
     path: "/calorie/:id",
     component: _4aa67fa8,

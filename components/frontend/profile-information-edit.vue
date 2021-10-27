@@ -22,7 +22,7 @@
                   id='name'
                   type='text'
                   name='name'
-                  v-model='user.name'
+                  v-model='userData.name'
                   clearable
                   outlined
                   hide-details
@@ -48,7 +48,7 @@
                   id='email'
                   type='text'
                   name='email'
-                  v-model='user.email'
+                  v-model='userData.email'
                   clearable
                   outlined
                   hide-details
@@ -74,7 +74,7 @@
                   id='phone'
                   type='text'
                   name='phone'
-                  v-model='user.phone'
+                  v-model='userData.phone'
                   clearable
                   outlined
                   hide-details
@@ -100,13 +100,13 @@
                   id='tc'
                   type='text'
                   name='tc'
-                  v-model='user.tc'
+                  v-model='userData.tc'
                   outlined
                   hide-details
                   clearable
                   label='T.C. Kimlik Numaranız'
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -114,7 +114,7 @@
           </tr>
           <tr>
             <td>
-              <b>Cinsiyet :</b>
+              <b>Cinsiyetiniz :</b>
             </td>
             <td colspan='2' class='p-2'>
               <ValidationProvider
@@ -123,7 +123,7 @@
                 v-slot='{ errors }'
               >
                 <v-radio-group
-                  v-model='user.gender'
+                  v-model='userData.gender'
                   name='gender'
                   row
                 >
@@ -134,13 +134,13 @@
                     <template v-slot:label> Kadın</template>
                   </v-radio>
                 </v-radio-group>
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr v-if='user.gender === "Kadın"'>
+          <tr v-if='userData.gender === "Kadın" && userData.status !== "dietician"'>
             <td><b>Özel Durum :</b></td>
             <td colspan='2' class='p-2'>
               <ValidationProvider
@@ -151,9 +151,8 @@
                 <v-autocomplete
                   name='special_case'
                   id='special_case'
-                  class='form-control'
                   :items='specialCases'
-                  v-model='user.special_case'
+                  v-model='userData.special_case'
                   item-text='value'
                   item-value='value'
                   clearable
@@ -161,13 +160,13 @@
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr v-if='user.gender === "Kadın" && user.special_case === "HAMİLE"'>
+          <tr v-if='userData.gender === "Kadın" && userData.special_case === "HAMİLE" && userData.status !== "dietician"'>
             <td><b>Hamileliğinizin Kaçıncı Ayındasınız? :</b></td>
             <td colspan='2' class='p-2'>
               <ValidationProvider
@@ -178,21 +177,20 @@
                 <v-autocomplete
                   name='special_case_month'
                   id='special_case_month'
-                  class='form-control'
                   :items='special_case_months'
-                  v-model='user.special_case_month'
+                  v-model='userData.special_case_month'
                   clearable
                   label='Hamileliğinizin Kaçıncı Ayındasınız?'
                   hide-details
                   outlined
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr v-if='user.gender === "Kadın" && user.special_case === "HAMİLE"'>
+          <tr v-if='userData.gender === "Kadın" && userData.special_case === "HAMİLE" && userData.status !== "dietician"'>
             <td><b>Hamilelik Öncesi Ağırlığınız :</b></td>
             <td colspan='2' class='p-2'>
               <ValidationProvider
@@ -204,13 +202,13 @@
                   type='number'
                   name='special_case_weight'
                   id='special_case_weight'
-                  v-model='user.special_case_weight'
+                  v-model='userData.special_case_weight'
                   clearable
                   hide-details
                   outlined
                   label='Hamilelik Öncesi Ağırlığınız (kg)'
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -233,7 +231,7 @@
                   :items='country.cities'
                   item-value='name'
                   item-text='name'
-                  :value='user.city'
+                  :value='userData.city'
                   ref='city'
                   clearable
                   hide-details
@@ -242,7 +240,7 @@
                   autocomplete="off"
                   label='İkamet Ettiğiniz İl'
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -263,7 +261,7 @@
                   name='town'
                   id='town'
                   ref='town'
-                  :value='user.town'
+                  :value='userData.town'
                   :items='country.towns'
                   item-value='name'
                   item-text='name'
@@ -274,7 +272,7 @@
                   hide-details
                   outlined
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -295,7 +293,7 @@
                   name='district'
                   id='district'
                   ref='district'
-                  :value='user.district'
+                  :value='userData.district'
                   :items='country.districts'
                   item-text='name'
                   item-value='name'
@@ -306,7 +304,7 @@
                   hide-details
                   outlined
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -326,7 +324,7 @@
                   name='neighborhood'
                   id='neighborhood'
                   ref='neighborhood'
-                  :value='user.neighborhood'
+                  :value='userData.neighborhood'
                   :items='country.neighborhoods'
                   item-value='name'
                   item-text='name'
@@ -337,7 +335,7 @@
                   hide-details
                   outlined
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -358,13 +356,13 @@
                   id='address'
                   cols='30'
                   rows='5'
-                  v-model='user.address'
+                  v-model='userData.address'
                   clearable
                   hide-details
                   outlined
                   label='İkamet Ettiğiniz Adres'
                 ></v-textarea>
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
@@ -417,13 +415,13 @@
                     @input='menu = false'
                   ></v-date-picker>
                 </v-menu>
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Boy (cm) :</b>
             </td>
@@ -437,19 +435,19 @@
                   type='number'
                   name='size'
                   id='size'
-                  v-model='user.size'
+                  v-model='userData.size'
                   clearable
                   label='Boy (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Ağırlık (kg) :</b>
             </td>
@@ -463,19 +461,19 @@
                   type='number'
                   name='weight'
                   id='weight'
-                  v-model='user.weight'
+                  v-model='userData.weight'
                   clearable
                   label='Ağırlık (kg)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Bel (cm) :</b>
             </td>
@@ -489,19 +487,19 @@
                   type='number'
                   name='waist'
                   id='waist'
-                  v-model='user.waist'
+                  v-model='userData.waist'
                   clearable
                   label='Bel (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Kalça (cm) :</b>
             </td>
@@ -515,19 +513,19 @@
                   type='number'
                   name='hip'
                   id='hip'
-                  v-model='user.hip'
+                  v-model='userData.hip'
                   clearable
                   label='Kalça (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Göğüs (cm) :</b>
             </td>
@@ -541,19 +539,19 @@
                   type='number'
                   name='chest'
                   id='chest'
-                  v-model='user.chest'
+                  v-model='userData.chest'
                   clearable
                   label='Göğüs (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Boyun (cm) : </b>
             </td>
@@ -567,19 +565,19 @@
                   type='number'
                   name='neck'
                   id='neck'
-                  v-model='user.neck'
+                  v-model='userData.neck'
                   clearable
                   label='Boyun (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Üst Kol (cm) :</b>
             </td>
@@ -593,19 +591,19 @@
                   type='number'
                   name='upperArm'
                   id='upperArm'
-                  v-model='user.upperArm'
+                  v-model='userData.upperArm'
                   clearable
                   label='Üst Kol (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Alt Kol (cm) :</b>
             </td>
@@ -619,19 +617,19 @@
                   type='number'
                   name='lowerArm'
                   id='lowerArm'
-                  v-model='user.lowerArm'
+                  v-model='userData.lowerArm'
                   clearable
                   label='Alt Kol (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Kol Bileği (cm) :</b>
             </td>
@@ -645,19 +643,19 @@
                   type='number'
                   name='wrist'
                   id='wrist'
-                  v-model='user.wrist'
+                  v-model='userData.wrist'
                   clearable
                   label='Kol Bileği (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Üst Bacak (cm) :</b>
             </td>
@@ -671,19 +669,19 @@
                   type='number'
                   name='upperLeg'
                   id='upperLeg'
-                  v-model='user.upperLeg'
+                  v-model='userData.upperLeg'
                   clearable
                   label='Üst Bacak (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
               <b>Alt Bacak (cm) :</b>
             </td>
@@ -697,21 +695,21 @@
                   type='number'
                   name='lowerLeg'
                   id='lowerLeg'
-                  v-model='user.lowerLeg'
+                  v-model='userData.lowerLeg'
                   clearable
                   label='Alt Bacak (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr>
+          <tr v-if='userData.status !== "dietician"'>
             <td>
-              <b>Deri Kıvrım Kalınlığı (cm) :</b>
+              <b>Deri Kıvrım Kalınlığınız (cm) :</b>
             </td>
             <td colspan='2' class='p-2'>
               <ValidationProvider
@@ -723,54 +721,54 @@
                   type='number'
                   name='skinfoldThickness'
                   id='skinfoldThickness'
-                  v-model='user.skinfoldThickness'
+                  v-model='userData.skinfoldThickness'
                   clearable
                   label='Deri Kıvrım Kalınlığı (cm)'
                   outlined
                   hide-details
                 />
-                <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                   {{ errors[0] }}
                 </v-alert>
               </ValidationProvider>
             </td>
           </tr>
-          <tr v-if='!isEmpty(user.fatRatio) && !isEmpty(user.fat)'>
+          <tr v-if='!isEmpty(userData.fatRatio) && !isEmpty(userData.fat) && userData.status !== "dietician"'>
             <td>
               <b>Yağ :</b>
             </td>
             <td>
               %
-              {{ user.fatRatio }}
+              {{ userData.fatRatio }}
             </td>
             <td>
-              {{ user.fat }}
+              {{ userData.fat }}
               KG
             </td>
           </tr>
-          <tr v-if='!isEmpty(user.muscleRatio) && !isEmpty(user.muscle)'>
+          <tr v-if='!isEmpty(userData.muscleRatio) && !isEmpty(userData.muscle) && userData.status !== "dietician"'>
             <td>
               <b>Kas :</b>
             </td>
             <td>
               %
-              {{ user.muscleRatio }}
+              {{ userData.muscleRatio }}
             </td>
             <td>
-              {{ user.muscle }}
+              {{ userData.muscle }}
               KG
             </td>
           </tr>
-          <tr v-if='!isEmpty(user.waterRatio) && !isEmpty(user.wate)'>
+          <tr v-if='!isEmpty(userData.waterRatio) && !isEmpty(userData.wate) && userData.status !== "dietician"'>
             <td>
               <b>Su :</b>
             </td>
             <td>
               %
-              {{ user.waterRatio }}
+              {{ userData.waterRatio }}
             </td>
             <td>
-              {{ user.water }}
+              {{ userData.water }}
               KG
             </td>
           </tr>
@@ -799,7 +797,7 @@
               <v-btn
                 type='submit'
                 color='primary'
-                class='ml-auto mb-2 justify-end'
+                class='ml-auto mt-2 justify-end'
               >
                 Bilgilerimi Güncelle
               </v-btn>
@@ -822,6 +820,9 @@ export default {
   },
   name: 'profile-information-edit',
   computed: {
+    img_url() {
+      return process.env.apiPublicUrl
+    },
     empty_url() {
       return this.img_url + 'uploads/settings/preparing/my.jpg'
     },
@@ -831,7 +832,7 @@ export default {
       },
       set(val){
         let isValid = moment(val,'DD-MM-YYYY')
-        if(val.length === 10 && isValid.isValid()){
+        if(!this.isEmpty(val) && val.length === 10 && isValid.isValid()){
           console.log(val)
           console.log(moment(val,'DD-MM-YYYY').format('YYYY-MM-DD'))
           this.birthDate =moment(val,'DD-MM-YYYY').format('YYYY-MM-DD')
@@ -849,12 +850,43 @@ export default {
       activePicker: null,
       menu: false,
       birthDate:null,
+      userData: {},
       dateFormatted: null,
+      specialCases: [{ 'value': 'YOK' }, { 'value': 'EMZİKLİ' }, { 'value': 'HAMİLE' }],
+      months: [
+        'OCAK',
+        'ŞUBAT',
+        'MART',
+        'NİSAN',
+        'MAYIS',
+        'HAZİRAN',
+        'TEMMUZ',
+        'AĞUSTOS',
+        'EYLÜL',
+        'EKİM',
+        'KASIM',
+        'ARALIK'
+      ],
+      special_case_months: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
     }
   },
   mounted() {
     this.getCities()
-    this.birthDate = this.user.birthDate
+    this.userData = {...this.user}
+    this.birthDate = this.userData.birthDate
   },
   methods: {
     /**
@@ -885,8 +917,8 @@ export default {
                 ? response.data.data.cities
                 : []
             let item = this.country.cities.filter(obj => {
-              if(!this.isEmpty(this.user.city)){
-                return obj.name === this.user.city
+              if(!this.isEmpty(this.userData.city)){
+                return obj.name === this.userData.city
               }else{
                 return obj.name
               }
@@ -912,8 +944,8 @@ export default {
               this.company_district = null
               this.company_neighborhood = null
               let item = this.country.towns.filter(obj => {
-                if(!this.isEmpty(this.user.town)){
-                  return obj.name === this.user.town
+                if(!this.isEmpty(this.userData.town)){
+                  return obj.name === this.userData.town
                 }else{
                   return obj.name
                 }
@@ -940,8 +972,8 @@ export default {
               this.country.neighborhoods = []
               this.company_neighborhood = null
               let item = this.country.districts.filter(obj => {
-                if(!this.isEmpty(this.user.district)){
-                  return obj.name === this.user.district
+                if(!this.isEmpty(this.userData.district)){
+                  return obj.name === this.userData.district
                 }else{
                   return obj.name
                 }
@@ -977,12 +1009,16 @@ export default {
     },
     updateInformation() {
       try{
+        let endpoint = 'theme/users/update'
+        if(this.user.status === "dietician"){
+          endpoint = 'dietician/update'
+        }
         let formData = new FormData(this.$refs.informationForm)
         formData.append('birthDate', moment(this.birthDate).format("YYYY-MM-DD"))
         this.$axios
           .post(
             process.env.apiBaseUrl +
-            'theme/users/update/',
+            endpoint,
             formData,
             {
               headers: {
@@ -998,7 +1034,6 @@ export default {
                 message: response.data.msg,
                 position: 'topCenter'
               })
-              this.e1 = 2
             } else {
               this.$izitoast.error({
                 title: response.data.title,

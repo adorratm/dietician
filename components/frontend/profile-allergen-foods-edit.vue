@@ -20,6 +20,8 @@
           item-text='name'
           item-value='_id.$oid'
           multiple
+          outlined
+          hide-details
         >
           <template v-slot:prepend-item>
             <v-list-item ripple @click='toggleAllergenFoods'>
@@ -69,14 +71,8 @@
         </v-alert>
       </ValidationProvider>
 
-      <v-btn color='primary' type='submit' class='mb-2'>
-        Alerjen Besin Bilgisini Kaydet ve İlerle
-      </v-btn>
-      <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=4'>
-        Alerjen Besin Bilgisini Kaydetmeden İlerle
-      </v-btn>
-      <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 2'>
-        Geri Dön
+      <v-btn color='primary' type='submit' class='mt-2'>
+        Alerjen Besin Bilgisini Kaydet
       </v-btn>
     </form>
   </ValidationObserver>
@@ -92,11 +88,40 @@ export default {
     ValidationProvider
   },
   computed:{
+    img_url() {
+      return process.env.apiPublicUrl
+    },
     empty_url(){
       return this.img_url+ "uploads/settings/preparing/my.jpg"
     },
+    selectAllAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        !this.isEmpty(this.allergenFoods) &&
+        this.selectedAllergenFoods.length === this.allergenFoods.length
+      )
+    },
+    selectSomeAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        this.selectedAllergenFoods.length > 0 &&
+        !this.selectAllAllergenFoods
+      )
+    },
+    allergenFoodsIcon() {
+      if (this.selectAllAllergenFoods) return 'mdi-close-box'
+      if (this.selectSomeAllergenFoods) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
   },
   props:["user"],
+  data(){
+    return {
+      allergenFood: null,
+      allergenFoods: [],
+      selectedAllergenFoods: [],
+    }
+  },
   methods:{
     /**
      * isEmpty
@@ -113,6 +138,68 @@ export default {
         else if (typeof obj == 'boolean') return false
         else return !obj
       }catch (e){
+        console.log(e)
+      }
+    },
+    toggleAllergenFoods() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllAllergenFoods) {
+            this.selectedAllergenFoods = []
+          } else {
+            this.selectedAllergenFoods = []
+            this.allergenFoods.forEach((el, index) => {
+              this.selectedAllergenFoods.push(el._id.$oid)
+            })
+          }
+        })
+      }catch (e) {
+        console.log(e)
+      }
+    },
+
+    removeAllergenFoods(item) {
+      try {
+        const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
+      }catch (e) {
+        console.log(e)
+      }
+    },
+
+    updateAllergenFoodsInformation() {
+      try {
+        let formData = new FormData(this.$refs.allergenFoodsInformationForm)
+        formData.delete('selectedAllergenFoods')
+        formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-allergenfoods/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary,
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) =>console.log(e))
+      }catch (e) {
         console.log(e)
       }
     },

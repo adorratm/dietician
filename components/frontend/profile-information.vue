@@ -2,10 +2,10 @@
   <v-simple-table>
     <tbody>
     <tr>
-      <td><b>Profil Fotoğrafı :</b></td>
+      <td><b>Profil Fotoğrafınız :</b></td>
       <td colspan='2'>
         <img
-          v-bind:src='!isEmpty(user.img_url) ? user.img_url : empty_url'
+          v-bind:src='user.status !== "dietician" ? (!isEmpty(user.img_url) ? user.img_url : empty_url) : (!isEmpty(user.profile_photo) ? user.profile_photo : empty_url)'
           v-bind:alt='user.name'
           width='100'
           height='100'
@@ -13,12 +13,42 @@
       </td>
     </tr>
     <tr>
-      <td><b>Ad Soyad :</b></td>
+      <td><b>Adınız ve Soyadınız :</b></td>
       <td colspan='2'>{{ user.name }}</td>
     </tr>
     <tr>
-      <td><b>Cinsiyet :</b></td>
+      <td><b>Email Adresiniz :</b></td>
+      <td colspan='2'>{{ user.email }}</td>
+    </tr>
+    <tr>
+      <td><b>Telefon Numaranız :</b></td>
+      <td colspan='2'>{{ user.phone }}</td>
+    </tr>
+    <tr>
+      <td><b>T.C. Kimlik Numaranız :</b></td>
+      <td colspan='2'>{{ user.tc }}</td>
+    </tr>
+    <tr>
+      <td><b>Cinsiyetiniz :</b></td>
       <td colspan='2'>{{ user.gender }}</td>
+    </tr>
+    <tr v-if='user.gender === "Kadın" && user.status !== "dietician"'>
+      <td><b>Özel Durum :</b></td>
+      <td colspan='2'>
+        {{user.special_case}}
+      </td>
+    </tr>
+    <tr v-if='user.gender === "Kadın" && user.special_case === "HAMİLE" && user.status !== "dietician"'>
+      <td><b>Hamileliğinizin Kaçıncı Ayındasınız? :</b></td>
+      <td colspan='2'>
+        {{user.special_case_months}}
+      </td>
+    </tr>
+    <tr v-if='user.gender === "Kadın" && user.special_case === "HAMİLE" && user.status !== "dietician"'>
+      <td><b>Hamilelik Öncesi Ağırlığınız :</b></td>
+      <td colspan='2'>
+        {{user.special_case_weight}}
+      </td>
     </tr>
     <tr>
       <td><b>İkamet Ettiğiniz İl :</b></td>
@@ -41,70 +71,70 @@
       <td colspan='2'>{{ user.address }}</td>
     </tr>
     <tr>
-      <td><b>Doğum Tarihi :</b></td>
+      <td><b>Doğum Tarihiniz :</b></td>
       <td colspan='2'>{{ user.birthDate }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Boy (cm) :</b></td>
       <td colspan='2'>{{ user.size }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Ağırlık (kg) :</b></td>
       <td colspan='2'>{{ user.weight }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Bel (cm) :</b></td>
       <td colspan='2'>{{ user.waist }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Kalça (cm) :</b></td>
       <td colspan='2'>{{ user.hip }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Göğüs (cm) :</b></td>
       <td colspan='2'>{{ user.chest }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Boyun (cm) : </b></td>
       <td colspan='2'>{{ user.neck }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Üst Kol (cm) :</b></td>
       <td colspan='2'>{{ user.upperArm }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Alt Kol (cm) :</b></td>
       <td colspan='2'>{{ user.lowerArm }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Kol Bileği (cm) :</b></td>
       <td colspan='2'>{{ user.wrist }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Üst Bacak (cm) :</b></td>
       <td colspan='2'>{{ user.upperLeg }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Alt Bacak (cm) :</b></td>
       <td colspan='2'>{{ user.lowerLeg }}</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Deri Kıvrım Kalınlığı (cm) :</b></td>
       <td colspan='2'>
         {{ user.skinfoldThickness }}
       </td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Yağ :</b></td>
       <td>% {{ user.fatRatio }}</td>
       <td>{{ user.fat }} KG</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Kas :</b></td>
       <td>% {{ user.muscleRatio }}</td>
       <td>{{ user.muscle }} KG</td>
     </tr>
-    <tr>
+    <tr v-if='user.status !== "dietician"'>
       <td><b>Su :</b></td>
       <td>% {{ user.waterRatio }}</td>
       <td>{{ user.water }} KG</td>
@@ -117,11 +147,17 @@
 export default {
   name: 'profile-information',
   computed:{
+    img_url() {
+      return process.env.apiPublicUrl
+    },
     empty_url(){
       return this.img_url+ "uploads/settings/preparing/my.jpg"
     },
   },
   props:["user"],
+  mounted() {
+  console.log(this.user)
+  },
   methods:{
     /**
      * isEmpty

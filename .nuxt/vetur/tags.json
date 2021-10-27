@@ -32,6 +32,9 @@
   "FrontendProfileAllergenFoodsEdit": {
     "description": "Auto imported from components/frontend/profile-allergen-foods-edit.vue"
   },
+  "FrontendProfileAppointment": {
+    "description": "Auto imported from components/frontend/profile-appointment.vue"
+  },
   "FrontendProfileDiseaseEdit": {
     "description": "Auto imported from components/frontend/profile-disease-edit.vue"
   },
@@ -46,6 +49,9 @@
   },
   "FrontendProfileUnlikedFoodsEdit": {
     "description": "Auto imported from components/frontend/profile-unliked-foods-edit.vue"
+  },
+  "FrontendProfileWorkHours": {
+    "description": "Auto imported from components/frontend/profile-work-hours.vue"
   },
   "FrontendRecipeList": {
     "description": "Auto imported from components/frontend/recipe-list.vue"

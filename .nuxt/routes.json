@@ -1,5 +1,12 @@
 [
   {
+    "name": "blogs",
+    "path": "/blogs",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\blogs\\\\index.vue",
+    "chunkName": "pages/blogs/index",
+    "_name": "_7ec4cc00"
+  },
+  {
     "name": "calorie",
     "path": "/calorie",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\calorie\\\\index.vue",
@@ -119,6 +126,13 @@
     "_name": "_67b43e00"
   },
   {
+    "name": "panel-blogs",
+    "path": "/panel/blogs",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blogs\\\\index.vue",
+    "chunkName": "pages/panel/blogs/index",
+    "_name": "_d831c1d4"
+  },
+  {
     "name": "panel-criterias",
     "path": "/panel/criterias",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\criterias\\\\index.vue",
@@ -231,6 +245,13 @@
     "_name": "_11637ed3"
   },
   {
+    "name": "panel-blogs-add",
+    "path": "/panel/blogs/add",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blogs\\\\add\\\\index.vue",
+    "chunkName": "pages/panel/blogs/add/index",
+    "_name": "_2778c306"
+  },
+  {
     "name": "panel-criterias-add",
     "path": "/panel/criterias/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\criterias\\\\add\\\\index.vue",
@@ -322,6 +343,13 @@
     "_name": "_015a4b3f"
   },
   {
+    "name": "panel-blogs-update-id",
+    "path": "/panel/blogs/update/:id?",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blogs\\\\update\\\\_id.vue",
+    "chunkName": "pages/panel/blogs/update/_id",
+    "_name": "_fb03be56"
+  },
+  {
     "name": "panel-criterias-update-id",
     "path": "/panel/criterias/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\criterias\\\\update\\\\_id.vue",
@@ -397,6 +425,13 @@
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\users\\\\update\\\\_id.vue",
     "chunkName": "pages/panel/users/update/_id",
     "_name": "_beccf684"
+  },
+  {
+    "name": "blogs-id",
+    "path": "/blogs/:id",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\blogs\\\\_id.vue",
+    "chunkName": "pages/blogs/_id",
+    "_name": "_1aca1c68"
   },
   {
     "name": "calorie-id",

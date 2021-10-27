@@ -1,5 +1,13 @@
 <template>
 <div>
+  <v-alert v-if='isEmpty(selectedDiseases)'
+    border="left"
+    colored-border
+    type="error"
+    elevation="2"
+  >
+    Eklenmiş Bir Hastalık Bulunamadı.
+  </v-alert>
   <ValidationObserver v-slot='{ handleSubmit }'>
     <form
       @submit.prevent='handleSubmit(updateDiseaseInformation)'
@@ -20,6 +28,8 @@
           item-text='name'
           item-value='_id.$oid'
           multiple
+          outlined
+          hide-details
         >
           <template v-slot:prepend-item>
             <v-list-item ripple @click='toggleDisease'>
@@ -69,14 +79,8 @@
         </v-alert>
       </ValidationProvider>
 
-      <v-btn color='primary' type='submit' class='mb-2'>
-        Hastalık Bilgisini Kaydet ve İlerle
-      </v-btn>
-      <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=3'>
-        Hastalık Bilgisini Kaydetmeden İlerle
-      </v-btn>
-      <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 1'>
-        Geri Dön
+      <v-btn color='primary' type='submit' class='mt-2'>
+        Hastalık Bilgisini Kaydet
       </v-btn>
     </form>
   </ValidationObserver>
@@ -91,12 +95,44 @@ export default {
     ValidationObserver,
     ValidationProvider
   },
+  data(){
+    return {
+      disease: null,
+      diseases: [],
+      selectedDiseases: [],
+    }
+  },
   computed:{
+    img_url() {
+      return process.env.apiPublicUrl
+    },
     empty_url(){
       return this.img_url+ "uploads/settings/preparing/my.jpg"
     },
+    selectAllDisease() {
+      return (
+        !this.isEmpty(this.selectedDiseases) &&
+        !this.isEmpty(this.diseases) &&
+        this.selectedDiseases.length === this.diseases.length
+      )
+    },
+    selectSomeDisease() {
+      return (
+        !this.isEmpty(this.selectedDiseases) &&
+        this.selectedDiseases.length > 0 &&
+        !this.selectAllDisease
+      )
+    },
+    diseaseIcon() {
+      if (this.selectAllDisease) return 'mdi-close-box'
+      if (this.selectSomeDisease) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
   },
   props:["user"],
+  mounted() {
+  this.getDiseases()
+  },
   methods:{
     /**
      * isEmpty
@@ -112,6 +148,80 @@ export default {
           return obj == null || Object.keys(obj).length === 0
         else if (typeof obj == 'boolean') return false
         else return !obj
+      }catch (e){
+        console.log(e)
+      }
+    },
+    toggleDisease() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllDisease) {
+            this.selectedDiseases = []
+          } else {
+            this.selectedDiseases = []
+            this.diseases.forEach((el, index) => {
+              this.selectedDiseases.push(el._id.$oid)
+            })
+          }
+        })
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    getDiseases() {
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`)
+          .then(response => {
+            this.diseases = response.data.data.diseases
+            this.unlikedFoods = response.data.data.unlikedFoods
+            this.allergenFoods = response.data.data.allergenFoods
+          })
+          .catch(err => console.log(err))
+      }catch (e){
+        console.log(e)
+      }
+    },
+    remove(item) {
+      try {
+        const index = this.selectedDiseases.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedDiseases.splice(index, 1)
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    updateDiseaseInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.delete('selectedDiseases')
+        formData.append('selectedDiseases', this.selectedDiseases)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-diseases/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary,
+              },
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) =>console.log(e))
       }catch (e){
         console.log(e)
       }
