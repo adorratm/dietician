@@ -100,7 +100,7 @@ export default {
             if (!this.isEmpty(this.$route.query.url)) {
               window.location.href = decodeURIComponent(this.$route.query.url)
             } else {
-              window.location.href = '/dietician-profile'
+              window.location.href = '/profile'
             }
           }, 2000)
         } else {

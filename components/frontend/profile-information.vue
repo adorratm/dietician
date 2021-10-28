@@ -139,6 +139,38 @@
       <td>% {{ user.waterRatio }}</td>
       <td>{{ user.water }} KG</td>
     </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Yerinizin Bulunduğu İl :</b></td>
+      <td colspan='2'>{{ user.company_city }}</td>
+    </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Yerinizin Bulunduğu İlçe :</b></td>
+      <td colspan='2'>{{ user.company_town }}</td>
+    </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Yerinizin Bulunduğu Semt :</b></td>
+      <td colspan='2'>{{ user.company_district }}</td>
+    </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Yerinizin Bulunduğu Mahalle :</b></td>
+      <td colspan='2'>{{ user.company_neighborhood }}</td>
+    </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Yerinizin Bulunduğu Adres :</b></td>
+      <td colspan='2'>{{ user.company_address }}</td>
+    </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Telefon Numaranız :</b></td>
+      <td colspan='2'>{{ user.work_phone }}</td>
+    </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Telefon Numaranız :</b></td>
+      <td colspan='2'>{{ user.work_phone_2 }}</td>
+    </tr>
+    <tr v-if='user.status === "dietician"'>
+      <td><b>İş Email Adresiniz :</b></td>
+      <td colspan='2'>{{ user.work_email }}</td>
+    </tr>
     </tbody>
   </v-simple-table>
 </template>

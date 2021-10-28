@@ -237,7 +237,7 @@
                   hide-details
                   outlined
                   return-object
-                  autocomplete="off"
+                  autocomplete='off'
                   label='İkamet Ettiğiniz İl'
                 />
                 <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
@@ -267,7 +267,7 @@
                   item-text='name'
                   label='İkamet Ettiğiniz İlçe'
                   return-object
-                  autocomplete="off"
+                  autocomplete='off'
                   clearable
                   hide-details
                   outlined
@@ -300,7 +300,7 @@
                   label='İkamet Ettiğiniz Semt'
                   return-object
                   clearable
-                  autocomplete="off"
+                  autocomplete='off'
                   hide-details
                   outlined
                 />
@@ -330,7 +330,7 @@
                   item-text='name'
                   clearable
                   return-object
-                  autocomplete="off"
+                  autocomplete='off'
                   label='İkamet Ettiğiniz Mahalle'
                   hide-details
                   outlined
@@ -370,7 +370,7 @@
           </tr>
           <tr>
             <td>
-              <b>Doğum Tarihi :</b>
+              <b>Doğum Tarihiniz :</b>
             </td>
             <td colspan='2' class='p-2'>
               <ValidationProvider
@@ -390,8 +390,8 @@
                     <v-text-field
                       name='birthDate'
                       v-model='computedDateFormattedMomentjs'
-                      label='Doğum Tarihi (Örn: 31-12-2002)'
-                      pattern="[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}"
+                      label='Doğum Tarihiniz (Örn: 31-12-2002)'
+                      pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
                       prepend-icon='mdi-calendar'
                       min='1950-01-01'
                       :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
@@ -402,8 +402,8 @@
                       outlined
                       minlength='10'
                       maxlength='10'
-                      @click:clear="birthDate = null"
-                      v-on:click:prepend="menu=true"
+                      @click:clear='birthDate = null'
+                      v-on:click:prepend='menu=true'
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -790,6 +790,608 @@
               />
             </td>
           </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Yerinizin Bulunduğu İl :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Yerinizin Bulunduğu İl'
+                rules='required'
+                v-slot='{ errors }'
+              >
+                <v-autocomplete
+                  v-on:change='getTownsCompany'
+                  name='company_city'
+                  id='company_city'
+                  :items='countryCompany.cities'
+                  item-value='name'
+                  item-text='name'
+                  v-model='userData.company_city'
+                  ref='company_city'
+                  clearable
+                  hide-details
+                  outlined
+                  return-object
+                  autocomplete='off'
+                  label='İş Yerinizin Bulunduğu İl'
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Yerinizin Bulunduğu İlçe :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Yerinizin Bulunduğu İlçe'
+                rules='required'
+                v-slot='{ errors }'
+              >
+                <v-autocomplete
+                  v-on:change='getDistrictsCompany'
+                  name='company_town'
+                  id='company_town'
+                  ref='company_town'
+                  v-model='userData.company_town'
+                  :items='countryCompany.towns'
+                  item-value='name'
+                  item-text='name'
+                  label='İş Yerinizin Bulunduğu İlçe'
+                  return-object
+                  autocomplete='off'
+                  clearable
+                  hide-details
+                  outlined
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Yerinizin Bulunduğu Semt :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Yerinizin Bulunduğu Semt'
+                rules='required'
+                v-slot='{ errors }'
+              >
+                <v-autocomplete
+                  v-on:change='getNeighborhoodsCompany'
+                  name='company_district'
+                  id='company_district'
+                  ref='company_district'
+                  v-model='userData.company_district'
+                  :items='countryCompany.districts'
+                  item-text='name'
+                  item-value='name'
+                  label='İş Yerinizin Bulunduğu Semt'
+                  return-object
+                  clearable
+                  autocomplete='off'
+                  hide-details
+                  outlined
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Yerinizin Bulunduğu Mahalle :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Yerinizin Bulunduğu Mahalle'
+                rules='required'
+                v-slot='{ errors }'
+              >
+                <v-autocomplete
+                  name='company_neighborhood'
+                  id='company_neighborhood'
+                  ref='company_neighborhood'
+                  v-model='userData.company_neighborhood'
+                  :items='countryCompany.neighborhoods'
+                  item-value='name'
+                  item-text='name'
+                  clearable
+                  return-object
+                  autocomplete='off'
+                  label='İş Yerinizin Bulunduğu Mahalle'
+                  hide-details
+                  outlined
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Yerinizin Bulunduğu Adres :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Yerinizin Bulunduğu Adres'
+                rules='required'
+                v-slot='{ errors }'
+              >
+                <v-textarea
+                  name='company_address'
+                  id='company_address'
+                  cols='30'
+                  rows='5'
+                  v-model='userData.company_address'
+                  clearable
+                  hide-details
+                  outlined
+                  label='İş Yerinizin Bulunduğu Adres'
+                ></v-textarea>
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Telefon Numaranız :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Telefon Numaranız'
+                rules='required'
+                v-slot='{ errors }'
+              >
+                <v-text-field
+                  id='work_phone'
+                  type='text'
+                  name='work_phone'
+                  v-model='userData.work_phone'
+                  clearable
+                  outlined
+                  hide-details
+                  label='İş Telefon Numaranız'
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Telefon Numaranız 2 :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Telefon Numaranız 2'
+                rules=''
+                v-slot='{ errors }'
+              >
+                <v-text-field
+                  id='work_phone_2'
+                  type='text'
+                  name='work_phone_2'
+                  v-model='userData.work_phone_2'
+                  clearable
+                  outlined
+                  hide-details
+                  label='İş Telefon Numaranız 2'
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='userData.status === "dietician"'>
+            <td>
+              <b>İş Email Adresiniz :</b>
+            </td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='İş Email Adresiniz'
+                rules='email'
+                v-slot='{ errors }'
+              >
+                <v-text-field
+                  id='work_email'
+                  type='text'
+                  name='work_email'
+                  v-model='userData.work_email'
+                  clearable
+                  outlined
+                  hide-details
+                  label='İş Email Adresiniz'
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
+          <tr v-if='user.status === "dietician"'>
+            <td colspan='2' class='py-2 px-2'>
+              <v-card
+              >
+                <v-card-title class='text-h5'>
+                  Çalışma Saatleriniz
+                </v-card-title>
+
+                <v-card-subtitle>Çalışma Saatlerinizi Aşağıdaki Bölümden Seçiniz. Kapalı Olarak İşaretlediğiniz Günlerde
+                  Randevu Alamayacaksınız.
+                </v-card-subtitle>
+
+                <v-card-text>
+                  <!-- Business Hours Widget -->
+                  <div class='widget business-widget'>
+                    <div class='widget-content'>
+                      <div class='listing-hours'>
+                        <div class='listing-day'>
+                          <div class='day'>Pazartesi</div>
+                          <div class='time-items'>
+                            <span class='time'>
+                              <v-row>
+                                <v-col>
+                                  <v-menu
+                                    ref='monday_start'
+                                    v-model='monday_start'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.monday_start'
+                                    transition='scale-transition'
+                                    max-width='290px'
+                                    min-width='290px'
+                                    offset-y
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.monday_start'
+                                    label='Başlangıç Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='monday_start=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='monday_start'
+                                  v-model='userData.monday_start'
+                                  max='23:59'
+                                  format='24hr'
+                                  full-width
+                                  @click:minute='$refs.monday_start.save(userData.monday_start)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                                <v-col>
+                                  <v-menu
+                                    ref='monday_end'
+                                    v-model='monday_end'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.monday_end'
+                                    transition='scale-transition'
+                                    offset-y
+                                    max-width='290px'
+                                    min-width='290px'
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.monday_end'
+                                    label='Bitiş Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='monday_end=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='monday_end'
+                                  v-model='userData.monday_end'
+                                  format='24hr'
+                                  min='00:00'
+                                  full-width
+                                  @click:minute='$refs.monday_end.save(userData.monday_end)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                              </v-row>
+                            </span>
+                          </div>
+                        </div>
+                        <div class='listing-day'>
+                          <div class='day'>Salı</div>
+                          <div class='time-items'>
+                            <span class='time'>
+                              <v-row>
+                                <v-col>
+                                  <v-menu
+                                    ref='tuesday_start'
+                                    v-model='tuesday_start'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.tuesday_start'
+                                    transition='scale-transition'
+                                    max-width='290px'
+                                    min-width='290px'
+                                    offset-y
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.tuesday_start'
+                                    label='Başlangıç Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='tuesday_start=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='tuesday_start'
+                                  v-model='userData.tuesday_start'
+                                  max='23:59'
+                                  format='24hr'
+                                  full-width
+                                  @click:minute='$refs.tuesday_start.save(userData.tuesday_start)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                                <v-col>
+                                  <v-menu
+                                    ref='tuesday_end'
+                                    v-model='tuesday_end'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.tuesday_end'
+                                    transition='scale-transition'
+                                    offset-y
+                                    max-width='290px'
+                                    min-width='290px'
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.tuesday_end'
+                                    label='Bitiş Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='tuesday_end=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='tuesday_end'
+                                  v-model='userData.tuesday_end'
+                                  format='24hr'
+                                  min='00:00'
+                                  full-width
+                                  @click:minute='$refs.tuesday_end.save(userData.tuesday_end)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                              </v-row>
+                            </span>
+                          </div>
+                        </div>
+                        <div class='listing-day'>
+                          <div class='day'>Çarşamba</div>
+                          <div class='time-items'>
+                            <span class='time'>
+                              <v-row>
+                                <v-col>
+                                  <v-menu
+                                    ref='wednesday_start'
+                                    v-model='wednesday_start'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.wednesday_start'
+                                    transition='scale-transition'
+                                    max-width='290px'
+                                    min-width='290px'
+                                    offset-y
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.wednesday_start'
+                                    label='Başlangıç Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='wednesday_start=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='wednesday_start'
+                                  v-model='userData.wednesday_start'
+                                  max='23:59'
+                                  format='24hr'
+                                  full-width
+                                  @click:minute='$refs.wednesday_start.save(userData.wednesday_start)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                                <v-col>
+                                  <v-menu
+                                    ref='wednesday_end'
+                                    v-model='wednesday_end'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.wednesday_end'
+                                    transition='scale-transition'
+                                    offset-y
+                                    max-width='290px'
+                                    min-width='290px'
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.wednesday_end'
+                                    label='Bitiş Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='wednesday_end=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='wednesday_end'
+                                  v-model='userData.wednesday_end'
+                                  format='24hr'
+                                  min='00:00'
+                                  full-width
+                                  @click:minute='$refs.wednesday_end.save(userData.wednesday_end)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                              </v-row>
+                            </span>
+                          </div>
+                        </div>
+                        <div class='listing-day'>
+                          <div class='day'>Perşembe</div>
+                          <div class='time-items'>
+                            <span class='time'>
+                              <v-row>
+                                <v-col>
+                                  <v-menu
+                                    ref='thursday_start'
+                                    v-model='thursday_start'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.thursday_start'
+                                    transition='scale-transition'
+                                    max-width='290px'
+                                    min-width='290px'
+                                    offset-y
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.thursday_start'
+                                    label='Başlangıç Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='thursday_start=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='thursday_start'
+                                  v-model='userData.thursday_start'
+                                  max='23:59'
+                                  format='24hr'
+                                  full-width
+                                  @click:minute='$refs.thursday_start.save(userData.thursday_start)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                                <v-col>
+                                  <v-menu
+                                    ref='thursday_end'
+                                    v-model='thursday_end'
+                                    :close-on-content-click='false'
+                                    :nudge-right='35'
+                                    :return-value.sync='userData.thursday_end'
+                                    transition='scale-transition'
+                                    offset-y
+                                    max-width='290px'
+                                    min-width='290px'
+                                  >
+                                <template v-slot:activator='{ on, attrs }'>
+                                  <v-text-field
+                                    v-model='userData.thursday_end'
+                                    label='Bitiş Saati:'
+                                    prepend-icon='mdi-clock-time-four-outline'
+                                    readonly
+                                    v-bind='attrs'
+                                    v-on='on'
+                                    clearable
+                                    hide-details
+                                    outlined
+                                    v-on:click:prepend='thursday_end=true'
+                                  ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                  v-if='thursday_end'
+                                  v-model='userData.thursday_end'
+                                  format='24hr'
+                                  min='00:00'
+                                  full-width
+                                  @click:minute='$refs.thursday_end.save(userData.thursday_end)'
+                                ></v-time-picker>
+                              </v-menu>
+                                </v-col>
+                              </v-row>
+                            </span>
+                          </div>
+                        </div>
+                        <div class='listing-day'>
+                          <div class='day'>Cuma</div>
+                          <div class='time-items'>
+                            <span class='time'>07:00 AM - 09:00 PM</span>
+                          </div>
+                        </div>
+                        <div class='listing-day'>
+                          <div class='day'>Cumartesi</div>
+                          <div class='time-items'>
+                            <span class='time'>07:00 AM - 09:00 PM</span>
+                          </div>
+                        </div>
+                        <div class='listing-day closed'>
+                          <div class='day'>Pazar</div>
+                          <div class='time-items'>
+                            <span class='time'><span class='badge bg-danger-light'>Closed</span></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Business Hours Widget -->
+                </v-card-text>
+                <v-card-actions>
+
+                </v-card-actions>
+              </v-card>
+            </td>
+          </tr>
           </tbody>
           <tfoot>
           <tr>
@@ -813,6 +1415,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import moment from 'moment'
+
 export default {
   components: {
     ValidationObserver,
@@ -827,19 +1430,19 @@ export default {
       return this.img_url + 'uploads/settings/preparing/my.jpg'
     },
     computedDateFormattedMomentjs: {
-      get(){
+      get() {
         return !this.isEmpty(this.birthDate) && this.birthDate.length === 10 ? moment(this.birthDate).format('DD-MM-YYYY') : null
       },
-      set(val){
-        let isValid = moment(val,'DD-MM-YYYY')
-        if(!this.isEmpty(val) && val.length === 10 && isValid.isValid()){
+      set(val) {
+        let isValid = moment(val, 'DD-MM-YYYY')
+        if (!this.isEmpty(val) && val.length === 10 && isValid.isValid()) {
           console.log(val)
-          console.log(moment(val,'DD-MM-YYYY').format('YYYY-MM-DD'))
-          this.birthDate =moment(val,'DD-MM-YYYY').format('YYYY-MM-DD')
+          console.log(moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD'))
+          this.birthDate = moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD')
         }
       }
 
-    },
+    }
   },
   props: ['user'],
   data() {
@@ -847,9 +1450,24 @@ export default {
       imgURL: null,
       data: { cities: [], towns: [], districts: [], neighborhoods: [] },
       country: { cities: [], towns: [], districts: [], neighborhoods: [] },
+      countryCompany: { cities: [], towns: [], districts: [], neighborhoods: [] },
       activePicker: null,
       menu: false,
-      birthDate:null,
+      monday_start: false,
+      tuesday_start: false,
+      wednesday_start: false,
+      thursday_start: false,
+      friday_start: false,
+      saturday_start: false,
+      sunday_start: false,
+      monday_end: false,
+      tuesday_end: false,
+      wednesday_end: false,
+      thursday_end: false,
+      friday_end: false,
+      saturday_end: false,
+      sunday_end: false,
+      birthDate: null,
       userData: {},
       dateFormatted: null,
       specialCases: [{ 'value': 'YOK' }, { 'value': 'EMZİKLİ' }, { 'value': 'HAMİLE' }],
@@ -880,12 +1498,16 @@ export default {
         10,
         11,
         12
-      ],
+      ]
     }
   },
   mounted() {
     this.getCities()
-    this.userData = {...this.user}
+
+    this.userData = { ...this.user }
+    if (this.userData.status === 'dietician') {
+      this.getCitiesCompany()
+    }
     this.birthDate = this.userData.birthDate
   },
   methods: {
@@ -903,12 +1525,12 @@ export default {
           return obj == null || Object.keys(obj).length === 0
         else if (typeof obj == 'boolean') return false
         else return !obj
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
     getCities() {
-      try{
+      try {
         this.$axios
           .get(process.env.apiBaseUrl + 'informations/cities')
           .then(response => {
@@ -917,84 +1539,81 @@ export default {
                 ? response.data.data.cities
                 : []
             let item = this.country.cities.filter(obj => {
-              if(!this.isEmpty(this.userData.city)){
+              if (!this.isEmpty(this.userData.city)) {
                 return obj.name === this.userData.city
-              }else{
+              } else {
                 return obj.name
               }
             })
-            if(!this.isEmpty(item[0])){
+            if (!this.isEmpty(item[0])) {
               this.getTowns(item[0])
             }
           }).catch((e) => console.log(e))
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
     getTowns: function(item) {
       try {
-        if(!this.isEmpty(item) && !this.isEmpty(item.towns)){
+        if (!this.isEmpty(item) && !this.isEmpty(item.towns)) {
           this.$axios
-            .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns.join(","))
+            .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns.join(','))
             .then(response => {
               this.country.towns =
                 response.data.towns.length > 0 ? response.data.towns : []
               this.country.districts = []
               this.country.neighborhoods = []
-              this.company_district = null
-              this.company_neighborhood = null
               let item = this.country.towns.filter(obj => {
-                if(!this.isEmpty(this.userData.town)){
+                if (!this.isEmpty(this.userData.town)) {
                   return obj.name === this.userData.town
-                }else{
+                } else {
                   return obj.name
                 }
               })
-              if(!this.isEmpty(item[0])){
+              if (!this.isEmpty(item[0])) {
                 this.getDistricts(item[0])
               }
             }).catch((e) => console.log(e))
         }
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
     getDistricts: function(item) {
       try {
-        if(!this.isEmpty(item) && !this.isEmpty(item.districts)){
+        if (!this.isEmpty(item) && !this.isEmpty(item.districts)) {
           this.$axios
             .get(
-              process.env.apiBaseUrl + 'informations/districts?id=' + item.districts.join(",")
+              process.env.apiBaseUrl + 'informations/districts?id=' + item.districts.join(',')
             )
             .then(response => {
               this.country.districts =
                 response.data.districts.length > 0 ? response.data.districts : []
               this.country.neighborhoods = []
-              this.company_neighborhood = null
               let item = this.country.districts.filter(obj => {
-                if(!this.isEmpty(this.userData.district)){
+                if (!this.isEmpty(this.userData.district)) {
                   return obj.name === this.userData.district
-                }else{
+                } else {
                   return obj.name
                 }
               })
-              if(!this.isEmpty(item[0])){
+              if (!this.isEmpty(item[0])) {
                 this.getNeighborhoods(item[0])
               }
             }).catch((e) => console.log(e))
         }
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
     getNeighborhoods: function(item) {
       try {
-        if(!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)){
+        if (!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)) {
           this.$axios
             .get(
               process.env.apiBaseUrl +
               'informations/neighborhoods?id=' +
-              item.neighborhoods.join(",")
+              item.neighborhoods.join(',')
             )
             .then(response => {
               this.country.neighborhoods =
@@ -1003,18 +1622,115 @@ export default {
                   : []
             }).catch((e) => console.log(e))
         }
-      }catch (e){
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getCitiesCompany() {
+      try {
+        this.$axios
+          .get(process.env.apiBaseUrl + 'informations/cities')
+          .then(response => {
+            this.countryCompany.cities =
+              response.data.data.cities.length > 0
+                ? response.data.data.cities
+                : []
+            let item = this.countryCompany.cities.filter(obj => {
+              if (!this.isEmpty(this.userData.company_city)) {
+                return obj.name === this.userData.company_city
+              } else {
+                return obj.name
+              }
+            })
+            if (!this.isEmpty(item[0])) {
+              this.getTownsCompany(item[0])
+            }
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getTownsCompany: function(item) {
+      try {
+        if (!this.isEmpty(item) && !this.isEmpty(item.towns)) {
+          this.$axios
+            .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns.join(','))
+            .then(response => {
+              this.countryCompany.towns =
+                response.data.towns.length > 0 ? response.data.towns : []
+              this.countryCompany.districts = []
+              this.countryCompany.neighborhoods = []
+              let item = this.countryCompany.towns.filter(obj => {
+                if (!this.isEmpty(this.userData.company_town)) {
+                  return obj.name === this.userData.company_town
+                } else {
+                  return obj.name
+                }
+              })
+              if (!this.isEmpty(item[0])) {
+                this.getDistrictsCompany(item[0])
+              }
+            }).catch((e) => console.log(e))
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getDistrictsCompany: function(item) {
+      try {
+        if (!this.isEmpty(item) && !this.isEmpty(item.districts)) {
+          this.$axios
+            .get(
+              process.env.apiBaseUrl + 'informations/districts?id=' + item.districts.join(',')
+            )
+            .then(response => {
+              this.countryCompany.districts =
+                response.data.districts.length > 0 ? response.data.districts : []
+              this.countryCompany.neighborhoods = []
+              let item = this.countryCompany.districts.filter(obj => {
+                if (!this.isEmpty(this.userData.company_district)) {
+                  return obj.name === this.userData.company_district
+                } else {
+                  return obj.name
+                }
+              })
+              if (!this.isEmpty(item[0])) {
+                this.getNeighborhoodsCompany(item[0])
+              }
+            }).catch((e) => console.log(e))
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getNeighborhoodsCompany: function(item) {
+      try {
+        if (!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)) {
+          this.$axios
+            .get(
+              process.env.apiBaseUrl +
+              'informations/neighborhoods?id=' +
+              item.neighborhoods.join(',')
+            )
+            .then(response => {
+              this.countryCompany.neighborhoods =
+                response.data.neighborhoods.length > 0
+                  ? response.data.neighborhoods
+                  : []
+            }).catch((e) => console.log(e))
+        }
+      } catch (e) {
         console.log(e)
       }
     },
     updateInformation() {
-      try{
+      try {
         let endpoint = 'theme/users/update'
-        if(this.user.status === "dietician"){
+        if (this.user.status === 'dietician') {
           endpoint = 'dietician/update'
         }
         let formData = new FormData(this.$refs.informationForm)
-        formData.append('birthDate', moment(this.birthDate).format("YYYY-MM-DD"))
+        formData.append('birthDate', moment(this.birthDate).format('YYYY-MM-DD'))
         this.$axios
           .post(
             process.env.apiBaseUrl +
@@ -1042,17 +1758,17 @@ export default {
               })
             }
           }).catch((e) => console.log(e))
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
     save(date) {
       try {
         this.$refs.menu.save(date)
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
-    },
+    }
   }
 }
 </script>
