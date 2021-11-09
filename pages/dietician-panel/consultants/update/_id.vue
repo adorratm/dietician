@@ -60,7 +60,7 @@
                               id='name'
                               type='text'
                               name='name'
-                              v-model='data.name'
+                              v-model='name'
                               clearable
                               label='Adınız ve Soyadınız'
                               outlined
@@ -88,7 +88,7 @@
                               id='email'
                               type='text'
                               name='email'
-                              v-model='data.email'
+                              v-model='email'
                               clearable
                               label='Email Adresiniz'
                               outlined
@@ -116,7 +116,7 @@
                               id='phone'
                               type='text'
                               name='phone'
-                              v-model='data.phone'
+                              v-model='phone'
                               clearable
                               label='Telefon Numaranız'
                               outlined
@@ -145,7 +145,7 @@
                               id='tc'
                               type='text'
                               name='tc'
-                              v-model='data.tc'
+                              v-model='tc'
                               clearable
                               label='T.C. Kimlik Numaranız'
                               outlined
@@ -171,7 +171,7 @@
                               type='password'
                               name='password'
                               id='password'
-                              v-model='data.password'
+                              v-model='password'
                               clearable
                               label='Şifreniz'
                               hide-details
@@ -197,7 +197,7 @@
                               type='password'
                               name='password_confirmation'
                               id='password_confirmation'
-                              v-model='data.password_confirmation'
+                              v-model='password_confirmation'
                               clearable
                               label='Tekrar Şifreniz'
                               outlined
@@ -222,7 +222,7 @@
                         >
                           <div class='form-group my-2'>
                             <v-radio-group
-                              v-model='data.gender'
+                              v-model='gender'
                               name='gender'
                               row
                             >
@@ -240,7 +240,7 @@
                         </ValidationProvider>
                       </td>
                     </tr>
-                    <tr v-if='data.gender === "Kadın"'>
+                    <tr v-if='gender === "Kadın"'>
                       <td><b>Özel Durum :</b></td>
                       <td colspan='2'>
                         <ValidationProvider
@@ -253,7 +253,7 @@
                               name='special_case'
                               id='special_case'
                               :items='specialCases'
-                              v-model='data.special_case'
+                              v-model='special_case'
                               item-text='value'
                               item-value='value'
                               clearable
@@ -287,7 +287,7 @@
                               :items='country.cities'
                               item-value='name'
                               item-text='name'
-                              v-model='data.city'
+                              v-model='city'
                               ref='city'
                               clearable
                               return-object
@@ -318,7 +318,7 @@
                               name='town'
                               id='town'
                               ref='town'
-                              v-model='data.town'
+                              v-model='town'
                               :items='country.towns'
                               item-value='name'
                               item-text='name'
@@ -351,7 +351,7 @@
                               name='district'
                               id='district'
                               ref='district'
-                              v-model='data.district'
+                              v-model='district'
                               :items='country.districts'
                               item-text='name'
                               item-value='name'
@@ -383,7 +383,7 @@
                               name='neighborhood'
                               id='neighborhood'
                               ref='neighborhood'
-                              v-model='data.neighborhood'
+                              v-model='neighborhood'
                               :items='country.neighborhoods'
                               item-value='name'
                               item-text='name'
@@ -416,7 +416,7 @@
                               id='address'
                               cols='30'
                               rows='5'
-                              v-model='data.address'
+                              v-model='address'
                               clearable
                               label='İkamet Ettiğiniz Adres'
                               hide-details
@@ -464,12 +464,12 @@
                                   outlined
                                   minlength='10'
                                   maxlength='10'
-                                  @click:clear='data.birthDate = null'
+                                  @click:clear='birthDate = null'
                                   v-on:click:prepend='menu=true'
                                 ></v-text-field>
                               </template>
                               <v-date-picker
-                                v-model='data.birthDate'
+                                v-model='birthDate'
                                 :active-picker.sync='activePicker'
                                 :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
                                 min='1950-01-01'
@@ -498,7 +498,7 @@
                               type='number'
                               name='size'
                               id='size'
-                              v-model='data.size'
+                              v-model='size'
                               clearable
                               label='Boy (cm)'
                               outlined
@@ -525,7 +525,7 @@
                               type='number'
                               name='weight'
                               id='weight'
-                              v-model='data.weight'
+                              v-model='weight'
                               clearable
                               label='Ağırlık (kg)'
                               outlined
@@ -552,7 +552,7 @@
                               type='number'
                               name='waist'
                               id='waist'
-                              v-model='data.waist'
+                              v-model='waist'
                               clearable
                               label='Bel (cm)'
                               outlined
@@ -579,7 +579,7 @@
                               type='number'
                               name='hip'
                               id='hip'
-                              v-model='data.hip'
+                              v-model='hip'
                               clearable
                               label='Kalça (cm)'
                               hide-details
@@ -606,7 +606,7 @@
                               type='number'
                               name='chest'
                               id='chest'
-                              v-model='data.chest'
+                              v-model='chest'
                               clearable
                               label='Göğüs (cm)'
                               hide-details
@@ -633,7 +633,7 @@
                               type='number'
                               name='neck'
                               id='neck'
-                              v-model='data.neck'
+                              v-model='neck'
                               clearable
                               label='Boyun (cm)'
                               hide-details
@@ -660,7 +660,7 @@
                               type='number'
                               name='upperArm'
                               id='upperArm'
-                              v-model='data.upperArm'
+                              v-model='upperArm'
                               clearable
                               label='Üst Kol (cm)'
                               hide-details
@@ -687,7 +687,7 @@
                               type='number'
                               name='lowerArm'
                               id='lowerArm'
-                              v-model='data.lowerArm'
+                              v-model='lowerArm'
                               clearable
                               label='Alt Kol (cm)'
                               hide-details
@@ -714,7 +714,7 @@
                               type='number'
                               name='wrist'
                               id='wrist'
-                              v-model='data.wrist'
+                              v-model='wrist'
                               clearable
                               label='Kol Bileği (cm)'
                               hide-details
@@ -741,7 +741,7 @@
                               type='number'
                               name='upperLeg'
                               id='upperLeg'
-                              v-model='data.upperLeg'
+                              v-model='upperLeg'
                               clearable
                               label='Üst Bacak (cm)'
                               hide-details
@@ -768,7 +768,7 @@
                               type='number'
                               name='lowerLeg'
                               id='lowerLeg'
-                              v-model='data.lowerLeg'
+                              v-model='lowerLeg'
                               clearable
                               label='Alt Bacak (cm)'
                               hide-details
@@ -795,7 +795,7 @@
                               type='number'
                               name='skinfoldThickness'
                               id='skinfoldThickness'
-                              v-model='data.skinfoldThickness'
+                              v-model='skinfoldThickness'
                               clearable
                               label='Deri Kıvrım Kalınlığı (cm)'
                               hide-details
@@ -814,10 +814,10 @@
                       </td>
                       <td>
                         %
-                        {{ data.fatRatio }}
+                        {{ fatRatio }}
                       </td>
                       <td>
-                        {{ data.fat }}
+                        {{ fat }}
                         KG
                       </td>
                     </tr>
@@ -827,10 +827,10 @@
                       </td>
                       <td>
                         %
-                        {{ data.muscleRatio }}
+                        {{ muscleRatio }}
                       </td>
                       <td>
-                        {{ data.muscle }}
+                        {{ muscle }}
                         KG
                       </td>
                     </tr>
@@ -840,10 +840,10 @@
                       </td>
                       <td>
                         %
-                        {{ data.waterRatio }}
+                        {{ waterRatio }}
                       </td>
                       <td>
-                        {{ data.water }}
+                        {{ water }}
                         KG
                       </td>
                     </tr>
@@ -1153,6 +1153,7 @@
 import Breadcrumb from "~/components/backend/breadcrumb"
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import Editor from "@tinymce/tinymce-vue";
+import moment from "moment";
 export default {
   components:{
     Breadcrumb,
@@ -1167,29 +1168,135 @@ export default {
     img_url() {
       return process.env.apiPublicUrl
     },
-    user(){
+    user() {
       return this.$auth.user
+    },
+    selectAllDisease() {
+      return (
+        !this.isEmpty(this.selectedDiseases) &&
+        !this.isEmpty(this.diseases) &&
+        this.selectedDiseases.length === this.diseases.length
+      )
+    },
+    selectSomeDisease() {
+      return (
+        !this.isEmpty(this.selectedDiseases) &&
+        this.selectedDiseases.length > 0 &&
+        !this.selectAllDisease
+      )
+    },
+    diseaseIcon() {
+      if (this.selectAllDisease) return 'mdi-close-box'
+      if (this.selectSomeDisease) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
+    selectAllAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        !this.isEmpty(this.allergenFoods) &&
+        this.selectedAllergenFoods.length === this.allergenFoods.length
+      )
+    },
+    selectSomeAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        this.selectedAllergenFoods.length > 0 &&
+        !this.selectAllAllergenFoods
+      )
+    },
+    allergenFoodsIcon() {
+      if (this.selectAllAllergenFoods) return 'mdi-close-box'
+      if (this.selectSomeAllergenFoods) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
+    selectAllUnlikedFoods() {
+      return (
+        !this.isEmpty(this.selectedUnlikedFoods) &&
+        !this.isEmpty(this.unlikedFoods) &&
+        this.selectedUnlikedFoods.length === this.unlikedFoods.length
+      )
+    },
+    selectSomeUnlikedFoods() {
+      return (
+        !this.isEmpty(this.selectedUnlikedFoods) &&
+        this.selectedUnlikedFoods.length > 0 &&
+        !this.selectAllUnlikedFoods
+      )
+    },
+    unlikedFoodsIcon() {
+      if (this.selectAllUnlikedFoods) return 'mdi-close-box'
+      if (this.selectSomeUnlikedFoods) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
+    computedDateFormattedMomentjs: {
+      get() {
+        return !this.isEmpty(this.data.birthDate) && this.data.birthDate.length === 10 ? moment(this.data.birthDate).format('DD-MM-YYYY') : null
+      },
+      set(val) {
+        let isValid = moment(val, 'DD-MM-YYYY')
+        if (!this.isEmpty(val) && val.length === 10 && isValid.isValid()) {
+          console.log(val)
+          console.log(moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD'))
+          this.data.birthDate = moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD')
+        }
+      }
     }
+  },
+  mounted() {
+    this.getCities()
+    this.getDiseases()
   },
   data(){
     return {
-      breadCrumbItems:[
-        {name: "Anasayfa",url: "/panel"},
-        {name: "Kullanıcılar",url:"/panel/users"},
-        {name: "Kullanıcı Düzenle"},
-      ],
       tab: null,
-      data: {
-        name: null,
-        phone: null,
-        email: null,
-        facebook: null,
-        twitter: null,
-        instagram: null,
-        youtube: null,
-        linkedin: null,
-        img_url: null
-      },
+      disease: null,
+      diseases: [],
+      selectedDiseases: [],
+      allergenFood: null,
+      allergenFoods: [],
+      selectedAllergenFoods: [],
+      unlikedFood: null,
+      unlikedFoods: [],
+      selectedUnlikedFoods: [],
+      e1: 1,
+      createdConsultant: null,
+      breadCrumbItems: [
+        { name: 'Anasayfa', url: '/dietician-panel' },
+        { name: 'Danışanlarım', url: '/dietician-panel/consultants' },
+        { name: 'Danışan Düzenle' }
+      ],
+      specialCases: [{ 'value': 'YOK' }, { 'value': 'EMZİKLİ' }, { 'value': 'HAMİLE' }],
+      activePicker: null,
+      menu: false,
+      country: { cities: [], towns: [], districts: [], neighborhoods: [] },
+      months: [
+        'OCAK',
+        'ŞUBAT',
+        'MART',
+        'NİSAN',
+        'MAYIS',
+        'HAZİRAN',
+        'TEMMUZ',
+        'AĞUSTOS',
+        'EYLÜL',
+        'EKİM',
+        'KASIM',
+        'ARALIK'
+      ],
+      special_case_months: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
     }
   },
   validate({ params }) {
@@ -1198,7 +1305,7 @@ export default {
   async asyncData({ params, error, $axios }) {
     try {
       const { data } = await $axios.get(
-        process.env.apiBaseUrl + "panel/users/update/" + params.id
+        process.env.apiBaseUrl + "dietician-panel/users/update/" + params.id
       );
 
       return data;
@@ -1223,6 +1330,338 @@ export default {
         else if (typeof obj == 'boolean') return false
         else return !obj
       }catch (e){
+        console.log(e)
+      }
+    },
+    toggleDisease() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllDisease) {
+            this.selectedDiseases = []
+          } else {
+            this.selectedDiseases = []
+            this.diseases.forEach((el, index) => {
+              this.selectedDiseases.push(el._id.$oid)
+            })
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    toggleAllergenFoods() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllAllergenFoods) {
+            this.selectedAllergenFoods = []
+          } else {
+            this.selectedAllergenFoods = []
+            this.allergenFoods.forEach((el, index) => {
+              this.selectedAllergenFoods.push(el._id.$oid)
+            })
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    toggleUnlikedFoods() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllUnlikedFoods) {
+            this.selectedUnlikedFoods = []
+          } else {
+            this.selectedUnlikedFoods = []
+            this.unlikedFoods.forEach((el, index) => {
+              this.selectedUnlikedFoods.push(el._id.$oid)
+            })
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getDiseases() {
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`)
+          .then(response => {
+            this.diseases = response.data.data.diseases
+            console.log(this.diseases)
+          })
+          .catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    remove(item) {
+      try {
+        const index = this.selectedDiseases.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedDiseases.splice(index, 1)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    removeAllergenFoods(item) {
+      try {
+        const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    removeUnlikedFoods(item) {
+      try {
+        const index = this.selectedUnlikedFoods.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedUnlikedFoods.splice(index, 1)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    save(date) {
+      try {
+        this.$refs.menu.save(date)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getCities() {
+      try {
+        this.$axios
+          .get(process.env.apiBaseUrl + 'informations/cities')
+          .then(response => {
+            this.country.cities =
+              response.data.data.cities.length > 0
+                ? response.data.data.cities
+                : []
+            let item = this.country.cities.filter(obj => {
+              return obj.name === this.data.city
+            })
+            this.getTowns(item[0])
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getTowns: function(item) {
+      try {
+        this.$axios
+          .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
+          .then(response => {
+            this.country.towns =
+              response.data.towns.length > 0 ? response.data.towns : []
+            this.country.districts = []
+            this.country.neighborhoods = []
+            this.company_district = null
+            this.company_neighborhood = null
+            let item = this.country.towns.filter(obj => {
+              return obj.name === this.data.town
+            })
+            this.getDistricts(item[0])
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getDistricts: function(item) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
+          )
+          .then(response => {
+            this.country.districts =
+              response.data.districts.length > 0 ? response.data.districts : []
+            this.country.neighborhoods = []
+            this.company_neighborhood = null
+            let item = this.country.districts.filter(obj => {
+              return obj.name === this.data.district
+            })
+            this.getNeighborhoods(item[0])
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getNeighborhoods: function(item) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            'informations/neighborhoods?id=' +
+            item.neighborhoods
+          )
+          .then(response => {
+            this.country.neighborhoods =
+              response.data.neighborhoods.length > 0
+                ? response.data.neighborhoods
+                : []
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveInformation() {
+      try {
+        let formData = new FormData(this.$refs.informationForm)
+        formData.delete('district')
+        formData.delete('neighborhood')
+        formData.delete('city')
+        formData.delete('town')
+        formData.append('district', this.data.district.name)
+        formData.append('town', this.data.town.name)
+        formData.append('city', this.data.city.name)
+        formData.append('neighborhood', this.data.neighborhood.name)
+        formData.append('dietician_id', this.user._id)
+        formData.append('birthDate', moment(this.birthDate).format('YYYY-MM-DD'))
+        this.$axios
+          .post(process.env.apiBaseUrl + 'dietician/users/create/', formData, {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary
+            }
+          })
+          .then(response => {
+            if (response.status === 200) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+              this.createdConsultant = response.data.data.id
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveDiseaseInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.append('dietician_id', this.user._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.createdConsultant)
+        formData.delete('selectedDiseases')
+        formData.append('selectedDiseases', this.selectedDiseases)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-diseases/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveAllergenFoodsInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.append('dietician_id', this.user._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.createdConsultant)
+        formData.delete('selectedAllergenFoods')
+        formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-allergenfoods/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveUnlikedFoodsInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.append('dietician_id', this.user._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.createdConsultant)
+        formData.delete('selectedUnlikedFoods')
+        formData.append('selectedUnlikedFoods', this.selectedUnlikedFoods)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-unlovedfoods/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          })
+      } catch (e) {
         console.log(e)
       }
     },
