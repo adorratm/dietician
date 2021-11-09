@@ -23,16 +23,6 @@
                     <v-stepper-step :complete="e1 > 1" step="1">
                       Makale Kategorisi Bilgileri
                     </v-stepper-step>
-
-                    <v-divider></v-divider>
-                    <v-stepper-step :complete="e1 > 2" step="2">
-                      Makale Kategorisi Görselleri
-                    </v-stepper-step>
-                    <v-divider></v-divider>
-
-                    <v-stepper-step :complete="e1 > 3" step="3">
-                      Kapak Fotoğrafı Seçimi
-                    </v-stepper-step>
                   </v-stepper-header>
 
                   <v-stepper-items>
@@ -47,8 +37,8 @@
                             label='Makale Kategorisi'
                             id="title"
                             type="text"
-                            name="name"
-                            v-model="inputData.name"
+                            name="title"
+                            v-model="inputData.title"
                             clearable
                             outlined
                             hide-details
@@ -65,111 +55,6 @@
                       >
                         Makale Kategorisini Kaydet
                       </v-btn>
-                    </v-stepper-content>
-
-                    <v-stepper-content class='px-0' step="2">
-                      <div class='form-group'>
-                        <dropzone
-                          @vdropzone-complete="onComplete"
-                          ref="myDropzone"
-                          id="dropzone"
-                          :options="options"
-                          :headers="options.headers"
-                        ></dropzone>
-                      </div>
-
-                      <v-btn
-                        color='primary'
-                        role="button"
-                        @click.prevent="selectCover"
-                      >
-                        Kapak Fotoğrafı Seç
-                      </v-btn>
-                    </v-stepper-content>
-
-                    <v-stepper-content class='px-0' step="3">
-                      <v-card>
-                        <v-card-title>
-                          Görseller
-                        </v-card-title>
-                        <v-card-text>
-                          <v-data-table
-                            :headers="headers"
-                            :items="data"
-                            disable-pagination
-                            :hide-default-footer="true"
-                          >
-                            <template v-slot:[`item.img_url`]="{ item }">
-                              <img
-                                v-bind:src="item.img_url"
-                                width="150"
-                                height="150"
-                              />
-                            </template>
-                            <template v-slot:[`item.isCover`]="{ item }">
-                              <v-layout justify-center>
-                                <v-switch
-                                  class="d-flex justify-content-center mx-auto px-auto text-center"
-                                  v-model="item.isCover"
-                                  color="success"
-                                  :key="item.id"
-                                  @click="isCoverSetter(item.id)"
-                                ></v-switch>
-                              </v-layout>
-                            </template>
-                            <template v-slot:[`item.isActive`]="{ item }">
-                              <v-layout justify-center>
-                                <v-switch
-                                  class="d-flex justify-content-center mx-auto px-auto text-center"
-                                  v-model="item.isActive"
-                                  color="success"
-                                  :key="item.id"
-                                  @click="isActiveSetter(item.id)"
-                                ></v-switch>
-                              </v-layout>
-                            </template>
-                            <template v-slot:[`item.actions`]="{ item }">
-                              <v-icon small @click="deleteData(item.id)">
-                                mdi-delete
-                              </v-icon>
-                            </template>
-                          </v-data-table>
-                        </v-card-text>
-                        <v-card-actions>
-                          <v-row>
-                            <v-col cols="12" lg="3">
-                              <v-select
-                                v-model="pageSize"
-                                :items="pageSizes"
-                                label="Sayfada Görüntüleme Sayısı"
-                                @change="handlePageSizeChange"
-                                outlined
-                                hide-details
-                              ></v-select>
-                              <v-btn
-                                color='info'
-                                class="mt-2"
-                                role="button"
-                                @click.prevent="e1 = 2"
-                              >
-                                Geri Dön
-                              </v-btn>
-                            </v-col>
-
-                            <v-col cols="12" lg="9">
-                              <v-pagination
-                                v-model="page"
-                                :length="totalPages"
-                                total-visible="7"
-                                next-icon="mdi-menu-right"
-                                prev-icon="mdi-menu-left"
-                                @input="handlePageChange"
-                                circle
-                              ></v-pagination>
-                            </v-col>
-                          </v-row>
-                        </v-card-actions>
-                      </v-card>
                     </v-stepper-content>
                   </v-stepper-items>
                 </v-stepper>
@@ -219,7 +104,7 @@ export default {
       counter: 0,
       e1: 1,
       inputData: {
-        name: null,
+        title: null,
         description: null,
         id: null
       },

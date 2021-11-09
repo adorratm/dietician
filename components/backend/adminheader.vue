@@ -31,6 +31,7 @@
           <v-btn color='primary' class='mr-1' href='/'>Siteyi Görüntüle</v-btn>
         </li>
         <!-- Notifications -->
+        <!--
         <li class='nav-item dropdown noti-dropdown'>
           <a href='javascript:void(0)' class='dropdown-toggle nav-link' data-toggle='dropdown'>
             <bell-icon size='1.5x' class='custom-class'></bell-icon>
@@ -65,6 +66,7 @@
             </div>
           </div>
         </li>
+        -->
         <!-- /Notifications -->
 
         <!-- User Menu -->

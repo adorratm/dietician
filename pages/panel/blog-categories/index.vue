@@ -133,7 +133,7 @@ export default {
       searchTitle: null,
       headers: [
         { text: "#", align: "center", value: "rank" },
-        { text: "Adı", align: "center", value: "name" },
+        { text: "Adı", align: "center", value: "title" },
         { text: "Durum", align: "center", value: "isActive" },
         {
           text: "İşlemler",
@@ -191,7 +191,7 @@ export default {
           this.pageSize
         );
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/blog-categories/${urlParam}?table=blog_categories&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`)
+          .get(`${process.env.apiBaseUrl}panel/blog-categories/${urlParam}?table=blog_categories&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`)
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData);
             this.totalPages = response.data.data.last_page;
@@ -289,7 +289,7 @@ export default {
         return {
           rank: data.rank,
           id: data._id,
-          name: data.name,
+          title: data.title,
           isActive: data.isActive
         };
       }catch (e) {

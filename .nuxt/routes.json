@@ -192,6 +192,18 @@
     "chunkName": "pages/panel/users/index"
   },
   {
+    "name": "dietician-panel-consultants-add",
+    "path": "/dietician-panel/consultants/add",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\add\\\\index.vue",
+    "chunkName": "pages/dietician-panel/consultants/add/index"
+  },
+  {
+    "name": "dietician-panel-consultants-new-consultant",
+    "path": "/dietician-panel/consultants/new-consultant",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\new-consultant\\\\index.vue",
+    "chunkName": "pages/dietician-panel/consultants/new-consultant/index"
+  },
+  {
     "name": "dietician-panel-criterias-add",
     "path": "/dietician-panel/criterias/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\criterias\\\\add\\\\index.vue",

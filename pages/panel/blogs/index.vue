@@ -54,7 +54,7 @@
                     v-model="item.isActive"
                     color="success"
                     :key="item.id"
-                    @click="isActiveSetter(item.id)"
+                    @click="isActiveSetter(item.id,item.status)"
                   ></v-switch>
                 </v-layout>
               </template>
@@ -114,7 +114,7 @@ export default {
     ValidationProvider,
     editor: Editor,
   },
-  name: 'nutrients',
+  name: 'blogs',
   middleware: ["auth","admin"],
   layout: 'admin',
   computed: {
@@ -137,7 +137,7 @@ export default {
       headers: [
         { text: "#", align: "center", value: "rank" },
         { text: "Görsel", align: "center", value: "img_url", sortable: false },
-        { text: "Adı", align: "center", value: "name" },
+        { text: "Adı", align: "center", value: "title" },
         { text: "Durum", align: "center", value: "isActive" },
         {
           text: "İşlemler",
@@ -196,7 +196,7 @@ export default {
         );
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}panel/blogs/${urlParam}?table=blogs&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`
+            `${process.env.apiBaseUrl}panel/blog/${urlParam}?table=blogs&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`
           )
           .then(response => {
             this.empty_url = response.data.empty_url;
@@ -236,7 +236,7 @@ export default {
     },
     editData(id) {
       try {
-        this.$router.push("/panel/blogs/update/" + id);
+        this.$router.push("/panel/blog/update/" + id);
       }catch (e) {
         console.log(e)
       }
@@ -244,7 +244,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(process.env.apiBaseUrl + "panel/blogs/delete/" + id)
+          .delete(process.env.apiBaseUrl + "panel/blog/delete/" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -265,13 +265,15 @@ export default {
         console.log(e)
       }
     },
-    isActiveSetter(id) {
+    isActiveSetter(id,status) {
       try {
         this.$axios
-          .get(
+          .post(
             process.env.apiBaseUrl +
-            "panel/datatables/is-active-setter?table=blogs&id=" +
-            id
+            "panel/blog/updateStatus/" +
+            id,{
+              "status" : !status
+            }
           )
           .then(response => {
             if (response.data.success) {
@@ -297,8 +299,8 @@ export default {
       try {
         return {
           rank: data.rank,
-          id: data._id,
-          name: data.name,
+          id: data.id,
+          title: data.title,
           img_url:
 
             (!this.isEmpty(data.blogs) && !this.isEmpty(data.blogs.img_url)

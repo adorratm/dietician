@@ -7,10 +7,10 @@
       <!-- Logo -->
       <div class='header-left'>
         <NuxtLink to='/dietician-panel' class='logo'>
-          <img :src='img_url+settings.settings.logo' :alt='settings.settings.company_name'>
+          <img :src='settings.settings.logo' :alt='settings.settings.company_name'>
         </NuxtLink>
         <NuxtLink to='/dietician-panel' class='logo logo-small'>
-          <img :src='img_url+settings.settings.logo' :alt='settings.settings.company_name' width='30' height='30'>
+          <img :src='settings.settings.logo' :alt='settings.settings.company_name' width='30' height='30'>
         </NuxtLink>
       </div>
       <!-- /Logo -->
@@ -31,6 +31,7 @@
           <v-btn color='primary' class='mr-1' href='/'>Siteyi Görüntüle</v-btn>
         </li>
         <!-- Notifications -->
+        <!--
         <li class='nav-item dropdown noti-dropdown'>
           <a href='javascript:void(0)' class='dropdown-toggle nav-link' data-toggle='dropdown' rel='dofollow' title='Bildirimler' data-title='Bildirimler'>
             <bell-icon size='1.5x' class='custom-class'></bell-icon>
@@ -65,18 +66,19 @@
             </div>
           </div>
         </li>
+        -->
         <!-- /Notifications -->
 
         <!-- User Menu -->
         <li class='nav-item dropdown has-arrow' v-if='!isEmpty(user)'>
           <a href='#' class='dropdown-toggle nav-link' data-toggle='dropdown'>
-            <span class='user-img'><img class='rounded-circle' :src='img_url+user.img_url'
+            <span class='user-img'><img class='rounded-circle' :src='user.profile_photo'
                                         width='31' :alt='user.name'></span>
           </a>
           <div class='dropdown-menu'>
             <div class='user-header'>
               <div class='avatar avatar-sm'>
-                <img :src='img_url+user.img_url' :alt='user.name' class='avatar-img rounded-circle'>
+                <img :src='user.profile_photo' :alt='user.name' class='avatar-img rounded-circle'>
               </div>
               <div class='user-text'>
                 <h6>{{ user.name }}</h6>
@@ -116,6 +118,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.user)
     let $wrapper = $('.main-wrapper')
     $('body').append('<div class="sidebar-overlay"></div>')
     $('#mobile_btn').click(function() {

@@ -46,8 +46,8 @@
                         <div class='form-group'>
                           <v-text-field
                             label='Makale Adı'
-                            name='name'
-                            v-model='inputData.name'
+                            name='title'
+                            v-model='inputData.title'
                             clearable
                             outlined
                             hide-details
@@ -87,8 +87,8 @@
                         <div class='form-group'>
                           <v-textarea
                             label='Makale Açıklaması'
-                            name='description'
-                            v-model='inputData.description'
+                            name='content'
+                            v-model='inputData.content'
                             clearable
                             hide-details
                             outlined
@@ -235,7 +235,7 @@ export default {
     ValidationProvider,
     editor: Editor,
   },
-  name: 'blog-categories-add',
+  name: 'blog-add',
   middleware: ["auth","admin"],
   layout: 'admin',
   computed: {
@@ -256,8 +256,8 @@ export default {
       counter: 0,
       e1: 1,
       inputData: {
-        name: null,
-        description: null,
+        title: null,
+        content: null,
         id: null,
         category_id: null,
         unit: null
@@ -362,7 +362,7 @@ export default {
         )
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=blogs_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name&where_column=blog_id&where_value=${this.inputData.id}&joins=blogs_file`
+            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=blogs_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title&where_column=blog_id&where_value=${this.inputData.id}&joins=blogs_file`
           )
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData)

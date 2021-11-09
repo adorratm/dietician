@@ -1725,7 +1725,7 @@ export default {
     },
     updateInformation() {
       try {
-        let endpoint = 'theme/users/update'
+        let endpoint = 'users/update'
         if (this.user.status === 'dietician') {
           endpoint = 'dietician/update'
         }

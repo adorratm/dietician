@@ -30,52 +30,70 @@
               <h3 class='mx-auto d-block mt-3'>İçerik Yükleniyor. Lütfen Bekleyin...</h3>
             </div>
             <v-card>
-              <img v-if='!isEmpty(recipe)'
-                     width='100%'
-                     height='300'
-                     :src='recipe.img_url'
-                     :alt='recipe.name'
-                   style='object-fit: scale-down'
-              />
-
-              <v-card-title>
-                "{{ recipe.name }}" Besini Hakkında Detaylı Bilgiler
+              <v-card-title class='justify-center'>
+                {{ searchResultText }}
               </v-card-title>
-              <v-card-text>
-                <v-tabs
-                  show-arrows
-                >
-                  <v-tab>
-                    Besin Değerleri
-                  </v-tab>
-                  <v-tab>
-                    Açıklama
-                  </v-tab>
-                  <v-tab-item eager>
-                    <v-simple-table>
-                      <thead>
-                      <tr>
-                        <th class='font-weight-bold'>
-                          Besin Değeri Adı
-                        </th>
-                        <th>
-                          Besin Değeri
-                        </th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr v-if='!isEmpty(recipe.recipescriteriavalues)' v-for='(value) in recipe.recipescriteriavalues'>
-                        <td>{{ value.title }} ({{ value.type }})</td>
-                        <td>{{ value.value }}</td>
-                      </tr>
-                      </tbody>
-                    </v-simple-table>
-                  </v-tab-item>
-                  <v-tab-item eager>
-
-                    {{ recipe.description }}
-                  </v-tab-item>
-                </v-tabs>
+              <v-card-text v-if="loading" class="text-center">
+                <v-progress-circular
+                  :size="70"
+                  :width="7"
+                  color="purple"
+                  indeterminate
+                  class="mx-auto"
+                ></v-progress-circular>
+              </v-card-text>
+              <v-card-text v-else>
+                <v-row v-if='exercisecategories.length>0'>
+                  <client-only>
+                    <v-col
+                      cols='12'
+                      sm='12'
+                      md='6'
+                      lg='4'
+                      xl='3'
+                      v-bind:key='index'
+                      v-for='(exercisecategory, index) in exercisecategories'
+                    >
+                      <v-card>
+                        <nuxt-link  v-bind:to='"/exercises/details/" + exercisecategory.slug'>
+                          <v-img
+                            height='300'
+                            :aspect-ratio='16/9'
+                            :alt='exercisecategory.name'
+                            :src='exercisecategory.exercises.img_url'
+                            :lazy-src='exercisecategory.exercises.img_url'
+                          />
+                        </nuxt-link>
+                        <v-card-title>
+                          <nuxt-link class="purple--text" v-bind:to='"/exercises/details/" + exercisecategory.slug'>{{
+                              exercisecategory.name
+                            }}
+                          </nuxt-link>
+                        </v-card-title>
+                        <!--                  <v-card-text one-line>-->
+                        <!--                    {{ exercisecategory.description }}-->
+                        <!--                  </v-card-text>-->
+                        <v-card-actions>
+                          <v-btn
+                            v-bind:to='"/exercises/details/" + exercisecategory.slug'
+                            color='purple'
+                            block
+                            class="white--text"
+                          >Egzersiz Detayları
+                          </v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </v-col>
+                  </client-only>
+                </v-row>
+                <v-pagination
+                  color='purple'
+                  class='my-3'
+                  v-model='page'
+                  :length='pageLength'
+                  total-visible='11'
+                ></v-pagination>
               </v-card-text>
             </v-card>
           </div>
@@ -190,8 +208,10 @@ export default {
     searchText: null,
     unit:100,
     item:'',
-    recipe:[],
-    loading:true,
+    pageLength:1,
+    page:1,
+    loading: true,
+    exercisecategories: [],
     breadCrumbItems:[
       {name: "Anasayfa",url: "/"},
       {name: "Yemek Tarifleri", url:"/recipes"}
@@ -201,12 +221,16 @@ export default {
     await this.getData()
   },
   computed: {
-    criterias(){
-      return this.recipe.recipescriteriavalues;
-    },
-    values(){
-      return this.recipe.recipesvalue
-    },
+  },
+  watch: {
+    async page(){
+      this.loading=true
+      await this.$axios.get(process.env.apiBaseUrl+'home/categoryexercises/'+this.$route.params.id+'?page='+this.page).then(res=>{
+        this.setExercisecategories(res.data.data.data,res.data.data.links.length-2)
+      })
+      this.loading=false
+    }
+
   },
   methods: {
     /**
@@ -227,29 +251,26 @@ export default {
         console.log(e)
       }
     },
-    changeValue: function(item) {
-      try {
-        this.criteriaValue = item.value
-        this.criteriaName = item.title
-        this.type = item.type
-        if (this.values.length > 0) {
-          for (let i = 0; i < this.values.length; i++) {
-            this.recipe.recipesvalue[i].value =
-              (this.values[i].value / 100) *
-              ((this.unit <= 1 ? (this.unit = 1) : this.unit) *
-                this.criteriaValue)
-            if (
-              this.isEmpty(this.recipe.recipesvalue[i].value) ||
-              isNaN(this.recipe.recipesvalue[i].value)
-            ) {
-              this.recipe.recipesvalue[i].value = this.values[i].value
-            }
-          }
-        }
-      }catch (e) {
-        console.log(e)
-      }
+    async search() {
+      this.loading=true
+      this.searchText.length > 0 ? this.searchResultText=this.searchText : this.searchResultText='Tüm Egzersizler'
+      await this.$axios.post(process.env.apiBaseUrl + "home/searchcategoryexercises/"+this.$route.params.id
+        , {
+          'searchText': this.searchText
+        }).then(res => {
+        this.setExercisecategories(res.data.data.data,res.data.data.links.length-2)
+      })
+      this.loading=false
     },
+    setExercisecategories(data,totalpage){
+      this.exercisecategories=data
+      this.pageLength=totalpage
+    },
+
+
+
+
+
     search(){
       try {
         this.$router.push("/recipes?search="+this.searchText)
@@ -259,10 +280,10 @@ export default {
     },
     async getData() {
       try {
-        await this.$axios.get(process.env.apiBaseUrl+'recipes/details/'+this.$route.params.id)
+        await this.$axios.get(process.env.apiBaseUrl+'home/categoryexercises/'+this.$route.params.id)
           .then( res=>{
-            this.recipe=res.data.data
-            this.item=this.recipe.name
+            this.exercisecategories=res.data.data
+            this.item=this.exercisecategories.name
             this.breadCrumbItems.push({name: this.item})
           }).catch(err => console.log(err)).finally(()=>{this.loading=false})
       }catch (e) {

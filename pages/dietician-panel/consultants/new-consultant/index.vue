@@ -1,14 +1,12 @@
 <template>
   <div>
     <!-- Page Wrapper -->
-    <div class="page-wrapper">
-      <div class="content container-fluid">
+    <div class='page-wrapper'>
+      <div class='content container-fluid'>
 
         <!-- Page Header -->
         <Breadcrumb :items='breadCrumbItems' />
         <!-- /Page Header -->
-
-        <!-- General -->
 
         <v-stepper v-model='e1'>
           <v-stepper-header>
@@ -49,13 +47,12 @@
                       <td>
                         <b>Adınız ve Soyadınız :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Adınız ve Soyadınız'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               id='name'
                               type='text'
@@ -69,7 +66,6 @@
                             <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -77,13 +73,12 @@
                       <td>
                         <b>Email Adresiniz :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Email Adresiniz'
                           rules='required|email'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               id='email'
                               type='text'
@@ -97,7 +92,6 @@
                             <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -105,13 +99,12 @@
                       <td>
                         <b>Telefon Numaranız :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Telefon Numaranız'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               id='phone'
                               type='text'
@@ -125,8 +118,6 @@
                             <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
-
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -134,13 +125,12 @@
                       <td>
                         <b>T.C. Kimlik Numaranız :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='T.C. Kimlik Numaranız'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               id='tc'
                               type='text'
@@ -154,19 +144,17 @@
                             <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
                     <tr>
                       <td><b>Şifreniz :</b></td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Şifreniz'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='password'
                               name='password'
@@ -180,19 +168,17 @@
                             <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
                     <tr>
                       <td><b>Tekrar Şifreniz :</b></td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Tekrar Şifreniz'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='password'
                               name='password_confirmation'
@@ -206,7 +192,6 @@
                             <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -214,13 +199,12 @@
                       <td>
                         <b>Cinsiyet :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Cinsiyetiniz'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-radio-group
                               v-model='data.gender'
                               name='gender'
@@ -236,36 +220,80 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
-                    <tr v-if='data.gender === "Kadın"'>
+                    <tr v-if='data.gender === "Kadın" && data.status !== "dietician"'>
                       <td><b>Özel Durum :</b></td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Özel Durum'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
-                            <v-autocomplete
-                              name='special_case'
-                              id='special_case'
-                              :items='specialCases'
-                              v-model='data.special_case'
-                              item-text='value'
-                              item-value='value'
-                              clearable
-                              return-object
-                              label='Özel Durum'
-                              hide-details
-                              outlined
-                            />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                              {{ errors[0] }}
-                            </v-alert>
-                          </div>
+                          <v-autocomplete
+                            name='special_case'
+                            id='special_case'
+                            :items='specialCases'
+                            v-model='data.special_case'
+                            item-text='value'
+                            item-value='value'
+                            clearable
+                            label='Özel Durum'
+                            outlined
+                            hide-details
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
+                        </ValidationProvider>
+                      </td>
+                    </tr>
+                    <tr v-if='data.gender === "Kadın" && data.special_case === "HAMİLE" && data.status !== "dietician"'>
+                      <td><b>Hamileliğinizin Kaçıncı Ayındasınız? :</b></td>
+                      <td colspan='2' class='p-2'>
+                        <ValidationProvider
+                          name='Hamileliğinizin Kaçıncı Ayındasınız?'
+                          rules='required'
+                          v-slot='{ errors }'
+                        >
+                          <v-autocomplete
+                            name='special_case_month'
+                            id='special_case_month'
+                            :items='special_case_months'
+                            v-model='data.special_case_month'
+                            clearable
+                            label='Hamileliğinizin Kaçıncı Ayındasınız?'
+                            hide-details
+                            outlined
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
+                        </ValidationProvider>
+                      </td>
+                    </tr>
+                    <tr v-if='data.gender === "Kadın" && data.special_case === "HAMİLE" && data.status !== "dietician"'>
+                      <td><b>Hamilelik Öncesi Ağırlığınız :</b></td>
+                      <td colspan='2' class='p-2'>
+                        <ValidationProvider
+                          name='Hamilelik Öncesi Ağırlığınız (kg)'
+                          rules='required'
+                          v-slot='{ errors }'
+                        >
+                          <v-text-field
+                            type='number'
+                            name='special_case_weight'
+                            id='special_case_weight'
+                            v-model='data.special_case_weight'
+                            clearable
+                            hide-details
+                            outlined
+                            label='Hamilelik Öncesi Ağırlığınız (kg)'
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -273,13 +301,12 @@
                       <td>
                         <b>İkamet Ettiğiniz İl :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='İkamet Ettiğiniz İl'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-autocomplete
                               v-on:change='getTowns'
                               name='city'
@@ -298,7 +325,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -306,13 +332,12 @@
                       <td>
                         <b>İkamet Ettiğiniz İlçe :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='İkamet Ettiğiniz İlçe'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-autocomplete
                               v-on:change='getDistricts'
                               name='town'
@@ -331,7 +356,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -339,13 +363,12 @@
                       <td>
                         <b>İkamet Ettiğiniz Semt :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='İkamet Ettiğiniz Semt'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-autocomplete
                               v-on:change='getNeighborhoods'
                               name='district'
@@ -364,7 +387,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -372,13 +394,12 @@
                       <td>
                         <b>İkamet Ettiğiniz Mahalle :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='İkamet Ettiğiniz Mahalle'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-autocomplete
                               name='neighborhood'
                               id='neighborhood'
@@ -396,7 +417,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -404,13 +424,12 @@
                       <td>
                         <b>İkamet Ettiğiniz Adres :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='İkamet Ettiğiniz Adres'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-textarea
                               name='address'
                               id='address'
@@ -425,7 +444,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -433,13 +451,12 @@
                       <td>
                         <b>Doğum Tarihi :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Doğum Tarihi'
                           :rules='"required"'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-menu
                               ref='menu'
                               v-model='menu'
@@ -480,7 +497,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -488,12 +504,11 @@
                       <td>
                         <b>Boy (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Boy (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='size'
@@ -507,7 +522,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -515,12 +529,11 @@
                       <td>
                         <b>Ağırlık (kg) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Ağırlık (kg)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='weight'
@@ -534,7 +547,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -542,12 +554,11 @@
                       <td>
                         <b>Bel (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Bel (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='waist'
@@ -561,7 +572,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -569,12 +579,11 @@
                       <td>
                         <b>Kalça (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Kalça (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='hip'
@@ -588,7 +597,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -596,12 +604,11 @@
                       <td>
                         <b>Göğüs (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Göğüs (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='chest'
@@ -615,7 +622,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -623,12 +629,11 @@
                       <td>
                         <b>Boyun (cm) : </b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Boyun (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='neck'
@@ -642,7 +647,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -650,12 +654,11 @@
                       <td>
                         <b>Üst Kol (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Üst Kol (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='upperArm'
@@ -669,7 +672,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -677,12 +679,11 @@
                       <td>
                         <b>Alt Kol (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Alt Kol (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='lowerArm'
@@ -696,7 +697,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -704,12 +704,11 @@
                       <td>
                         <b>Kol Bileği (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Kol Bileği (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='wrist'
@@ -723,7 +722,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -731,12 +729,11 @@
                       <td>
                         <b>Üst Bacak (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Üst Bacak (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='upperLeg'
@@ -750,7 +747,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -758,12 +754,11 @@
                       <td>
                         <b>Alt Bacak (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Alt Bacak (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='lowerLeg'
@@ -777,7 +772,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -785,12 +779,11 @@
                       <td>
                         <b>Deri Kıvrım Kalınlığı (cm) :</b>
                       </td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Deri Kıvrım Kalınlığı (cm)'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
                             <v-text-field
                               type='number'
                               name='skinfoldThickness'
@@ -804,7 +797,6 @@
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
-                          </div>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -1139,80 +1131,287 @@
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
-
-        <!-- /General -->
-
       </div>
     </div>
-    <!-- /Page Wrapper -->
-    <Nuxt />
   </div>
 </template>
 
 <script>
-import Breadcrumb from "~/components/backend/breadcrumb"
-import { ValidationObserver, ValidationProvider } from "vee-validate";
-import Editor from "@tinymce/tinymce-vue";
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import Breadcrumb from '~/components/backend/breadcrumb'
+import moment from 'moment'
+
 export default {
-  components:{
-    Breadcrumb,
+  name: 'new-consultant',
+  middleware: ['auth', 'dietician'],
+  layout: 'dietician',
+  components: {
     ValidationObserver,
     ValidationProvider,
-    editor: Editor,
+    Breadcrumb
   },
-  name: 'users-update',
-  middleware: ["auth","dietician"],
-  layout: 'dietician',
+  data() {
+    return {
+      disease: null,
+      diseases: [],
+      selectedDiseases: [],
+      allergenFood: null,
+      allergenFoods: [],
+      selectedAllergenFoods: [],
+      unlikedFood: null,
+      unlikedFoods: [],
+      selectedUnlikedFoods: [],
+      e1: 1,
+      createdConsultant: null,
+      breadCrumbItems: [
+        { name: 'Anasayfa', url: '/dietician-panel' },
+        { name: 'Danışanlarım', url: '/dietician-panel/consultants' },
+        { name: 'Danışan Ekle', url: '/dietician-panel/consultants/add' },
+        { name: 'Danışan Kaydet' }
+      ],
+      specialCases: [{ 'value': 'YOK' }, { 'value': 'EMZİKLİ' }, { 'value': 'HAMİLE' }],
+      activePicker: null,
+      menu: false,
+      data: {
+        name: null,
+        gender: null,
+        city: null,
+        town: null,
+        district: null,
+        neighborhoods: null,
+        address: null,
+        birthDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        special_case: null,
+        size: null,
+        weight: null,
+        waist: null,
+        hip: null,
+        chest: null,
+        neck: null,
+        upperArm: null,
+        lowerArm: null,
+        wrist: null,
+        upperLeg: null,
+        lowerLeg: null,
+        skinfoldThickness: null,
+        fatRatio: null,
+        fat: null,
+        muscleRatio: null,
+        muscle: null,
+        waterRatio: null,
+        water: null,
+        tc: null,
+        phone: null,
+        email: null,
+        password: null,
+        password_confirmation: null
+      },
+      country: { cities: [], towns: [], districts: [], neighborhoods: [] },
+      months: [
+        'OCAK',
+        'ŞUBAT',
+        'MART',
+        'NİSAN',
+        'MAYIS',
+        'HAZİRAN',
+        'TEMMUZ',
+        'AĞUSTOS',
+        'EYLÜL',
+        'EKİM',
+        'KASIM',
+        'ARALIK'
+      ],
+      special_case_months: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    }
+  },
   computed: {
     img_url() {
       return process.env.apiPublicUrl
     },
-    user(){
+    user() {
       return this.$auth.user
-    }
-  },
-  data(){
-    return {
-      breadCrumbItems:[
-        {name: "Anasayfa",url: "/panel"},
-        {name: "Kullanıcılar",url:"/panel/users"},
-        {name: "Kullanıcı Düzenle"},
-      ],
-      tab: null,
-      data: {
-        name: null,
-        phone: null,
-        email: null,
-        facebook: null,
-        twitter: null,
-        instagram: null,
-        youtube: null,
-        linkedin: null,
-        img_url: null
+    },
+    selectAllDisease() {
+      return (
+        !this.isEmpty(this.selectedDiseases) &&
+        !this.isEmpty(this.diseases) &&
+        this.selectedDiseases.length === this.diseases.length
+      )
+    },
+    selectSomeDisease() {
+      return (
+        !this.isEmpty(this.selectedDiseases) &&
+        this.selectedDiseases.length > 0 &&
+        !this.selectAllDisease
+      )
+    },
+    diseaseIcon() {
+      if (this.selectAllDisease) return 'mdi-close-box'
+      if (this.selectSomeDisease) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
+    selectAllAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        !this.isEmpty(this.allergenFoods) &&
+        this.selectedAllergenFoods.length === this.allergenFoods.length
+      )
+    },
+    selectSomeAllergenFoods() {
+      return (
+        !this.isEmpty(this.selectedAllergenFoods) &&
+        this.selectedAllergenFoods.length > 0 &&
+        !this.selectAllAllergenFoods
+      )
+    },
+    allergenFoodsIcon() {
+      if (this.selectAllAllergenFoods) return 'mdi-close-box'
+      if (this.selectSomeAllergenFoods) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
+    selectAllUnlikedFoods() {
+      return (
+        !this.isEmpty(this.selectedUnlikedFoods) &&
+        !this.isEmpty(this.unlikedFoods) &&
+        this.selectedUnlikedFoods.length === this.unlikedFoods.length
+      )
+    },
+    selectSomeUnlikedFoods() {
+      return (
+        !this.isEmpty(this.selectedUnlikedFoods) &&
+        this.selectedUnlikedFoods.length > 0 &&
+        !this.selectAllUnlikedFoods
+      )
+    },
+    unlikedFoodsIcon() {
+      if (this.selectAllUnlikedFoods) return 'mdi-close-box'
+      if (this.selectSomeUnlikedFoods) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    },
+    computedDateFormattedMomentjs: {
+      get() {
+        return !this.isEmpty(this.data.birthDate) && this.data.birthDate.length === 10 ? moment(this.data.birthDate).format('DD-MM-YYYY') : null
       },
+      set(val) {
+        let isValid = moment(val, 'DD-MM-YYYY')
+        if (!this.isEmpty(val) && val.length === 10 && isValid.isValid()) {
+          console.log(val)
+          console.log(moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD'))
+          this.data.birthDate = moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD')
+        }
+      }
     }
   },
-  validate({ params }) {
-    return params.id !== null ? params.id : null;
+  mounted() {
+    this.getCities()
+    this.getDiseases()
   },
-  async asyncData({ params, error, $axios }) {
-    try {
-      const { data } = await $axios.get(
-        process.env.apiBaseUrl + "panel/users/update/" + params.id
-      );
-
-      return data;
-    } catch (e) {
-      console.log(e)
-      error({ message: "Kullanıcı Bilgisi Bulunamadı.", statusCode: 404 });
-    }
-  },
-  methods:{
-    /**
-     * isEmpty
-     * @param obj
-     * @returns {boolean}
-     */
+  methods: {
+    toggleDisease() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllDisease) {
+            this.selectedDiseases = []
+          } else {
+            this.selectedDiseases = []
+            this.diseases.forEach((el, index) => {
+              this.selectedDiseases.push(el._id.$oid)
+            })
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    toggleAllergenFoods() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllAllergenFoods) {
+            this.selectedAllergenFoods = []
+          } else {
+            this.selectedAllergenFoods = []
+            this.allergenFoods.forEach((el, index) => {
+              this.selectedAllergenFoods.push(el._id.$oid)
+            })
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    toggleUnlikedFoods() {
+      try {
+        this.$nextTick(() => {
+          if (this.selectAllUnlikedFoods) {
+            this.selectedUnlikedFoods = []
+          } else {
+            this.selectedUnlikedFoods = []
+            this.unlikedFoods.forEach((el, index) => {
+              this.selectedUnlikedFoods.push(el._id.$oid)
+            })
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getDiseases() {
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`)
+          .then(response => {
+            this.diseases = response.data.data.diseases
+            console.log(this.diseases)
+          })
+          .catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    remove(item) {
+      try {
+        const index = this.selectedDiseases.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedDiseases.splice(index, 1)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    removeAllergenFoods(item) {
+      try {
+        const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    removeUnlikedFoods(item) {
+      try {
+        const index = this.selectedUnlikedFoods.indexOf(item._id.$oid)
+        if (index >= 0) this.selectedUnlikedFoods.splice(index, 1)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    save(date) {
+      try {
+        this.$refs.menu.save(date)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     isEmpty(obj) {
       try {
         if (typeof obj == 'number') return false
@@ -1222,21 +1421,145 @@ export default {
           return obj == null || Object.keys(obj).length === 0
         else if (typeof obj == 'boolean') return false
         else return !obj
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
-    editUsers() {
+    getCities() {
       try {
-        let formData = new FormData(this.$refs.usersForm);
+        this.$axios
+          .get(process.env.apiBaseUrl + 'informations/cities')
+          .then(response => {
+            this.country.cities =
+              response.data.data.cities.length > 0
+                ? response.data.data.cities
+                : []
+            let item = this.country.cities.filter(obj => {
+              return obj.name === this.data.city
+            })
+            this.getTowns(item[0])
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getTowns: function(item) {
+      try {
+        this.$axios
+          .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
+          .then(response => {
+            this.country.towns =
+              response.data.towns.length > 0 ? response.data.towns : []
+            this.country.districts = []
+            this.country.neighborhoods = []
+            this.company_district = null
+            this.company_neighborhood = null
+            let item = this.country.towns.filter(obj => {
+              return obj.name === this.data.town
+            })
+            this.getDistricts(item[0])
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getDistricts: function(item) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
+          )
+          .then(response => {
+            this.country.districts =
+              response.data.districts.length > 0 ? response.data.districts : []
+            this.country.neighborhoods = []
+            this.company_neighborhood = null
+            let item = this.country.districts.filter(obj => {
+              return obj.name === this.data.district
+            })
+            this.getNeighborhoods(item[0])
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getNeighborhoods: function(item) {
+      try {
+        this.$axios
+          .get(
+            process.env.apiBaseUrl +
+            'informations/neighborhoods?id=' +
+            item.neighborhoods
+          )
+          .then(response => {
+            this.country.neighborhoods =
+              response.data.neighborhoods.length > 0
+                ? response.data.neighborhoods
+                : []
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveInformation() {
+      try {
+        let formData = new FormData(this.$refs.informationForm)
+        formData.delete('district')
+        formData.delete('neighborhood')
+        formData.delete('city')
+        formData.delete('town')
+        formData.append('district', this.data.district.name)
+        formData.append('town', this.data.town.name)
+        formData.append('city', this.data.city.name)
+        formData.append('neighborhood', this.data.neighborhood.name)
+        formData.append('dietician_id', this.user._id)
+        formData.append('birthDate', moment(this.birthDate).format('YYYY-MM-DD'))
+        this.$axios
+          .post(process.env.apiBaseUrl + 'dietician/users/create/', formData, {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary
+            }
+          })
+          .then(response => {
+            if (response.status === 200) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+              this.createdConsultant = response.data.data.id
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveDiseaseInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.append('dietician_id', this.user._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.createdConsultant)
+        formData.delete('selectedDiseases')
+        formData.append('selectedDiseases', this.selectedDiseases)
         this.$axios
           .post(
-            process.env.apiBaseUrl + "panel/users/update/" + this.data._id.$oid,
+            process.env.apiBaseUrl +
+            'dietician/users/user-diseases/',
             formData,
             {
               headers: {
-                "Content-Type":
-                  "multipart/form-data; boundary=" + formData._boundary
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary
               }
             }
           )
@@ -1245,20 +1568,100 @@ export default {
               this.$izitoast.success({
                 title: response.data.title,
                 message: response.data.msg,
-                position: "topCenter"
-              });
-              setTimeout(() => {
-                window.location.href ="/panel/users";
-              }, 2000);
+                position: 'topCenter'
+              })
+              this.e1 = 2
             } else {
               this.$izitoast.error({
                 title: response.data.title,
                 message: response.data.msg,
-                position: "topCenter"
-              });
+                position: 'topCenter'
+              })
             }
-          }).catch((e) => console.log(e));
-      }catch (e) {
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveAllergenFoodsInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.append('dietician_id', this.user._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.createdConsultant)
+        formData.delete('selectedAllergenFoods')
+        formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-allergenfoods/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveUnlikedFoodsInformation() {
+      try {
+        let formData = new FormData(this.$refs.diseaseInformationForm)
+        formData.append('dietician_id', this.user._id)
+        formData.append('tc', this.data.tc)
+        formData.append('phone', this.data.phone)
+        formData.append('id', this.createdConsultant)
+        formData.delete('selectedUnlikedFoods')
+        formData.append('selectedUnlikedFoods', this.selectedUnlikedFoods)
+        this.$axios
+          .post(
+            process.env.apiBaseUrl +
+            'dietician/users/user-unlovedfoods/',
+            formData,
+            {
+              headers: {
+                'Content-Type':
+                  'multipart/form-data; boundary=' + formData._boundary
+              }
+            }
+          )
+          .then(response => {
+            if (response.data.success) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 2
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          })
+      } catch (e) {
         console.log(e)
       }
     }

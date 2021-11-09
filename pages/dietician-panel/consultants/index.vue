@@ -138,7 +138,7 @@ export default {
     ValidationProvider,
     editor: Editor,
   },
-  name: 'users',
+  name: 'consultants',
   middleware: ["auth","dietician"],
   layout: 'dietician',
   computed: {
