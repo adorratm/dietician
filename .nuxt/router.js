@@ -37,6 +37,7 @@ const _0c063bea = () => interopDefault(import('..\\pages\\panel\\settings\\index
 const _cca672ea = () => interopDefault(import('..\\pages\\panel\\slides\\index.vue' /* webpackChunkName: "pages/panel/slides/index" */))
 const _33b1e5bf = () => interopDefault(import('..\\pages\\panel\\users\\index.vue' /* webpackChunkName: "pages/panel/users/index" */))
 const _048a3a29 = () => interopDefault(import('..\\pages\\dietician-panel\\consultants\\add\\index.vue' /* webpackChunkName: "pages/dietician-panel/consultants/add/index" */))
+const _21174df1 = () => interopDefault(import('..\\pages\\dietician-panel\\consultants\\ediet\\index.vue' /* webpackChunkName: "pages/dietician-panel/consultants/ediet/index" */))
 const _75081aa2 = () => interopDefault(import('..\\pages\\dietician-panel\\consultants\\new-consultant\\index.vue' /* webpackChunkName: "pages/dietician-panel/consultants/new-consultant/index" */))
 const _1e11efc5 = () => interopDefault(import('..\\pages\\dietician-panel\\criterias\\add\\index.vue' /* webpackChunkName: "pages/dietician-panel/criterias/add/index" */))
 const _0d288776 = () => interopDefault(import('..\\pages\\dietician-panel\\recipes\\add\\index.vue' /* webpackChunkName: "pages/dietician-panel/recipes/add/index" */))
@@ -51,6 +52,8 @@ const _2221a758 = () => interopDefault(import('..\\pages\\panel\\nutrients\\add\
 const _7b96f0a7 = () => interopDefault(import('..\\pages\\panel\\recipe-categories\\add\\index.vue' /* webpackChunkName: "pages/panel/recipe-categories/add/index" */))
 const _9120ed5e = () => interopDefault(import('..\\pages\\panel\\recipes\\add\\index.vue' /* webpackChunkName: "pages/panel/recipes/add/index" */))
 const _7a955828 = () => interopDefault(import('..\\pages\\panel\\slides\\add\\index.vue' /* webpackChunkName: "pages/panel/slides/add/index" */))
+const _3e4dbb6a = () => interopDefault(import('..\\pages\\dietician-panel\\consultants\\ediet\\add\\_id.vue' /* webpackChunkName: "pages/dietician-panel/consultants/ediet/add/_id" */))
+const _0b487f70 = () => interopDefault(import('..\\pages\\dietician-panel\\consultants\\ediet\\update\\_id.vue' /* webpackChunkName: "pages/dietician-panel/consultants/ediet/update/_id" */))
 const _730afaa9 = () => interopDefault(import('..\\pages\\dietician-panel\\consultants\\update\\_id.vue' /* webpackChunkName: "pages/dietician-panel/consultants/update/_id" */))
 const _eb0c0ee6 = () => interopDefault(import('..\\pages\\dietician-panel\\criterias\\update\\_id.vue' /* webpackChunkName: "pages/dietician-panel/criterias/update/_id" */))
 const _7e3656fc = () => interopDefault(import('..\\pages\\dietician-panel\\recipes\\update\\_id.vue' /* webpackChunkName: "pages/dietician-panel/recipes/update/_id" */))
@@ -218,6 +221,10 @@ export const routerOptions = {
     component: _048a3a29,
     name: "dietician-panel-consultants-add"
   }, {
+    path: "/dietician-panel/consultants/ediet",
+    component: _21174df1,
+    name: "dietician-panel-consultants-ediet"
+  }, {
     path: "/dietician-panel/consultants/new-consultant",
     component: _75081aa2,
     name: "dietician-panel-consultants-new-consultant"
@@ -273,6 +280,14 @@ export const routerOptions = {
     path: "/panel/slides/add",
     component: _7a955828,
     name: "panel-slides-add"
+  }, {
+    path: "/dietician-panel/consultants/ediet/add/:id",
+    component: _3e4dbb6a,
+    name: "dietician-panel-consultants-ediet-add-id"
+  }, {
+    path: "/dietician-panel/consultants/ediet/update/:id",
+    component: _0b487f70,
+    name: "dietician-panel-consultants-ediet-update-id"
   }, {
     path: "/dietician-panel/consultants/update/:id",
     component: _730afaa9,

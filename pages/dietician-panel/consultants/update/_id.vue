@@ -39,7 +39,7 @@
             <v-stepper-content step='1'>
               <ValidationObserver v-slot='{ handleSubmit }'>
                 <form
-                  @submit.prevent='handleSubmit(saveInformation)'
+                  @submit.prevent='handleSubmit(updateInformation)'
                   ref='informationForm'
                   enctype='multipart/form-data'
                 >
@@ -47,11 +47,11 @@
                     <tbody>
                     <tr>
                       <td>
-                        <b>Adınız ve Soyadınız :</b>
+                        <b>Ad ve Soyad :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='Adınız ve Soyadınız'
+                          name='Ad ve Soyad'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -60,9 +60,9 @@
                               id='name'
                               type='text'
                               name='name'
-                              v-model='name'
+                              v-model='data.name'
                               clearable
-                              label='Adınız ve Soyadınız'
+                              label='Ad ve Soyad'
                               outlined
                               hide-details
                             />
@@ -75,11 +75,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>Email Adresiniz :</b>
+                        <b>Email :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='Email Adresiniz'
+                          name='Email'
                           rules='required|email'
                           v-slot='{ errors }'
                         >
@@ -88,9 +88,9 @@
                               id='email'
                               type='text'
                               name='email'
-                              v-model='email'
+                              v-model='data.email'
                               clearable
-                              label='Email Adresiniz'
+                              label='Email'
                               outlined
                               hide-details
                             />
@@ -103,11 +103,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>Telefon Numaranız :</b>
+                        <b>Telefon :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='Telefon Numaranız'
+                          name='Telefon'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -116,9 +116,9 @@
                               id='phone'
                               type='text'
                               name='phone'
-                              v-model='phone'
+                              v-model='data.phone'
                               clearable
-                              label='Telefon Numaranız'
+                              label='Telefon'
                               outlined
                               hide-details
                             />
@@ -132,11 +132,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>T.C. Kimlik Numaranız :</b>
+                        <b>T.C. Kimlik No :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='T.C. Kimlik Numaranız'
+                          name='T.C. Kimlik No'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -145,61 +145,9 @@
                               id='tc'
                               type='text'
                               name='tc'
-                              v-model='tc'
+                              v-model='data.tc'
                               clearable
-                              label='T.C. Kimlik Numaranız'
-                              outlined
-                              hide-details
-                            />
-                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
-                              {{ errors[0] }}
-                            </v-alert>
-                          </div>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><b>Şifreniz :</b></td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Şifreniz'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <div class='form-group my-2'>
-                            <v-text-field
-                              type='password'
-                              name='password'
-                              id='password'
-                              v-model='password'
-                              clearable
-                              label='Şifreniz'
-                              hide-details
-                              outlined
-                            />
-                            <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
-                              {{ errors[0] }}
-                            </v-alert>
-                          </div>
-                        </ValidationProvider>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><b>Tekrar Şifreniz :</b></td>
-                      <td colspan='2'>
-                        <ValidationProvider
-                          name='Tekrar Şifreniz'
-                          rules='required'
-                          v-slot='{ errors }'
-                        >
-                          <div class='form-group my-2'>
-                            <v-text-field
-                              type='password'
-                              name='password_confirmation'
-                              id='password_confirmation'
-                              v-model='password_confirmation'
-                              clearable
-                              label='Tekrar Şifreniz'
+                              label='T.C. Kimlik No'
                               outlined
                               hide-details
                             />
@@ -216,13 +164,13 @@
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='Cinsiyetiniz'
+                          name='Cinsiyet'
                           rules='required'
                           v-slot='{ errors }'
                         >
                           <div class='form-group my-2'>
                             <v-radio-group
-                              v-model='gender'
+                              v-model='data.gender'
                               name='gender'
                               row
                             >
@@ -240,32 +188,77 @@
                         </ValidationProvider>
                       </td>
                     </tr>
-                    <tr v-if='gender === "Kadın"'>
+                    <tr v-if='data.gender === "Kadın" && data.status !== "dietician"'>
                       <td><b>Özel Durum :</b></td>
-                      <td colspan='2'>
+                      <td colspan='2' class='p-2'>
                         <ValidationProvider
                           name='Özel Durum'
                           rules='required'
                           v-slot='{ errors }'
                         >
-                          <div class='form-group my-2'>
-                            <v-autocomplete
-                              name='special_case'
-                              id='special_case'
-                              :items='specialCases'
-                              v-model='special_case'
-                              item-text='value'
-                              item-value='value'
-                              clearable
-                              return-object
-                              label='Özel Durum'
-                              hide-details
-                              outlined
-                            />
-                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
-                              {{ errors[0] }}
-                            </v-alert>
-                          </div>
+                          <v-autocomplete
+                            name='special_case'
+                            id='special_case'
+                            :items='specialCases'
+                            v-model='data.special_case'
+                            item-text='value'
+                            item-value='value'
+                            clearable
+                            label='Özel Durum'
+                            outlined
+                            hide-details
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
+                        </ValidationProvider>
+                      </td>
+                    </tr>
+                    <tr v-if='data.gender === "Kadın" && data.special_case === "HAMİLE" && data.status !== "dietician"'>
+                      <td><b>Hamileliğin Kaçıncı Ayında? :</b></td>
+                      <td colspan='2' class='p-2'>
+                        <ValidationProvider
+                          name='Hamileliğin Kaçıncı Ayında?'
+                          rules='required'
+                          v-slot='{ errors }'
+                        >
+                          <v-autocomplete
+                            name='special_case_month'
+                            id='special_case_month'
+                            :items='special_case_months'
+                            v-model='data.special_case_month'
+                            clearable
+                            label='Hamileliğin Kaçıncı Ayında?'
+                            hide-details
+                            outlined
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
+                        </ValidationProvider>
+                      </td>
+                    </tr>
+                    <tr v-if='data.gender === "Kadın" && data.special_case === "HAMİLE" && data.status !== "dietician"'>
+                      <td><b>Hamilelik Öncesi Ağırlık :</b></td>
+                      <td colspan='2' class='p-2'>
+                        <ValidationProvider
+                          name='Hamilelik Öncesi Ağırlık (kg)'
+                          rules='required'
+                          v-slot='{ errors }'
+                        >
+                          <v-text-field
+                            type='number'
+                            name='special_case_weight'
+                            id='special_case_weight'
+                            v-model='data.special_case_weight'
+                            clearable
+                            hide-details
+                            outlined
+                            label='Hamilelik Öncesi Ağırlık (kg)'
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
                         </ValidationProvider>
                       </td>
                     </tr>
@@ -287,7 +280,7 @@
                               :items='country.cities'
                               item-value='name'
                               item-text='name'
-                              v-model='city'
+                              v-model='data.city'
                               ref='city'
                               clearable
                               return-object
@@ -318,7 +311,7 @@
                               name='town'
                               id='town'
                               ref='town'
-                              v-model='town'
+                              v-model='data.town'
                               :items='country.towns'
                               item-value='name'
                               item-text='name'
@@ -351,7 +344,7 @@
                               name='district'
                               id='district'
                               ref='district'
-                              v-model='district'
+                              v-model='data.district'
                               :items='country.districts'
                               item-text='name'
                               item-value='name'
@@ -383,7 +376,7 @@
                               name='neighborhood'
                               id='neighborhood'
                               ref='neighborhood'
-                              v-model='neighborhood'
+                              v-model='data.neighborhood'
                               :items='country.neighborhoods'
                               item-value='name'
                               item-text='name'
@@ -416,7 +409,7 @@
                               id='address'
                               cols='30'
                               rows='5'
-                              v-model='address'
+                              v-model='data.address'
                               clearable
                               label='İkamet Ettiğiniz Adres'
                               hide-details
@@ -464,12 +457,12 @@
                                   outlined
                                   minlength='10'
                                   maxlength='10'
-                                  @click:clear='birthDate = null'
+                                  @click:clear='data.birthDate = null'
                                   v-on:click:prepend='menu=true'
                                 ></v-text-field>
                               </template>
                               <v-date-picker
-                                v-model='birthDate'
+                                v-model='data.birthDate'
                                 :active-picker.sync='activePicker'
                                 :max='(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)'
                                 min='1950-01-01'
@@ -498,7 +491,7 @@
                               type='number'
                               name='size'
                               id='size'
-                              v-model='size'
+                              v-model='data.size'
                               clearable
                               label='Boy (cm)'
                               outlined
@@ -525,7 +518,7 @@
                               type='number'
                               name='weight'
                               id='weight'
-                              v-model='weight'
+                              v-model='data.weight'
                               clearable
                               label='Ağırlık (kg)'
                               outlined
@@ -552,7 +545,7 @@
                               type='number'
                               name='waist'
                               id='waist'
-                              v-model='waist'
+                              v-model='data.waist'
                               clearable
                               label='Bel (cm)'
                               outlined
@@ -579,7 +572,7 @@
                               type='number'
                               name='hip'
                               id='hip'
-                              v-model='hip'
+                              v-model='data.hip'
                               clearable
                               label='Kalça (cm)'
                               hide-details
@@ -606,7 +599,7 @@
                               type='number'
                               name='chest'
                               id='chest'
-                              v-model='chest'
+                              v-model='data.chest'
                               clearable
                               label='Göğüs (cm)'
                               hide-details
@@ -633,7 +626,7 @@
                               type='number'
                               name='neck'
                               id='neck'
-                              v-model='neck'
+                              v-model='data.neck'
                               clearable
                               label='Boyun (cm)'
                               hide-details
@@ -660,7 +653,7 @@
                               type='number'
                               name='upperArm'
                               id='upperArm'
-                              v-model='upperArm'
+                              v-model='data.upperArm'
                               clearable
                               label='Üst Kol (cm)'
                               hide-details
@@ -687,7 +680,7 @@
                               type='number'
                               name='lowerArm'
                               id='lowerArm'
-                              v-model='lowerArm'
+                              v-model='data.lowerArm'
                               clearable
                               label='Alt Kol (cm)'
                               hide-details
@@ -714,7 +707,7 @@
                               type='number'
                               name='wrist'
                               id='wrist'
-                              v-model='wrist'
+                              v-model='data.wrist'
                               clearable
                               label='Kol Bileği (cm)'
                               hide-details
@@ -741,7 +734,7 @@
                               type='number'
                               name='upperLeg'
                               id='upperLeg'
-                              v-model='upperLeg'
+                              v-model='data.upperLeg'
                               clearable
                               label='Üst Bacak (cm)'
                               hide-details
@@ -768,7 +761,7 @@
                               type='number'
                               name='lowerLeg'
                               id='lowerLeg'
-                              v-model='lowerLeg'
+                              v-model='data.lowerLeg'
                               clearable
                               label='Alt Bacak (cm)'
                               hide-details
@@ -795,7 +788,7 @@
                               type='number'
                               name='skinfoldThickness'
                               id='skinfoldThickness'
-                              v-model='skinfoldThickness'
+                              v-model='data.skinfoldThickness'
                               clearable
                               label='Deri Kıvrım Kalınlığı (cm)'
                               hide-details
@@ -814,10 +807,10 @@
                       </td>
                       <td>
                         %
-                        {{ fatRatio }}
+                        {{ data.fatRatio }}
                       </td>
                       <td>
-                        {{ fat }}
+                        {{ data.fat }}
                         KG
                       </td>
                     </tr>
@@ -827,10 +820,10 @@
                       </td>
                       <td>
                         %
-                        {{ muscleRatio }}
+                        {{ data.muscleRatio }}
                       </td>
                       <td>
-                        {{ muscle }}
+                        {{ data.muscle }}
                         KG
                       </td>
                     </tr>
@@ -840,10 +833,10 @@
                       </td>
                       <td>
                         %
-                        {{ waterRatio }}
+                        {{ data.waterRatio }}
                       </td>
                       <td>
-                        {{ water }}
+                        {{ data.water }}
                         KG
                       </td>
                     </tr>
@@ -875,7 +868,10 @@
                           color='primary'
                           class='ml-auto justify-end'
                         >
-                          Danışan Bilgilerini Kaydet ve İlerle
+                          Danışan Bilgilerini Güncelle ve İlerle
+                        </v-btn>
+                        <v-btn color='error' type='button' class='ml-auto justify-end' @click.prevent='e1=2'>
+                          Danışan Bilgisilerini Güncellemeden İlerle
                         </v-btn>
                       </td>
                     </tr>
@@ -964,6 +960,9 @@
                   </v-btn>
                   <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=3'>
                     Hastalık Bilgisini Kaydetmeden İlerle
+                  </v-btn>
+                  <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 1'>
+                    Geri Dön
                   </v-btn>
                 </form>
               </ValidationObserver>
@@ -1259,7 +1258,6 @@ export default {
       unlikedFoods: [],
       selectedUnlikedFoods: [],
       e1: 1,
-      createdConsultant: null,
       breadCrumbItems: [
         { name: 'Anasayfa', url: '/dietician-panel' },
         { name: 'Danışanlarım', url: '/dietician-panel/consultants' },
@@ -1305,9 +1303,9 @@ export default {
   async asyncData({ params, error, $axios }) {
     try {
       const { data } = await $axios.get(
-        process.env.apiBaseUrl + "dietician-panel/users/update/" + params.id
+        process.env.apiBaseUrl + "dietician/users/update/" + params.id
       );
-
+      console.log(data)
       return data;
     } catch (e) {
       console.log(e)
@@ -1387,6 +1385,8 @@ export default {
           .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`)
           .then(response => {
             this.diseases = response.data.data.diseases
+            this.allergenFoods = response.data.data.allergenFoods
+            this.unlikedFoods = response.data.data.unlikedFoods
             console.log(this.diseases)
           })
           .catch(err => console.log(err))
@@ -1445,77 +1445,96 @@ export default {
     },
     getTowns: function(item) {
       try {
-        this.$axios
+        if (!this.isEmpty(item) && !this.isEmpty(item.towns)){
+          this.$axios
           .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
           .then(response => {
             this.country.towns =
               response.data.towns.length > 0 ? response.data.towns : []
             this.country.districts = []
             this.country.neighborhoods = []
-            this.company_district = null
-            this.company_neighborhood = null
             let item = this.country.towns.filter(obj => {
               return obj.name === this.data.town
             })
             this.getDistricts(item[0])
           }).catch((e) => console.log(e))
+        }
       } catch (e) {
         console.log(e)
       }
     },
     getDistricts: function(item) {
       try {
-        this.$axios
-          .get(
-            process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
-          )
-          .then(response => {
-            this.country.districts =
-              response.data.districts.length > 0 ? response.data.districts : []
-            this.country.neighborhoods = []
-            this.company_neighborhood = null
-            let item = this.country.districts.filter(obj => {
-              return obj.name === this.data.district
-            })
-            this.getNeighborhoods(item[0])
-          }).catch((e) => console.log(e))
+        if (!this.isEmpty(item) && !this.isEmpty(item.districts)) {
+          this.$axios
+            .get(
+              process.env.apiBaseUrl + 'informations/districts?id=' + item.districts
+            )
+            .then(response => {
+              this.country.districts =
+                response.data.districts.length > 0 ? response.data.districts : []
+              this.country.neighborhoods = []
+              let item = this.country.districts.filter(obj => {
+                return obj.name === this.data.district
+              })
+              this.getNeighborhoods(item[0])
+            }).catch((e) => console.log(e))
+        }
       } catch (e) {
         console.log(e)
       }
     },
     getNeighborhoods: function(item) {
       try {
-        this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            'informations/neighborhoods?id=' +
-            item.neighborhoods
-          )
-          .then(response => {
-            this.country.neighborhoods =
-              response.data.neighborhoods.length > 0
-                ? response.data.neighborhoods
-                : []
-          }).catch((e) => console.log(e))
+        if (!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)) {
+          this.$axios
+            .get(
+              process.env.apiBaseUrl +
+              'informations/neighborhoods?id=' +
+              item.neighborhoods
+            )
+            .then(response => {
+              this.country.neighborhoods =
+                response.data.neighborhoods.length > 0
+                  ? response.data.neighborhoods
+                  : []
+            }).catch((e) => console.log(e))
+        }
       } catch (e) {
         console.log(e)
       }
     },
-    saveInformation() {
+    updateInformation() {
       try {
         let formData = new FormData(this.$refs.informationForm)
         formData.delete('district')
         formData.delete('neighborhood')
         formData.delete('city')
         formData.delete('town')
-        formData.append('district', this.data.district.name)
-        formData.append('town', this.data.town.name)
-        formData.append('city', this.data.city.name)
-        formData.append('neighborhood', this.data.neighborhood.name)
+        if(!this.isEmpty(this.data.district.name)){
+          formData.append('district', this.data.district.name)
+        }else{
+          formData.append('district', this.data.district)
+        }
+        if(!this.isEmpty(this.data.neighborhood.name)){
+          formData.append('neighborhood', this.data.neighborhood.name)
+        }else{
+          formData.append('neighborhood', this.data.neighborhood)
+        }
+        if(!this.isEmpty(this.data.town.name)){
+          formData.append('town', this.data.town.name)
+        }else{
+          formData.append('town', this.data.town)
+        }
+        if(!this.isEmpty(this.data.city.name)){
+          formData.append('city', this.data.city.name)
+        }else{
+          formData.append('city', this.data.city)
+        }
         formData.append('dietician_id', this.user._id)
-        formData.append('birthDate', moment(this.birthDate).format('YYYY-MM-DD'))
+        formData.append('birthDate', moment(this.data.birthDate).format('YYYY-MM-DD'))
         this.$axios
-          .post(process.env.apiBaseUrl + 'dietician/users/create/', formData, {
+          .post(process.env.apiBaseUrl + 'dietician/users/update/'+this.data._id.$oid, formData, {
             headers: {
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary
@@ -1529,7 +1548,6 @@ export default {
                 position: 'topCenter'
               })
               this.e1 = 2
-              this.createdConsultant = response.data.data.id
             } else {
               this.$izitoast.error({
                 title: response.data.title,
@@ -1548,7 +1566,7 @@ export default {
         formData.append('dietician_id', this.user._id)
         formData.append('tc', this.data.tc)
         formData.append('phone', this.data.phone)
-        formData.append('id', this.createdConsultant)
+        formData.append('id', this.data._id.$oid)
         formData.delete('selectedDiseases')
         formData.append('selectedDiseases', this.selectedDiseases)
         this.$axios
@@ -1570,7 +1588,7 @@ export default {
                 message: response.data.msg,
                 position: 'topCenter'
               })
-              this.e1 = 2
+              this.e1 = 3
             } else {
               this.$izitoast.error({
                 title: response.data.title,
@@ -1589,7 +1607,7 @@ export default {
         formData.append('dietician_id', this.user._id)
         formData.append('tc', this.data.tc)
         formData.append('phone', this.data.phone)
-        formData.append('id', this.createdConsultant)
+        formData.append('id', this.data._id.$oid)
         formData.delete('selectedAllergenFoods')
         formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
         this.$axios
@@ -1611,7 +1629,7 @@ export default {
                 message: response.data.msg,
                 position: 'topCenter'
               })
-              this.e1 = 2
+              this.e1 = 4
             } else {
               this.$izitoast.error({
                 title: response.data.title,
@@ -1630,7 +1648,7 @@ export default {
         formData.append('dietician_id', this.user._id)
         formData.append('tc', this.data.tc)
         formData.append('phone', this.data.phone)
-        formData.append('id', this.createdConsultant)
+        formData.append('id', this.data._id.$oid)
         formData.delete('selectedUnlikedFoods')
         formData.append('selectedUnlikedFoods', this.selectedUnlikedFoods)
         this.$axios
@@ -1652,7 +1670,6 @@ export default {
                 message: response.data.msg,
                 position: 'topCenter'
               })
-              this.e1 = 2
             } else {
               this.$izitoast.error({
                 title: response.data.title,
@@ -1665,42 +1682,6 @@ export default {
         console.log(e)
       }
     },
-    editUsers() {
-      try {
-        let formData = new FormData(this.$refs.usersForm);
-        this.$axios
-          .post(
-            process.env.apiBaseUrl + "panel/users/update/" + this.data._id.$oid,
-            formData,
-            {
-              headers: {
-                "Content-Type":
-                  "multipart/form-data; boundary=" + formData._boundary
-              }
-            }
-          )
-          .then(response => {
-            if (response.data.success) {
-              this.$izitoast.success({
-                title: response.data.title,
-                message: response.data.msg,
-                position: "topCenter"
-              });
-              setTimeout(() => {
-                window.location.href ="/panel/users";
-              }, 2000);
-            } else {
-              this.$izitoast.error({
-                title: response.data.title,
-                message: response.data.msg,
-                position: "topCenter"
-              });
-            }
-          }).catch((e) => console.log(e));
-      }catch (e) {
-        console.log(e)
-      }
-    }
   }
 }
 </script>

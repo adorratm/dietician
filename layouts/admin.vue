@@ -12,8 +12,8 @@
   </v-app>
 </template>
 <script>
-import Adminheader from '@/components/backend/adminheader.vue'
-import Adminsidebar from '@/components/backend/adminsidebar.vue'
+import Adminheader from '@/components/backend/panel/adminheader.vue'
+import Adminsidebar from '@/components/backend/panel/adminsidebar.vue'
 
 export default {
   head() {

@@ -3,414 +3,504 @@
     "name": "blogs",
     "path": "/blogs",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\blogs\\\\index.vue",
-    "chunkName": "pages/blogs/index"
+    "chunkName": "pages/blogs/index",
+    "_name": "_7ec4cc00"
   },
   {
     "name": "calorie",
     "path": "/calorie",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\calorie\\\\index.vue",
-    "chunkName": "pages/calorie/index"
+    "chunkName": "pages/calorie/index",
+    "_name": "_12665cc4"
   },
   {
     "name": "criterias",
     "path": "/criterias",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\criterias\\\\index.vue",
-    "chunkName": "pages/criterias/index"
+    "chunkName": "pages/criterias/index",
+    "_name": "_be664a86"
   },
   {
     "name": "dietician-login",
     "path": "/dietician-login",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-login\\\\index.vue",
-    "chunkName": "pages/dietician-login/index"
+    "chunkName": "pages/dietician-login/index",
+    "_name": "_6fb708e6"
   },
   {
     "name": "dietician-panel",
     "path": "/dietician-panel",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\index.vue",
-    "chunkName": "pages/dietician-panel/index"
+    "chunkName": "pages/dietician-panel/index",
+    "_name": "_6fe57bdc"
   },
   {
     "name": "dietician-register",
     "path": "/dietician-register",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-register\\\\index.vue",
-    "chunkName": "pages/dietician-register/index"
+    "chunkName": "pages/dietician-register/index",
+    "_name": "_8973758a"
   },
   {
     "name": "dieticians",
     "path": "/dieticians",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dieticians\\\\index.vue",
-    "chunkName": "pages/dieticians/index"
+    "chunkName": "pages/dieticians/index",
+    "_name": "_a42b9890"
   },
   {
     "name": "exercises",
     "path": "/exercises",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\exercises\\\\index.vue",
-    "chunkName": "pages/exercises/index"
+    "chunkName": "pages/exercises/index",
+    "_name": "_2f4f0fb6"
   },
   {
     "name": "login",
     "path": "/login",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\login\\\\index.vue",
-    "chunkName": "pages/login/index"
+    "chunkName": "pages/login/index",
+    "_name": "_458208a8"
   },
   {
     "name": "panel",
     "path": "/panel",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\index.vue",
-    "chunkName": "pages/panel/index"
+    "chunkName": "pages/panel/index",
+    "_name": "_456acf2d"
   },
   {
     "name": "profile",
     "path": "/profile",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\profile\\\\index.vue",
-    "chunkName": "pages/profile/index"
+    "chunkName": "pages/profile/index",
+    "_name": "_805b1eb0"
   },
   {
     "name": "recipes",
     "path": "/recipes",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\recipes\\\\index.vue",
-    "chunkName": "pages/recipes/index"
+    "chunkName": "pages/recipes/index",
+    "_name": "_8377afa8"
   },
   {
     "name": "register",
     "path": "/register",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\register\\\\index.vue",
-    "chunkName": "pages/register/index"
+    "chunkName": "pages/register/index",
+    "_name": "_b6244380"
   },
   {
     "name": "dietician-panel-consultants",
     "path": "/dietician-panel/consultants",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\index.vue",
-    "chunkName": "pages/dietician-panel/consultants/index"
+    "chunkName": "pages/dietician-panel/consultants/index",
+    "_name": "_837e302c"
   },
   {
     "name": "dietician-panel-criterias",
     "path": "/dietician-panel/criterias",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\criterias\\\\index.vue",
-    "chunkName": "pages/dietician-panel/criterias/index"
+    "chunkName": "pages/dietician-panel/criterias/index",
+    "_name": "_46a5be64"
   },
   {
     "name": "dietician-panel-login",
     "path": "/dietician-panel/login",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\login\\\\index.vue",
-    "chunkName": "pages/dietician-panel/login/index"
+    "chunkName": "pages/dietician-panel/login/index",
+    "_name": "_235c018e"
   },
   {
     "name": "dietician-panel-recipes",
     "path": "/dietician-panel/recipes",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\recipes\\\\index.vue",
-    "chunkName": "pages/dietician-panel/recipes/index"
+    "chunkName": "pages/dietician-panel/recipes/index",
+    "_name": "_72f0be7d"
   },
   {
     "name": "panel-blog-categories",
     "path": "/panel/blog-categories",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blog-categories\\\\index.vue",
-    "chunkName": "pages/panel/blog-categories/index"
+    "chunkName": "pages/panel/blog-categories/index",
+    "_name": "_67b43e00"
   },
   {
     "name": "panel-blogs",
     "path": "/panel/blogs",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blogs\\\\index.vue",
-    "chunkName": "pages/panel/blogs/index"
+    "chunkName": "pages/panel/blogs/index",
+    "_name": "_d831c1d4"
   },
   {
     "name": "panel-criterias",
     "path": "/panel/criterias",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\criterias\\\\index.vue",
-    "chunkName": "pages/panel/criterias/index"
+    "chunkName": "pages/panel/criterias/index",
+    "_name": "_09fc365a"
   },
   {
     "name": "panel-dieticians",
     "path": "/panel/dieticians",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\dieticians\\\\index.vue",
-    "chunkName": "pages/panel/dieticians/index"
+    "chunkName": "pages/panel/dieticians/index",
+    "_name": "_cb53273c"
   },
   {
     "name": "panel-diseases",
     "path": "/panel/diseases",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\diseases\\\\index.vue",
-    "chunkName": "pages/panel/diseases/index"
+    "chunkName": "pages/panel/diseases/index",
+    "_name": "_468fbd16"
   },
   {
     "name": "panel-e-diet-foods",
     "path": "/panel/e-diet-foods",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\e-diet-foods\\\\index.vue",
-    "chunkName": "pages/panel/e-diet-foods/index"
+    "chunkName": "pages/panel/e-diet-foods/index",
+    "_name": "_7a8f80c9"
   },
   {
     "name": "panel-exercise-categories",
     "path": "/panel/exercise-categories",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\exercise-categories\\\\index.vue",
-    "chunkName": "pages/panel/exercise-categories/index"
+    "chunkName": "pages/panel/exercise-categories/index",
+    "_name": "_c02d1f94"
   },
   {
     "name": "panel-exercises",
     "path": "/panel/exercises",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\exercises\\\\index.vue",
-    "chunkName": "pages/panel/exercises/index"
+    "chunkName": "pages/panel/exercises/index",
+    "_name": "_ecf7cc68"
   },
   {
     "name": "panel-login",
     "path": "/panel/login",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\login\\\\index.vue",
-    "chunkName": "pages/panel/login/index"
+    "chunkName": "pages/panel/login/index",
+    "_name": "_18cb8dbe"
   },
   {
     "name": "panel-nutrients",
     "path": "/panel/nutrients",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\nutrients\\\\index.vue",
-    "chunkName": "pages/panel/nutrients/index"
+    "chunkName": "pages/panel/nutrients/index",
+    "_name": "_3c17b95b"
   },
   {
     "name": "panel-recipe-categories",
     "path": "/panel/recipe-categories",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\recipe-categories\\\\index.vue",
-    "chunkName": "pages/panel/recipe-categories/index"
+    "chunkName": "pages/panel/recipe-categories/index",
+    "_name": "_08c0caa8"
   },
   {
     "name": "panel-recipes",
     "path": "/panel/recipes",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\recipes\\\\index.vue",
-    "chunkName": "pages/panel/recipes/index"
+    "chunkName": "pages/panel/recipes/index",
+    "_name": "_357e807c"
   },
   {
     "name": "panel-settings",
     "path": "/panel/settings",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\settings\\\\index.vue",
-    "chunkName": "pages/panel/settings/index"
+    "chunkName": "pages/panel/settings/index",
+    "_name": "_0c063bea"
   },
   {
     "name": "panel-slides",
     "path": "/panel/slides",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\slides\\\\index.vue",
-    "chunkName": "pages/panel/slides/index"
+    "chunkName": "pages/panel/slides/index",
+    "_name": "_cca672ea"
   },
   {
     "name": "panel-users",
     "path": "/panel/users",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\users\\\\index.vue",
-    "chunkName": "pages/panel/users/index"
+    "chunkName": "pages/panel/users/index",
+    "_name": "_33b1e5bf"
   },
   {
     "name": "dietician-panel-consultants-add",
     "path": "/dietician-panel/consultants/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\add\\\\index.vue",
-    "chunkName": "pages/dietician-panel/consultants/add/index"
+    "chunkName": "pages/dietician-panel/consultants/add/index",
+    "_name": "_048a3a29"
+  },
+  {
+    "name": "dietician-panel-consultants-ediet",
+    "path": "/dietician-panel/consultants/ediet",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\ediet\\\\index.vue",
+    "chunkName": "pages/dietician-panel/consultants/ediet/index",
+    "_name": "_21174df1"
   },
   {
     "name": "dietician-panel-consultants-new-consultant",
     "path": "/dietician-panel/consultants/new-consultant",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\new-consultant\\\\index.vue",
-    "chunkName": "pages/dietician-panel/consultants/new-consultant/index"
+    "chunkName": "pages/dietician-panel/consultants/new-consultant/index",
+    "_name": "_75081aa2"
   },
   {
     "name": "dietician-panel-criterias-add",
     "path": "/dietician-panel/criterias/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\criterias\\\\add\\\\index.vue",
-    "chunkName": "pages/dietician-panel/criterias/add/index"
+    "chunkName": "pages/dietician-panel/criterias/add/index",
+    "_name": "_1e11efc5"
   },
   {
     "name": "dietician-panel-recipes-add",
     "path": "/dietician-panel/recipes/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\recipes\\\\add\\\\index.vue",
-    "chunkName": "pages/dietician-panel/recipes/add/index"
+    "chunkName": "pages/dietician-panel/recipes/add/index",
+    "_name": "_0d288776"
   },
   {
     "name": "panel-blog-categories-add",
     "path": "/panel/blog-categories/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blog-categories\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/blog-categories/add/index"
+    "chunkName": "pages/panel/blog-categories/add/index",
+    "_name": "_11637ed3"
   },
   {
     "name": "panel-blogs-add",
     "path": "/panel/blogs/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blogs\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/blogs/add/index"
+    "chunkName": "pages/panel/blogs/add/index",
+    "_name": "_2778c306"
   },
   {
     "name": "panel-criterias-add",
     "path": "/panel/criterias/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\criterias\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/criterias/add/index"
+    "chunkName": "pages/panel/criterias/add/index",
+    "_name": "_529fe6e0"
   },
   {
     "name": "panel-diseases-add",
     "path": "/panel/diseases/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\diseases\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/diseases/add/index"
+    "chunkName": "pages/panel/diseases/add/index",
+    "_name": "_404dc07d"
   },
   {
     "name": "panel-e-diet-foods-add",
     "path": "/panel/e-diet-foods/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\e-diet-foods\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/e-diet-foods/add/index"
+    "chunkName": "pages/panel/e-diet-foods/add/index",
+    "_name": "_b3b956ac"
   },
   {
     "name": "panel-exercise-categories-add",
     "path": "/panel/exercise-categories/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\exercise-categories\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/exercise-categories/add/index"
+    "chunkName": "pages/panel/exercise-categories/add/index",
+    "_name": "_feb1fd46"
   },
   {
     "name": "panel-exercises-add",
     "path": "/panel/exercises/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\exercises\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/exercises/add/index"
+    "chunkName": "pages/panel/exercises/add/index",
+    "_name": "_2b7634f2"
   },
   {
     "name": "panel-nutrients-add",
     "path": "/panel/nutrients/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\nutrients\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/nutrients/add/index"
+    "chunkName": "pages/panel/nutrients/add/index",
+    "_name": "_2221a758"
   },
   {
     "name": "panel-recipe-categories-add",
     "path": "/panel/recipe-categories/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\recipe-categories\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/recipe-categories/add/index"
+    "chunkName": "pages/panel/recipe-categories/add/index",
+    "_name": "_7b96f0a7"
   },
   {
     "name": "panel-recipes-add",
     "path": "/panel/recipes/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\recipes\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/recipes/add/index"
+    "chunkName": "pages/panel/recipes/add/index",
+    "_name": "_9120ed5e"
   },
   {
     "name": "panel-slides-add",
     "path": "/panel/slides/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\slides\\\\add\\\\index.vue",
-    "chunkName": "pages/panel/slides/add/index"
+    "chunkName": "pages/panel/slides/add/index",
+    "_name": "_7a955828"
+  },
+  {
+    "name": "dietician-panel-consultants-ediet-add-id",
+    "path": "/dietician-panel/consultants/ediet/add/:id",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\ediet\\\\add\\\\_id.vue",
+    "chunkName": "pages/dietician-panel/consultants/ediet/add/_id",
+    "_name": "_3e4dbb6a"
+  },
+  {
+    "name": "dietician-panel-consultants-ediet-update-id",
+    "path": "/dietician-panel/consultants/ediet/update/:id",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\ediet\\\\update\\\\_id.vue",
+    "chunkName": "pages/dietician-panel/consultants/ediet/update/_id",
+    "_name": "_0b487f70"
   },
   {
     "name": "dietician-panel-consultants-update-id",
     "path": "/dietician-panel/consultants/update/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\update\\\\_id.vue",
-    "chunkName": "pages/dietician-panel/consultants/update/_id"
+    "chunkName": "pages/dietician-panel/consultants/update/_id",
+    "_name": "_730afaa9"
   },
   {
     "name": "dietician-panel-criterias-update-id",
     "path": "/dietician-panel/criterias/update/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\criterias\\\\update\\\\_id.vue",
-    "chunkName": "pages/dietician-panel/criterias/update/_id"
+    "chunkName": "pages/dietician-panel/criterias/update/_id",
+    "_name": "_eb0c0ee6"
   },
   {
     "name": "dietician-panel-recipes-update-id",
     "path": "/dietician-panel/recipes/update/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\recipes\\\\update\\\\_id.vue",
-    "chunkName": "pages/dietician-panel/recipes/update/_id"
+    "chunkName": "pages/dietician-panel/recipes/update/_id",
+    "_name": "_7e3656fc"
   },
   {
     "name": "panel-blog-categories-update-id",
     "path": "/panel/blog-categories/update/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blog-categories\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/blog-categories/update/_id"
+    "chunkName": "pages/panel/blog-categories/update/_id",
+    "_name": "_015a4b3f"
   },
   {
     "name": "panel-blogs-update-id",
     "path": "/panel/blogs/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\blogs\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/blogs/update/_id"
+    "chunkName": "pages/panel/blogs/update/_id",
+    "_name": "_fb03be56"
   },
   {
     "name": "panel-criterias-update-id",
     "path": "/panel/criterias/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\criterias\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/criterias/update/_id"
+    "chunkName": "pages/panel/criterias/update/_id",
+    "_name": "_30aa365c"
   },
   {
     "name": "panel-dieticians-update-id",
     "path": "/panel/dieticians/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\dieticians\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/dieticians/update/_id"
+    "chunkName": "pages/panel/dieticians/update/_id",
+    "_name": "_a44d75be"
   },
   {
     "name": "panel-diseases-update-id",
     "path": "/panel/diseases/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\diseases\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/diseases/update/_id"
+    "chunkName": "pages/panel/diseases/update/_id",
+    "_name": "_a08f8256"
   },
   {
     "name": "panel-e-diet-foods-update-id",
     "path": "/panel/e-diet-foods/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\e-diet-foods\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/e-diet-foods/update/_id"
+    "chunkName": "pages/panel/e-diet-foods/update/_id",
+    "_name": "_04953048"
   },
   {
     "name": "panel-exercise-categories-update-id",
     "path": "/panel/exercise-categories/update/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\exercise-categories\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/exercise-categories/update/_id"
+    "chunkName": "pages/panel/exercise-categories/update/_id",
+    "_name": "_7a8719f5"
   },
   {
     "name": "panel-exercises-update-id",
     "path": "/panel/exercises/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\exercises\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/exercises/update/_id"
+    "chunkName": "pages/panel/exercises/update/_id",
+    "_name": "_44a5bb0b"
   },
   {
     "name": "panel-nutrients-update-id",
     "path": "/panel/nutrients/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\nutrients\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/nutrients/update/_id"
+    "chunkName": "pages/panel/nutrients/update/_id",
+    "_name": "_0861335a"
   },
   {
     "name": "panel-recipe-categories-update-id",
     "path": "/panel/recipe-categories/update/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\recipe-categories\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/recipe-categories/update/_id"
+    "chunkName": "pages/panel/recipe-categories/update/_id",
+    "_name": "_44d5d82a"
   },
   {
     "name": "panel-recipes-update-id",
     "path": "/panel/recipes/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\recipes\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/recipes/update/_id"
+    "chunkName": "pages/panel/recipes/update/_id",
+    "_name": "_1ccf9081"
   },
   {
     "name": "panel-slides-update-id",
     "path": "/panel/slides/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\slides\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/slides/update/_id"
+    "chunkName": "pages/panel/slides/update/_id",
+    "_name": "_8338c6ec"
   },
   {
     "name": "panel-users-update-id",
     "path": "/panel/users/update/:id?",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\panel\\\\users\\\\update\\\\_id.vue",
-    "chunkName": "pages/panel/users/update/_id"
+    "chunkName": "pages/panel/users/update/_id",
+    "_name": "_beccf684"
   },
   {
     "name": "blogs-id",
     "path": "/blogs/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\blogs\\\\_id.vue",
-    "chunkName": "pages/blogs/_id"
+    "chunkName": "pages/blogs/_id",
+    "_name": "_1aca1c68"
   },
   {
     "name": "calorie-id",
     "path": "/calorie/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\calorie\\\\_id.vue",
-    "chunkName": "pages/calorie/_id"
+    "chunkName": "pages/calorie/_id",
+    "_name": "_4aa67fa8"
   },
   {
     "name": "exercises-id",
     "path": "/exercises/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\exercises\\\\_id.vue",
-    "chunkName": "pages/exercises/_id"
+    "chunkName": "pages/exercises/_id",
+    "_name": "_43a9879e"
   },
   {
     "name": "profile-id",
     "path": "/profile/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\profile\\\\_id.vue",
-    "chunkName": "pages/profile/_id"
+    "chunkName": "pages/profile/_id",
+    "_name": "_03147d10"
   },
   {
     "name": "recipes-id",
     "path": "/recipes/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\recipes\\\\_id.vue",
-    "chunkName": "pages/recipes/_id"
+    "chunkName": "pages/recipes/_id",
+    "_name": "_2a5374d8"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_219e6783"
   }
 ]

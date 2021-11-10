@@ -12,8 +12,8 @@
   </v-app>
 </template>
 <script>
-import Dieticianheader from '@/components/backend/dieticianheader.vue'
-import Dieticiansidebar from '@/components/backend/dieticiansidebar.vue'
+import Dieticianheader from '@/components/backend/dietician/dieticianheader.vue'
+import Dieticiansidebar from '@/components/backend/dietician/dieticiansidebar.vue'
 
 export default {
   head() {

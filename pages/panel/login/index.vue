@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Login from "~/components/backend/login"
+import Login from "~/components/backend/panel/login"
 export default {
   layout: 'notheader',
   name: 'panel-login',

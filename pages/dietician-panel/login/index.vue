@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Login from "~/components/backend/dietician-login"
+import Login from "~/components/backend/dietician/dietician-login"
 export default {
   layout: 'notheader',
   name: 'dietician-panel-login',

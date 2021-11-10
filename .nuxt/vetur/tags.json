@@ -1,24 +1,6 @@
 {
-  "BackendAdminheader": {
-    "description": "Auto imported from components/backend/adminheader.vue"
-  },
-  "BackendAdminsidebar": {
-    "description": "Auto imported from components/backend/adminsidebar.vue"
-  },
   "BackendBreadcrumb": {
     "description": "Auto imported from components/backend/breadcrumb.vue"
-  },
-  "BackendDieticianLogin": {
-    "description": "Auto imported from components/backend/dietician-login.vue"
-  },
-  "BackendDieticianheader": {
-    "description": "Auto imported from components/backend/dieticianheader.vue"
-  },
-  "BackendDieticiansidebar": {
-    "description": "Auto imported from components/backend/dieticiansidebar.vue"
-  },
-  "BackendLogin": {
-    "description": "Auto imported from components/backend/login.vue"
   },
   "FrontendBreadcrumb": {
     "description": "Auto imported from components/frontend/breadcrumb.vue"
@@ -82,5 +64,23 @@
   },
   "FrontendSlider": {
     "description": "Auto imported from components/frontend/slider.vue"
+  },
+  "BackendDieticianLogin": {
+    "description": "Auto imported from components/backend/dietician/dietician-login.vue"
+  },
+  "BackendDieticianDieticianheader": {
+    "description": "Auto imported from components/backend/dietician/dieticianheader.vue"
+  },
+  "BackendDieticianDieticiansidebar": {
+    "description": "Auto imported from components/backend/dietician/dieticiansidebar.vue"
+  },
+  "BackendPanelAdminheader": {
+    "description": "Auto imported from components/backend/panel/adminheader.vue"
+  },
+  "BackendPanelAdminsidebar": {
+    "description": "Auto imported from components/backend/panel/adminsidebar.vue"
+  },
+  "BackendPanelLogin": {
+    "description": "Auto imported from components/backend/panel/login.vue"
   }
 }

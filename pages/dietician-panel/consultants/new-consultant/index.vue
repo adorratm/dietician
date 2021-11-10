@@ -45,11 +45,11 @@
                     <tbody>
                     <tr>
                       <td>
-                        <b>Adınız ve Soyadınız :</b>
+                        <b>Ad ve Soyad :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Adınız ve Soyadınız'
+                          name='Ad ve Soyad'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -59,7 +59,7 @@
                               name='name'
                               v-model='data.name'
                               clearable
-                              label='Adınız ve Soyadınız'
+                              label='Ad ve Soyad'
                               outlined
                               hide-details
                             />
@@ -71,11 +71,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>Email Adresiniz :</b>
+                        <b>Email :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Email Adresiniz'
+                          name='Email'
                           rules='required|email'
                           v-slot='{ errors }'
                         >
@@ -85,7 +85,7 @@
                               name='email'
                               v-model='data.email'
                               clearable
-                              label='Email Adresiniz'
+                              label='Email'
                               outlined
                               hide-details
                             />
@@ -97,11 +97,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>Telefon Numaranız :</b>
+                        <b>Telefon :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Telefon Numaranız'
+                          name='Telefon'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -111,7 +111,7 @@
                               name='phone'
                               v-model='data.phone'
                               clearable
-                              label='Telefon Numaranız'
+                              label='Telefon'
                               outlined
                               hide-details
                             />
@@ -123,11 +123,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>T.C. Kimlik Numaranız :</b>
+                        <b>T.C. Kimlik No :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='T.C. Kimlik Numaranız'
+                          name='T.C. Kimlik No'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -137,7 +137,7 @@
                               name='tc'
                               v-model='data.tc'
                               clearable
-                              label='T.C. Kimlik Numaranız'
+                              label='T.C. Kimlik No'
                               outlined
                               hide-details
                             />
@@ -148,10 +148,10 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><b>Şifreniz :</b></td>
+                      <td><b>Şifre :</b></td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Şifreniz'
+                          name='Şifre'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -161,7 +161,7 @@
                               id='password'
                               v-model='data.password'
                               clearable
-                              label='Şifreniz'
+                              label='Şifre'
                               hide-details
                               outlined
                             />
@@ -172,10 +172,10 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><b>Tekrar Şifreniz :</b></td>
+                      <td><b>Tekrar Şifre :</b></td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Tekrar Şifreniz'
+                          name='Tekrar Şifre'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -185,7 +185,7 @@
                               id='password_confirmation'
                               v-model='data.password_confirmation'
                               clearable
-                              label='Tekrar Şifreniz'
+                              label='Tekrar Şifre'
                               outlined
                               hide-details
                             />
@@ -201,7 +201,7 @@
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Cinsiyetiniz'
+                          name='Cinsiyet'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -250,10 +250,10 @@
                       </td>
                     </tr>
                     <tr v-if='data.gender === "Kadın" && data.special_case === "HAMİLE" && data.status !== "dietician"'>
-                      <td><b>Hamileliğinizin Kaçıncı Ayındasınız? :</b></td>
+                      <td><b>Hamileliğin Kaçıncı Ayında? :</b></td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Hamileliğinizin Kaçıncı Ayındasınız?'
+                          name='Hamileliğin Kaçıncı Ayında?'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -263,7 +263,7 @@
                             :items='special_case_months'
                             v-model='data.special_case_month'
                             clearable
-                            label='Hamileliğinizin Kaçıncı Ayındasınız?'
+                            label='Hamileliğin Kaçıncı Ayında?'
                             hide-details
                             outlined
                           />
@@ -274,10 +274,10 @@
                       </td>
                     </tr>
                     <tr v-if='data.gender === "Kadın" && data.special_case === "HAMİLE" && data.status !== "dietician"'>
-                      <td><b>Hamilelik Öncesi Ağırlığınız :</b></td>
+                      <td><b>Hamilelik Öncesi Ağırlık :</b></td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='Hamilelik Öncesi Ağırlığınız (kg)'
+                          name='Hamilelik Öncesi Ağırlık (kg)'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -289,7 +289,7 @@
                             clearable
                             hide-details
                             outlined
-                            label='Hamilelik Öncesi Ağırlığınız (kg)'
+                            label='Hamilelik Öncesi Ağırlık (kg)'
                           />
                           <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                             {{ errors[0] }}
@@ -299,11 +299,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz İl :</b>
+                        <b>İkamet Ettiği İl :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz İl'
+                          name='İkamet Ettiği İl'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -318,7 +318,7 @@
                               ref='city'
                               clearable
                               return-object
-                              label='İkamet Ettiğiniz İl'
+                              label='İkamet Ettiği İl'
                               hide-details
                               outlined
                             />
@@ -330,11 +330,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz İlçe :</b>
+                        <b>İkamet Ettiği İlçe :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz İlçe'
+                          name='İkamet Ettiği İlçe'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -347,7 +347,7 @@
                               :items='country.towns'
                               item-value='name'
                               item-text='name'
-                              label='İkamet Ettiğiniz İlçe'
+                              label='İkamet Ettiği İlçe'
                               return-object
                               clearable
                               hide-details
@@ -361,11 +361,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz Semt :</b>
+                        <b>İkamet Ettiği Semt :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz Semt'
+                          name='İkamet Ettiği Semt'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -378,7 +378,7 @@
                               :items='country.districts'
                               item-text='name'
                               item-value='name'
-                              label='İkamet Ettiğiniz Semt'
+                              label='İkamet Ettiği Semt'
                               return-object
                               clearable
                               hide-details
@@ -392,11 +392,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz Mahalle :</b>
+                        <b>İkamet Ettiği Mahalle :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz Mahalle'
+                          name='İkamet Ettiği Mahalle'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -410,7 +410,7 @@
                               item-text='name'
                               clearable
                               return-object
-                              label='İkamet Ettiğiniz Mahalle'
+                              label='İkamet Ettiği Mahalle'
                               hide-details
                               outlined
                             />
@@ -422,11 +422,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz Adres :</b>
+                        <b>İkamet Ettiği Adres :</b>
                       </td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz Adres'
+                          name='İkamet Ettiği Adres'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -437,7 +437,7 @@
                               rows='5'
                               v-model='data.address'
                               clearable
-                              label='İkamet Ettiğiniz Adres'
+                              label='İkamet Ettiği Adres'
                               hide-details
                               outlined
                             ></v-textarea>
@@ -469,7 +469,7 @@
                                 <v-text-field
                                   name='birthDate'
                                   v-model='computedDateFormattedMomentjs'
-                                  label='Doğum Tarihiniz (Örn: 31-12-2002)'
+                                  label='Doğum Tarihi (Örn: 31-12-2002)'
                                   pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
                                   prepend-icon='mdi-calendar'
                                   min='1950-01-01'
@@ -841,16 +841,16 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>Profil Resminiz :</b>
+                        <b>Profil Resmi :</b>
                       </td>
                       <td colspan='2' class='align-middle'>
                         <div class='form-group my-2'>
                           <v-file-input
                             type='file'
                             accept='image/*'
-                            placeholder='Profil Resminiz'
+                            placeholder='Profil Resmi'
                             name='img_url'
-                            label='Profil Resminiz'
+                            label='Profil Resmi'
                             clearable
                             hide-details
                             outlined
@@ -1374,6 +1374,8 @@ export default {
           .get(`${process.env.apiBaseUrl}dietician/users/user-diseases-get`)
           .then(response => {
             this.diseases = response.data.data.diseases
+            this.allergenFoods = response.data.data.allergenFoods
+            this.unlikedFoods = response.data.data.unlikedFoods
             console.log(this.diseases)
           })
           .catch(err => console.log(err))
