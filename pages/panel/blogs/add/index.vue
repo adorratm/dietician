@@ -5,7 +5,7 @@
       <div class="content container-fluid">
 
         <!-- Page Header -->
-        <Breadcrumb :items='breadCrumbItems' />
+        <Breadcrumb :items='breadCrumbItems'/>
         <!-- /Page Header -->
 
         <!-- General -->
@@ -22,17 +22,6 @@
                   <v-stepper-header>
                     <v-stepper-step :complete='e1 > 1' step='1'>
                       Makale Bilgileri
-                    </v-stepper-step>
-
-                    <v-divider></v-divider>
-
-                    <v-stepper-step :complete='e1 > 2' step='2'>
-                      Makale Görselleri
-                    </v-stepper-step>
-                    <v-divider></v-divider>
-
-                    <v-stepper-step :complete='e1 > 3' step='3'>
-                      Kapak Fotoğrafı Seçimi
                     </v-stepper-step>
                   </v-stepper-header>
 
@@ -68,8 +57,8 @@
                             name='category_id'
                             v-model='inputData.category_id'
                             :items='allBlogCategories'
-                            item-text='name'
-                            item-value='_id.$oid'
+                            item-text='title'
+                            item-value='id'
                             clearable
                             hide-details
                             outlined
@@ -85,128 +74,64 @@
                         v-slot='{ errors }'
                       >
                         <div class='form-group'>
-                          <v-textarea
-                            label='Makale Açıklaması'
-                            name='content'
-                            v-model='inputData.content'
-                            clearable
-                            hide-details
-                            outlined
+                          <editor
+                            name="content"
+                            id="content"
+                            v-model="inputData.content"
+                            api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
+                            :init="{
+                          placeholder:'Makele Açıklaması',
+													height: 300,
+													plugins: [
+														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
+													],
+													toolbar:
+														'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+													entity_encoding: 'raw',
+													forced_root_block: '',
+													paste_auto_cleanup_on_paste: true,
+													language: 'tr_TR', // select language
+													language_url:
+														'https://cdn.jsdelivr.net/npm/tinymce-lang/langs/tr_TR.js',
+													branding: false,
+													image_advtab: true,
+													mobile: {
+														theme: 'silver'
+													},
+													setup: function(editor) {
+                            editor.on('Init', function() {
+                              editor.save();
+                            });
+														editor.on('change', function() {
+															editor.save();
+														});
+													},
+													convert_urls: false
+												}"
                           />
                           <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                             {{ errors[0] }}
                           </v-alert>
                         </div>
                       </ValidationProvider>
-
+                      <ValidationProvider name="Makale Görseli" rules="required" v-slot='{errors}'>
+                        <v-file-input
+                          label='Makale Görseli'
+                          v-model='inputData.featureimage'
+                          id='featureimage'
+                          type='file'
+                          ref='featureimage'
+                          name='featureimage'
+                          clearable
+                          outlined
+                        />
+                      </ValidationProvider>
                       <v-btn
                         color='primary'
                         type='submit'
                       >
-                        Makaleyi Kaydet, Görsel Yüklemeye Geç
+                        Makaleyi Kaydet
                       </v-btn>
-                    </v-stepper-content>
-
-                    <v-stepper-content class='px-0' step='2'>
-                      <div class='form-group'>
-                        <dropzone
-                          @vdropzone-complete='onComplete'
-                          ref='myDropzone'
-                          id='dropzone'
-                          :options='options'
-                          :headers='options.headers'
-                        ></dropzone>
-                      </div>
-                      <v-btn
-                        color='primary'
-                        role='button'
-                        @click.prevent='selectCover'
-                      >
-                        Kapak Fotoğrafı Seç
-                      </v-btn>
-                    </v-stepper-content>
-
-                    <v-stepper-content class='px-0' step='3'>
-                      <v-card>
-                        <v-card-title>Görseller</v-card-title>
-                        <v-card-text>
-                          <v-data-table
-                            :headers='headers'
-                            :items='data'
-                            disable-pagination
-                            :hide-default-footer='true'
-                          >
-                            <template v-slot:[`item.img_url`]='{ item }'>
-                              <v-btn
-                                v-bind:src='item.img_url'
-                                width='150'
-                                height='150'
-                                contain
-                              />
-                            </template>
-                            <template v-slot:[`item.isCover`]='{ item }'>
-                              <v-layout justify-center>
-                                <v-switch
-                                  class='d-flex justify-content-center mx-auto px-auto text-center'
-                                  v-model='item.isCover'
-                                  color='success'
-                                  :key='item.id'
-                                  @click='isCoverSetter(item.id)'
-                                ></v-switch>
-                              </v-layout>
-                            </template>
-                            <template v-slot:[`item.isActive`]='{ item }'>
-                              <v-layout justify-center>
-                                <v-switch
-                                  class='d-flex justify-content-center mx-auto px-auto text-center'
-                                  v-model='item.isActive'
-                                  color='success'
-                                  :key='item.id'
-                                  @click='isActiveSetter(item.id)'
-                                ></v-switch>
-                              </v-layout>
-                            </template>
-                            <template v-slot:[`item.actions`]='{ item }'>
-                              <v-icon small @click='deleteData(item.id)'>
-                                mdi-delete
-                              </v-icon>
-                            </template>
-                          </v-data-table>
-                        </v-card-text>
-                        <v-card-actions>
-                          <v-row>
-                            <v-col cols='12' lg='3'>
-                              <v-select
-                                v-model='pageSize'
-                                :items='pageSizes'
-                                label='Sayfada Görüntüleme Sayısı'
-                                @change='handlePageSizeChange'
-                                hide-details
-                                outlined
-                              ></v-select>
-                              <v-btn
-                                class='mt-2'
-                                color='info'
-                                role='button'
-                                @click.prevent='e1 = 2'
-                              >
-                                Geri Dön
-                              </v-btn>
-                            </v-col>
-                            <v-col cols='12' lg='9'>
-                              <v-pagination
-                                v-model='page'
-                                :length='totalPages'
-                                total-visible='7'
-                                next-icon='mdi-menu-right'
-                                prev-icon='mdi-menu-left'
-                                @input='handlePageChange'
-                                circle
-                              ></v-pagination>
-                            </v-col>
-                          </v-row>
-                        </v-card-actions>
-                      </v-card>
                     </v-stepper-content>
                   </v-stepper-items>
                 </v-stepper>
@@ -220,86 +145,55 @@
       </div>
     </div>
     <!-- /Page Wrapper -->
-    <Nuxt />
+    <Nuxt/>
   </div>
 </template>
 
 <script>
 import Breadcrumb from "~/components/backend/breadcrumb"
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import {ValidationObserver, ValidationProvider} from "vee-validate";
 import Editor from "@tinymce/tinymce-vue";
+
 export default {
-  components:{
+  components: {
     Breadcrumb,
     ValidationObserver,
     ValidationProvider,
     editor: Editor,
   },
   name: 'blog-add',
-  middleware: ["auth","admin"],
+  middleware: ["auth", "admin"],
   layout: 'admin',
   computed: {
     img_url() {
       return process.env.apiPublicUrl
     },
-    user(){
+    user() {
       return this.$auth.user
     }
   },
-  data(){
+  data() {
     return {
-      breadCrumbItems:[
-        {name: "Anasayfa",url: "/panel"},
-        {name: "Makaleler",url:"/panel/blogs"},
+      breadCrumbItems: [
+        {name: "Anasayfa", url: "/panel"},
+        {name: "Makaleler", url: "/panel/blogs"},
         {name: "Makale Ekle"}
       ],
-      counter: 0,
       e1: 1,
       inputData: {
         title: null,
         content: null,
         id: null,
         category_id: null,
-        unit: null
+        unit: null,
+        featureimage:null,
       },
       data: [],
-      searchTitle: null,
       allBlogCategories: [],
-      headers: [
-        { text: '#', align: 'center', value: 'rank' },
-        { text: 'Görsel', align: 'center', value: 'img_url', sortable: false },
-        { text: 'Kapak Fotoğrafı', align: 'center', value: 'isCover' },
-        { text: 'Durum', align: 'center', value: 'isActive' },
-        {
-          text: 'İşlemler',
-          align: 'center',
-          value: 'actions',
-          sortable: false
-        }
-      ],
-      page: 1,
-      totalPages: 0,
-      pageSize: 25,
-      pageSizes: [25, 50, 100, 200, 500, 1000],
       loading: false,
-      options: {
-        url: process.env.apiBaseUrl + 'panel/blogs/create-file/',
-        headers: {
-          Authorization:
-            'Bearer ' +
-            (!this.isEmpty(this.$auth.$storage.getUniversal('user'))
-              ? this.$auth.$storage.getUniversal('user').api_token
-              : null)
-        },
-        params: {
-          title: null
-        },
-        uploadMultiple: true,
-        parallelUploads: 10
-      },
     }
   },
-  methods:{
+  methods: {
     /**
      * isEmpty
      * @param obj
@@ -314,221 +208,29 @@ export default {
           return obj == null || Object.keys(obj).length === 0
         else if (typeof obj == 'boolean') return false
         else return !obj
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
     getBlogCategories() {
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/blogs/create`)
+          .get(`${process.env.apiBaseUrl}panel/blog-categories`)
           .then(response => {
-            this.allBlogCategories = response.data.data.blog_categories
+            this.allBlogCategories = response.data.data.data
           })
           .catch(err => console.log(err))
-      }catch (e){
-        console.log(e)
-      }
-    },
-    selectCover() {
-      try {
-        this.e1 = 3
-        this.retrieveData()
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    getRequestParams(searchTitle, page, pageSize) {
-      try {
-        let params = {}
-        params['title'] = searchTitle
-        params['page'] = page
-        params['size'] = pageSize
-        return params
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    retrieveData(url) {
-      try {
-        let urlParam = 'get-all'
-        if (url !== undefined && url !== '' && url !== null) {
-          urlParam = url
-        }
-        const params = this.getRequestParams(
-          this.searchTitle,
-          this.page,
-          this.pageSize
-        )
-        this.$axios
-          .get(
-            `${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=blogs_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title&where_column=blog_id&where_value=${this.inputData.id}&joins=blogs_file`
-          )
-          .then(response => {
-            this.data = response.data.data.data.map(this.getDisplayData)
-
-            this.totalPages = response.data.data.last_page
-          })
-          .catch(err => console.log(err))
-          .finally(() => (this.loading = false))
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    handlePageChange(value) {
-      try {
-        this.page = value
-        this.retrieveData()
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    handlePageSizeChange(size) {
-      try {
-        this.pageSize = size
-        this.page = 1
-        this.retrieveData()
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    refreshList() {
-      try {
-        this.retrieveData()
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    deleteData(id) {
-      try {
-        this.$axios
-          .delete(
-            process.env.apiBaseUrl +
-            'panel/datatables/delete-file?id=' +
-            id +
-            '&table=blogs_file'
-          )
-          .then(response => {
-            if (response.data.success) {
-              this.$izitoast.success({
-                title: response.data.title,
-                message: response.data.msg,
-                position: 'topCenter',
-                displayMode: 'once'
-              })
-              this.refreshList()
-            } else {
-              this.$izitoast.error({
-                title: response.data.title,
-                message: response.data.msg,
-                position: 'topCenter',
-                displayMode: 'once'
-              })
-            }
-          }).catch(err => console.log(err))
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    isActiveSetter(id) {
-      try {
-        this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            'panel/datatables/is-active-setter?table=blogs_file&id=' +
-            id
-          )
-          .then(response => {
-            if (response.data.success) {
-              this.$izitoast.success({
-                title: response.data.title,
-                message: response.data.msg,
-                position: 'topCenter',
-                displayMode: 'once'
-              })
-              this.refreshList()
-            } else {
-              this.$izitoast.error({
-                title: response.data.title,
-                message: response.data.msg,
-                position: 'topCenter',
-                displayMode: 'once'
-              })
-            }
-          }).catch(err => console.log(err))
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    isCoverSetter(id) {
-      try {
-        this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            'panel/datatables/is-cover-setter?table=blogs_file&foreign_column=blog_id&id=' +
-            id
-          )
-          .then(response => {
-            if (response.data.success) {
-              this.$izitoast.success({
-                title: response.data.title,
-                message: response.data.msg,
-                position: 'topCenter',
-                displayMode: 'once'
-              })
-              this.refreshList()
-            } else {
-              this.$izitoast.error({
-                title: response.data.title,
-                message: response.data.msg,
-                position: 'topCenter',
-                displayMode: 'once'
-              })
-            }
-          }).catch(err => console.log(err))
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    getDisplayData(data) {
-      try {
-        return {
-          rank: data.rank,
-          id: data._id.$oid,
-          img_url: this.img_url + data.img_url,
-          isCover: data.isCover,
-          isActive: data.isActive
-        }
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    onComplete(e) {
-      try {
-        if (JSON.parse(e.xhr.response).success) {
-          this.$izitoast.success({
-            title: JSON.parse(e.xhr.response).title,
-            message: JSON.parse(e.xhr.response).msg,
-            position: 'topCenter',
-            displayMode: 'once'
-          })
-        } else {
-          this.$izitoast.error({
-            title: JSON.parse(e.xhr.response).title,
-            message: JSON.parse(e.xhr.response).msg,
-            position: 'topCenter',
-            displayMode: 'once'
-          })
-        }
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
     saveBlogs() {
       try {
         let formData = new FormData(this.$refs.blogsForm)
+        formData.delete("category_id");
+        formData.append("category_id",this.inputData.category_id)
         this.$axios
-          .post(process.env.apiBaseUrl + 'panel/blogs/create', formData, {
+          .post(process.env.apiBaseUrl + 'panel/blog/create', formData, {
             headers: {
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary
@@ -541,21 +243,6 @@ export default {
                 message: response.data.msg,
                 position: 'topCenter'
               })
-              this.$refs.myDropzone.options.url =
-                process.env.apiBaseUrl +
-                'panel/blogs/create-file/' +
-                response.data.data.$oid
-              this.$refs.myDropzone.dropzone.options.url =
-                process.env.apiBaseUrl +
-                'panel/blogs/create-file/' +
-                response.data.data.$oid
-              this.options.url =
-                process.env.apiBaseUrl +
-                'panel/blogs/create-file/' +
-                response.data.data.$oid
-              this.inputData.id = response.data.data.$oid
-              this.options.params.title = response.data.name
-              this.e1 = 2
             } else {
               this.$izitoast.error({
                 title: response.data.title,
@@ -564,13 +251,12 @@ export default {
               })
             }
           }).catch(err => console.log(err))
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     }
   },
   mounted() {
-    this.retrieveData();
     this.getBlogCategories();
   },
 }

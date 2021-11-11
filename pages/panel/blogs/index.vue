@@ -138,7 +138,7 @@ export default {
         { text: "#", align: "center", value: "rank" },
         { text: "Görsel", align: "center", value: "img_url", sortable: false },
         { text: "Adı", align: "center", value: "title" },
-        { text: "Durum", align: "center", value: "status" },
+        { text: "Durum", align: "center", value: "isActive" },
         {
           text: "İşlemler",
           align: "center",
@@ -236,7 +236,7 @@ export default {
     },
     editData(id) {
       try {
-        this.$router.push("/panel/blog/update/" + id);
+        this.$router.push("/panel/blogs/update/" + id);
       }catch (e) {
         console.log(e)
       }
@@ -265,14 +265,14 @@ export default {
         console.log(e)
       }
     },
-    isActiveSetter(id,status) {
+    isActiveSetter(id,isActive) {
       try {
         this.$axios
           .post(
             process.env.apiBaseUrl +
             "panel/blog/updateStatus/" +
             id,{
-              "status" : status
+              "isActive" : isActive
             }
           )
           .then(response => {
@@ -306,7 +306,7 @@ export default {
             (!this.isEmpty(data.blogs) && !this.isEmpty(data.blogs.img_url)
               ? data.blogs.img_url
               : this.empty_url),
-          status: data.status
+          isActive: data.isActive
         };
       }catch (e) {
         console.log(e)

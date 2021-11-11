@@ -12,7 +12,7 @@
         v-slot='{ errors }'
       >
         <v-autocomplete
-          name='selectedAllergenFoods'
+          name='selectedAllergens'
           v-model='selectedAllergenFoods'
           :items='allergenFoods'
           chips
@@ -186,8 +186,8 @@ export default {
     updateAllergenFoodsInformation() {
       try {
         let formData = new FormData(this.$refs.allergenFoodsInformationForm)
-        formData.delete('selectedAllergenFoods')
-        formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
+        formData.delete('selectedAllergens')
+        formData.append('selectedAllergens', this.selectedAllergenFoods)
         this.$axios
           .post(
             process.env.apiBaseUrl +

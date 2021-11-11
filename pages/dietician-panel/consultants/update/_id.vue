@@ -1399,7 +1399,7 @@ export default {
           } else {
             this.selectedAllergenFoods = []
             this.allergenFoods.forEach((el, index) => {
-              this.selectedAllergenFoods.push(el._id.$oid)
+              this.selectedAllergenFoods.push(el._id)
             })
           }
         })
@@ -1448,7 +1448,7 @@ export default {
     },
     removeAllergenFoods(item) {
       try {
-        const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
+        const index = this.selectedAllergenFoods.indexOf(item._id)
         if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
       } catch (e) {
         console.log(e)
