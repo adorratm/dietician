@@ -101,47 +101,13 @@ export default {
         {name: "Makale Kategorileri",url:"/panel/blog-categories"},
         {name: "Makale Kategorisi Ekle"}
       ],
-      counter: 0,
       e1: 1,
       inputData: {
         title: null,
         description: null,
         id: null
       },
-      data: [],
-      searchTitle: null,
-      headers: [
-        { text: "#", align: "center", value: "rank" },
-        { text: "Görsel", align: "center", value: "img_url", sortable: false },
-        { text: "Kapak Fotoğrafı", align: "center", value: "isCover" },
-        { text: "Durum", align: "center", value: "isActive" },
-        {
-          text: "İşlemler",
-          align: "center",
-          value: "actions",
-          sortable: false
-        }
-      ],
-      page: 1,
-      totalPages: 0,
-      pageSize: 25,
-      pageSizes: [25, 50, 100, 200, 500, 1000],
       loading: false,
-      options: {
-        url: process.env.apiBaseUrl + "panel/blog-categories/create-file/",
-        headers: {
-          Authorization:
-            "Bearer " +
-            (!this.isEmpty(this.$auth.$storage.getUniversal("user"))
-              ? this.$auth.$storage.getUniversal("user").api_token
-              : null)
-        },
-        params: {
-          title: null
-        },
-        uploadMultiple: true,
-        parallelUploads: 10
-      },
     }
   },
   methods:{
@@ -183,21 +149,9 @@ export default {
                 message: response.data.msg,
                 position: "topCenter"
               });
-              this.$refs.myDropzone.options.url =
-                process.env.apiBaseUrl +
-                "panel/blog-categories/create-file/" +
-                response.data.data.$oid;
-              this.$refs.myDropzone.dropzone.options.url =
-                process.env.apiBaseUrl +
-                "panel/blog-categories/create-file/" +
-                response.data.data.$oid;
-              this.options.url =
-                process.env.apiBaseUrl +
-                "panel/blog-categories/create-file/" +
-                response.data.data.$oid;
-              this.inputData.id = response.data.data.$oid;
-              this.options.params.title = response.data.name;
-              this.e1 = 2;
+              setTimeout(function(){
+                window.location.href="/panel/blog-categories"
+              },2000)
             } else {
               this.$izitoast.error({
                 title: response.data.title,

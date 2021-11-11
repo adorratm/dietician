@@ -6,7 +6,7 @@
         <div class='container'>
           <div class='loginbox'>
             <div class='login-left'>
-              <img class='img-fluid' v-if='!isEmpty(settings)' :src='img_url+settings.settings.logo' :alt='settings.settings.company_name' style='filter:invert(1)'>
+              <img class='img-fluid' v-if='!isEmpty(settings)' :src='settings.settings.logo' :alt='settings.settings.company_name' style='filter:invert(1)'>
             </div>
             <div class='login-right'>
               <div class='login-right-wrap'>

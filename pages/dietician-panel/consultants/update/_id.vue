@@ -264,11 +264,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz İl :</b>
+                        <b>İkamet Ettiği İl :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz İl'
+                          name='İkamet Ettiği İl'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -284,7 +284,7 @@
                               ref='city'
                               clearable
                               return-object
-                              label='İkamet Ettiğiniz İl'
+                              label='İkamet Ettiği İl'
                               hide-details
                               outlined
                             />
@@ -297,11 +297,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz İlçe :</b>
+                        <b>İkamet Ettiği İlçe :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz İlçe'
+                          name='İkamet Ettiği İlçe'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -315,7 +315,7 @@
                               :items='country.towns'
                               item-value='name'
                               item-text='name'
-                              label='İkamet Ettiğiniz İlçe'
+                              label='İkamet Ettiği İlçe'
                               return-object
                               clearable
                               hide-details
@@ -330,11 +330,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz Semt :</b>
+                        <b>İkamet Ettiği Semt :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz Semt'
+                          name='İkamet Ettiği Semt'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -348,7 +348,7 @@
                               :items='country.districts'
                               item-text='name'
                               item-value='name'
-                              label='İkamet Ettiğiniz Semt'
+                              label='İkamet Ettiği Semt'
                               return-object
                               clearable
                               hide-details
@@ -363,11 +363,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz Mahalle :</b>
+                        <b>İkamet Ettiği Mahalle :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz Mahalle'
+                          name='İkamet Ettiği Mahalle'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -382,7 +382,7 @@
                               item-text='name'
                               clearable
                               return-object
-                              label='İkamet Ettiğiniz Mahalle'
+                              label='İkamet Ettiği Mahalle'
                               hide-details
                               outlined
                             />
@@ -395,11 +395,11 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>İkamet Ettiğiniz Adres :</b>
+                        <b>İkamet Ettiği Adres :</b>
                       </td>
                       <td colspan='2'>
                         <ValidationProvider
-                          name='İkamet Ettiğiniz Adres'
+                          name='İkamet Ettiği Adres'
                           rules='required'
                           v-slot='{ errors }'
                         >
@@ -411,7 +411,7 @@
                               rows='5'
                               v-model='data.address'
                               clearable
-                              label='İkamet Ettiğiniz Adres'
+                              label='İkamet Ettiği Adres'
                               hide-details
                               outlined
                             ></v-textarea>
@@ -445,7 +445,7 @@
                                 <v-text-field
                                   name='birthDate'
                                   v-model='computedDateFormattedMomentjs'
-                                  label='Doğum Tarihiniz (Örn: 31-12-2002)'
+                                  label='Doğum Tarihi (Örn: 31-12-2002)'
                                   pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
                                   prepend-icon='mdi-calendar'
                                   min='1950-01-01'
@@ -470,6 +470,33 @@
                                 @input='menu = false'
                               ></v-date-picker>
                             </v-menu>
+                            <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                              {{ errors[0] }}
+                            </v-alert>
+                          </div>
+                        </ValidationProvider>
+                      </td>
+                    </tr>
+                    <tr v-if='!isEmpty(data.birth_weight ) || currentAge < 1'>
+                      <td>
+                        <b>Doğum Ağırlığı (kg) :</b>
+                      </td>
+                      <td colspan='2'>
+                        <ValidationProvider
+                          name='Doğum Ağırlığı (kg)'
+                          v-slot='{ errors }'
+                        >
+                          <div class='form-group my-2'>
+                            <v-text-field
+                              type='number'
+                              name='birth_weight'
+                              id='birth_weight'
+                              v-model='data.birth_weight'
+                              clearable
+                              label='Doğum Ağırlığı (kg)'
+                              outlined
+                              hide-details
+                            />
                             <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                               {{ errors[0] }}
                             </v-alert>
@@ -842,16 +869,16 @@
                     </tr>
                     <tr>
                       <td>
-                        <b>Profil Resminiz :</b>
+                        <b>Profil Resmi :</b>
                       </td>
                       <td colspan='2' class='align-middle'>
                         <div class='form-group my-2'>
                           <v-file-input
                             type='file'
                             accept='image/*'
-                            placeholder='Profil Resminiz'
+                            placeholder='Profil Resmi'
                             name='img_url'
-                            label='Profil Resminiz'
+                            label='Profil Resmi'
                             clearable
                             hide-details
                             outlined
@@ -1241,9 +1268,12 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.getCities()
     this.getDiseases()
+
+    this.birth_year = moment(this.data.birth_year).format('YYYY-MM-DD')
+    this.showBirthWeight(this.birth_year)
   },
   data(){
     return {
@@ -1294,7 +1324,9 @@ export default {
         10,
         11,
         12
-      ]
+      ],
+      currentAge: null,
+      birth_year:null,
     }
   },
   validate({ params }) {
@@ -1312,7 +1344,19 @@ export default {
       error({ message: "Kullanıcı Bilgisi Bulunamadı.", statusCode: 404 });
     }
   },
+  watch:{
+    computedDateFormattedMomentjs(v){
+      this.showBirthWeight(this.data.birthDate)
+    }
+  },
   methods:{
+    showBirthWeight(v){
+      console.log(this.birth_year)
+      console.log(v)
+      this.birth_year = moment(v).format('YYYY-MM-DD')
+      this.currentAge = moment().diff(this.birth_year,'years',true)
+      console.log(this.currentAge)
+    },
     /**
      * isEmpty
      * @param obj
@@ -1534,7 +1578,7 @@ export default {
         formData.append('dietician_id', this.user._id)
         formData.append('birthDate', moment(this.data.birthDate).format('YYYY-MM-DD'))
         this.$axios
-          .post(process.env.apiBaseUrl + 'dietician/users/update/'+this.data._id.$oid, formData, {
+          .post(process.env.apiBaseUrl + 'dietician/users/update/'+this.data._id, formData, {
             headers: {
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary
@@ -1566,7 +1610,7 @@ export default {
         formData.append('dietician_id', this.user._id)
         formData.append('tc', this.data.tc)
         formData.append('phone', this.data.phone)
-        formData.append('id', this.data._id.$oid)
+        formData.append('id', this.data._id)
         formData.delete('selectedDiseases')
         formData.append('selectedDiseases', this.selectedDiseases)
         this.$axios
@@ -1607,7 +1651,7 @@ export default {
         formData.append('dietician_id', this.user._id)
         formData.append('tc', this.data.tc)
         formData.append('phone', this.data.phone)
-        formData.append('id', this.data._id.$oid)
+        formData.append('id', this.data._id)
         formData.delete('selectedAllergenFoods')
         formData.append('selectedAllergenFoods', this.selectedAllergenFoods)
         this.$axios
@@ -1648,7 +1692,7 @@ export default {
         formData.append('dietician_id', this.user._id)
         formData.append('tc', this.data.tc)
         formData.append('phone', this.data.phone)
-        formData.append('id', this.data._id.$oid)
+        formData.append('id', this.data._id)
         formData.delete('selectedUnlikedFoods')
         formData.append('selectedUnlikedFoods', this.selectedUnlikedFoods)
         this.$axios

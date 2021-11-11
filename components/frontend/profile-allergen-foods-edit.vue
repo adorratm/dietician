@@ -18,7 +18,7 @@
           chips
           label='Alerjen Besin Seçin'
           item-text='name'
-          item-value='_id.$oid'
+          item-value='_id'
           multiple
           outlined
           hide-details
@@ -115,6 +115,9 @@ export default {
     },
   },
   props:["user"],
+  mounted() {
+  this.getAllergenFoods()
+  },
   data(){
     return {
       allergenFood: null,
@@ -141,6 +144,19 @@ export default {
         console.log(e)
       }
     },
+    getAllergenFoods() {
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}users/allergenicfoods`)
+          .then(response => {
+            this.allergenFoods = response.data.foods
+            this.selectedAllergenFoods = response.data.selectedAllergens
+          })
+          .catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
+    },
     toggleAllergenFoods() {
       try {
         this.$nextTick(() => {
@@ -149,7 +165,7 @@ export default {
           } else {
             this.selectedAllergenFoods = []
             this.allergenFoods.forEach((el, index) => {
-              this.selectedAllergenFoods.push(el._id.$oid)
+              this.selectedAllergenFoods.push(el._id)
             })
           }
         })
@@ -160,7 +176,7 @@ export default {
 
     removeAllergenFoods(item) {
       try {
-        const index = this.selectedAllergenFoods.indexOf(item._id.$oid)
+        const index = this.selectedAllergenFoods.indexOf(item._id)
         if (index >= 0) this.selectedAllergenFoods.splice(index, 1)
       }catch (e) {
         console.log(e)
@@ -175,7 +191,7 @@ export default {
         this.$axios
           .post(
             process.env.apiBaseUrl +
-            'dietician/users/user-allergenfoods/',
+            'users/allergenicfoods/create',
             formData,
             {
               headers: {

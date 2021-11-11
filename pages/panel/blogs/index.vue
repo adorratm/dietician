@@ -47,11 +47,11 @@
               <template v-slot:[`item.img_url`]="{ item }">
                 <img v-bind:src="item.img_url" width="150" height="150" :alt='item.title' />
               </template>
-              <template v-slot:[`item.isActive`]="{ item }">
+              <template v-slot:[`item.status`]="{ item }">
                 <v-layout justify-center>
                   <v-switch
                     class="d-flex justify-content-center mx-auto px-auto text-center"
-                    v-model="item.isActive"
+                    v-model="item.status"
                     color="success"
                     :key="item.id"
                     @click="isActiveSetter(item.id,item.status)"
@@ -138,7 +138,7 @@ export default {
         { text: "#", align: "center", value: "rank" },
         { text: "Görsel", align: "center", value: "img_url", sortable: false },
         { text: "Adı", align: "center", value: "title" },
-        { text: "Durum", align: "center", value: "isActive" },
+        { text: "Durum", align: "center", value: "status" },
         {
           text: "İşlemler",
           align: "center",
@@ -272,7 +272,7 @@ export default {
             process.env.apiBaseUrl +
             "panel/blog/updateStatus/" +
             id,{
-              "status" : !status
+              "status" : status
             }
           )
           .then(response => {
@@ -306,7 +306,7 @@ export default {
             (!this.isEmpty(data.blogs) && !this.isEmpty(data.blogs.img_url)
               ? data.blogs.img_url
               : this.empty_url),
-          isActive: data.isActive
+          status: data.status
         };
       }catch (e) {
         console.log(e)

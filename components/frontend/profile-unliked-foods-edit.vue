@@ -18,7 +18,7 @@
           chips
           label='Sevilmeyen Besin Seçin'
           item-text='name'
-          item-value='_id.$oid'
+          item-value='_id'
           multiple
           outlined
           hide-details
@@ -122,6 +122,9 @@ export default {
     },
   },
   props:["user"],
+  mounted(){
+    this.getUnlikedFoods();
+  },
   methods:{
     /**
      * isEmpty
@@ -141,6 +144,20 @@ export default {
         console.log(e)
       }
     },
+    getUnlikedFoods() {
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}users/unlikedfoods`)
+          .then(response => {
+            this.unlikedFoods = response.data.foods
+            this.selectedUnlikedFoods = response.data.selectedUnlikedFoods
+
+          })
+          .catch(err => console.log(err))
+      }catch (e){
+        console.log(e)
+      }
+    },
     toggleUnlikedFoods() {
       try {
         this.$nextTick(() => {
@@ -149,7 +166,7 @@ export default {
           } else {
             this.selectedUnlikedFoods = []
             this.unlikedFoods.forEach((el, index) => {
-              this.selectedUnlikedFoods.push(el._id.$oid)
+              this.selectedUnlikedFoods.push(el._id)
             })
           }
         })
@@ -165,7 +182,7 @@ export default {
         this.$axios
           .post(
             process.env.apiBaseUrl +
-            'dietician/users/user-unlovedfoods/',
+            'users/unlikedfoods/create',
             formData,
             {
               headers: {
@@ -195,7 +212,10 @@ export default {
     },
     removeUnlikedFoods(item) {
       try {
-        const index = this.selectedUnlikedFoods.indexOf(item._id.$oid)
+        console.log(item)
+        const index = this.selectedUnlikedFoods.indexOf(item._id)
+
+        console.log(index)
         if (index >= 0) this.selectedUnlikedFoods.splice(index, 1)
       }catch (e){
         console.log(e)
