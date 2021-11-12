@@ -161,14 +161,41 @@
                         v-slot='{ errors }'
                       >
                         <div class='form-group'>
-                          <v-textarea
-                            label='Yemek Tarifi Açıklaması'
-                            name='description'
-                            v-model='inputData.description'
-                            clearable
-                            hide-details
-                            outlined
-                          ></v-textarea>
+                          <editor
+                            name="description"
+                            id="description"
+                            v-model="inputData.description"
+                            api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
+                            :init="{
+                          placeholder:'Yemek Tarifi Açıklaması',
+													height: 300,
+													plugins: [
+														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
+													],
+													toolbar:
+														'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+													entity_encoding: 'raw',
+													forced_root_block: '',
+													paste_auto_cleanup_on_paste: true,
+													language: 'tr_TR', // select language
+													language_url:
+														'https://cdn.jsdelivr.net/npm/tinymce-lang/langs/tr_TR.js',
+													branding: false,
+													image_advtab: true,
+													mobile: {
+														theme: 'silver'
+													},
+													setup: function(editor) {
+                            editor.on('Init', function() {
+                              editor.save();
+                            });
+														editor.on('change', function() {
+															editor.save();
+														});
+													},
+													convert_urls: false
+												}"
+                          />
                           <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
                             {{ errors[0] }}
                           </v-alert>
@@ -596,7 +623,7 @@ export default {
     ValidationProvider,
     editor: Editor
   },
-  name: 'exercise-categories-add',
+  name: 'recipes-add',
   middleware: ['auth', 'dietician'],
   layout: 'dietician',
   computed: {
@@ -610,11 +637,12 @@ export default {
   data() {
     return {
       breadCrumbItems: [
-        { name: 'Anasayfa', url: '/panel' },
-        { name: 'Yemek Tarifleri', url: '/panel/recipes' },
+        { name: 'Anasayfa', url: '/dietician-panel' },
+        { name: 'Yemek Tariflerim', url: '/dietician-panel/recipes' },
         { name: 'Yemek Tarifi Ekle' }
       ],
       counter: 0,
+      counter2: 0,
       inputs: [
         [
           { id: 'vitamin0', label: 'Besin Değeri Adı', value: '' },
@@ -672,7 +700,7 @@ export default {
       pageSizes: [25, 50, 100, 200, 500, 1000],
       loading: false,
       options: {
-        url: process.env.apiBaseUrl + 'panel/recipes/create-file/',
+        url: process.env.apiBaseUrl + 'dietician/recipes/create-file/',
         headers: {
           Authorization:
             'Bearer ' +
@@ -710,9 +738,9 @@ export default {
       }
     },
     getCriterias() {
-      try {
+      try{
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/recipes/create`)
+          .get(`${process.env.apiBaseUrl}dietician/recipes/create`)
           .then(response => {
             this.allCriterias = response.data.data.criterias
             this.allNutrients = response.data.data.nutrients
@@ -724,7 +752,7 @@ export default {
       }
     },
     selectCover() {
-      try {
+      try{
         this.e1 = 3
         this.retrieveData()
       }catch (e) {
@@ -732,7 +760,7 @@ export default {
       }
     },
     getRequestParams(searchTitle, page, pageSize) {
-      try {
+      try{
         let params = {}
         params['title'] = searchTitle
         params['page'] = page
@@ -754,7 +782,8 @@ export default {
           this.pageSize
         )
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=recipes_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=recipes_id&where_value=${this.inputData.id}&joins=recipes_file`)
+          .get(
+            `${process.env.apiBaseUrl}dietician/datatables/${urlParam}?table=recipes_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=recipes_id&where_value=${this.inputData.id}&joins=recipes_file`)
           .then(response => {
             this.data = response.data.data.data.map(this.getDisplayData)
 
@@ -767,7 +796,7 @@ export default {
       }
     },
     handlePageChange(value) {
-      try {
+      try{
         this.page = value
         this.retrieveData()
       }catch (e) {
@@ -784,18 +813,18 @@ export default {
       }
     },
     refreshList() {
-      try {
+      try{
         this.retrieveData()
       }catch (e) {
         console.log(e)
       }
     },
     deleteData(id) {
-      try {
+      try{
         this.$axios
           .delete(
             process.env.apiBaseUrl +
-            'panel/datatables/delete-file?id=' +
+            'dietician/datatables/delete-file?id=' +
             id +
             '&table=recipes_file')
           .then(response => {
@@ -815,17 +844,17 @@ export default {
                 displayMode: 'once'
               })
             }
-          }).catch((e) => console.log(e))
+          }).catch(err => console.log(err))
       }catch (e) {
         console.log(e)
       }
     },
     isActiveSetter(id) {
-      try {
+      try{
         this.$axios
           .get(
             process.env.apiBaseUrl +
-            'panel/datatables/is-active-setter?table=recipes_file&id=' +
+            'dietician/datatables/is-active-setter?table=recipes_file&id=' +
             id)
           .then(response => {
             if (response.data.success) {
@@ -844,17 +873,17 @@ export default {
                 displayMode: 'once'
               })
             }
-          }).catch((e) => console.log(e))
+          }).catch(err => console.log(err))
       }catch (e) {
         console.log(e)
       }
     },
     isCoverSetter(id) {
-      try {
+      try{
         this.$axios
           .get(
             process.env.apiBaseUrl +
-            'panel/datatables/is-cover-setter?table=recipes_file&foreign_column=recipes_id&id=' +
+            'dietician/datatables/is-cover-setter?table=recipes_file&foreign_column=recipes_id&id=' +
             id)
           .then(response => {
             if (response.data.success) {
@@ -873,13 +902,13 @@ export default {
                 displayMode: 'once'
               })
             }
-          }).catch((e) => console.log(e))
+          }).catch(err => console.log(err))
       }catch (e) {
         console.log(e)
       }
     },
     getDisplayData(data) {
-      try {
+      try{
         return {
           rank: data.rank,
           id: data._id.$oid,
@@ -891,6 +920,7 @@ export default {
         console.log(e)
       }
     },
+
     cloneProperty() {
       try {
         this.inputs.push([
@@ -915,7 +945,7 @@ export default {
       }
     },
     removeProperty(id) {
-      try {
+      try{
         for (let i = 0; i < this.inputs.length; i++) {
           if (this.inputs[i][0].id === id) {
             this.inputs.splice(i, 1)
@@ -926,25 +956,25 @@ export default {
       }
     },
     cloneProperty2() {
-      try {
+      try{
         this.inputs2.push([
           {
-            id: `recipe${++this.counter}`,
+            id: `recipe${++this.counter2}`,
             label: 'Malzeme Ölçüt Değeri Adı',
             value: ''
           },
           {
-            id: `recipeValue${++this.counter}`,
+            id: `recipeValue${++this.counter2}`,
             label: 'Malzeme Ölçüt Değeri',
             value: ''
           },
           {
-            id: `recipeType${++this.counter}`,
+            id: `recipeType${++this.counter2}`,
             label: 'Malzeme Ölçüt Değeri Türü',
             value: ''
           },
           {
-            id: `recipeNutrient${++this.counter}`,
+            id: `recipeNutrient${++this.counter2}`,
             label: 'Malzeme Besini',
             value: ''
           }
@@ -999,10 +1029,10 @@ export default {
           formData.append('criteriaNutrient[]', criteriaNutrient[i][3].value)
         }
         this.$axios
-          .post(process.env.apiBaseUrl + 'panel/recipes/create', formData, {
+          .post(process.env.apiBaseUrl + 'dietician/recipes/create', formData, {
             headers: {
               'Content-Type':
-                'multipart/form-data; boundary=' + formData._boundary,
+                'multipart/form-data; boundary=' + formData._boundary
             },
           })
           .then(response => {
@@ -1014,15 +1044,15 @@ export default {
               })
               this.$refs.myDropzone.options.url =
                 process.env.apiBaseUrl +
-                'panel/recipes/create-file/' +
+                'dietician/recipes/create-file/' +
                 response.data.data.$oid
               this.$refs.myDropzone.dropzone.options.url =
                 process.env.apiBaseUrl +
-                'panel/recipes/create-file/' +
+                'dietician/recipes/create-file/' +
                 response.data.data.$oid
               this.options.url =
                 process.env.apiBaseUrl +
-                'panel/recipes/create-file/' +
+                'dietician/recipes/create-file/' +
                 response.data.data.$oid
               this.inputData.id = response.data.data.$oid
               this.options.params.title = response.data.name
@@ -1034,7 +1064,7 @@ export default {
                 position: 'topCenter'
               })
             }
-          }).catch((e) => console.log(e))
+          }).catch(err => console.log(err))
       }catch (e) {
         console.log(e)
       }

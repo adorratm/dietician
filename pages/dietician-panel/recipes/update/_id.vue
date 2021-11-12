@@ -161,13 +161,40 @@
                         v-slot="{ errors }"
                       >
                         <div class="form-group">
-                          <v-textarea
-                            label='Yemek Tarifi Açıklaması'
-                            name='description'
-                            v-model='data.description'
-                            clearable
-                            hide-details
-                            outlined
+                          <editor
+                            name="description"
+                            id="description"
+                            v-model="data.description"
+                            api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
+                            :init="{
+                          placeholder:'Yemek Tarifi Açıklaması',
+													height: 300,
+													plugins: [
+														'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons'
+													],
+													toolbar:
+														'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+													entity_encoding: 'raw',
+													forced_root_block: '',
+													paste_auto_cleanup_on_paste: true,
+													language: 'tr_TR', // select language
+													language_url:
+														'https://cdn.jsdelivr.net/npm/tinymce-lang/langs/tr_TR.js',
+													branding: false,
+													image_advtab: true,
+													mobile: {
+														theme: 'silver'
+													},
+													setup: function(editor) {
+                            editor.on('Init', function() {
+                              editor.save();
+                            });
+														editor.on('change', function() {
+															editor.save();
+														});
+													},
+													convert_urls: false
+												}"
                           />
                           <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
                             {{ errors[0] }}
@@ -615,7 +642,7 @@ export default {
     ValidationProvider,
     editor: Editor,
   },
-  name: 'exercise-categories-update',
+  name: 'recipes-update',
   middleware: ["auth","dietician"],
   layout: 'dietician',
   computed: {
@@ -629,8 +656,8 @@ export default {
   data(){
     return {
       breadCrumbItems:[
-        {name: "Anasayfa",url: "/panel"},
-        {name: "Yemek Tarifleri",url:"/panel/recipes"},
+        {name: "Anasayfa",url: "/dietician-panel"},
+        {name: "Yemek Tariflerim",url:"/dietician-panel/recipes"},
         {name: "Yemek Tarifi Düzenle"}
       ],
       counter: !this.isEmpty(this.data) && !this.isEmpty(this.data.values)
@@ -665,7 +692,7 @@ export default {
       options: {
         url:
           process.env.apiBaseUrl +
-          "panel/recipes/create-file/" +
+          "dietician/recipes/create-file/" +
           this.$route.params.id,
         headers: {
           Authorization:
@@ -693,7 +720,7 @@ export default {
   async asyncData({ params, error, $axios }) {
     try {
       const { data } = await $axios.get(
-        process.env.apiBaseUrl + "panel/recipes/update/" + params.id
+        process.env.apiBaseUrl + "dietician/recipes/update/" + params.id
       );
       if (
         data.data.values.length === 0 ||
@@ -758,7 +785,7 @@ export default {
       }
     },
     selectCover() {
-      try {
+      try{
         this.e1 = 3;
         this.retrieveData();
       }catch (e) {
@@ -777,7 +804,7 @@ export default {
       }
     },
     retrieveData(url) {
-      try {
+      try{
         let urlParam = "get-all";
         if (url !== undefined && url !== "" && url !== null) {
           urlParam = url;
@@ -788,7 +815,8 @@ export default {
           this.pageSize
         );
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/datatables/${urlParam}?table=recipes_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=recipes_id&where_value=${this.data._id.$oid}&joins=recipes_file`)
+          .get(
+            `${process.env.apiBaseUrl}dietician/datatables/${urlParam}?table=recipes_file&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name,email,phone&where_column=recipes_id&where_value=${this.data._id.$oid}&joins=recipes_file`)
           .then(response => {
             this.imageData = response.data.data.data.map(this.getDisplayData);
             this.totalPages = response.data.data.last_page;
@@ -800,7 +828,7 @@ export default {
       }
     },
     handlePageChange(value) {
-      try {
+      try{
         this.page = value;
         this.retrieveData();
       }catch (e) {
@@ -808,7 +836,7 @@ export default {
       }
     },
     handlePageSizeChange(size) {
-      try {
+      try{
         this.pageSize = size;
         this.page = 1;
         this.retrieveData();
@@ -824,11 +852,11 @@ export default {
       }
     },
     deleteData(id) {
-      try {
+      try{
         this.$axios
           .delete(
             process.env.apiBaseUrl +
-            "panel/datatables/delete-file?id=" +
+            "dietician/datatables/delete-file?id=" +
             id +
             "&table=recipes_file")
           .then(response => {
@@ -848,17 +876,17 @@ export default {
                 displayMode: "once"
               });
             }
-          }).catch((e) =>console.log(e));
+          }).catch(err => console.log(err));
       }catch (e) {
         console.log(e)
       }
     },
     isActiveSetter(id) {
-      try {
+      try{
         this.$axios
           .get(
             process.env.apiBaseUrl +
-            "panel/datatables/is-active-setter?table=recipes_file&id=" +
+            "dietician/datatables/is-active-setter?table=recipes_file&id=" +
             id)
           .then(response => {
             if (response.data.success) {
@@ -877,17 +905,17 @@ export default {
                 displayMode: "once"
               });
             }
-          }).catch((e) => console.log(e));
+          }).catch(err => console.log(err));
       }catch (e) {
         console.log(e)
       }
     },
     isCoverSetter(id) {
-      try {
+      try{
         this.$axios
           .get(
             process.env.apiBaseUrl +
-            "panel/datatables/is-cover-setter?table=recipes_file&foreign_column=recipes_id&id=" +
+            "dietician/datatables/is-cover-setter?table=recipes_file&foreign_column=recipes_id&id=" +
             id)
           .then(response => {
             if (response.data.success) {
@@ -906,13 +934,13 @@ export default {
                 displayMode: "once"
               });
             }
-          }).catch((e) => console.log(e));
+          }).catch(err => console.log(err));
       }catch (e) {
         console.log(e)
       }
     },
     getDisplayData(data) {
-      try {
+      try{
         return {
           rank: data.rank,
           id: data._id.$oid,
@@ -926,7 +954,7 @@ export default {
     },
 
     cloneProperty() {
-      try {
+      try{
         this.data.values.push({
           title: "",
           value: "",
@@ -938,14 +966,14 @@ export default {
       }
     },
     removeProperty(id) {
-      try {
+      try{
         this.data.values.splice(id, 1);
       }catch (e) {
         console.log(e)
       }
     },
     cloneProperty2() {
-      try {
+      try{
         this.data.recipes_criteria_values.push({
           value: "",
           type: "",
@@ -956,14 +984,14 @@ export default {
       }
     },
     removeProperty2(id) {
-      try {
+      try{
         this.data.recipes_criteria_values.splice(id, 1);
       }catch (e) {
         console.log(e)
       }
     },
     onComplete(e) {
-      try {
+      try{
         if (JSON.parse(e.xhr.response).success) {
           this.$izitoast.success({
             title: JSON.parse(e.xhr.response).title,
@@ -984,16 +1012,28 @@ export default {
       }
     },
     editRecipes() {
-      try {
+      try{
+        console.log(this.data.recipes_criteria_values)
         let formData = new FormData(this.$refs.recipesForm);
+        formData.delete('criteriaName[]')
+        let criteriaValues = this.data.recipes_criteria_values
+        for (let i = 0; i < criteriaValues.length; i++) {
+          formData.append('criteriaName[]', criteriaValues[i].title)
+        }
+        formData.delete('criteriaNutrient[]')
+        let criteriaNutrient = this.data.recipes_criteria_values
+
+        for (let i = 0; i < criteriaNutrient.length; i++) {
+          formData.append('criteriaNutrient[]', criteriaNutrient[i].recipe_criteria_id)
+        }
         this.$axios
           .post(
-            process.env.apiBaseUrl + "panel/recipes/update/" + this.data._id.$oid,
+            process.env.apiBaseUrl + "dietician/recipes/update/" + this.data._id.$oid,
             formData,
             {
               headers: {
                 "Content-Type":
-                  "multipart/form-data; boundary=" + formData._boundary
+                  "multipart/form-data; boundary=" + formData._boundary,
               }
             }
           )
@@ -1005,7 +1045,7 @@ export default {
                 position: "topCenter"
               });
               setTimeout(() => {
-                this.$router.go("/panel/recipes");
+                this.$router.go("/dietician-panel/recipes");
               }, 2000);
             } else {
               this.$izitoast.error({
@@ -1014,10 +1054,11 @@ export default {
                 position: "topCenter"
               });
             }
-          }).catch((e) => console.log(e));
-      }catch (e) {
-        console.log(e)
+          }).catch(err => console.log(err));
+      }catch (err) {
+        console.log(err)
       }
+
     }
   }
 }

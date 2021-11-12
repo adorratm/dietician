@@ -91,6 +91,13 @@
     "_name": "_b6244380"
   },
   {
+    "name": "dietician-panel-blogs",
+    "path": "/dietician-panel/blogs",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\blogs\\\\index.vue",
+    "chunkName": "pages/dietician-panel/blogs/index",
+    "_name": "_696d9091"
+  },
+  {
     "name": "dietician-panel-consultants",
     "path": "/dietician-panel/consultants",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\index.vue",
@@ -224,6 +231,13 @@
     "_name": "_33b1e5bf"
   },
   {
+    "name": "dietician-panel-blogs-add",
+    "path": "/dietician-panel/blogs/add",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\blogs\\\\add\\\\index.vue",
+    "chunkName": "pages/dietician-panel/blogs/add/index",
+    "_name": "_3fffe1e2"
+  },
+  {
     "name": "dietician-panel-consultants-add",
     "path": "/dietician-panel/consultants/add",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\add\\\\index.vue",
@@ -348,6 +362,13 @@
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\consultants\\\\ediet\\\\update\\\\_id.vue",
     "chunkName": "pages/dietician-panel/consultants/ediet/update/_id",
     "_name": "_0b487f70"
+  },
+  {
+    "name": "dietician-panel-blogs-update-id",
+    "path": "/dietician-panel/blogs/update/:id",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dietician-panel\\\\blogs\\\\update\\\\_id.vue",
+    "chunkName": "pages/dietician-panel/blogs/update/_id",
+    "_name": "_b36b6be0"
   },
   {
     "name": "dietician-panel-consultants-update-id",

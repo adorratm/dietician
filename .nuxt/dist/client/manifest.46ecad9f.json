@@ -1,6 +1,7 @@
 {
   "name": "dietician",
   "short_name": "dietician",
+  "description": "Klinikdiyetisyen.com Nuxt JS &amp; Vue JS Frontend Development &amp; Production",
   "icons": [
     {
       "src": "/_nuxt/icons/icon_64x64.5f6a36.png",

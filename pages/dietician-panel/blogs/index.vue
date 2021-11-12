@@ -21,15 +21,15 @@
 									page = 1;
 									retrieveData('get-by-search');
 								"
-                hide-details
-                outlined
                 clearable
+                outlined
+                hide-details
               ></v-text-field>
 						</span>
             <span class="justify-content-end flex-shrink-1">
 							<v-btn
                 color='primary'
-                to="/dietician-panel/recipes/add"
+                to="/dietician-panel/blogs/add"
                 class="float-right ml-3 my-auto py-auto"
                 x-large
               >
@@ -44,8 +44,8 @@
               disable-pagination
               :hide-default-footer="true"
             >
-              <template v-slot:[`item.img_url`]="{ item }">
-                <img :alt='item.img_url' v-bind:src="item.img_url" width="150" height="150" />
+              <template v-slot:[`item.featureimage`]="{ item }">
+                <img v-bind:src="item.featureimage" width="150" height="150" :alt='item.title' />
               </template>
               <template v-slot:[`item.isActive`]="{ item }">
                 <v-layout justify-center>
@@ -74,8 +74,8 @@
                   :items="pageSizes"
                   label="Sayfada Görüntüleme Sayısı"
                   @change="handlePageSizeChange"
-                  hide-details
                   outlined
+                  hide-details
                 ></v-select>
               </v-col>
 
@@ -114,7 +114,7 @@ export default {
     ValidationProvider,
     editor: Editor,
   },
-  name: 'nutrients',
+  name: 'blogs',
   middleware: ["auth","dietician"],
   layout: 'dietician',
   computed: {
@@ -129,15 +129,15 @@ export default {
     return {
       breadCrumbItems:[
         {name: "Anasayfa",url: "/dietician-panel"},
-        {name: "Yemek Tarifleri"}
+        {name: "Makalelerim"}
       ],
       data: [],
       searchTitle: null,
       empty_url: null,
       headers: [
         { text: "#", align: "center", value: "rank" },
-        { text: "Görsel", align: "center", value: "img_url", sortable: false },
-        { text: "Adı", align: "center", value: "name" },
+        { text: "Görsel", align: "center", value: "featureimage", sortable: false },
+        { text: "Adı", align: "center", value: "title" },
         { text: "Durum", align: "center", value: "isActive" },
         {
           text: "İşlemler",
@@ -196,7 +196,8 @@ export default {
         );
         this.$axios
           .get(
-            `${process.env.apiBaseUrl}dietician/recipes/${urlParam}?table=recipes&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=name`)
+            `${process.env.apiBaseUrl}dietician/blog/${urlParam}?table=blogs&page=${params.page}&per_page=${params.size}&search=${params.title}&search_columns=title`
+          )
           .then(response => {
             this.empty_url = response.data.empty_url;
             this.data = response.data.data.data.map(this.getDisplayData);
@@ -229,13 +230,13 @@ export default {
     refreshList() {
       try {
         this.retrieveData();
-      }catch (e) {
+      }catch (e){
         console.log(e)
       }
     },
     editData(id) {
       try {
-        this.$router.push("/dietician-panel/recipes/update/" + id);
+        this.$router.push("/dietician-panel/blogs/update/" + id);
       }catch (e) {
         console.log(e)
       }
@@ -243,34 +244,7 @@ export default {
     deleteData(id) {
       try {
         this.$axios
-          .delete(process.env.apiBaseUrl + "dietician/recipes/delete/" + id)
-          .then(response => {
-            if (response.data.success) {
-              this.$izitoast.success({
-                title: response.data.title,
-                message: response.data.msg,
-                position: "topCenter"
-              });
-              this.refreshList();
-            } else {
-              this.$izitoast.error({
-                title: response.data.title,
-                message: response.data.msg,
-                position: "topCenter"
-              });
-            }
-          }).catch(err => console.log(err));
-      }catch (e) {
-        console.log(e)
-      }
-    },
-    isActiveSetter(id) {
-      try {
-        this.$axios
-          .get(
-            process.env.apiBaseUrl +
-            "dietician/datatables/is-active-setter?table=recipes&id=" +
-            id)
+          .delete(process.env.apiBaseUrl + "dietician/blog/delete/" + id)
           .then(response => {
             if (response.data.success) {
               this.$izitoast.success({
@@ -292,22 +266,17 @@ export default {
       }
     },
     getDisplayData(data) {
-      try{
+      try {
         return {
           rank: data.rank,
-          id: data._id,
-          name: data.name,
-          img_url:
-            (!this.isEmpty(data.recipes) &&
-            !this.isEmpty(data.recipes.img_url)
-              ? data.recipes.img_url
-              : this.img_url +this.empty_url),
+          id: data.id,
+          title: data.title,
+          featureimage: data.featureimage,
           isActive: data.isActive
         };
-      }catch(e){
+      }catch (e) {
         console.log(e)
       }
-
     }
   },
   mounted() {

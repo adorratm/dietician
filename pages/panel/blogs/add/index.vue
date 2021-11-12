@@ -125,6 +125,9 @@
                           clearable
                           outlined
                         />
+                        <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                          {{ errors[0] }}
+                        </v-alert>
                       </ValidationProvider>
                       <v-btn
                         color='primary'

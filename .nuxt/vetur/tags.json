@@ -65,15 +65,6 @@
   "FrontendSlider": {
     "description": "Auto imported from components/frontend/slider.vue"
   },
-  "BackendDieticianLogin": {
-    "description": "Auto imported from components/backend/dietician/dietician-login.vue"
-  },
-  "BackendDieticianDieticianheader": {
-    "description": "Auto imported from components/backend/dietician/dieticianheader.vue"
-  },
-  "BackendDieticianDieticiansidebar": {
-    "description": "Auto imported from components/backend/dietician/dieticiansidebar.vue"
-  },
   "BackendPanelAdminheader": {
     "description": "Auto imported from components/backend/panel/adminheader.vue"
   },
@@ -82,5 +73,14 @@
   },
   "BackendPanelLogin": {
     "description": "Auto imported from components/backend/panel/login.vue"
+  },
+  "BackendDieticianLogin": {
+    "description": "Auto imported from components/backend/dietician/dietician-login.vue"
+  },
+  "BackendDieticianDieticianheader": {
+    "description": "Auto imported from components/backend/dietician/dieticianheader.vue"
+  },
+  "BackendDieticianDieticiansidebar": {
+    "description": "Auto imported from components/backend/dietician/dieticiansidebar.vue"
   }
 }

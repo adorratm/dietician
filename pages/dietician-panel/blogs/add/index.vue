@@ -36,7 +36,7 @@
                           <v-text-field
                             label='Makale Adı'
                             name='title'
-                            v-model='data.post.title'
+                            v-model='inputData.title'
                             clearable
                             outlined
                             hide-details
@@ -77,7 +77,7 @@
                           <editor
                             name="content"
                             id="content"
-                            v-model="data.post.content"
+                            v-model="inputData.content"
                             api-key="4k2d9sks5ilhim6ju45ur7arp4pgn7o4u4asffie8cxttyu8"
                             :init="{
                           placeholder:'Makele Açıklaması',
@@ -114,7 +114,7 @@
                           </v-alert>
                         </div>
                       </ValidationProvider>
-                      <ValidationProvider name="Makale Görseli" rules="" v-slot='{errors}'>
+                      <ValidationProvider name="Makale Görseli" rules="required" v-slot='{errors}'>
                         <v-file-input
                           label='Makale Görseli'
                           v-model='inputData.featureimage'
@@ -165,8 +165,8 @@ export default {
     editor: Editor,
   },
   name: 'blog-add',
-  middleware: ["auth", "admin"],
-  layout: 'admin',
+  middleware: ["auth", "dietician"],
+  layout: 'dietician',
   computed: {
     img_url() {
       return process.env.apiPublicUrl
@@ -178,8 +178,8 @@ export default {
   data() {
     return {
       breadCrumbItems: [
-        {name: "Anasayfa", url: "/panel"},
-        {name: "Makaleler", url: "/panel/blogs"},
+        {name: "Anasayfa", url: "/dietician-panel"},
+        {name: "Makalelerim", url: "/dietician-panel/blogs"},
         {name: "Makale Ekle"}
       ],
       e1: 1,
@@ -194,21 +194,6 @@ export default {
       data: [],
       allBlogCategories: [],
       loading: false,
-    }
-  },
-  validate({ params }) {
-    return params.id !== null ? params.id : null
-  },
-  async asyncData({ params, error, $axios }) {
-    try {
-      const { data } = await $axios.get(
-        process.env.apiBaseUrl + 'panel/blog/update/' + params.id
-      )
-    console.log(data)
-      return data
-    } catch (e) {
-      console.log(e)
-      error({ message: 'Makale Kategorisi Bulunamadı.', statusCode: 404 })
     }
   },
   methods: {
@@ -233,9 +218,9 @@ export default {
     getBlogCategories() {
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/blog-categories`)
+          .get(`${process.env.apiBaseUrl}dietician/blog/create`)
           .then(response => {
-            this.allBlogCategories = response.data.data.data
+            this.allBlogCategories = response.data.data
           })
           .catch(err => console.log(err))
       } catch (e) {
@@ -248,7 +233,7 @@ export default {
         formData.delete("category_id");
         formData.append("category_id",this.inputData.category_id)
         this.$axios
-          .post(process.env.apiBaseUrl + 'panel/blog/update/'+this.data.post.id, formData, {
+          .post(process.env.apiBaseUrl + 'dietician/blog/create', formData, {
             headers: {
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary
@@ -276,7 +261,6 @@ export default {
   },
   mounted() {
     this.getBlogCategories();
-    this.inputData.category_id = this.data.post.category.id
   },
 }
 </script>

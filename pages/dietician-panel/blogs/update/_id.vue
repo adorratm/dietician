@@ -14,7 +14,7 @@
           <v-card-text>
             <ValidationObserver v-slot='{ handleSubmit }'>
               <form
-                @submit.prevent='handleSubmit(saveBlogs)'
+                @submit.prevent='handleSubmit(updateBlogs)'
                 ref='blogsForm'
                 enctype='multipart/form-data'
               >
@@ -114,7 +114,7 @@
                           </v-alert>
                         </div>
                       </ValidationProvider>
-                      <ValidationProvider name="Makale Görseli" rules="" v-slot='{errors}'>
+                      <ValidationProvider name="Makale Görseli" rules='' v-slot='{errors}'>
                         <v-file-input
                           label='Makale Görseli'
                           v-model='inputData.featureimage'
@@ -133,7 +133,7 @@
                         color='primary'
                         type='submit'
                       >
-                        Makaleyi Kaydet
+                        Makaleyi Güncelle
                       </v-btn>
                     </v-stepper-content>
                   </v-stepper-items>
@@ -165,8 +165,8 @@ export default {
     editor: Editor,
   },
   name: 'blog-add',
-  middleware: ["auth", "admin"],
-  layout: 'admin',
+  middleware: ["auth", "dietician"],
+  layout: 'dietician',
   computed: {
     img_url() {
       return process.env.apiPublicUrl
@@ -178,9 +178,9 @@ export default {
   data() {
     return {
       breadCrumbItems: [
-        {name: "Anasayfa", url: "/panel"},
-        {name: "Makaleler", url: "/panel/blogs"},
-        {name: "Makale Ekle"}
+        {name: "Anasayfa", url: "/dietician-panel"},
+        {name: "Makalelerim", url: "/dietician-panel/blogs"},
+        {name: "Makale Güncelle"}
       ],
       e1: 1,
       inputData: {
@@ -202,7 +202,7 @@ export default {
   async asyncData({ params, error, $axios }) {
     try {
       const { data } = await $axios.get(
-        process.env.apiBaseUrl + 'panel/blog/update/' + params.id
+        process.env.apiBaseUrl + 'dietician/blog/update/' + params.id
       )
     console.log(data)
       return data
@@ -233,22 +233,22 @@ export default {
     getBlogCategories() {
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}panel/blog-categories`)
+          .get(`${process.env.apiBaseUrl}dietician/blog/create`)
           .then(response => {
-            this.allBlogCategories = response.data.data.data
+            this.allBlogCategories = response.data.data
           })
           .catch(err => console.log(err))
       } catch (e) {
         console.log(e)
       }
     },
-    saveBlogs() {
+    updateBlogs() {
       try {
         let formData = new FormData(this.$refs.blogsForm)
         formData.delete("category_id");
         formData.append("category_id",this.inputData.category_id)
         this.$axios
-          .post(process.env.apiBaseUrl + 'panel/blog/update/'+this.data.post.id, formData, {
+          .post(process.env.apiBaseUrl + 'dietician/blog/update/'+this.data.post.id, formData, {
             headers: {
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary

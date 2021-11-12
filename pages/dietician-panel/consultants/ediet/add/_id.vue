@@ -63,6 +63,8 @@
                         item-text='name'
                         item-value='_id.$oid'
                         name='factors[]'
+                        hide-details
+                        outlined
                       />
                       <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
                         {{ errors[0] }}
@@ -90,6 +92,8 @@
                       multiple
                       name='meals'
                       return-object
+                      hide-details
+                      outlined
                     >
                       <template v-slot:prepend-item>
                         <v-list-item ripple @click='toggle'>
@@ -154,6 +158,8 @@
                       label='Egzersiz Seçin'
                       multiple
                       name='selectedExercises'
+                      hide-details
+                      outlined
                     >
                       <template v-slot:prepend-item>
                         <v-list-item ripple @click='toggleExercise'>
@@ -338,7 +344,7 @@
                               <v-text-field label='Miktar' name='quantity' :value='food.quantity'></v-text-field>
                             </td>
                             <td class='text-center align-center align-content-center align-self-center'>
-                              <v-autocomplete :items='edietfoods' item-value='_id.$oid' item-text='name' return-object :value='food._id' name='selectedFoods[]'></v-autocomplete>
+                              <v-autocomplete :items='edietfoods' item-value='_id.$oid' item-text='name' return-object :value='food._id' name='selectedFoods[]' hide-details outlined></v-autocomplete>
                             </td>
                             <td class='text-center align-center align-content-center align-self-center'>
                               <v-btn color='primary'>
