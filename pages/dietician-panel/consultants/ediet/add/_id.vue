@@ -230,7 +230,14 @@
                     </thead>
                     <tbody>
                     <tr>
-                      <td>Olması Gereken Ağırlık:</td>
+                      <td>
+                        <v-tooltip right>
+                          <template v-slot:activator='{ on, attrs }'>
+                            <span v-bind='attrs' v-on='on'>OGA:</span>
+                          </template>
+                          <span>Olması Gereken Ağırlık</span>
+                        </v-tooltip>
+                      </td>
                       <td>
                         {{ !isEmpty(adultCalorieCalc) && !isEmpty(adultCalorieCalc.original) && !isEmpty(adultCalorieCalc.original.data.oga) ? (adultCalorieCalc.original.data.oga).toFixed(2) : null
                         }}
@@ -238,14 +245,21 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>Beden Kütle İndexi:</td>
+                      <td>
+                        <v-tooltip right>
+                          <template v-slot:activator='{ on, attrs }'>
+                            <span v-bind='attrs' v-on='on'>BKİ:</span>
+                          </template>
+                          <span>Beden Kütle İndexi</span>
+                        </v-tooltip>
+                      </td>
                       <td>
                         {{ !isEmpty(adultCalorieCalc) && !isEmpty(adultCalorieCalc.original) && !isEmpty(adultCalorieCalc.original.data.bki) ? (adultCalorieCalc.original.data.bki).toFixed(2) : null
                         }}
                       </td>
                     </tr>
                     <tr>
-                      <td>Alınması Gereken Kalori Miktarı:</td>
+                      <td>Alınması Gereken Enerji Miktarı:</td>
                       <td>
                         {{ !isEmpty(bmh) ? bmh.toFixed(2) : null }} kcal
                       </td>
@@ -253,28 +267,28 @@
                     <tr>
                       <td>Stres Faktörüne Göre Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorFirst) ? bmh.toFixed(2) + ' + ' + (factorFirst - bmh).toFixed(2) + ' = ' + factorFirst.toFixed(2) : null
+                        {{ !isEmpty(factorFirst) ? factorFirst.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>
                     <tr>
                       <td>Aktivite Faktörüne Göre Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorSecond) ? bmh.toFixed(2) + ' + ' + (factorSecond - bmh).toFixed(2) + ' = ' + factorSecond.toFixed(2) : null
+                        {{ !isEmpty(factorSecond) ? factorSecond.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>
                     <tr>
                       <td>Termal Faktöre Göre Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorThird) ? bmh.toFixed(2) + ' + ' + (factorThird - bmh).toFixed(2) + ' = ' + factorThird.toFixed(2) : null
+                        {{ !isEmpty(factorThird) ? factorThird.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>
                     <tr>
                       <td>Genel Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorFour) ? bmh.toFixed(2) + ' + ' + (factorFirst - bmh).toFixed(2) + ' + ' + (factorSecond - bmh).toFixed(2) + ' + ' + (factorThird - bmh).toFixed(2) + ' = ' + factorFour.toFixed(2) : null
+                        {{ !isEmpty(factorFour) ? factorFour.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>

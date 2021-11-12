@@ -166,6 +166,30 @@
               </ValidationProvider>
             </td>
           </tr>
+          <tr v-if='userData.gender === "Kadın" && userData.special_case === "EMZİKLİ" && userData.status !== "dietician"'>
+            <td><b>Emzirme Süreniz (Ay) :</b></td>
+            <td colspan='2' class='p-2'>
+              <ValidationProvider
+                name='Emzirme Süreniz (Ay)'
+                rules='required'
+                v-slot='{ errors }'
+              >
+                <v-autocomplete
+                  name='special_case_month_breastfeeding'
+                  id='special_case_month_breastfeeding'
+                  :items='special_case_months'
+                  v-model='userData.special_case_month_breastfeeding'
+                  clearable
+                  label='Emzirme Süreniz (Ay)'
+                  hide-details
+                  outlined
+                />
+                <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                  {{ errors[0] }}
+                </v-alert>
+              </ValidationProvider>
+            </td>
+          </tr>
           <tr v-if='userData.gender === "Kadın" && userData.special_case === "HAMİLE" && userData.status !== "dietician"'>
             <td><b>Hamileliğinizin Kaçıncı Ayındasınız? :</b></td>
             <td colspan='2' class='p-2'>

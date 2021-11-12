@@ -214,6 +214,30 @@
                         </ValidationProvider>
                       </td>
                     </tr>
+                    <tr v-if='data.gender === "Kadın" && data.special_case === "EMZİKLİ" && data.status !== "dietician"'>
+                      <td><b>Emzirme Süresi (Ay) :</b></td>
+                      <td colspan='2' class='p-2'>
+                        <ValidationProvider
+                          name='Emzirme Süresi (Ay)'
+                          rules='required'
+                          v-slot='{ errors }'
+                        >
+                          <v-autocomplete
+                            name='special_case_month_breastfeeding'
+                            id='special_case_month_breastfeeding'
+                            :items='special_case_months'
+                            v-model='data.special_case_month_breastfeeding'
+                            clearable
+                            label='Emzirme Süresi (Ay)'
+                            hide-details
+                            outlined
+                          />
+                          <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                            {{ errors[0] }}
+                          </v-alert>
+                        </ValidationProvider>
+                      </td>
+                    </tr>
                     <tr v-if='data.gender === "Kadın" && data.special_case === "HAMİLE" && data.status !== "dietician"'>
                       <td><b>Hamileliğin Kaçıncı Ayında? :</b></td>
                       <td colspan='2' class='p-2'>
