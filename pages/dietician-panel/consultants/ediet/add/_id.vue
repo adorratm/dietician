@@ -50,7 +50,7 @@
 
               <v-stepper-items>
                 <v-stepper-content step='1'>
-                  <div v-for='(item,index) in factors' v-if='!isEmpty(factors) && !isEmpty(item.values)'>
+                  <div class="form-group" v-for='(item,index) in factors' v-if='!isEmpty(factors) && !isEmpty(item.values)'>
                     <ValidationProvider
                       v-slot='{ errors }'
                       :name='item.title'
@@ -83,6 +83,7 @@
                     name='Öğün'
                     rules='required'
                   >
+                    <div class="form-group">
                     <v-select
                       v-model='selectedMeals'
                       :items='meals'
@@ -92,8 +93,8 @@
                       multiple
                       name='meals'
                       return-object
-                      hide-details
                       outlined
+                      hide-details
                     >
                       <template v-slot:prepend-item>
                         <v-list-item ripple @click='toggle'>
@@ -128,7 +129,31 @@
                     <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
                       {{ errors[0] }}
                     </v-alert>
+                  </div>
                   </ValidationProvider>
+                  <div class="form-group" v-for="(item,index) in selectedMeals" v-if="!isEmpty(selectedMeals)" :key="index">
+                    <ValidationProvider
+                      v-slot='{ errors }'
+                      :name='item.name+" Öğün Oranı (Seçim Sırasıyla)"'
+                      rules='required'
+                    >
+                      <v-text-field
+                        :label='item.name+" Öğün Oranı (Seçim Sırasıyla)"'
+                        name='selectedMealRates[]'
+                        v-model="selectedMealRates[index]"
+                        type="number"
+                        min="0"
+                        max="100"
+                        clearable
+                        outlined
+                        hide-details
+                      ></v-text-field>
+                      <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </ValidationProvider>
+                  </div>
+
                   <v-btn class='mt-2' color='primary' role='button'
                          @click.prevent='selectMeals'>
                     İlerle
@@ -471,6 +496,7 @@ export default {
   data() {
     return {
       selectedFactors: [],
+      selectedMealRates:[],
       breadCrumbItems: [
         { name: 'Anasayfa', url: '/dietician-panel' },
         { name: 'Danışanlarım', url: '/dietician-panel/consultants' },
@@ -497,7 +523,7 @@ export default {
       factorSecond: null,
       factorThird: null,
       factorFour: null,
-      mealss: []
+      mealss: [],
     }
   },
   validate({ params }) {
@@ -511,6 +537,11 @@ export default {
       return data.data
     } catch (e) {
       error({ message: 'Danışan Bilgisi Bulunamadı.', statusCode: 404 })
+    }
+  },
+  watch:{
+    selectedMeals(v){
+      console.log(v)
     }
   },
   methods: {
@@ -553,6 +584,16 @@ export default {
     },
     selectFactors() {
       if (!this.isEmpty(this.selectedFactors)) {
+        if(this.selectedFactors.filter(n => n).length !== 3){
+          this.$izitoast.error({
+            title: 'Hata!',
+            message: 'Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+          this.e1 = 1
+          return false
+        }
         this.e1 = 2
       } else if (this.year === 0) {
         this.e1 = 2
@@ -568,6 +609,28 @@ export default {
     },
     selectMeals() {
       if (!this.isEmpty(this.selectedMeals)) {
+        if (!this.isEmpty(this.selectedMealRates)) {
+          this.selectedMealRates = this.selectedMealRates.filter(v => parseInt(v))
+          if(this.selectedMealRates.length !== this.selectedMeals.length){
+            this.$izitoast.error({
+              title: 'Hata!',
+              message: 'Öğün Oranlarını Doldurduğunuzdan Emin Olup Tekrar Deneyin.',
+              position: 'topCenter',
+              displayMode: 'once'
+            })
+            this.e1 = 2
+            return false
+          }
+        }else {
+          this.$izitoast.error({
+            title: 'Hata!',
+            message: 'Öğün Oranlarını Doldurduğunuzdan Emin Olup Tekrar Deneyin.',
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+          this.e1 = 2
+          return false
+        }
         this.e1 = 3
       } else {
         this.$izitoast.error({
@@ -593,14 +656,15 @@ export default {
       }
     },
     sendTotal(e1 = 5) {
-      if (!this.isEmpty(this.selectedFactors) && !this.isEmpty(this.selectedMeals) && !this.isEmpty(this.selectedExercises) || (this.year === 0 && !this.isEmpty(this.selectedMeals))) {
+      if (!this.isEmpty(this.selectedFactors) && !this.isEmpty(this.selectedMeals) && !this.isEmpty(this.selectedMealRates) && !this.isEmpty(this.selectedExercises) || (this.year === 0 && !this.isEmpty(this.selectedMeals))) {
         let selectedFactors = this.selectedFactors.filter(n => n)
         let selectedMeals = this.selectedMeals.filter(n => n)
         let selectedExercises = this.selectedExercises.filter(n => n)
         this.$axios.post(process.env.apiBaseUrl + 'dietician/e-diets/create/' + this.user._id.$oid, {
           'selectedFactors': selectedFactors,
           'selectedMeals': selectedMeals,
-          'selectedExercises': selectedExercises
+          'selectedExercises': selectedExercises,
+          'selectedMealRates': this.selectedMealRates.filter(n => parseInt(n))
         }).then((result) => {
           this.bmh = result.data.data.bmh
           this.factorFirst = result.data.data.factorFirst

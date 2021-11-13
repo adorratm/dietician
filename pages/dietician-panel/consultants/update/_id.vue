@@ -5,7 +5,7 @@
       <div class="content container-fluid">
 
         <!-- Page Header -->
-        <Breadcrumb :items='breadCrumbItems' />
+        <Breadcrumb :items='breadCrumbItems'/>
         <!-- /Page Header -->
 
         <!-- General -->
@@ -32,6 +32,18 @@
 
             <v-stepper-step :complete='e1 > 4' step='4'>
               Sevilmeyen Besinler
+            </v-stepper-step>
+
+            <v-divider></v-divider>
+
+            <v-stepper-step :complete='e1 > 5' step='5'>
+              Hedeflenen Ağırlık
+            </v-stepper-step>
+
+            <v-divider></v-divider>
+
+            <v-stepper-step :complete='e1 > 6' step='6'>
+              Güncel Ağırlık
             </v-stepper-step>
           </v-stepper-header>
 
@@ -214,7 +226,8 @@
                         </ValidationProvider>
                       </td>
                     </tr>
-                    <tr v-if='data.gender === "Kadın" && data.special_case === "EMZİKLİ" && data.status !== "dietician"'>
+                    <tr
+                      v-if='data.gender === "Kadın" && data.special_case === "EMZİKLİ" && data.status !== "dietician"'>
                       <td><b>Emzirme Süresi (Ay) :</b></td>
                       <td colspan='2' class='p-2'>
                         <ValidationProvider
@@ -1181,11 +1194,203 @@
                   <v-btn color='primary' type='submit' class='mb-2'>
                     Sevilmeyen Besin Bilgisini Kaydet
                   </v-btn>
+                  <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=5'>
+                    Alerjen Besin Bilgisini Kaydetmeden İlerle
+                  </v-btn>
                   <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 3'>
                     Geri Dön
                   </v-btn>
                 </form>
               </ValidationObserver>
+            </v-stepper-content>
+
+            <v-stepper-content step="5">
+              <ValidationObserver v-slot='{ handleSubmit }'>
+              <form
+                @submit.prevent='handleSubmit(saveWeightAimformation)'
+                ref='weightAimInformationForm'
+                enctype='multipart/form-data'
+              >
+                <ValidationProvider
+                  name='Güncel Ağırlık (kg)'
+                  v-slot='{ errors }'
+                >
+                  <div class='form-group my-2'>
+                    <v-text-field
+                      type='number'
+                      name='weight'
+                      id='weight'
+                      v-model='data.weight'
+                      clearable
+                      label='Güncel Ağırlık (kg)'
+                      outlined
+                    />
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
+                  </div>
+                </ValidationProvider>
+                <ValidationProvider
+                  name='Hedeflenen Ağırlık (KG)'
+                  rules='required'
+                  v-slot='{ errors }'
+                >
+                  <v-text-field
+                    id='weightaim'
+                    type='number'
+                    name='weightaim'
+                    v-model='data.weightaim'
+                    clearable
+                    label='Hedeflenen Ağırlık (KG)'
+                    outlined
+                  />
+                  <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
+                    {{ errors[0] }}
+                  </v-alert>
+                </ValidationProvider>
+
+                <ValidationProvider
+                  name='Hedeflenen Tarih'
+                  :rules='"required"'
+                  v-slot='{ errors }'
+                >
+                  <div class='form-group my-2'>
+                    <v-menu
+                      ref='menuWeight'
+                      v-model='menuWeight'
+                      :close-on-content-click='false'
+                      transition='scale-transition'
+                      offset-y
+                      min-width='auto'
+                    >
+                      <template v-slot:activator='{ on,attrs }'>
+                        <v-text-field
+                          name='aim_date'
+                          v-model='computedDateFormattedMomentjsWeight'
+                          label='Hedeflenen Tarih (Örn: 31-12-2002)'
+                          pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
+                          prepend-icon='mdi-calendar'
+                          :min="(new Date(Date.now())).toISOString().substr(0, 10)"
+                          v-bind='attrs'
+                          v-on='on'
+                          clearable
+                          outlined
+                          minlength='10'
+                          maxlength='10'
+                          @click:clear='data.aim_date = null'
+                          v-on:click:prepend='menu=true'
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker
+                        v-model='data.aim_date'
+                        :active-picker.sync='activePickerWeight'
+                        :min="(new Date(Date.now())).toISOString().substr(0, 10)"
+                        @change='saveWeight'
+                        @input='menuWeight = false'
+                      ></v-date-picker>
+                    </v-menu>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
+                  </div>
+                </ValidationProvider>
+
+                <v-btn color='primary' type='submit' class='mb-2'>
+                  Hedeflenen Ağırlık Bilgisini Kaydet
+                </v-btn>
+                <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=6'>
+                  Hedeflenen Ağırlık Bilgisini Kaydetmeden İlerle
+                </v-btn>
+                <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 4'>
+                  Geri Dön
+                </v-btn>
+              </form>
+              </ValidationObserver>
+            </v-stepper-content>
+
+            <v-stepper-content step="6">
+              <form
+                @submit.prevent='handleSubmit(saveUnlikedFoodsInformation)'
+                ref='UnlikedFoodsInformationForm'
+                enctype='multipart/form-data'
+              >
+                <ValidationProvider
+                  name='Sevilmeyen Besinler'
+                  rules=''
+                  v-slot='{ errors }'
+                >
+                  <div class='form-group'>
+                    <v-autocomplete
+                      name='selectedUnlikedFoods'
+                      v-model='selectedUnlikedFoods'
+                      :items='unlikedFoods'
+                      chips
+                      label='Sevilmeyen Besin Seçin'
+                      item-text='name'
+                      item-value='_id.$oid'
+                      multiple
+                      hide-details
+                      outlined
+                    >
+                      <template v-slot:prepend-item>
+                        <v-list-item ripple @click='toggleUnlikedFoods'>
+                          <v-list-item-action>
+                            <v-icon
+                              :color="
+																	!isEmpty(selectedUnlikedFoods) &&
+																	selectedUnlikedFoods.length > 0
+																		? 'indigo darken-4'
+																		: ''
+																"
+                            >
+                              {{ unlikedFoodsIcon }}
+                            </v-icon>
+                          </v-list-item-action>
+                          <v-list-item-content>
+                            <v-list-item-title>
+                              Tümünü Seç
+                            </v-list-item-title>
+                          </v-list-item-content>
+                        </v-list-item>
+                        <v-divider class='mt-2'></v-divider>
+                      </template>
+                      <template v-slot:selection='data'>
+                        <v-chip
+                          v-bind='data.attrs'
+                          :input-value='data.selected'
+                          close
+                          @click='data.select'
+                          @click:close='removeUnlikedFoods(data.item)'
+                        >
+                          {{ data.item.name }}
+                        </v-chip>
+                      </template>
+                      <template v-slot:item='data'>
+                        <template>
+                          <v-list-item-content>
+                            <v-list-item-title
+                              v-html='data.item.name'
+                            ></v-list-item-title>
+                          </v-list-item-content>
+                        </template>
+                      </template>
+                    </v-autocomplete>
+                    <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
+                      {{ errors[0] }}
+                    </v-alert>
+                  </div>
+                </ValidationProvider>
+
+                <v-btn color='primary' type='submit' class='mb-2'>
+                  Sevilmeyen Besin Bilgisini Kaydet
+                </v-btn>
+                <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=5'>
+                  Alerjen Besin Bilgisini Kaydetmeden İlerle
+                </v-btn>
+                <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 3'>
+                  Geri Dön
+                </v-btn>
+              </form>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
@@ -1195,24 +1400,25 @@
       </div>
     </div>
     <!-- /Page Wrapper -->
-    <Nuxt />
+    <Nuxt/>
   </div>
 </template>
 
 <script>
 import Breadcrumb from "~/components/backend/breadcrumb"
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import {ValidationObserver, ValidationProvider} from "vee-validate";
 import Editor from "@tinymce/tinymce-vue";
 import moment from "moment";
+
 export default {
-  components:{
+  components: {
     Breadcrumb,
     ValidationObserver,
     ValidationProvider,
     editor: Editor,
   },
   name: 'users-update',
-  middleware: ["auth","dietician"],
+  middleware: ["auth", "dietician"],
   layout: 'dietician',
   computed: {
     img_url() {
@@ -1290,6 +1496,19 @@ export default {
           this.data.birthDate = moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD')
         }
       }
+    },
+    computedDateFormattedMomentjsWeight: {
+      get() {
+        return !this.isEmpty(this.data.aim_date) && this.data.aim_date.length === 10 ? moment(this.data.aim_date).format('DD-MM-YYYY') : null
+      },
+      set(val) {
+        let isValid = moment(val, 'DD-MM-YYYY')
+        if (!this.isEmpty(val) && val.length === 10 && isValid.isValid()) {
+          console.log(val)
+          console.log(moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD'))
+          this.data.aim_date = moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD')
+        }
+      }
     }
   },
   async mounted() {
@@ -1299,7 +1518,7 @@ export default {
     this.birth_year = moment(this.data.birth_year).format('YYYY-MM-DD')
     this.showBirthWeight(this.birth_year)
   },
-  data(){
+  data() {
     return {
       tab: null,
       disease: null,
@@ -1313,14 +1532,16 @@ export default {
       selectedUnlikedFoods: [],
       e1: 1,
       breadCrumbItems: [
-        { name: 'Anasayfa', url: '/dietician-panel' },
-        { name: 'Danışanlarım', url: '/dietician-panel/consultants' },
-        { name: 'Danışan Düzenle' }
+        {name: 'Anasayfa', url: '/dietician-panel'},
+        {name: 'Danışanlarım', url: '/dietician-panel/consultants'},
+        {name: 'Danışan Düzenle'}
       ],
-      specialCases: [{ 'value': 'YOK' }, { 'value': 'EMZİKLİ' }, { 'value': 'HAMİLE' }],
+      specialCases: [{'value': 'YOK'}, {'value': 'EMZİKLİ'}, {'value': 'HAMİLE'}],
       activePicker: null,
+      activePickerWeight: null,
       menu: false,
-      country: { cities: [], towns: [], districts: [], neighborhoods: [] },
+      menuWeight: false,
+      country: {cities: [], towns: [], districts: [], neighborhoods: []},
       months: [
         'OCAK',
         'ŞUBAT',
@@ -1350,36 +1571,44 @@ export default {
         12
       ],
       currentAge: null,
-      birth_year:null,
+      birth_year: null,
     }
   },
-  validate({ params }) {
+  validate({params}) {
     return params.id !== null ? params.id : null;
   },
-  async asyncData({ params, error, $axios }) {
+  async asyncData({params, error, $axios}) {
     try {
-      const { data } = await $axios.get(
+      const {data} = await $axios.get(
         process.env.apiBaseUrl + "dietician/users/update/" + params.id
       );
       console.log(data)
       return data;
     } catch (e) {
       console.log(e)
-      error({ message: "Kullanıcı Bilgisi Bulunamadı.", statusCode: 404 });
+      error({message: "Kullanıcı Bilgisi Bulunamadı.", statusCode: 404});
     }
   },
-  watch:{
-    computedDateFormattedMomentjs(v){
+  watch: {
+    computedDateFormattedMomentjs(v) {
       this.showBirthWeight(this.data.birthDate)
+    },
+    computedDateFormattedMomentjsWeight(v) {
+      this.showAimDate(this.data.aim_date)
     }
   },
-  methods:{
-    showBirthWeight(v){
+  methods: {
+    showBirthWeight(v) {
       console.log(this.birth_year)
       console.log(v)
       this.birth_year = moment(v).format('YYYY-MM-DD')
-      this.currentAge = moment().diff(this.birth_year,'years',true)
+      this.currentAge = moment().diff(this.birth_year, 'years', true)
       console.log(this.currentAge)
+    },
+    showAimDate(v) {
+      console.log(this.aim_date)
+      console.log(v)
+      this.aim_date = moment(v).format('YYYY-MM-DD')
     },
     /**
      * isEmpty
@@ -1395,7 +1624,7 @@ export default {
           return obj == null || Object.keys(obj).length === 0
         else if (typeof obj == 'boolean') return false
         else return !obj
-      }catch (e){
+      } catch (e) {
         console.log(e)
       }
     },
@@ -1493,6 +1722,13 @@ export default {
         console.log(e)
       }
     },
+    saveWeight(date) {
+      try {
+        this.$refs.menuWeight.save(date)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     getCities() {
       try {
         this.$axios
@@ -1511,27 +1747,27 @@ export default {
         console.log(e)
       }
     },
-    getTowns: function(item) {
+    getTowns: function (item) {
       try {
-        if (!this.isEmpty(item) && !this.isEmpty(item.towns)){
+        if (!this.isEmpty(item) && !this.isEmpty(item.towns)) {
           this.$axios
-          .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
-          .then(response => {
-            this.country.towns =
-              response.data.towns.length > 0 ? response.data.towns : []
-            this.country.districts = []
-            this.country.neighborhoods = []
-            let item = this.country.towns.filter(obj => {
-              return obj.name === this.data.town
-            })
-            this.getDistricts(item[0])
-          }).catch((e) => console.log(e))
+            .get(process.env.apiBaseUrl + 'informations/towns?id=' + item.towns)
+            .then(response => {
+              this.country.towns =
+                response.data.towns.length > 0 ? response.data.towns : []
+              this.country.districts = []
+              this.country.neighborhoods = []
+              let item = this.country.towns.filter(obj => {
+                return obj.name === this.data.town
+              })
+              this.getDistricts(item[0])
+            }).catch((e) => console.log(e))
         }
       } catch (e) {
         console.log(e)
       }
     },
-    getDistricts: function(item) {
+    getDistricts: function (item) {
       try {
         if (!this.isEmpty(item) && !this.isEmpty(item.districts)) {
           this.$axios
@@ -1552,7 +1788,7 @@ export default {
         console.log(e)
       }
     },
-    getNeighborhoods: function(item) {
+    getNeighborhoods: function (item) {
       try {
         if (!this.isEmpty(item) && !this.isEmpty(item.neighborhoods)) {
           this.$axios
@@ -1579,30 +1815,30 @@ export default {
         formData.delete('neighborhood')
         formData.delete('city')
         formData.delete('town')
-        if(!this.isEmpty(this.data.district.name)){
+        if (!this.isEmpty(this.data.district.name)) {
           formData.append('district', this.data.district.name)
-        }else{
+        } else {
           formData.append('district', this.data.district)
         }
-        if(!this.isEmpty(this.data.neighborhood.name)){
+        if (!this.isEmpty(this.data.neighborhood.name)) {
           formData.append('neighborhood', this.data.neighborhood.name)
-        }else{
+        } else {
           formData.append('neighborhood', this.data.neighborhood)
         }
-        if(!this.isEmpty(this.data.town.name)){
+        if (!this.isEmpty(this.data.town.name)) {
           formData.append('town', this.data.town.name)
-        }else{
+        } else {
           formData.append('town', this.data.town)
         }
-        if(!this.isEmpty(this.data.city.name)){
+        if (!this.isEmpty(this.data.city.name)) {
           formData.append('city', this.data.city.name)
-        }else{
+        } else {
           formData.append('city', this.data.city)
         }
         formData.append('dietician_id', this.user._id)
         formData.append('birthDate', moment(this.data.birthDate).format('YYYY-MM-DD'))
         this.$axios
-          .post(process.env.apiBaseUrl + 'dietician/users/update/'+this.data._id, formData, {
+          .post(process.env.apiBaseUrl + 'dietician/users/update/' + this.data._id, formData, {
             headers: {
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary
@@ -1746,6 +1982,38 @@ export default {
               })
             }
           })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    saveWeightAimformation() {
+      try {
+        let formData = new FormData(this.$refs.weightAimInformationForm)
+        formData.append('dietician_id', this.user._id)
+        formData.append('aim_date', moment(this.data.aim_date).format('YYYY-MM-DD'))
+        this.$axios
+          .post(process.env.apiBaseUrl + 'dietician/users/update/' + this.data._id, formData, {
+            headers: {
+              'Content-Type':
+                'multipart/form-data; boundary=' + formData._boundary
+            }
+          })
+          .then(response => {
+            if (response.status === 200) {
+              this.$izitoast.success({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+              this.e1 = 6
+            } else {
+              this.$izitoast.error({
+                title: response.data.title,
+                message: response.data.msg,
+                position: 'topCenter'
+              })
+            }
+          }).catch((e) => console.log(e))
       } catch (e) {
         console.log(e)
       }
