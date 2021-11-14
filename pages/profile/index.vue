@@ -104,6 +104,12 @@
                 <ProfileWorkHours :user='user'/>
               </div>
               <!-- /Profile Work Hours -->
+
+              <!-- Profile Weight Aims -->
+              <div role='tabpanel' id='profileWeightAims' class='tab-pane fade' v-if='user.status !== "dietician"'>
+                <ProfileWeightAimsEdit :user='user'/>
+              </div>
+              <!-- /Profile Work Hours -->
             </div>
           </div>
         </div>
@@ -123,6 +129,7 @@ import ProfileWorkHours from '~/components/frontend/profile-work-hours'
 import ProfileDiseaseEdit from '~/components/frontend/profile-disease-edit'
 import ProfileAllergenFoodsEdit from '~/components/frontend/profile-allergen-foods-edit'
 import ProfileUnlikedFoodsEdit from '~/components/frontend/profile-unliked-foods-edit'
+import ProfileWeightAimsEdit from '~/components/frontend/profile-weight-aims-edit'
 import ProfileInformationTop from '~/components/frontend/profile-information-top'
 import NutrientList from '~/components/frontend/nutrient-list'
 import Breadcrumb from '~/components/frontend/breadcrumb'
@@ -139,6 +146,7 @@ export default {
     ProfileDiseaseEdit,
     ProfileAllergenFoodsEdit,
     ProfileUnlikedFoodsEdit,
+    ProfileWeightAimsEdit,
     ValidationObserver,
     ValidationProvider,
     NutrientList,

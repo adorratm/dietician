@@ -16,6 +16,7 @@ export { default as FrontendProfileInformationEdit } from '../..\\components\\fr
 export { default as FrontendProfileInformationTop } from '../..\\components\\frontend\\profile-information-top.vue'
 export { default as FrontendProfileInformation } from '../..\\components\\frontend\\profile-information.vue'
 export { default as FrontendProfileUnlikedFoodsEdit } from '../..\\components\\frontend\\profile-unliked-foods-edit.vue'
+export { default as FrontendProfileWeightAimsEdit } from '../..\\components\\frontend\\profile-weight-aims-edit.vue'
 export { default as FrontendProfileWorkHours } from '../..\\components\\frontend\\profile-work-hours.vue'
 export { default as FrontendRecipeList } from '../..\\components\\frontend\\recipe-list.vue'
 export { default as FrontendRegister } from '../..\\components\\frontend\\register.vue'

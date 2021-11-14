@@ -53,6 +53,9 @@
   "FrontendProfileUnlikedFoodsEdit": {
     "description": "Auto imported from components/frontend/profile-unliked-foods-edit.vue"
   },
+  "FrontendProfileWeightAimsEdit": {
+    "description": "Auto imported from components/frontend/profile-weight-aims-edit.vue"
+  },
   "FrontendProfileWorkHours": {
     "description": "Auto imported from components/frontend/profile-work-hours.vue"
   },

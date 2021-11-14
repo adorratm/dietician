@@ -439,6 +439,7 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Breadcrumb from '~/components/backend/breadcrumb'
 import { mapState } from 'vuex'
+import moment from "moment";
 
 export default {
   middleware: ['auth', 'dietician'],
@@ -584,7 +585,17 @@ export default {
     },
     selectFactors() {
       if (!this.isEmpty(this.selectedFactors)) {
-        if(this.selectedFactors.filter(n => n).length !== 3){
+        if(this.selectedFactors.filter(n => n).length !== 3 && this.year >= 18){
+          this.$izitoast.error({
+            title: 'Hata!',
+            message: 'Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
+            position: 'topCenter',
+            displayMode: 'once'
+          })
+          this.e1 = 1
+          return false
+        }
+        if(this.selectedFactors.filter(n => n).length !== 4 && this.year >= 10 && this.year < 18){
           this.$izitoast.error({
             title: 'Hata!',
             message: 'Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.',

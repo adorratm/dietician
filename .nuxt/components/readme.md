@@ -24,6 +24,7 @@ You can directly use them in pages and other components without the need to impo
 - `<FrontendProfileInformationTop>` | `<frontend-profile-information-top>` (components/frontend/profile-information-top.vue)
 - `<FrontendProfileInformation>` | `<frontend-profile-information>` (components/frontend/profile-information.vue)
 - `<FrontendProfileUnlikedFoodsEdit>` | `<frontend-profile-unliked-foods-edit>` (components/frontend/profile-unliked-foods-edit.vue)
+- `<FrontendProfileWeightAimsEdit>` | `<frontend-profile-weight-aims-edit>` (components/frontend/profile-weight-aims-edit.vue)
 - `<FrontendProfileWorkHours>` | `<frontend-profile-work-hours>` (components/frontend/profile-work-hours.vue)
 - `<FrontendRecipeList>` | `<frontend-recipe-list>` (components/frontend/recipe-list.vue)
 - `<FrontendRegister>` | `<frontend-register>` (components/frontend/register.vue)
