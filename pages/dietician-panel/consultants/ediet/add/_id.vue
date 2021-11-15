@@ -5,7 +5,7 @@
       <div class='content container-fluid'>
 
         <!-- Page Header -->
-        <Breadcrumb :items='breadCrumbItems' />
+        <Breadcrumb :items='breadCrumbItems'/>
         <!-- /Page Header -->
 
         <!-- General -->
@@ -50,7 +50,8 @@
 
               <v-stepper-items>
                 <v-stepper-content step='1'>
-                  <div class="form-group" v-for='(item,index) in factors' v-if='!isEmpty(factors) && !isEmpty(item.values)'>
+                  <div class="form-group" v-for='(item,index) in factors'
+                       v-if='!isEmpty(factors) && !isEmpty(item.values)'>
                     <ValidationProvider
                       v-slot='{ errors }'
                       :name='item.title'
@@ -84,54 +85,55 @@
                     rules='required'
                   >
                     <div class="form-group">
-                    <v-select
-                      v-model='selectedMeals'
-                      :items='meals'
-                      item-text='name'
-                      item-value='_id'
-                      label='Öğün Seçin'
-                      multiple
-                      name='meals'
-                      return-object
-                      outlined
-                      hide-details
-                    >
-                      <template v-slot:prepend-item>
-                        <v-list-item ripple @click='toggle'>
-                          <v-list-item-action>
-                            <v-icon
-                              :color="
+                      <v-select
+                        v-model='selectedMeals'
+                        :items='meals'
+                        item-text='name'
+                        item-value='_id'
+                        label='Öğün Seçin'
+                        multiple
+                        name='meals'
+                        return-object
+                        outlined
+                        hide-details
+                      >
+                        <template v-slot:prepend-item>
+                          <v-list-item ripple @click='toggle'>
+                            <v-list-item-action>
+                              <v-icon
+                                :color="
 																	!isEmpty(selectedMeals) &&
 																	selectedMeals.length > 0
 																		? 'indigo darken-4'
 																		: ''
 																"
-                            >
-                              {{ icon }}
-                            </v-icon>
-                          </v-list-item-action>
+                              >
+                                {{ icon }}
+                              </v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                              <v-list-item-title>
+                                Tümünü Seç
+                              </v-list-item-title>
+                            </v-list-item-content>
+                          </v-list-item>
+                          <v-divider class='mt-2'></v-divider>
+                        </template>
+                        <template v-slot:item='data'>
                           <v-list-item-content>
-                            <v-list-item-title>
-                              Tümünü Seç
-                            </v-list-item-title>
+                            <v-list-item-title
+                              v-html='data.item.name'
+                            ></v-list-item-title>
                           </v-list-item-content>
-                        </v-list-item>
-                        <v-divider class='mt-2'></v-divider>
-                      </template>
-                      <template v-slot:item='data'>
-                        <v-list-item-content>
-                          <v-list-item-title
-                            v-html='data.item.name'
-                          ></v-list-item-title>
-                        </v-list-item-content>
-                      </template>
-                    </v-select>
-                    <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
-                      {{ errors[0] }}
-                    </v-alert>
-                  </div>
+                        </template>
+                      </v-select>
+                      <v-alert v-show='errors[0]' class='my-1' dense dismissible type='warning'>
+                        {{ errors[0] }}
+                      </v-alert>
+                    </div>
                   </ValidationProvider>
-                  <div class="form-group" v-for="(item,index) in selectedMeals" v-if="!isEmpty(selectedMeals)" :key="index">
+                  <div class="form-group" v-for="(item,index) in selectedMeals" v-if="!isEmpty(selectedMeals)"
+                       :key="index">
                     <ValidationProvider
                       v-slot='{ errors }'
                       :name='item.name+" Öğün Oranı (Seçim Sırasıyla)"'
@@ -264,7 +266,8 @@
                         </v-tooltip>
                       </td>
                       <td>
-                        {{ !isEmpty(adultCalorieCalc) && !isEmpty(adultCalorieCalc.original) && !isEmpty(adultCalorieCalc.original.data.oga) ? (adultCalorieCalc.original.data.oga).toFixed(2) : null
+                        {{
+                          !isEmpty(adultCalorieCalc) && !isEmpty(adultCalorieCalc.original) && !isEmpty(adultCalorieCalc.original.data.oga) ? (adultCalorieCalc.original.data.oga).toFixed(2) : null
                         }}
                         KG
                       </td>
@@ -279,7 +282,8 @@
                         </v-tooltip>
                       </td>
                       <td>
-                        {{ !isEmpty(adultCalorieCalc) && !isEmpty(adultCalorieCalc.original) && !isEmpty(adultCalorieCalc.original.data.bki) ? (adultCalorieCalc.original.data.bki).toFixed(2) : null
+                        {{
+                          !isEmpty(adultCalorieCalc) && !isEmpty(adultCalorieCalc.original) && !isEmpty(adultCalorieCalc.original.data.bki) ? (adultCalorieCalc.original.data.bki).toFixed(2) : null
                         }}
                       </td>
                     </tr>
@@ -292,28 +296,32 @@
                     <tr>
                       <td>Stres Faktörüne Göre Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorFirst) ? factorFirst.toFixed(2) : null
+                        {{
+                          !isEmpty(factorFirst) ? factorFirst.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>
                     <tr>
                       <td>Aktivite Faktörüne Göre Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorSecond) ? factorSecond.toFixed(2) : null
+                        {{
+                          !isEmpty(factorSecond) ? factorSecond.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>
                     <tr>
                       <td>Termal Faktöre Göre Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorThird) ? factorThird.toFixed(2) : null
+                        {{
+                          !isEmpty(factorThird) ? factorThird.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>
                     <tr>
                       <td>Genel Alınması Gereken Kalori Miktarı:</td>
                       <td>
-                        {{ !isEmpty(factorFour) ? factorFour.toFixed(2) : null
+                        {{
+                          !isEmpty(factorFour) ? factorFour.toFixed(2) : null
                         }} kcal
                       </td>
                     </tr>
@@ -333,83 +341,113 @@
                 </v-stepper-content>
 
                 <v-stepper-content step='5'>
-                  <v-simple-table>
-                    <thead>
-                    <tr>
-                      <th class='text-center'>
-                        <nuxt-link to='/'>
-                          <img
-                            v-if='!isEmpty(settings)'
-                            :alt='settings.settings.company_name'
-                            v-bind:lazy-src='img_url + settings.settings.logo'
-                            v-bind:src='img_url + settings.settings.logo'
-                            :style='!$vuetify.theme.dark ? "filter:invert(0%)" : "filter:invert(100%)"'
-                            width='210'
-                            height='75'
-                          />
-                        </nuxt-link>
-                      </th>
-                      <th class='text-center'><h1>{{ user.hospitalName }}</h1></th>
-                    </tr>
-                    <tr>
-                      <th class='text-center align-center align-content-center align-self-center'>ÖĞÜN</th>
-                      <th class='text-center align-center align-content-center align-self-center'>BESİNLER</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-if='!isEmpty(mealss)' v-for='(item,index) in mealss' :key='item.mealname+index'>
-                      <td class='text-center align-center align-content-center align-self-center'>{{ item.mealname }}
-                      </td>
-                      <td class='text-center align-center align-content-center align-self-center' colspan='8'>
-                        <table>
-                          <thead>
-                          <tr>
-                            <th class='text-center align-center align-content-center align-self-center'>PORSİYON</th>
-                            <th class='text-center align-center align-content-center align-self-center'>MİKTAR</th>
-                            <th class='text-center align-center align-content-center align-self-center'>YİYECEK ADI</th>
-                            <th class='text-center align-center align-content-center align-self-center'>İŞLEMLER</th>
-                            <th class='text-center align-center align-content-center align-self-center'>KHO</th>
-                            <th class='text-center align-center align-content-center align-self-center'>PRT</th>
-                            <th class='text-center align-center align-content-center align-self-center'>YAĞ</th>
-                            <th class='text-center align-center align-content-center align-self-center'>KCAL</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr v-for='(food,i) in item.foods' :key='food.name+i'>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              <v-text-field label='Porsiyon' name='portion'></v-text-field>
-                            </td>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              <v-text-field label='Miktar' name='quantity' :value='food.quantity'></v-text-field>
-                            </td>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              <v-autocomplete :items='edietfoods' item-value='_id.$oid' item-text='name' return-object :value='food._id' name='selectedFoods[]' hide-details outlined></v-autocomplete>
-                            </td>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              <v-btn color='primary'>
-                                <v-icon>mdi mdi-close</v-icon>
-                                Listeden Kaldır
-                              </v-btn>
-                            </td>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              {{ !isEmpty(food.karbonhidrat) ? parseFloat(food.karbonhidrat) : 0 }}
-                            </td>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              {{ !isEmpty(food.protein) ? parseFloat(food.protein) : 0 }}
-                            </td>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              {{ !isEmpty(food.yag) ? parseFloat(food.yag) : 0 }}
-                            </td>
-                            <td class='text-center align-center align-content-center align-self-center'>
-                              {{ !isEmpty(food.calorie) ? parseFloat(food.calorie) : 0 }}
-                            </td>
-                          </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </v-simple-table>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover w-100">
+                      <thead>
+                      <tr>
+                        <th class='text-center align-middle' width="210">
+                          <nuxt-link to='/dietician-panel'>
+                            <img
+                              v-if='!isEmpty(settings)'
+                              :alt='settings.settings.company_name'
+                              v-bind:src='settings.settings.logo'
+                              :style='!$vuetify.theme.dark ? "filter:invert(0%)" : "filter:invert(100%)"'
+                              width='210'
+                              height='75'
+                            />
+                          </nuxt-link>
+                        </th>
+                        <th class='text-center align-middle'><h1>{{ dieticianData.hospitalName }}</h1></th>
+                      </tr>
+                      </thead>
+                    </table>
+                    <table class="table table-bordered table-striped table-hover w-100">
+                      <thead>
+                      <tr>
+                        <th class='text-center align-center align-content-center align-self-center align-middle'>ÖĞÜN
+                        </th>
+                        <th class='text-center align-center align-content-center align-self-center align-middle'>
+                          BESİNLER
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-if='!isEmpty(mealss)' v-for='(item,index) in mealss' :key='item.mealname+index'>
+                        <td class='text-center align-center align-content-center align-self-center align-middle rotate'
+                            style="width:50px"><span>{{ item.mealname }}</span>
+                        </td>
+                        <td class='text-center align-center align-content-center align-self-center align-middle'
+                            colspan='8'>
+                          <table class="table table-bordered table-striped table-hover w-100">
+                            <thead>
+                            <tr>
+                              <th class='text-center align-center align-content-center align-self-center align-middle' width="125">
+                                PORSİYON
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle' width="125">
+                                MİKTAR
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle'>
+                                YİYECEK ADI
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle'>
+                                İŞLEMLER
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                KHO
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                PRT
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                YAĞ
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                KCAL
+                              </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for='(food,i) in item.foods' :key='food.name+i'>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                <v-text-field v-model="food.portion" label='Porsiyon' name='portion' hide-details outlined
+                                              clearable></v-text-field>
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                <v-text-field label='Miktar' name='quantity' :value='food.quantity' hide-details
+                                              outlined clearable></v-text-field>
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                <v-autocomplete :items='edietfoods' item-value='_id.$oid' item-text='name' return-object
+                                                :value='food._id' name='selectedFoods[]' hide-details
+                                                outlined @change="setRates(food,i,food._id)" v-model="selectedFoods[i]"></v-autocomplete>
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                <v-btn color='error'>
+                                  <v-icon>mdi mdi-close</v-icon>
+                                </v-btn>
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                {{ !isEmpty(food.karbonhidrat) ? parseFloat(food.karbonhidrat) : 0 }}
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                {{ !isEmpty(food.protein) ? parseFloat(food.protein) : 0 }}
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                {{ !isEmpty(food.yag) ? parseFloat(food.yag) : 0 }}
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                {{ !isEmpty(food.calorie) ? parseFloat(food.calorie) : 0 }}
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
                   <v-btn class='mt-2' color='primary' type='submit'>
                     Kaydet
                   </v-btn>
@@ -436,9 +474,9 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import {ValidationObserver, ValidationProvider} from 'vee-validate'
 import Breadcrumb from '~/components/backend/breadcrumb'
-import { mapState } from 'vuex'
+import {mapState} from 'vuex'
 import moment from "moment";
 
 export default {
@@ -453,6 +491,9 @@ export default {
   computed: {
     img_url() {
       return process.env.apiPublicUrl
+    },
+    dieticianData() {
+      return this.$auth.user
     },
     ...mapState(['settings']),
     likesAllMeal() {
@@ -497,13 +538,14 @@ export default {
   data() {
     return {
       selectedFactors: [],
-      selectedMealRates:[],
+      selectedMealRates: [],
+      selectedFoods:[],
       breadCrumbItems: [
-        { name: 'Anasayfa', url: '/dietician-panel' },
-        { name: 'Danışanlarım', url: '/dietician-panel/consultants' },
-        { name: 'E-Diyet Oluştur' }
+        {name: 'Anasayfa', url: '/dietician-panel'},
+        {name: 'Danışanlarım', url: '/dietician-panel/consultants'},
+        {name: 'E-Diyet Oluştur'}
       ],
-      e1: 1,
+      e1: 5,
       disease: null,
       diseases: [],
       selectedDiseases: [],
@@ -527,25 +569,30 @@ export default {
       mealss: [],
     }
   },
-  validate({ params }) {
+  validate({params}) {
     return params.id !== null ? params.id : null
   },
-  async asyncData({ params, error, $axios }) {
+  async asyncData({params, error, $axios}) {
     try {
-      const { data } = await $axios.get(
+      const {data} = await $axios.get(
         process.env.apiBaseUrl + 'dietician/e-diets/create/' + params.id
       )
       return data.data
     } catch (e) {
-      error({ message: 'Danışan Bilgisi Bulunamadı.', statusCode: 404 })
+      error({message: 'Danışan Bilgisi Bulunamadı.', statusCode: 404})
     }
   },
-  watch:{
-    selectedMeals(v){
+  watch: {
+    selectedMeals(v) {
       console.log(v)
     }
   },
   methods: {
+    setRates(food,i,selectedFoodId){
+      let findFood = this.edietfoods.find(o => o._id.$oid === this.selectedFoods[i])
+      console.log(food)
+      console.log(findFood)
+    },
     toggleExercise() {
       this.$nextTick(() => {
         if (this.selectAllExercise) {
@@ -585,7 +632,7 @@ export default {
     },
     selectFactors() {
       if (!this.isEmpty(this.selectedFactors)) {
-        if(this.selectedFactors.filter(n => n).length !== 3 && this.year >= 18){
+        if (this.selectedFactors.filter(n => n).length !== 3 && this.year >= 18) {
           this.$izitoast.error({
             title: 'Hata!',
             message: 'Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
@@ -595,7 +642,7 @@ export default {
           this.e1 = 1
           return false
         }
-        if(this.selectedFactors.filter(n => n).length !== 4 && this.year >= 10 && this.year < 18){
+        if (this.selectedFactors.filter(n => n).length !== 4 && this.year >= 10 && this.year < 18) {
           this.$izitoast.error({
             title: 'Hata!',
             message: 'Faktörleri Seçtiğinizden Emin Olup Tekrar Deneyin.',
@@ -622,7 +669,7 @@ export default {
       if (!this.isEmpty(this.selectedMeals)) {
         if (!this.isEmpty(this.selectedMealRates)) {
           this.selectedMealRates = this.selectedMealRates.filter(v => parseInt(v))
-          if(this.selectedMealRates.length !== this.selectedMeals.length){
+          if (this.selectedMealRates.length !== this.selectedMeals.length) {
             this.$izitoast.error({
               title: 'Hata!',
               message: 'Öğün Oranlarını Doldurduğunuzdan Emin Olup Tekrar Deneyin.',
@@ -632,7 +679,7 @@ export default {
             this.e1 = 2
             return false
           }
-        }else {
+        } else {
           this.$izitoast.error({
             title: 'Hata!',
             message: 'Öğün Oranlarını Doldurduğunuzdan Emin Olup Tekrar Deneyin.',
@@ -700,5 +747,16 @@ export default {
 </script>
 
 <style scoped>
+td.rotate {
+  vertical-align: bottom;
+  text-align: center;
+}
 
+td.rotate span {
+  -ms-writing-mode: tb-rl;
+  -webkit-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
 </style>

@@ -438,12 +438,6 @@
     "chunkName": "pages/exercises/_id"
   },
   {
-    "name": "profile-id",
-    "path": "/profile/:id",
-    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\profile\\\\_id.vue",
-    "chunkName": "pages/profile/_id"
-  },
-  {
     "name": "recipes-id",
     "path": "/recipes/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\recipes\\\\_id.vue",

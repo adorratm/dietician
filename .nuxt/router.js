@@ -77,7 +77,6 @@ const _73ce8c28 = () => interopDefault(import('..\\pages\\dieticians\\appointmen
 const _1aca1c68 = () => interopDefault(import('..\\pages\\blogs\\_id.vue' /* webpackChunkName: "pages/blogs/_id" */))
 const _4aa67fa8 = () => interopDefault(import('..\\pages\\calorie\\_id.vue' /* webpackChunkName: "pages/calorie/_id" */))
 const _43a9879e = () => interopDefault(import('..\\pages\\exercises\\_id.vue' /* webpackChunkName: "pages/exercises/_id" */))
-const _03147d10 = () => interopDefault(import('..\\pages\\profile\\_id.vue' /* webpackChunkName: "pages/profile/_id" */))
 const _2a5374d8 = () => interopDefault(import('..\\pages\\recipes\\_id.vue' /* webpackChunkName: "pages/recipes/_id" */))
 const _219e6783 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
@@ -384,10 +383,6 @@ export const routerOptions = {
     path: "/exercises/:id",
     component: _43a9879e,
     name: "exercises-id"
-  }, {
-    path: "/profile/:id",
-    component: _03147d10,
-    name: "profile-id"
   }, {
     path: "/recipes/:id",
     component: _2a5374d8,

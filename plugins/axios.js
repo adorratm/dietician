@@ -43,14 +43,31 @@ export default function ({ $axios, app, redirect}) {
         setTimeout(function () {
           if(!isEmpty(user)){
             if(user.status === "admin"){
-              redirect("/panel/login")
+              if(window !== undefined){
+                window.location.href= "/panel/login"
+              }else{
+                redirect("/panel/login")
+              }
+
             }else if(user.status === "dietician"){
-              redirect("/dietician-panel/login")
+              if(window !== undefined){
+                window.location.href="/dietician-panel/login"
+              }else{
+                redirect("/dietician-panel/login")
+              }
+            }else{
+              if(window !== undefined){
+               window.location.href="/login"
+              }else{
+                redirect("/login")
+              }
+            }
+          }else{
+            if(window!== undefined){
+              window.location.href="/login"
             }else{
               redirect("/login")
             }
-          }else{
-            redirect("/login")
           }
         }, 2000)
       }else{
@@ -78,7 +95,11 @@ export default function ({ $axios, app, redirect}) {
             displayMode: 'once',
           })
           setTimeout(function () {
-            redirect("/login")
+            if(window !== undefined){
+              window.location.href="/login"
+            }else{
+              redirect("/login")
+            }
           }, 2000)
         }
 

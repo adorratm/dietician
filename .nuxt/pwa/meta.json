@@ -21,11 +21,6 @@
       "content": "dietician"
     },
     {
-      "hid": "description",
-      "name": "description",
-      "content": "Klinikdiyetisyen.com Nuxt JS &amp; Vue JS Frontend Development &amp; Production"
-    },
-    {
       "hid": "og:type",
       "name": "og:type",
       "property": "og:type",
@@ -42,12 +37,6 @@
       "name": "og:site_name",
       "property": "og:site_name",
       "content": "dietician"
-    },
-    {
-      "hid": "og:description",
-      "name": "og:description",
-      "property": "og:description",
-      "content": "Klinikdiyetisyen.com Nuxt JS &amp; Vue JS Frontend Development &amp; Production"
     }
   ],
   "link": [
@@ -64,7 +53,7 @@
     },
     {
       "rel": "manifest",
-      "href": "/_nuxt/manifest.46ecad9f.json",
+      "href": "/_nuxt/manifest.e8fbedb7.json",
       "hid": "manifest"
     }
   ],
