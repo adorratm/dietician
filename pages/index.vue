@@ -76,7 +76,7 @@
           </div>
         </div>
         <div class="owl-carousel blogs owl-theme">
-          <div class="item" v-for='(item,index) in settings.blog'>
+          <div class="item" v-for='(item,index) in settings.blog' v-if='!isEmpty(settings.blog)'>
             <div class="our-blogs">
               <div class="blogs-img">
                 <NuxtLink :to="'/blogs/'+item.slug"><img :src="item.featureimage" :alt="item.title" class="img-fluid"></NuxtLink>
