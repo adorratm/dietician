@@ -10,7 +10,7 @@
     <div class='content'>
       <div class='container'>
 
-        <ProfileInformationTop :user='user' />
+        <ProfileInformationTop :user='user' :hide-address='true' />
 
         <!-- Doctor Details Tab -->
         <div class='card'>

@@ -26,55 +26,34 @@
           </div>
           <div class='col-lg-8'>
             <div class='doctor-slider slider'>
-
-              <!-- Doctor Widget -->
-              <div class='profile-widget'>
+              <div v-if='!isEmpty(settings.dieticians)' v-for='(item,key) in settings.dieticians' class='profile-widget'>
                 <div class='doc-img'>
                   <NuxtLink to='doctor-profile'>
-                    <img class='img-fluid' alt='User Image' src='../assets/img/doctors/doctor-01.jpg'>
+                    <img class='img-fluid' :alt='item.name' :src='item.profile_photo'>
                   </NuxtLink>
-                  <a href='javascript:void(0)' class='fav-btn'>
-                    <i class='far fa-bookmark'></i>
-                  </a>
                 </div>
                 <div class='pro-content'>
                   <h3 class='title'>
-                    <NuxtLink to='doctor-profile'>Ruby Perrin</NuxtLink>
+                    <NuxtLink to='doctor-profile'>{{ item.name }}</NuxtLink>
                     <i class='fas fa-check-circle verified'></i>
                   </h3>
-                  <p class='speciality'>MDS - Periodontology and Oral Implantology, BDS</p>
-                  <div class='rating'>
-                    <i class='fas fa-star filled'></i>
-                    <i class='fas fa-star filled'></i>
-                    <i class='fas fa-star filled'></i>
-                    <i class='fas fa-star filled'></i>
-                    <i class='fas fa-star filled'></i>
-                    <span class='d-inline-block average-rating'>(17)</span>
-                  </div>
+                  <p class='speciality'>{{ item.department }} - {{ item.hospitalName }}</p>
                   <ul class='available-info'>
                     <li>
-                      <i class='fas fa-map-marker-alt'></i> Florida, USA
-                    </li>
-                    <li>
-                      <i class='far fa-clock'></i> Available on Fri, 22 Mar
-                    </li>
-                    <li>
-                      <i class='far fa-money-bill-alt'></i> $300 - $1000
-                      <i class='fas fa-info-circle' data-toggle='tooltip' title='Lorem Ipsum'></i>
+                      <i class='fas fa-map-marker-alt'></i> {{ item.company_address }} {{ item.company_neighborhood }}
+                      {{ item.company_district }} {{ item.company_town }} / {{ item.company_city }}
                     </li>
                   </ul>
                   <div class='row row-sm'>
-                    <div class='col-6'>
-                      <NuxtLink to='doctor-profile' class='btn view-btn'>View Profile</NuxtLink>
+                    <div class='col-12'>
+                      <v-btn to='doctor-profile' color='info' block>Profili Görüntüle</v-btn>
                     </div>
-                    <div class='col-6'>
-                      <NuxtLink to='booking' class='btn book-btn'>Book Now</NuxtLink>
+                    <div class='col-12'>
+                      <v-btn to='booking' :to='"/dieticians/appointments/"+item.slug' color='primary' block>Randevu Al</v-btn>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- /Doctor Widget -->
-
             </div>
           </div>
         </div>
@@ -97,23 +76,23 @@
           </div>
         </div>
         <div class="owl-carousel blogs owl-theme">
-          <div class="item">
+          <div class="item" v-for='(item,index) in settings.blog'>
             <div class="our-blogs">
               <div class="blogs-img">
-                <NuxtLink to="/blog-details"><img src="../assets/img/blog-1.jpg" alt="" class="img-fluid"></NuxtLink>
+                <NuxtLink :to="'/blogs/'+item.slug"><img :src="item.featureimage" :alt="item.title" class="img-fluid"></NuxtLink>
                 <div class="blogs-overlay d-flex">
-                  <img src="../assets/img/doctors/doctor-thumb-01.jpg" alt="" class="img-fluid">
-                  <span class="blogs-writter">Dr. Ruby Perrin</span>
+                  <img :src="item.featureimage" :alt="item.title" class="img-fluid">
+                  <span class="blogs-writter">{{ item.writer.name }}</span>
                 </div>
               </div>
               <div class="blogs-info">
-                <span>Urology</span>
-                <NuxtLink to="/blog-details"><h4>Doccure – Making your clinic painless visit?</h4></NuxtLink>
-                <p>Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-                <span class="blogs-time"><i class="far fa-clock"></i> 3 Dec 2021</span>
+                <span>{{item.category.title}}</span>
+                <NuxtLink to="/blog-details"><h4>{{item.title}}</h4></NuxtLink>
+                <p>{{ item.content.substr(0,150) }}</p>
+                <span class="blogs-time"><i class="far fa-clock"></i> {{ item.created_at }}</span>
               </div>
               <div class="blogs-nav">
-                <v-btn to="/blog-details" color='primary'>Devamını Oku</v-btn>
+                <v-btn :to="'/blogs/'+item.slug" color='primary'>Makaleyi İncele</v-btn>
               </div>
             </div>
           </div>
@@ -127,9 +106,11 @@
 
 <script>
 import Slider from "~/components/frontend/slider"
+import DieticianList from "~/components/frontend/dietician-list"
 export default {
   components:{
-    Slider
+    Slider,
+    DieticianList
   },
   mounted() {
     // Slick Slider

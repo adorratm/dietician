@@ -12,7 +12,7 @@
               {{ user.status === 'admin' ? 'Yönetici' : (user.status === 'dietician' ? 'Diyetisyen' : 'Kullanıcı')
               }}</p>
             <p class='doc-department'>{{ user.department }}</p>
-            <div v-if='hideaddress' class='clinic-details'>
+            <div v-if='hideaddress !==true' class='clinic-details'>
               <p class='doc-location'><i class='fas fa-map-marker-alt'></i> {{ user.address }}
                 {{ user.neighborhood }} {{ user.town }} {{ user.district }} {{ user.city }} / Türkiye</p>
             </div>
@@ -40,7 +40,7 @@
               <i class='fa fa-youtube color'></i>
             </a>
           </div>
-          <div v-if='hideaddress' class='doctor-action text-center justify-content-center'>
+          <div v-if='hideaddress !==true' class='doctor-action text-center justify-content-center'>
             <a :href='"tel:"+user.phone' title='Telefon' class='btn btn-white'><i class='fa fa-phone'></i></a>
             <a :href='"mailto:"+user.email' title='Email' class='btn btn-white'><i class='fa fa-envelope-open'></i></a>
           </div>
