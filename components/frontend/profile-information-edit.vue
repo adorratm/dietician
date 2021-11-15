@@ -1754,6 +1754,30 @@ export default {
           endpoint = 'dietician/update'
         }
         let formData = new FormData(this.$refs.informationForm)
+        formData.delete('district')
+        formData.delete('neighborhood')
+        formData.delete('city')
+        formData.delete('town')
+        if (!this.isEmpty(this.userData.district.name)) {
+          formData.append('district', this.userData.district.name)
+        } else {
+          formData.append('district', this.user.district)
+        }
+        if (!this.isEmpty(this.userData.neighborhood.name)) {
+          formData.append('neighborhood', this.userData.neighborhood.name)
+        } else {
+          formData.append('neighborhood', this.user.neighborhood)
+        }
+        if (!this.isEmpty(this.userData.town.name)) {
+          formData.append('town', this.userData.town.name)
+        } else {
+          formData.append('town', this.user.town)
+        }
+        if (!this.isEmpty(this.userData.city.name)) {
+          formData.append('city', this.userData.city.name)
+        } else {
+          formData.append('city', this.user.city)
+        }
         formData.append('birthDate', moment(this.birthDate).format('YYYY-MM-DD'))
         this.$axios
           .post(
@@ -1774,6 +1798,7 @@ export default {
                 message: response.data.msg,
                 position: 'topCenter'
               })
+              this.$auth.fetchUser()
             } else {
               this.$izitoast.error({
                 title: response.data.title,

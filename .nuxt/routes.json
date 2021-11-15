@@ -414,6 +414,12 @@
     "chunkName": "pages/panel/users/update/_id"
   },
   {
+    "name": "dieticians-appointments-id",
+    "path": "/dieticians/appointments/:id?",
+    "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\dieticians\\\\appointments\\\\_id.vue",
+    "chunkName": "pages/dieticians/appointments/_id"
+  },
+  {
     "name": "blogs-id",
     "path": "/blogs/:id",
     "component": "C:\\\\Users\\\\adorr\\\\Desktop\\\\dietician\\\\pages\\\\blogs\\\\_id.vue",

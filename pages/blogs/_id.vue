@@ -6,173 +6,102 @@
 
 
     <!-- Page Content -->
-    <div class='content'>
-      <div class='container'>
-        <div class='row'>
-          <!-- Content Left -->
-          <div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8'>
-            <v-text-field
-              label='Egzersiz Kategorisi Aramak İçin "Enter" Tuşuna Basın...'
-              v-model='searchText'
-              @change='search'
-              solo
-              clearable
-            ></v-text-field>
+    <div class="content">
+      <div class="container">
 
-            <div class='mx-auto justify-center flex-wrap align-center text-center d-flex flex-column' v-if='isEmpty(recipe)'>
-              <v-progress-circular
-                :size='70'
-                :width='7'
-                color='purple'
-                indeterminate
-                class='mx-auto d-block'
-              ></v-progress-circular>
-              <h3 class='mx-auto d-block mt-3'>İçerik Yükleniyor. Lütfen Bekleyin...</h3>
+        <div class="row">
+          <div class="col-lg-8 col-md-12">
+            <div class="blog-view">
+              <div class="blog blog-single-post">
+                <div class="blog-image">
+                  <a href="javascript:void(0);"><img :alt="blog.title" :src="blog.featureimage" class="img-fluid"></a>
+                </div>
+                <h3 class="blog-title">{{ blog.title }}</h3>
+                <div class="blog-info clearfix">
+                  <div class="post-left">
+                    <ul>
+                      <li>
+                        <div class="post-author">
+                          <span v-if='!isEmpty(blog.writer)'>{{blog.writer.name}} - {{blog.writer.role}}</span>
+                        </div>
+                      </li>
+                      <li><i class="far fa-calendar"></i>{{ blog.created_at }}</li>
+                      <li><i class="far fa-clock"></i>{{blog.updated_at}}</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="blog-content">
+                  {{blog.content}}
+                </div>
+              </div>
+
             </div>
-            <v-card>
-              <img v-if='!isEmpty(recipe)'
-                     width='100%'
-                     height='300'
-                     :src='recipe.img_url'
-                     :alt='recipe.name'
-                   style='object-fit: scale-down'
-              />
-
-              <v-card-title>
-                "{{ recipe.name }}" Besini Hakkında Detaylı Bilgiler
-              </v-card-title>
-              <v-card-text>
-                <v-tabs
-                  show-arrows
-                >
-                  <v-tab>
-                    Besin Değerleri
-                  </v-tab>
-                  <v-tab>
-                    Açıklama
-                  </v-tab>
-                  <v-tab-item eager>
-                    <v-simple-table>
-                      <thead>
-                      <tr>
-                        <th class='font-weight-bold'>
-                          Besin Değeri Adı
-                        </th>
-                        <th>
-                          Besin Değeri
-                        </th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr v-if='!isEmpty(recipe.recipescriteriavalues)' v-for='(value) in recipe.recipescriteriavalues'>
-                        <td>{{ value.title }} ({{ value.type }})</td>
-                        <td>{{ value.value }}</td>
-                      </tr>
-                      </tbody>
-                    </v-simple-table>
-                  </v-tab-item>
-                  <v-tab-item eager>
-
-                    {{ recipe.description }}
-                  </v-tab-item>
-                </v-tabs>
-              </v-card-text>
-            </v-card>
           </div>
-          <!-- /Content Left -->
-          <!-- Content Right -->
-          <div class='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4'>
-            <v-card class="mb-4">
-              <v-card-title>
-                MALZEMELER
-              </v-card-title>
-              <v-card-text>
-                <v-simple-table>
-                  <thead>
-                  <tr>
-                    <td class='text-center'>Ölçüt</td>
-                    <td class='text-center'>Birim</td>
-                    <td>Besin</td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="criteria in recipe.recipescriteriavalues">
-                    <td class='text-left'>
-                      {{ criteria.value }}
-                    </td>
-                    <td class='text-center'>
-                      {{criteria.title}}
-                    </td>
-                    <td>
-                      {{ criteria.nutrient.name}}
-                    </td>
-                  </tr>
-                  </tbody>
-                  <tfoot>
-                  <tr>
 
-                  </tr>
-                  </tfoot>
-                </v-simple-table>
-              </v-card-text>
-            </v-card>
-            <v-card>
-              <v-card-title>
-                ÖZELLİKLER
-              </v-card-title>
-              <v-card-text>
-                <v-simple-table>
-                  <thead>
-                  <tr>
-                    <td class='text-left'>Özellik</td>
-                    <td class='text-center'>Değer</td>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>Kalori
-                    </td>
-                    <td>{{ recipe.calorie}}
-                    </td>
-                  </tr>
-                  <tr>
+          <!-- Blog Sidebar -->
+          <div class="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
 
-                    <td>Porsiyon
-                    </td>
-                    <td>{{ recipe.portion}}
-                    </td>
-                  </tr>
-                  <tr>
+            <!-- Search -->
+            <div class="card search-widget">
+              <div class="card-body">
+                <form onsubmit='return false' class="search-form">
+                  <div class="input-group">
+                    <input type="text" placeholder="Ara..." class="form-control" v-model='searchText' @change='search'>
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-primary" @click='search'><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- /Search -->
 
-                    <td>Pişirme Süresi
-                    </td>
-                    <td>{{ recipe.cooking_time}}
-                    </td>
-                  </tr>
+            <!-- Latest Posts -->
+            <div class="card post-widget" v-if='!isEmpty(items)'>
+              <div class="card-header">
+                <h4 class="card-title">Yeni Makaleler</h4>
+              </div>
+              <div class="card-body">
+                <ul class="latest-posts">
+                  <li v-for='(item,index) in items'>
+                    <div class="post-thumb">
+                      <NuxtLink to="blog-details">
+                        <img class="img-fluid" :src="item.featureimage" :alt="item.title">
+                      </NuxtLink>
+                    </div>
+                    <div class="post-info">
+                      <h4>
+                        <NuxtLink :to="'/blogs/'+item.slug">{{ item.title }}</NuxtLink>
+                      </h4>
+                      <p>{{ item.created_at }}</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- /Latest Posts -->
 
-                  <tr>
+            <!-- Categories -->
+            <div class="card category-widget" v-if='!isEmpty(blogCategories)'>
+              <div class="card-header">
+                <h4 class="card-title">Makale Kategorileri</h4>
+              </div>
+              <div class="card-body">
+                <ul class="categories">
+                  <li v-for='(item,index) in blogCategories'><NuxtLink :to="'/blog-categories/'+item.slug">{{ item.title }}</NuxtLink></li>
+                </ul>
+              </div>
+            </div>
+            <!-- /Categories -->
 
-                    <td>Toplam Hazırlanma Süresü
-                    </td>
-                    <td>{{ recipe.prepare_time}}
-                    </td>
-                  </tr>
-                  </tbody>
-                  <tfoot>
-                  <tr>
-
-                  </tr>
-                  </tfoot>
-                </v-simple-table>
-              </v-card-text>
-            </v-card>
           </div>
-          <!-- /Content Right -->
+          <!-- /Blog Sidebar -->
+
         </div>
-        <!-- /row-->
-        <Nuxt />
       </div>
+
     </div>
+    <!-- /Page Content -->
   </div>
 </template>
 
@@ -181,7 +110,7 @@ import NutrientList from '~/components/frontend/nutrient-list'
 import Breadcrumb from "~/components/frontend/breadcrumb"
 export default {
   layout: 'default',
-  name:"recipe-detail",
+  name:"blog-detail",
   components: {
     NutrientList,
     Breadcrumb
@@ -190,23 +119,22 @@ export default {
     searchText: null,
     unit:100,
     item:'',
-    recipe:[],
+    blog:[],
+    blogCategories:[],
+    items:[],
     loading:true,
     breadCrumbItems:[
       {name: "Anasayfa",url: "/"},
-      {name: "Yemek Tarifleri", url:"/recipes"}
+      {name: "Makaleler", url:"/blogs"},
+      {name: ""}
     ]
   }),
   async mounted(){
     await this.getData()
+    await this.getLastBlogs()
+    await this.getAllBlogCategories()
   },
   computed: {
-    criterias(){
-      return this.recipe.recipescriteriavalues;
-    },
-    values(){
-      return this.recipe.recipesvalue
-    },
   },
   methods: {
     /**
@@ -227,44 +155,41 @@ export default {
         console.log(e)
       }
     },
-    changeValue: function(item) {
-      try {
-        this.criteriaValue = item.value
-        this.criteriaName = item.title
-        this.type = item.type
-        if (this.values.length > 0) {
-          for (let i = 0; i < this.values.length; i++) {
-            this.recipe.recipesvalue[i].value =
-              (this.values[i].value / 100) *
-              ((this.unit <= 1 ? (this.unit = 1) : this.unit) *
-                this.criteriaValue)
-            if (
-              this.isEmpty(this.recipe.recipesvalue[i].value) ||
-              isNaN(this.recipe.recipesvalue[i].value)
-            ) {
-              this.recipe.recipesvalue[i].value = this.values[i].value
-            }
-          }
-        }
-      }catch (e) {
-        console.log(e)
-      }
-    },
     search(){
       try {
-        this.$router.push("/recipes?search="+this.searchText)
+        this.$router.push("/blogs?search="+this.searchText)
       }catch (e) {
         console.log(e)
       }
     },
     async getData() {
       try {
-        await this.$axios.get(process.env.apiBaseUrl+'recipes/details/'+this.$route.params.id)
+        await this.$axios.get(process.env.apiBaseUrl+'blog/'+this.$route.params.id)
           .then( res=>{
-            this.recipe=res.data.data
-            this.item=this.recipe.name
+            this.blog=res.data.data
+            this.item=this.blog.title
             this.breadCrumbItems.push({name: this.item})
           }).catch(err => console.log(err)).finally(()=>{this.loading=false})
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    async getLastBlogs() {
+      try {
+        await this.$axios.get(process.env.apiBaseUrl+'home/')
+          .then( res=>{
+            this.items=res.data.data.blog
+          }).catch(err => console.log(err))
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    async getAllBlogCategories() {
+      try {
+        await this.$axios.get(process.env.apiBaseUrl+'blog/categories')
+          .then( res=>{
+            this.blogCategories=res.data.data.data
+          }).catch(err => console.log(err))
       }catch (e) {
         console.log(e)
       }

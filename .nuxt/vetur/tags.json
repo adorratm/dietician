@@ -2,6 +2,9 @@
   "BackendBreadcrumb": {
     "description": "Auto imported from components/backend/breadcrumb.vue"
   },
+  "FrontendBlogList": {
+    "description": "Auto imported from components/frontend/blog-list.vue"
+  },
   "FrontendBreadcrumb": {
     "description": "Auto imported from components/frontend/breadcrumb.vue"
   },

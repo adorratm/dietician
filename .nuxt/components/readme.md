@@ -7,6 +7,7 @@ You can directly use them in pages and other components without the need to impo
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
 - `<BackendBreadcrumb>` | `<backend-breadcrumb>` (components/backend/breadcrumb.vue)
+- `<FrontendBlogList>` | `<frontend-blog-list>` (components/frontend/blog-list.vue)
 - `<FrontendBreadcrumb>` | `<frontend-breadcrumb>` (components/frontend/breadcrumb.vue)
 - `<FrontendCriteriaList>` | `<frontend-criteria-list>` (components/frontend/criteria-list.vue)
 - `<FrontendDieticianList>` | `<frontend-dietician-list>` (components/frontend/dietician-list.vue)

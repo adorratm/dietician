@@ -1547,6 +1547,7 @@ export default {
           .then(response => {
             this.allWeightAims = response.data.data.data
             if(!onlyData){
+              $("#morrisLineDataAim").empty()
               window.mLDataAim = Morris.Line({
                 element: 'morrisLineDataAim',
                 data: this.allWeightAims,
@@ -1577,6 +1578,7 @@ export default {
           .then(response => {
             this.allWeights = response.data.data.data
             if(!onlyData){
+              $("#morrisLineData").empty()
               window.mLData = Morris.Line({
                 element: 'morrisLineData',
                 data: this.allWeights,

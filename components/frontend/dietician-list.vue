@@ -24,7 +24,7 @@
               <v-btn to='doctor-profile' color='info' block>Profili Görüntüle</v-btn>
             </div>
             <div class="col-6">
-              <v-btn to='booking' color='primary' block>Randevu Al</v-btn>
+              <v-btn to='booking' :to='"/dieticians/appointments/"+item.slug' color='primary' block>Randevu Al</v-btn>
             </div>
           </div>
         </div>

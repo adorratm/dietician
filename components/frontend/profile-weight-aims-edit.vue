@@ -15,7 +15,7 @@
               type='number'
               name='weight'
               id='weight'
-              v-model='data.weight'
+              v-model='userData.weight'
               clearable
               label='Güncel Ağırlık (kg)'
               outlined
@@ -34,7 +34,7 @@
             id='weightaim'
             type='number'
             name='weightaim'
-            v-model='data.weightaim'
+            v-model='userData.weightaim'
             clearable
             label='Hedeflenen Ağırlık (KG)'
             outlined
@@ -72,12 +72,12 @@
                   outlined
                   minlength='10'
                   maxlength='10'
-                  @click:clear='data.aim_date = null'
+                  @click:clear='userData.aim_date = null'
                   v-on:click:prepend='menu=true'
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model='data.aim_date'
+                v-model='userData.aim_date'
                 :active-picker.sync='activePickerWeight'
                 :min="(new Date(Date.now())).toISOString().substr(0, 10)"
                 @change='saveWeight'
@@ -92,12 +92,6 @@
 
         <v-btn color='primary' type='submit' class='mb-2'>
           Hedeflenen Ağırlık Bilgisini Kaydet
-        </v-btn>
-        <v-btn color='error' type='button' class='mb-2' @click.prevent='e1=6'>
-          Hedeflenen Ağırlık Bilgisini Kaydetmeden İlerle
-        </v-btn>
-        <v-btn color='info' type='button' class='mb-2' @click.prevent='e1 = 4'>
-          Geri Dön
         </v-btn>
       </form>
     </ValidationObserver>
@@ -146,7 +140,8 @@ export default {
       allWeights: [],
       activePickerWeight: null,
       menuWeight: false,
-      data:null,
+      userData: {},
+      menu:false
     }
   },
   computed:{
@@ -158,23 +153,23 @@ export default {
     },
     computedDateFormattedMomentjsWeight: {
       get() {
-        return !this.isEmpty(this.data.aim_date) && this.data.aim_date.length === 10 ? moment(this.data.aim_date).format('DD-MM-YYYY') : null
+        return !this.isEmpty(this.userData.aim_date) && this.userData.aim_date.length === 10 ? moment(this.userData.aim_date).format('DD-MM-YYYY') : null
       },
       set(val) {
         let isValid = moment(val, 'DD-MM-YYYY')
         if (!this.isEmpty(val) && val.length === 10 && isValid.isValid()) {
           console.log(val)
           console.log(moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD'))
-          this.data.aim_date = moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD')
+          this.userData.aim_date = moment(val, 'DD-MM-YYYY').format('YYYY-MM-DD')
         }
       }
     }
   },
   props:["user"],
   mounted(){
+    this.userData = { ...this.user }
     this.getWeights()
     this.getWeightAims()
-    this.data = { ...this.user }
   },
   methods:{
     /**
@@ -199,10 +194,11 @@ export default {
     getWeightAims(onlyData =false){
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}users/${this.user._id}/weightaims/get-all`)
+          .get(`${process.env.apiBaseUrl}users/weightaims/get-all`)
           .then(response => {
             this.allWeightAims = response.data.data.data
             if(!onlyData){
+              $("#morrisLineDataAim").empty()
               window.mLDataAim = Morris.Line({
                 element: 'morrisLineDataAim',
                 data: this.allWeightAims,
@@ -229,10 +225,11 @@ export default {
     getWeights(onlyData = false){
       try {
         this.$axios
-          .get(`${process.env.apiBaseUrl}users/${this.user._id}/weights/get-all`)
+          .get(`${process.env.apiBaseUrl}users/weights/get-all`)
           .then(response => {
             this.allWeights = response.data.data.data
             if(!onlyData){
+              $("#morrisLineData").empty()
               window.mLData = Morris.Line({
                 element: 'morrisLineData',
                 data: this.allWeights,
@@ -257,7 +254,6 @@ export default {
       }
     },
     windowReDraw() {
-      this.e1 = 5;
       window.mLData.setData(this.allWeights)
       window.mLDataAim.setData(this.allWeightAims)
       if (typeof (Event) === 'function') {
@@ -281,9 +277,9 @@ export default {
     saveWeightAimformation() {
       try {
         let formData = new FormData(this.$refs.weightAimInformationForm)
-        formData.append('aim_date', moment(this.data.aim_date).format('YYYY-MM-DD'))
+        formData.append('aim_date', moment(this.userData.aim_date).format('YYYY-MM-DD'))
         this.$axios
-          .post(process.env.apiBaseUrl + 'users/update/' + this.data._id, formData, {
+          .post(process.env.apiBaseUrl + 'users/update/', formData, {
             headers: {
               'Content-Type':
                 'multipart/form-data; boundary=' + formData._boundary
@@ -301,6 +297,7 @@ export default {
               this.getWeightAims()
               this.getWeights()
               this.windowReDraw()
+              this.$auth.fetchUser()
             } else {
               this.$izitoast.error({
                 title: response.data.title,

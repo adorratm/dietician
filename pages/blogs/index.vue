@@ -12,7 +12,7 @@
           <!-- Content Left -->
           <div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8'>
             <v-text-field
-              label='Egzersiz Kategorisi Aramak İçin "Enter" Tuşuna Basın...'
+              label='Makale Aramak İçin "Enter" Tuşuna Basın...'
               v-model='searchText'
               @change='search'
               solo
@@ -31,9 +31,9 @@
               ></v-progress-circular>
               <h3 class='mx-auto d-block mt-3'>İçerik Yükleniyor. Lütfen Bekleyin...</h3>
             </div>
-            <!-- Exercise Category List -->
-            <ExerciseCategoryList v-if='!isEmpty(exerciseCategories) && loading===false' :exercise-categories='exerciseCategories' :emptyurl='emptyUrl' />
-            <!-- #Exercise Category List -->
+            <!-- Blog List -->
+            <BlogList v-if='!isEmpty(blogs) && loading===false' :blogs='blogs' :emptyurl='emptyUrl' />
+            <!-- # List -->
 
             <div class='load-more text-center'>
               <v-pagination
@@ -60,32 +60,32 @@
 </template>
 
 <script>
-import ExerciseCategoryList from '~/components/frontend/exercise-category-list'
+import BlogList from '~/components/frontend/blog-list'
 import Breadcrumb from "~/components/frontend/breadcrumb"
 export default {
   layout: 'default',
-  name:"exercise-categories",
+  name:"blogs",
   components: {
-    ExerciseCategoryList,
+    BlogList,
     Breadcrumb
   },
   data: () => ({
-    searchResultText: 'Tüm Egzersiz Kategorileri',
+    searchResultText: 'Tüm Makaleler',
     searchText: null,
     pagination: {
       current: 1,
       total: 1
     },
     loading: true,
-    exerciseCategories: [],
+    blogs: [],
     emptyUrl:null,
     breadCrumbItems:[
       {name: "Anasayfa",url: "/"},
-      {name: "Egzersiz Kategorileri"}
+      {name: "Makaleler"}
     ]
   }),
   async mounted() {
-    await this.getExerciseCategories()
+    await this.getBlogs()
     this.search(!this.isEmpty(this.$route.query.search) ? this.$route.query.search : null)
   },
   computed: {
@@ -112,12 +112,12 @@ export default {
         console.log(e)
       }
     },
-    async getExerciseCategories() {
+    async getBlogs() {
       try {
         this.loading=true
-        !this.isEmpty(this.searchText) ? this.searchResultText="'"+this.searchText+"' Arama Sonucuna İlişkin Egzersiz Kategorileri" : this.searchResultText='Tüm Egzersiz Kategorileri'
+        !this.isEmpty(this.searchText) ? this.searchResultText="'"+this.searchText+"' Arama Sonucuna İlişkin Makaleler" : this.searchResultText='Tüm Makaleler'
         if (!this.isEmpty(this.searchText)) {
-          await this.$axios.post(process.env.apiBaseUrl + "home/searchexercisecategories"
+          await this.$axios.get(process.env.apiBaseUrl + "blog"
             , {
               'page': this.pagination.current,
               'searchText': this.searchText
@@ -125,7 +125,7 @@ export default {
             this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
           }).catch(err => console.log(err)).finally(() => {this.loading=false})
         } else {
-          await this.$axios.get(process.env.apiBaseUrl + "home/exercisecategories?page="+this.pagination.current).then(res => {
+          await this.$axios.get(process.env.apiBaseUrl + "blog?page="+this.pagination.current).then(res => {
             console.log(res.data.data.data)
             this.fillData(res.data.data.data,res.data.data.current_page,res.data.data.last_page)
           }).catch(err => console.log(err)).finally(() => {this.loading=false})
@@ -137,7 +137,7 @@ export default {
     fillData(data,current_page,last_page){
       try {
         this.emptyUrl = this.$store.state.emptyUrl
-        this.exerciseCategories = data
+        this.blogs = data
         this.pagination.current = current_page
         this.pagination.total = last_page
       }catch (e) {
@@ -147,7 +147,7 @@ export default {
     onPageChange() {
       try {
         this.loading = true
-        this.getExerciseCategories()
+        this.getBlogs()
       }catch (e) {
         console.log(e)
       }
@@ -158,7 +158,7 @@ export default {
           this.searchText = queryParam
         }
         this.loading = true
-        this.getExerciseCategories()
+        this.getBlogs()
       }catch (e) {
         console.log(e)
       }

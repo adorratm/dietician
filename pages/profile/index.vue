@@ -37,6 +37,9 @@
                 <li class='nav-item' v-if='user.status !== "dietician"'>
                   <a class='nav-link' href='#profileAllergenFoodsEdit' data-toggle='tab' >Alerjen Besinler</a>
                 </li>
+                <li class='nav-item' v-if='user.status !== "dietician"'>
+                  <a class='nav-link' href='#profileWeightAims' data-toggle='tab' >Kilo Hedefleri</a>
+                </li>
                 <li class='nav-item' v-if='user.status === "dietician"'>
                   <a class='nav-link' href='#profileWorkHours' data-toggle='tab' >Çalışma Saatlerim</a>
                 </li>
@@ -106,7 +109,7 @@
               <!-- /Profile Work Hours -->
 
               <!-- Profile Weight Aims -->
-              <div role='tabpanel' id='profileWeightAims' class='tab-pane fade' v-if='user.status !== "dietician"'>
+              <div role='tabpanel' id='profileWeightAims' class='tab-pane fade' v-if='user.status !== "dietician"' @click='windowReDraw'>
                 <ProfileWeightAimsEdit :user='user'/>
               </div>
               <!-- /Profile Work Hours -->
@@ -157,7 +160,13 @@ export default {
     breadCrumbItems: [
       { name: 'Anasayfa', url: '/' },
       { name: 'Profil' }
-    ]
+    ],
+    allWeightAims: [],
+    allWeights: [],
+    activePickerWeight: null,
+    menuWeight: false,
+    userData: {},
+    menu:false
   }),
   computed: {
     img_url() {
@@ -169,6 +178,10 @@ export default {
     user() {
       return this.$auth.user
     },
+  },
+  mounted() {
+    this.getWeightAims()
+    this.getWeights()
   },
   methods: {
     /**
@@ -187,6 +200,80 @@ export default {
         else return !obj
       }catch (e){
         console.log(e)
+      }
+    },
+    getWeightAims(onlyData =false){
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}users/weightaims/get-all`)
+          .then(response => {
+            this.allWeightAims = response.data.data.data
+            if(!onlyData){
+              $("#morrisLineDataAim").empty()
+              window.mLDataAim = Morris.Line({
+                element: 'morrisLineDataAim',
+                data: this.allWeightAims,
+                xkey: 'aim_date',
+                ykeys: ['weight'],
+                labels: ['Hedef Kilo'],
+                lineColors: ['#ff9d00'],
+                lineWidth: 1,
+                gridTextSize: 10,
+                hideHover: 'auto',
+                width: '100%',
+                resize: true,
+                redraw: true,
+                parseTime: false
+              });
+            }
+            return response.data.data.data
+          })
+          .catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    getWeights(onlyData = false){
+      try {
+        this.$axios
+          .get(`${process.env.apiBaseUrl}users/weights/get-all`)
+          .then(response => {
+            this.allWeights = response.data.data.data
+            if(!onlyData){
+              $("#morrisLineData").empty()
+              window.mLData = Morris.Line({
+                element: 'morrisLineData',
+                data: this.allWeights,
+                xkey: 'saved_date',
+                ykeys: ['weight'],
+                labels: ['Güncel Kilo'],
+                lineColors: ['#1b5a90'],
+                lineWidth: 1,
+                gridTextSize: 10,
+                hideHover: 'auto',
+                width: '100%',
+                resize: true,
+                redraw: true,
+                parseTime: false
+              });
+            }
+            return response.data.data.data
+          })
+          .catch(err => console.log(err))
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    windowReDraw() {
+      if (typeof (Event) === 'function') {
+        // modern browsers
+        window.dispatchEvent(new Event('resize'));
+      } else {
+        // for IE and other old browsers
+        // causes deprecation warning on modern browsers
+        var evt = window.document.createEvent('UIEvents');
+        evt.initUIEvent('resize', true, false, window, 0);
+        window.dispatchEvent(evt);
       }
     },
   }

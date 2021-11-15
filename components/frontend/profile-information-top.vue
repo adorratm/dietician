@@ -12,9 +12,13 @@
               {{ user.status === 'admin' ? 'Yönetici' : (user.status === 'dietician' ? 'Diyetisyen' : 'Kullanıcı')
               }}</p>
             <p class='doc-department'>{{ user.department }}</p>
-            <div class='clinic-details'>
+            <div v-if='hideaddress' class='clinic-details'>
               <p class='doc-location'><i class='fas fa-map-marker-alt'></i> {{ user.address }}
                 {{ user.neighborhood }} {{ user.town }} {{ user.district }} {{ user.city }} / Türkiye</p>
+            </div>
+            <div v-else class='clinic-details'>
+              <p class='doc-location'><i class='fas fa-map-marker-alt'></i> {{ user.company_address }}
+                {{ user.company_neighborhood }} {{ user.company_town }} {{ user.company_district }} {{ user.company_city }} / Türkiye</p>
             </div>
           </div>
         </div>
@@ -36,8 +40,13 @@
               <i class='fa fa-youtube color'></i>
             </a>
           </div>
-          <div class='doctor-action text-center justify-content-center'>
+          <div v-if='hideaddress' class='doctor-action text-center justify-content-center'>
             <a :href='"tel:"+user.phone' title='Telefon' class='btn btn-white'><i class='fa fa-phone'></i></a>
+            <a :href='"mailto:"+user.email' title='Email' class='btn btn-white'><i class='fa fa-envelope-open'></i></a>
+          </div>
+          <div v-else class='doctor-action text-center justify-content-center'>
+            <a :href='"tel:"+user.work_phone' title='Telefon' class='btn btn-white'><i class='fa fa-phone'></i></a>
+            <a :href='"tel:"+user.work_phone_2' title='Telefon 2' class='btn btn-white'><i class='fa fa-phone'></i></a>
             <a :href='"mailto:"+user.email' title='Email' class='btn btn-white'><i class='fa fa-envelope-open'></i></a>
           </div>
         </div>
@@ -57,7 +66,7 @@ export default {
       return this.img_url+ "uploads/settings/preparing/my.jpg"
     },
   },
-  props:["user"],
+  props:["user","hideaddress"],
   methods:{
     /**
      * isEmpty

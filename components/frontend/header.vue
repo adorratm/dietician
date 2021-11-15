@@ -43,6 +43,9 @@
             <li>
               <NuxtLink to='/exercises' rel='dofollow' title='Egzersizler' data-title='Egzersizler' router active-class="active">Egzersizler</NuxtLink>
             </li>
+            <li>
+              <NuxtLink to='/blogs' rel='dofollow' title='Makaleler' data-title='Makaleler' router active-class="active">Makaleler</NuxtLink>
+            </li>
             <li class='login-link' v-if='!this.$auth.loggedIn'>
               <NuxtLink to='/login' rel='dofollow' title='Giriş Yap / Kayıt Ol' data-title='Giriş Yap / Kayıt Ol'>Giriş Yap / Kayıt Ol</NuxtLink>
             </li>

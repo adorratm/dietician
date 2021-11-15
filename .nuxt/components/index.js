@@ -1,4 +1,5 @@
 export { default as BackendBreadcrumb } from '../..\\components\\backend\\breadcrumb.vue'
+export { default as FrontendBlogList } from '../..\\components\\frontend\\blog-list.vue'
 export { default as FrontendBreadcrumb } from '../..\\components\\frontend\\breadcrumb.vue'
 export { default as FrontendCriteriaList } from '../..\\components\\frontend\\criteria-list.vue'
 export { default as FrontendDieticianList } from '../..\\components\\frontend\\dietician-list.vue'
