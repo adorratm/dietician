@@ -1751,13 +1751,17 @@ export default {
       try {
         let endpoint = 'users/update'
         if (this.user.status === 'dietician') {
-          endpoint = 'dietician/update'
+          endpoint = 'dietician/profile/update'
         }
         let formData = new FormData(this.$refs.informationForm)
         formData.delete('district')
         formData.delete('neighborhood')
         formData.delete('city')
         formData.delete('town')
+        formData.delete('company_district')
+        formData.delete('company_neighborhood')
+        formData.delete('company_city')
+        formData.delete('company_town')
         if (!this.isEmpty(this.userData.district.name)) {
           formData.append('district', this.userData.district.name)
         } else {
@@ -1777,6 +1781,28 @@ export default {
           formData.append('city', this.userData.city.name)
         } else {
           formData.append('city', this.user.city)
+        }
+        if(this.userData.status === "dietician"){
+          if (!this.isEmpty(this.userData.company_district.name)) {
+            formData.append('company_district', this.userData.company_district.name)
+          } else {
+            formData.append('company_district', this.user.company_district)
+          }
+          if (!this.isEmpty(this.userData.company_neighborhood.name)) {
+            formData.append('company_neighborhood', this.userData.company_neighborhood.name)
+          } else {
+            formData.append('company_neighborhood', this.user.company_neighborhood)
+          }
+          if (!this.isEmpty(this.userData.company_town.name)) {
+            formData.append('company_town', this.userData.company_town.name)
+          } else {
+            formData.append('company_town', this.user.company_town)
+          }
+          if (!this.isEmpty(this.userData.company_city.name)) {
+            formData.append('company_city', this.userData.company_city.name)
+          } else {
+            formData.append('company_city', this.user.company_city)
+          }
         }
         formData.append('birthDate', moment(this.birthDate).format('YYYY-MM-DD'))
         this.$axios

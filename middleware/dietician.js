@@ -19,7 +19,11 @@ function isEmpty(obj) {
 export default function ( context ) {
   try {
     if (isEmpty(context.store.$auth.$storage.getUniversal( "user" )) || context.store.$auth.$storage.getUniversal( "user" ).status !== "dietician" || context.store.$auth.user === false ) {
-      context.redirect( "/dietician-login" )
+      if(process.client){
+        window.location.href="/dietician-login"
+      }else{
+        context.redirect( "/dietician-login" )
+      }
     }
   }catch (e) {
     console.log(e)

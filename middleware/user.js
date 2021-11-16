@@ -19,7 +19,11 @@ function isEmpty(obj) {
 export default function ( context ) {
   try {
     if (isEmpty(context.store.$auth.$storage.getUniversal( "user" )) || context.store.$auth.user === false ) {
-      context.redirect( "/login" )
+      if(process.client){
+        window.location.href="/login"
+      }else{
+        context.redirect( "/login" )
+      }
     }
   }catch (e) {
     console.log(e)

@@ -6,7 +6,6 @@ You can directly use them in pages and other components without the need to impo
 
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
-- `<BackendBreadcrumb>` | `<backend-breadcrumb>` (components/backend/breadcrumb.vue)
 - `<FrontendBlogList>` | `<frontend-blog-list>` (components/frontend/blog-list.vue)
 - `<FrontendBreadcrumb>` | `<frontend-breadcrumb>` (components/frontend/breadcrumb.vue)
 - `<FrontendCriteriaList>` | `<frontend-criteria-list>` (components/frontend/criteria-list.vue)
@@ -30,6 +29,7 @@ You can directly use them in pages and other components without the need to impo
 - `<FrontendRecipeList>` | `<frontend-recipe-list>` (components/frontend/recipe-list.vue)
 - `<FrontendRegister>` | `<frontend-register>` (components/frontend/register.vue)
 - `<FrontendSlider>` | `<frontend-slider>` (components/frontend/slider.vue)
+- `<BackendBreadcrumb>` | `<backend-breadcrumb>` (components/backend/breadcrumb.vue)
 - `<BackendDieticianLogin>` | `<backend-dietician-login>` (components/backend/dietician/dietician-login.vue)
 - `<BackendDieticianDieticianheader>` | `<backend-dietician-dieticianheader>` (components/backend/dietician/dieticianheader.vue)
 - `<BackendDieticianDieticiansidebar>` | `<backend-dietician-dieticiansidebar>` (components/backend/dietician/dieticiansidebar.vue)

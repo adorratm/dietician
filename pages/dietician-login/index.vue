@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import Breadcrumb from "@/components/frontend/breadcrumb"
-import Login from "@/components/frontend/dietician-login"
+import Breadcrumb from "~/components/frontend/breadcrumb"
+import Login from "~/components/frontend/dietician-login"
 export default {
   name:"dietician-login",
   components:{

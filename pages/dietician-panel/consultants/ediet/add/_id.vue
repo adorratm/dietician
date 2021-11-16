@@ -384,8 +384,11 @@
                               <th class='text-center align-center align-content-center align-self-center align-middle' width="125">
                                 PORSİYON
                               </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle' width="125">
-                                MİKTAR
+                              <th class='text-center align-center align-content-center align-self-center align-middle'>
+                                PORSİYON ADI
+                              </th>
+                              <th class='text-center align-center align-content-center align-self-center align-middle' width="150">
+                                MİKTAR GR VEYA ML
                               </th>
                               <th class='text-center align-center align-content-center align-self-center align-middle'>
                                 YİYECEK ADI
@@ -410,33 +413,35 @@
                             <tbody>
                             <tr v-for='(food,i) in item.foods' :key='food.name+i'>
                               <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-text-field v-model="food.portion" label='Porsiyon' name='portion' hide-details outlined
+                                <v-text-field v-model="item.foods[i].criteriaValue[0]" label='Porsiyon' name='portion' hide-details outlined
                                               clearable></v-text-field>
                               </td>
                               <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-text-field label='Miktar' name='quantity' :value='food.quantity' hide-details
-                                              outlined clearable></v-text-field>
+                                <v-text-field v-model="item.foods[i].criteriaName[0]" label='Porsiyon Adı' name='portion' hide-details outlined
+                                              clearable></v-text-field>
                               </td>
                               <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-autocomplete :items='edietfoods' item-value='_id.$oid' item-text='name' return-object
-                                                :value='food._id' name='selectedFoods[]' hide-details
-                                                outlined @change="setRates(food,i,food._id)" v-model="selectedFoods[i]"></v-autocomplete>
+                                <v-text-field label='Miktar (GR veya ML)' name='quantity' v-model='item.foods[i].quantity' hide-details
+                                              outlined clearable :ref='"quantity"+index+i'></v-text-field>
+                              </td>
+                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                <v-autocomplete v-if='!isEmpty(dietFoods)' :items='dietFoods' item-value='_id' item-text='name' return-object name='selectedFoods[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i]._id'></v-autocomplete>
                               </td>
                               <td class='text-center align-center align-content-center align-self-center align-middle'>
                                 <v-btn color='error'>
                                   <v-icon>mdi mdi-close</v-icon>
                                 </v-btn>
                               </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"karbonhidrat"+index+i'>
                                 {{ !isEmpty(food.karbonhidrat) ? parseFloat(food.karbonhidrat) : 0 }}
                               </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"protein"+index+i'>
                                 {{ !isEmpty(food.protein) ? parseFloat(food.protein) : 0 }}
                               </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"yag"+index+i'>
                                 {{ !isEmpty(food.yag) ? parseFloat(food.yag) : 0 }}
                               </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
+                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"calorie"+index+i'>
                                 {{ !isEmpty(food.calorie) ? parseFloat(food.calorie) : 0 }}
                               </td>
                             </tr>
@@ -567,6 +572,7 @@ export default {
       factorThird: null,
       factorFour: null,
       mealss: [],
+      dietFoods:[]
     }
   },
   validate({params}) {
@@ -588,10 +594,16 @@ export default {
     }
   },
   methods: {
-    setRates(food,i,selectedFoodId){
-      let findFood = this.edietfoods.find(o => o._id.$oid === this.selectedFoods[i])
-      console.log(food)
-      console.log(findFood)
+    setRates(food,event,index,i){
+      this.$nextTick(()=> {
+        this.$refs['karbonhidrat' + index+i][0].innerHTML = (!this.isEmpty(event.karbonhidrat) ? event.karbonhidrat : 0)
+        this.$refs['protein' + index+i][0].innerHTML = (!this.isEmpty(event.protein) ? event.protein : 0)
+        this.$refs['yag' + index+i][0].innerHTML = (!this.isEmpty(event.yag) ? event.yag : 0)
+        this.$refs['calorie' + index+i][0].innerHTML = (!this.isEmpty(event.calorie) ? event.calorie : 0)
+        food.quantity = event.quantity
+        food.criteriaValue[0] = event.criteriaValue[0]
+        food.criteriaName[0] = event.criteriaName[0]
+      })
     },
     toggleExercise() {
       this.$nextTick(() => {
@@ -730,6 +742,7 @@ export default {
           this.factorThird = result.data.data.factorThird
           this.factorFour = result.data.data.factorFour
           this.mealss = result.data.data.mealss
+          this.dietFoods = result.data.data.dietFoods
           this.e1 = e1
         })
       } else {
