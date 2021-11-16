@@ -1,4 +1,7 @@
 {
+  "BackendBreadcrumb": {
+    "description": "Auto imported from components/backend/breadcrumb.vue"
+  },
   "FrontendBlogList": {
     "description": "Auto imported from components/frontend/blog-list.vue"
   },
@@ -67,9 +70,6 @@
   },
   "FrontendSlider": {
     "description": "Auto imported from components/frontend/slider.vue"
-  },
-  "BackendBreadcrumb": {
-    "description": "Auto imported from components/backend/breadcrumb.vue"
   },
   "BackendDieticianLogin": {
     "description": "Auto imported from components/backend/dietician/dietician-login.vue"

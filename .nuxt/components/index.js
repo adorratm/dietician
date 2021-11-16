@@ -1,3 +1,4 @@
+export { default as BackendBreadcrumb } from '../..\\components\\backend\\breadcrumb.vue'
 export { default as FrontendBlogList } from '../..\\components\\frontend\\blog-list.vue'
 export { default as FrontendBreadcrumb } from '../..\\components\\frontend\\breadcrumb.vue'
 export { default as FrontendCriteriaList } from '../..\\components\\frontend\\criteria-list.vue'
@@ -21,7 +22,6 @@ export { default as FrontendProfileWorkHours } from '../..\\components\\frontend
 export { default as FrontendRecipeList } from '../..\\components\\frontend\\recipe-list.vue'
 export { default as FrontendRegister } from '../..\\components\\frontend\\register.vue'
 export { default as FrontendSlider } from '../..\\components\\frontend\\slider.vue'
-export { default as BackendBreadcrumb } from '../..\\components\\backend\\breadcrumb.vue'
 export { default as BackendDieticianLogin } from '../..\\components\\backend\\dietician\\dietician-login.vue'
 export { default as BackendDieticianDieticianheader } from '../..\\components\\backend\\dietician\\dieticianheader.vue'
 export { default as BackendDieticianDieticiansidebar } from '../..\\components\\backend\\dietician\\dieticiansidebar.vue'

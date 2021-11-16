@@ -417,8 +417,7 @@
                                               clearable></v-text-field>
                               </td>
                               <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-text-field v-model="item.foods[i].criteriaName[0]" label='Porsiyon Adı' name='portion' hide-details outlined
-                                              clearable></v-text-field>
+                                <v-autocomplete clearable label="Porsiyon Adı" v-if='!isEmpty(item.foods[i].criteriaName)' :items='item.foods[i].criteriaName' name='criteriaName[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i].criteriaName[0]'></v-autocomplete>
                               </td>
                               <td class='text-center align-center align-content-center align-self-center align-middle'>
                                 <v-text-field label='Miktar (GR veya ML)' name='quantity' v-model='item.foods[i].quantity' hide-details
@@ -428,7 +427,7 @@
                                 <v-autocomplete v-if='!isEmpty(dietFoods)' :items='dietFoods' item-value='_id' item-text='name' return-object name='selectedFoods[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i]._id'></v-autocomplete>
                               </td>
                               <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-btn color='error'>
+                                <v-btn color='error' @click="item.foods.splice(item.foods.indexOf(i))">
                                   <v-icon>mdi mdi-close</v-icon>
                                 </v-btn>
                               </td>
