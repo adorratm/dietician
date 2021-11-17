@@ -93,6 +93,9 @@
                   </li>
                 </ul>
               </li>
+              <li>
+                <a href='/'><v-icon class='custom-class text-white'>mdi mdi-link</v-icon> <span>Siteyi Görüntüle</span></a>
+              </li>
             </ul>
           </div>
         </vue-custom-scrollbar>

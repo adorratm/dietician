@@ -45,6 +45,7 @@
                           v-model="data.company_name"
                           clearable
                           outlined
+                          dense
                         ></v-text-field>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -54,14 +55,14 @@
                     </ValidationProvider>
                     <div class="form-group">
                       <v-row>
-                        <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
+                        <v-col cols="4" sm="4" md="3" lg="2" xl="2" class='my-auto py-auto'>
                           <img height='100'
                                :src="!isEmpty(data.logo) ? img_url + data.logo : empty_url"
                                :alt="data.company_name"
-                               class="ma-3"
+                               class="ma-3 img-fluid"
                           />
                         </v-col>
-                        <v-col cols="9" sm="9" md="9" lg="9" xl="9" class='my-auto py-auto'>
+                        <v-col cols="8" sm="8" md="9" lg="10" xl="10" class='my-auto py-auto'>
                           <v-file-input
                             label="Website Logosu"
                             id="logo"
@@ -71,20 +72,21 @@
                             show-size
                             clearable
                             outlined
+                            dense
                           ></v-file-input>
                         </v-col>
                       </v-row>
                     </div>
                     <div class='form-group'>
                       <v-row>
-                        <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
+                        <v-col cols="4" sm="4" md="3" lg="2" xl="2" class='my-auto py-auto'>
                           <img height='100'
                                :src="!isEmpty(data.favicon) ? img_url + data.favicon : empty_url"
                                :alt="data.company_name"
-                               class='ma-3'
+                               class='ma-3 img-fluid'
                           />
                         </v-col>
-                        <v-col cols="9" sm="9" md="9" lg="9" xl="9" class='my-auto py-auto'>
+                        <v-col cols="8" sm="8" md="9" lg="10" xl="10" class='my-auto py-auto'>
                           <v-file-input
                             label="Favicon"
                             id="favicon"
@@ -94,6 +96,7 @@
                             show-size
                             clearable
                             outlined
+                            dense
                           ></v-file-input>
                         </v-col>
                       </v-row>
@@ -258,6 +261,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-text-field>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -279,6 +283,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-text-field>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -299,6 +304,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-textarea>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -322,6 +328,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-text-field>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -343,6 +350,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-text-field>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -364,6 +372,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-text-field>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -385,6 +394,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-text-field>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -406,6 +416,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-text-field>
                       </div>
                     </ValidationProvider>
@@ -425,6 +436,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-textarea>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -445,6 +457,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-textarea>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -467,6 +480,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-textarea>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -487,6 +501,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-textarea>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}
@@ -509,6 +524,7 @@
                           clearable
                           outlined
                           hide-details
+                          dense
                         ></v-textarea>
                         <v-alert type='warning' dense v-show='errors[0]' class='my-1'>
                           {{ errors[0] }}

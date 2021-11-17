@@ -33,6 +33,7 @@
                       clearable
                       hide-details
                       outlined
+                      dense
                     ></v-text-field>
                     <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -54,6 +55,7 @@
                       clearable
                       hide-details
                       outlined
+                      dense
                     ></v-text-field>
                     <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -124,6 +126,7 @@
                       clearable
                       v-model='imgUrl'
                       outlined
+                      dense
                     ></v-file-input>
                     <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}

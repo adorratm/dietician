@@ -24,6 +24,7 @@
                 outlined
                 hide-details
                 clearable
+                dense
               ></v-text-field>
 						</span>
           </v-card-title>
@@ -66,6 +67,7 @@
                   @change="handlePageSizeChange"
                   outlined
                   hide-details
+                  dense
                 ></v-select>
               </v-col>
 

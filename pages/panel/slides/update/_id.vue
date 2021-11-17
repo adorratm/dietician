@@ -33,6 +33,7 @@
                       clearable
                       hide-details
                       outlined
+                      dense
                     ></v-text-field>
                     <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -55,6 +56,7 @@
                       clearable
                       hide-details
                       outlined
+                      dense
                     ></v-text-field>
                     <v-alert dismissible type='warning' dense v-show='errors[0]' class='my-1'>
                       {{ errors[0] }}
@@ -110,14 +112,14 @@
                 </ValidationProvider>
                 <div class='form-group'>
                   <v-row>
-                    <v-col cols="3" sm="3" md="3" lg="3" xl="3" class='my-auto py-auto'>
+                    <v-col cols="4" sm="4" md="3" lg="2" xl="2" class='my-auto py-auto'>
                       <img height='100'
                            :src="!isEmpty(data.img_url) ? data.img_url : empty_url"
                            :alt="data.title"
-                           class="ma-3"
+                           class="ma-3 img-fluid"
                       />
                     </v-col>
-                    <v-col cols="9" sm="9" md="9" lg="9" xl="9" class='my-auto py-auto'>
+                    <v-col cols="8" sm="8" md="9" lg="10" xl="10" class='my-auto py-auto'>
                       <v-file-input
                         label="Slayt Görseli"
                         id="img_url"
@@ -127,6 +129,7 @@
                         show-size
                         clearable
                         outlined
+                        dense
                       ></v-file-input>
                     </v-col>
                   </v-row>

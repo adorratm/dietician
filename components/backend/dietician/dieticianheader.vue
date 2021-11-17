@@ -7,10 +7,10 @@
       <!-- Logo -->
       <div class='header-left'>
         <NuxtLink to='/dietician-panel' class='logo'>
-          <img :src='settings.settings.logo' :alt='settings.settings.company_name'>
+          <img :src='settings.settings.logo' :alt='settings.settings.company_name' class='img-fluid'>
         </NuxtLink>
         <NuxtLink to='/dietician-panel' class='logo logo-small'>
-          <img :src='settings.settings.logo' :alt='settings.settings.company_name' width='30' height='30'>
+          <img :src='settings.settings.logo' :alt='settings.settings.company_name' class='img-fluid'>
         </NuxtLink>
       </div>
       <!-- /Logo -->
@@ -27,9 +27,6 @@
 
       <!-- Header Right Menu -->
       <ul class='nav user-menu pl-0'>
-        <li class='nav-item my-auto py-auto'>
-          <v-btn color='primary' class='mr-1' href='/'>Siteyi Görüntüle</v-btn>
-        </li>
         <!-- Notifications -->
         <!--
         <li class='nav-item dropdown noti-dropdown'>
@@ -71,14 +68,18 @@
 
         <!-- User Menu -->
         <li class='nav-item dropdown has-arrow' v-if='!isEmpty(user)'>
-          <a href='#' class='dropdown-toggle nav-link' data-toggle='dropdown'>
-            <span class='user-img'><img class='rounded-circle' :src='user.profile_photo'
-                                        width='31' :alt='user.name'></span>
+          <a href='#' class='dropdown-toggle nav-link d-flex align-self-center align-items-center align-middle my-auto py-auto justify-content-center' data-toggle='dropdown'>
+            <span class='user-img d-flex align-self-center align-items-center align-middle my-auto py-auto justify-content-center'>
+              <img v-if='!isEmpty(user.profile_photo)' class='rounded-circle d-flex align-self-center align-items-center align-middle my-auto py-auto justify-content-center' :src='user.profile_photo'
+                                        width='31' :alt='user.name'>
+            <v-icon v-else class='d-flex align-self-center align-items-center align-middle my-auto py-auto justify-content-center'>mdi mdi-account-circle</v-icon>
+            </span>
           </a>
           <div class='dropdown-menu'>
             <div class='user-header'>
-              <div class='avatar avatar-sm'>
-                <img :src='user.profile_photo' :alt='user.name' class='avatar-img rounded-circle'>
+              <div class='avatar avatar-sm d-flex align-self-center align-items-center align-middle my-auto py-auto justify-content-center'>
+                <img v-if='!isEmpty(user.profile_photo)' :src='user.profile_photo' :alt='user.name' class='avatar-img rounded-circle align-self-center align-items-center align-middle my-auto py-auto justify-content-center'>
+                <v-icon class='d-flex align-self-center align-items-center align-middle my-auto py-auto justify-content-center' v-else>mdi mdi-account-circle</v-icon>
               </div>
               <div class='user-text'>
                 <h6>{{ user.name }}</h6>
@@ -120,14 +121,28 @@ export default {
   mounted() {
     console.log(this.user)
     let $wrapper = $('.main-wrapper')
-    $('body').append('<div class="sidebar-overlay"></div>')
+    if($('.sidebar-overlay').length <=0){
+      $('body').append('<div class="sidebar-overlay"></div>')
+    }
+    $('.sidebar-overlay').click(function() {
+      $('html').removeClass('menu-opened')
+      $('.sidebar-overlay').removeClass('opened')
+      $wrapper.removeClass('slide-nav')
+    })
     $('#mobile_btn').click(function() {
-      $wrapper.toggleClass('slide-nav')
-      $('.sidebar-overlay').toggleClass('opened')
-      $('html').addClass('menu-opened')
+      if($('.sidebar-overlay').hasClass("opened")){
+        $wrapper.removeClass('slide-nav')
+        $('.sidebar-overlay').removeClass('opened')
+        $('html').removeClass('menu-opened')
+      }else{
+        $wrapper.addClass('slide-nav')
+        $('.sidebar-overlay').addClass('opened')
+        $('html').addClass('menu-opened')
+      }
+
       $('#task_window').removeClass('opened')
     })
-// Sidebar overlay
+    // Sidebar overlay
     $('.top-nav-search .responsive-search').click(function() {
       $('.top-nav-search').toggleClass('active')
     })
@@ -144,10 +159,6 @@ export default {
         $('body').addClass('mini-sidebar')
         $('.subdrop + ul').slideUp()
       }
-      setTimeout(function() {
-        mA.redraw()
-        mL.redraw()
-      }, 300)
       return false
     })
     $(document).on('mouseover', function(e) {

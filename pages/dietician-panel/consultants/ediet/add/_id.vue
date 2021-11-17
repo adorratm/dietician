@@ -378,74 +378,83 @@
                         </td>
                         <td class='text-center align-center align-content-center align-self-center align-middle'
                             colspan='8'>
-                          <table class="table table-bordered table-striped table-hover w-100">
-                            <thead>
-                            <tr>
-                              <th class='text-center align-center align-content-center align-self-center align-middle' width="125">
-                                PORSİYON
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle'>
-                                PORSİYON ADI
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle' width="150">
-                                MİKTAR GR VEYA ML
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle'>
-                                YİYECEK ADI
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle'>
-                                İŞLEMLER
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
-                                KHO
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
-                                PRT
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
-                                YAĞ
-                              </th>
-                              <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
-                                KCAL
-                              </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for='(food,i) in item.foods' :key='food.name+i'>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-text-field v-model="item.foods[i].criteriaValue[0]" label='Porsiyon' name='portion' hide-details outlined
-                                              clearable></v-text-field>
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-autocomplete clearable label="Porsiyon Adı" v-if='!isEmpty(item.foods[i].criteriaName)' :items='item.foods[i].criteriaName' name='criteriaName[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i].criteriaName[0]'></v-autocomplete>
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-text-field label='Miktar (GR veya ML)' name='quantity' v-model='item.foods[i].quantity' hide-details
-                                              outlined clearable :ref='"quantity"+index+i'></v-text-field>
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-autocomplete v-if='!isEmpty(dietFoods)' :items='dietFoods' item-value='_id' item-text='name' return-object name='selectedFoods[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i]._id'></v-autocomplete>
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                <v-btn color='error' @click="item.foods.splice(item.foods.indexOf(i))">
-                                  <v-icon>mdi mdi-close</v-icon>
-                                </v-btn>
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"karbonhidrat"+index+i'>
-                                {{ !isEmpty(food.karbonhidrat) ? parseFloat(food.karbonhidrat) : 0 }}
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"protein"+index+i'>
-                                {{ !isEmpty(food.protein) ? parseFloat(food.protein) : 0 }}
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"yag"+index+i'>
-                                {{ !isEmpty(food.yag) ? parseFloat(food.yag) : 0 }}
-                              </td>
-                              <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"calorie"+index+i'>
-                                {{ !isEmpty(food.calorie) ? parseFloat(food.calorie) : 0 }}
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
+                            <table class="table table-bordered table-striped table-hover w-100">
+                              <thead>
+                              <tr>
+                                <th class='text-center align-center align-content-center align-self-center align-middle' width="150">
+                                  PORSİYON ADETİ
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle'>
+                                  PORSİYON ADI
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle' width="150">
+                                  MİKTAR GR VEYA ML
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle'>
+                                  YİYECEK ADI
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle'>
+                                  İŞLEMLER
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                  KHO
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                  PRT
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                  YAĞ
+                                </th>
+                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                  KCAL
+                                </th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr v-for='(food,i) in item.foods' :key='food.name+i'>
+                                <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                  <v-text-field v-model="item.foods[i].criteriaValue[0]" label='Porsiyon' name='portion' hide-details outlined
+                                                clearable></v-text-field>
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                  <v-autocomplete clearable label="Porsiyon Adı" v-if='!isEmpty(item.foods[i].criteriaName)' :items='item.foods[i].criteriaName' name='criteriaName[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i].criteriaName[0]'></v-autocomplete>
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                  <v-text-field label='Miktar' name='quantity' v-model='item.foods[i].quantity' hide-details
+                                                outlined clearable :ref='"quantity"+index+i'></v-text-field>
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                  <v-autocomplete v-if='!isEmpty(dietFoods)' :items='dietFoods' item-value='_id' return-object name='selectedFoods[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i]._id'>
+                                    <template slot="selection" slot-scope="data">
+                                      <!-- HTML that describe how select should render selected items -->
+                                      {{ data.item.name }} - {{ data.item.ageGroups }} Yaş - Miktar: {{data.item.quantity}}
+                                    </template>
+                                    <template slot="item" slot-scope="data">
+                                      <!-- HTML that describe how select should render items when the select is open -->
+                                      {{ data.item.name }} - {{ data.item.ageGroups }} Yaş - Miktar: {{data.item.quantity}}
+                                    </template>
+                                  </v-autocomplete>
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                  <v-btn color='error' @click="item.foods.splice(item.foods.indexOf(i))">
+                                    <v-icon>mdi mdi-close</v-icon>
+                                  </v-btn>
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"karbonhidrat"+index+i'>
+                                  {{ !isEmpty(food.karbonhidrat) ? parseFloat(food.karbonhidrat) : 0 }}
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"protein"+index+i'>
+                                  {{ !isEmpty(food.protein) ? parseFloat(food.protein) : 0 }}
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"yag"+index+i'>
+                                  {{ !isEmpty(food.yag) ? parseFloat(food.yag) : 0 }}
+                                </td>
+                                <td class='text-center align-center align-content-center align-self-center align-middle' :ref='"calorie"+index+i'>
+                                  {{ !isEmpty(food.calorie) ? parseFloat(food.calorie) : 0 }}
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
                         </td>
                       </tr>
                       </tbody>
@@ -571,20 +580,15 @@ export default {
       factorThird: null,
       factorFour: null,
       mealss: [],
-      dietFoods:[]
-    }
-  },
-  validate({params}) {
-    return params.id !== null ? params.id : null
-  },
-  async asyncData({params, error, $axios}) {
-    try {
-      const {data} = await $axios.get(
-        process.env.apiBaseUrl + 'dietician/e-diets/create/' + params.id
-      )
-      return data.data
-    } catch (e) {
-      error({message: 'Danışan Bilgisi Bulunamadı.', statusCode: 404})
+      dietFoods:[],
+      adultCalorieCalc:{},
+      criteria:[],
+      edietfoods:[],
+      factors:[],
+      month:null,
+      user:{},
+      year:null
+
     }
   },
   watch: {
@@ -592,17 +596,48 @@ export default {
       console.log(v)
     }
   },
+  mounted(){
+    this.getEdietVariables()
+  },
   methods: {
     setRates(food,event,index,i){
       this.$nextTick(()=> {
-        this.$refs['karbonhidrat' + index+i][0].innerHTML = (!this.isEmpty(event.karbonhidrat) ? event.karbonhidrat : 0)
-        this.$refs['protein' + index+i][0].innerHTML = (!this.isEmpty(event.protein) ? event.protein : 0)
-        this.$refs['yag' + index+i][0].innerHTML = (!this.isEmpty(event.yag) ? event.yag : 0)
-        this.$refs['calorie' + index+i][0].innerHTML = (!this.isEmpty(event.calorie) ? event.calorie : 0)
-        food.quantity = event.quantity
-        food.criteriaValue[0] = event.criteriaValue[0]
-        food.criteriaName[0] = event.criteriaName[0]
+        try {
+          this.$refs['karbonhidrat' + index+i][0].innerHTML = (!this.isEmpty(event.karbonhidrat) ? event.karbonhidrat : 0)
+          this.$refs['protein' + index+i][0].innerHTML = (!this.isEmpty(event.protein) ? event.protein : 0)
+          this.$refs['yag' + index+i][0].innerHTML = (!this.isEmpty(event.yag) ? event.yag : 0)
+          this.$refs['calorie' + index+i][0].innerHTML = (!this.isEmpty(event.calorie) ? event.calorie : 0)
+          food.quantity = event.quantity
+          console.log(event)
+          console.log(food)
+            food.criteriaValue[0] = event.criteriaValue[0]
+            food.criteriaName[0] = event.criteriaName[0]
+        }catch (e) {
+          console.log(e)
+        }
       })
+    },
+    getEdietVariables(){
+      console.log(this.$route.params.id)
+      try {
+        this.$axios.get(
+          process.env.apiBaseUrl + 'dietician/e-diets/create/' + this.$route.params.id
+        ).then((result) =>{
+          console.log(result.data.data)
+          this.adultCalorieCalc = result.data.data.adultCalorieCalc
+          this.criteria = result.data.data.criteria
+          this.diseases = result.data.data.diseases
+          this.edietfoods = result.data.data.edietfoods
+          this.exercises = result.data.data.exercises
+          this.factors = result.data.data.factors
+          this.meals = result.data.data.meals
+          this.month = result.data.data.month
+          this.user = result.data.data.user
+          this.year = result.data.data.year
+        }).catch((e) =>console.log(e))
+      } catch (e) {
+        console.log(e)
+      }
     },
     toggleExercise() {
       this.$nextTick(() => {

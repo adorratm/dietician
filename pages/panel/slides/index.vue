@@ -11,12 +11,11 @@
         <!-- General -->
 
         <v-card>
-          <v-card-title class="d-flex justify-content-between">
-						<span class="justify-content-center flex-grow-1">
-							<v-text-field
+          <v-card-title>
+            <div class='d-flex w-100'>
+              <v-text-field
                 v-model="searchTitle"
                 label="Arama Yapın..."
-                class="my-auto py-auto"
                 v-on:keyup.enter.prevent="
 									page = 1;
 									retrieveData('get-by-search');
@@ -24,18 +23,16 @@
                 hide-details
                 clearable
                 outlined
+                dense
               ></v-text-field>
-						</span>
-            <span class="justify-content-end flex-shrink-1">
-							<v-btn
+              <v-btn
                 to="/panel/slides/add"
                 color="primary"
-                x-large
-                class="float-right ml-3 my-auto"
+                class='ml-3 my-auto'
               >
-								<i class="fa fa-plus"></i> Ekle
-							</v-btn>
-						</span>
+                <i class="fa fa-plus"></i> Ekle
+              </v-btn>
+            </div>
           </v-card-title>
           <v-card-text>
             <v-data-table
@@ -99,6 +96,7 @@
                   @change="handlePageSizeChange"
                   outlined
                   hide-details
+                  dense
                 ></v-select>
               </v-col>
 
