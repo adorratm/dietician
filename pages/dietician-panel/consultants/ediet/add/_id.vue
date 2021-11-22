@@ -345,7 +345,7 @@
                     <table class="table table-bordered table-striped table-hover w-100">
                       <thead>
                       <tr>
-                        <th class='text-center align-middle' width="210">
+                        <th class='text-center align-middle' style='width:210px'>
                           <nuxt-link to='/dietician-panel'>
                             <img
                               v-if='!isEmpty(settings)'
@@ -381,13 +381,13 @@
                             <table class="table table-bordered table-striped table-hover w-100">
                               <thead>
                               <tr>
-                                <th class='text-center align-center align-content-center align-self-center align-middle' width="150">
+                                <th class='text-center align-center align-content-center align-self-center align-middle' style='width:150px'>
                                   PORSİYON ADETİ
                                 </th>
                                 <th class='text-center align-center align-content-center align-self-center align-middle'>
                                   PORSİYON ADI
                                 </th>
-                                <th class='text-center align-center align-content-center align-self-center align-middle' width="150">
+                                <th class='text-center align-center align-content-center align-self-center align-middle' style='width:150px'>
                                   MİKTAR GR VEYA ML
                                 </th>
                                 <th class='text-center align-center align-content-center align-self-center align-middle'>
@@ -396,16 +396,16 @@
                                 <th class='text-center align-center align-content-center align-self-center align-middle'>
                                   İŞLEMLER
                                 </th>
-                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                <th class='text-center align-center align-content-center align-self-center align-middle' style='width:75px'>
                                   KHO
                                 </th>
-                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                <th class='text-center align-center align-content-center align-self-center align-middle' style='width:75px'>
                                   PRT
                                 </th>
-                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                <th class='text-center align-center align-content-center align-self-center align-middle' style='width:75px'>
                                   YAĞ
                                 </th>
-                                <th class='text-center align-center align-content-center align-self-center align-middle' width="75">
+                                <th class='text-center align-center align-content-center align-self-center align-middle' style='width:75px'>
                                   KCAL
                                 </th>
                               </tr>
@@ -413,18 +413,18 @@
                               <tbody>
                               <tr v-for='(food,i) in item.foods' :key='food.name+i'>
                                 <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                  <v-text-field v-model="item.foods[i].criteriaValue[0]" label='Porsiyon' name='portion' hide-details outlined
-                                                clearable></v-text-field>
+                                  <v-text-field v-if='!isEmpty(item.foods[i].criteriaValue)' v-model="criteriaValue[i]" :v-bind='criteriaValue[i] = item.foods[i].criteriaValue[0]' label='Porsiyon' name='portion' hide-details outlined clearable
+                                                ></v-text-field>
                                 </td>
                                 <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                  <v-autocomplete clearable label="Porsiyon Adı" v-if='!isEmpty(item.foods[i].criteriaName)' :items='item.foods[i].criteriaName' name='criteriaName[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i].criteriaName[0]'></v-autocomplete>
+                                  <v-autocomplete  label="Porsiyon Adı" v-if='!isEmpty(item.foods[i].criteriaName)' v-model='criteriaName[i]' :items='item.foods[i].criteriaName' :v-bind='[criteriaName[i] = item.foods[i].criteriaName[0],criteriaNames[i] = item.foods[i].criteriaName]' name='criteriaName[]' hide-details outlined></v-autocomplete>
                                 </td>
                                 <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                  <v-text-field label='Miktar' name='quantity' v-model='item.foods[i].quantity' hide-details
-                                                outlined clearable :ref='"quantity"+index+i'></v-text-field>
+                                  <v-text-field label='Miktar' name='quantity' v-model='criteriaQuantity[i]' :v-bind='criteriaQuantity[i] = item.foods[i].quantity' hide-details
+                                                outlined :ref='"quantity"+index+i' clearable></v-text-field>
                                 </td>
                                 <td class='text-center align-center align-content-center align-self-center align-middle'>
-                                  <v-autocomplete v-if='!isEmpty(dietFoods)' :items='dietFoods' item-value='_id' return-object name='selectedFoods[]' hide-details outlined @change="(event) => setRates(item.foods[i],event,index,i)" v-model='item.foods[i]._id'>
+                                  <v-autocomplete v-if='!isEmpty(dietFoods)' :items='dietFoods' item-value='_id' return-object name='selectedFoods[]' hide-details outlined @change="(event) => setRates(event,index,i)" v-model='criteriaSelectedFoods[i]' :v-bind='[criteriaSelectedFoods[i] = item.foods[i]._id]'>
                                     <template slot="selection" slot-scope="data">
                                       <!-- HTML that describe how select should render selected items -->
                                       {{ data.item.name }} - {{ data.item.ageGroups }} Yaş - Miktar: {{data.item.quantity}}
@@ -436,6 +436,9 @@
                                   </v-autocomplete>
                                 </td>
                                 <td class='text-center align-center align-content-center align-self-center align-middle'>
+                                  <v-btn color='primary' @click="cloneProperty(index)">
+                                    <v-icon>mdi mdi-plus</v-icon>
+                                  </v-btn>
                                   <v-btn color='error' @click="item.foods.splice(item.foods.indexOf(i))">
                                     <v-icon>mdi mdi-close</v-icon>
                                   </v-btn>
@@ -490,7 +493,6 @@
 import {ValidationObserver, ValidationProvider} from 'vee-validate'
 import Breadcrumb from '~/components/backend/breadcrumb'
 import {mapState} from 'vuex'
-import moment from "moment";
 
 export default {
   middleware: ['auth', 'dietician'],
@@ -581,14 +583,18 @@ export default {
       factorFour: null,
       mealss: [],
       dietFoods:[],
-      adultCalorieCalc:{},
+      adultCalorieCalc:{original:{data:{oga:null,bki:null,}}},
       criteria:[],
       edietfoods:[],
       factors:[],
       month:null,
       user:{},
-      year:null
-
+      year:null,
+      criteriaName:[],
+      criteriaNames:[],
+      criteriaValue:[],
+      criteriaQuantity:[],
+      criteriaSelectedFoods:[]
     }
   },
   watch: {
@@ -600,18 +606,28 @@ export default {
     this.getEdietVariables()
   },
   methods: {
-    setRates(food,event,index,i){
+    cloneProperty(index) {
+      try {
+        this.mealss[index].foods.push(this.mealss[index].foods.at(-1))
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    setRates(event,index,i){
       this.$nextTick(()=> {
         try {
-          this.$refs['karbonhidrat' + index+i][0].innerHTML = (!this.isEmpty(event.karbonhidrat) ? event.karbonhidrat : 0)
-          this.$refs['protein' + index+i][0].innerHTML = (!this.isEmpty(event.protein) ? event.protein : 0)
-          this.$refs['yag' + index+i][0].innerHTML = (!this.isEmpty(event.yag) ? event.yag : 0)
-          this.$refs['calorie' + index+i][0].innerHTML = (!this.isEmpty(event.calorie) ? event.calorie : 0)
-          food.quantity = event.quantity
+          this.$refs['karbonhidrat' + index+i][0].innerHTML = (!this.isEmpty(event.karbonhidrat) && event.karbonhidrat > 0 ? event.karbonhidrat : 0)
+          this.$refs['protein' + index+i][0].innerHTML = (!this.isEmpty(event.protein) && event.protein >0 ? event.protein : 0)
+          this.$refs['yag' + index+i][0].innerHTML = (!this.isEmpty(event.yag) && event.yag >0 ? event.yag : 0)
+          this.$refs['calorie' + index+i][0].innerHTML = (!this.isEmpty(event.calorie) && event.calorie >0 ? event.calorie : 0)
+          this.criteriaNames[i] = event.criteriaName
+          this.criteriaValue[i] = event.criteriaValue
+          this.criteriaQuantity[i] = event.quantity
+          //this.criteriaValue[i] = event.criteriaValue[0]
+          //this.criteriaName[i] = event.criteriaName[0]
+          //this.criteriaNames[i] = event.criteriaName
+          //this.criteriaSelectedFoods[i] = event.criteriaSelectedFoods
           console.log(event)
-          console.log(food)
-            food.criteriaValue[0] = event.criteriaValue[0]
-            food.criteriaName[0] = event.criteriaName[0]
         }catch (e) {
           console.log(e)
         }
@@ -645,7 +661,7 @@ export default {
           this.selectedExercises = []
         } else {
           this.selectedExercises = []
-          this.exercises.forEach((el, index) => {
+          this.exercises.forEach((el) => {
             this.selectedExercises.push(el._id.$oid)
           })
         }
