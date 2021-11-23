@@ -22,12 +22,12 @@ export { default as FrontendProfileWorkHours } from '../..\\components\\frontend
 export { default as FrontendRecipeList } from '../..\\components\\frontend\\recipe-list.vue'
 export { default as FrontendRegister } from '../..\\components\\frontend\\register.vue'
 export { default as FrontendSlider } from '../..\\components\\frontend\\slider.vue'
-export { default as BackendDieticianLogin } from '../..\\components\\backend\\dietician\\dietician-login.vue'
-export { default as BackendDieticianDieticianheader } from '../..\\components\\backend\\dietician\\dieticianheader.vue'
-export { default as BackendDieticianDieticiansidebar } from '../..\\components\\backend\\dietician\\dieticiansidebar.vue'
 export { default as BackendPanelAdminheader } from '../..\\components\\backend\\panel\\adminheader.vue'
 export { default as BackendPanelAdminsidebar } from '../..\\components\\backend\\panel\\adminsidebar.vue'
 export { default as BackendPanelLogin } from '../..\\components\\backend\\panel\\login.vue'
+export { default as BackendDieticianLogin } from '../..\\components\\backend\\dietician\\dietician-login.vue'
+export { default as BackendDieticianDieticianheader } from '../..\\components\\backend\\dietician\\dieticianheader.vue'
+export { default as BackendDieticianDieticiansidebar } from '../..\\components\\backend\\dietician\\dieticiansidebar.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {
